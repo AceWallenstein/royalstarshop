@@ -6,21 +6,26 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.pinnoocle.royalstarshop.R;
-import com.pinnoocle.royalstarshop.adapter.FragmentTabAdapter;
+import com.pinnoocle.royalstarshop.adapter.GoodsOneAdapter;
+import com.pinnoocle.royalstarshop.adapter.GoodsTwoAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.utils.FontDisplayUtil;
+import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
 import com.timmy.tdialog.TDialog;
 import com.timmy.tdialog.base.BindViewHolder;
 import com.timmy.tdialog.listener.OnViewClickListener;
@@ -52,6 +57,16 @@ public class HomeFragment extends BaseFragment {
     ImageView ivTab1;
     @BindView(R.id.iv_tab_2)
     ImageView ivTab2;
+    @BindView(R.id.tv_1)
+    TextView tv1;
+    @BindView(R.id.tv_vip_1)
+    TextView tvVip1;
+    @BindView(R.id.rv_1)
+    RecyclerView rv1;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.rv_2)
+    RecyclerView rv2;
     private List<Integer> bannerList = new ArrayList<>();
 
     @Override
@@ -64,7 +79,10 @@ public class HomeFragment extends BaseFragment {
         bannerList.add(R.mipmap.banner);
         initBanner();
         initGoodMenus();
+        initRv1();
+        initRv2();
     }
+
 
     @Override
     public void onResume() {
@@ -158,6 +176,21 @@ public class HomeFragment extends BaseFragment {
             }
         });
     }
+
+    private void initRv1() {
+        GoodsOneAdapter oneAdapter = new GoodsOneAdapter(getContext());
+        rv1.setLayoutManager(new GridLayoutManager(getContext(), 3));
+//        rv1.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL, getResources().getColor(R.color.white1), 60));
+        rv1.setAdapter(oneAdapter);
+    }
+
+    private void initRv2() {
+        GoodsTwoAdapter twoAdapter = new GoodsTwoAdapter(getContext());
+        rv2.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        rv2.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.VERTICAL, getResources().getColor(R.color.white), 60));
+        rv2.setAdapter(twoAdapter);
+    }
+
 
     private void setImageViewSize(ImageView imageView, int width) {
         ViewGroup.LayoutParams params = imageView.getLayoutParams();

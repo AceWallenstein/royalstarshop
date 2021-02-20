@@ -13,5 +13,7 @@
     <color name="black">#000000</color>
     <color name="dark_red">#FF252D</color>
     <color name="black_1">#111111</color>
+    <color name="grey_1">#999999</color>
+    <color name="juice">#FCBD56</color>
 
 </resources>
