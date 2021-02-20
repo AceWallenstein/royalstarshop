@@ -32,7 +32,7 @@ public class GoodsMenusAdapter extends BaseAdapter<String, GoodsMenusAdapter.VH>
     @Override
     public int getItemCount() {
 //        return mDatas == null ? 0 : mDatas.size();
-        return 15;
+        return 5;
     }
 
     static class VH extends RecyclerView.ViewHolder {

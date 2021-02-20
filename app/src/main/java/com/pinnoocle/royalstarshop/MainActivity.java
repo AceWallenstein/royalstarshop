@@ -1,6 +1,5 @@
 package com.pinnoocle.royalstarshop;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -12,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.pinnoocle.royalstarshop.adapter.FragmentTabAdapter;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
-import com.pinnoocle.royalstarshop.home.HomeFragment;
+import com.pinnoocle.royalstarshop.home.fragment.HomeFragment;
 import com.pinnoocle.royalstarshop.mine.MineFragment;
 import com.pinnoocle.royalstarshop.shoppingcart.ShoppingCartFragment;
 import com.pinnoocle.royalstarshop.video.VideoFragment;
