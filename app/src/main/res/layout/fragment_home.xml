@@ -246,6 +246,19 @@
                 android:layout_height="wrap_content"
                 android:overScrollMode="never" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
+                android:id="@+id/rv_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp_goods_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

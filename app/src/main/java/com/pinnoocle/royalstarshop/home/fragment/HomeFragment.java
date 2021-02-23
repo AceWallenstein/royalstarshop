@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,6 +24,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.GoodsOneAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsTwoAdapter;
+import com.pinnoocle.royalstarshop.adapter.TitleAdapter;
+import com.pinnoocle.royalstarshop.bean.TitleBean;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.utils.FontDisplayUtil;
 import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
@@ -67,6 +71,8 @@ public class HomeFragment extends BaseFragment {
     TextView tvTitle;
     @BindView(R.id.rv_2)
     RecyclerView rv2;
+    @BindView(R.id.rv_3)
+    RecyclerView rv3;
     private List<Integer> bannerList = new ArrayList<>();
 
     @Override
@@ -81,6 +87,7 @@ public class HomeFragment extends BaseFragment {
         initGoodMenus();
         initRv1();
         initRv2();
+        initRv3();
     }
 
 
@@ -148,6 +155,7 @@ public class HomeFragment extends BaseFragment {
                 return fragments.size();
             }
         });
+//        viewPager.setOffscreenPageLimit(fragments.size());
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -189,6 +197,25 @@ public class HomeFragment extends BaseFragment {
         rv2.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rv2.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.VERTICAL, getResources().getColor(R.color.white), 60));
         rv2.setAdapter(twoAdapter);
+    }
+
+    private void initRv3() {
+        List<TitleBean> titleBeans = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            titleBeans.add(new TitleBean("热销爆款", "火爆商品"));
+        }
+        TitleAdapter titleAdapter = new TitleAdapter(getContext());
+        titleAdapter.setData(titleBeans);
+        rv3.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
+        rv3.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL, getResources().getColor(R.color.white1), 60));
+        rv3.setAdapter(titleAdapter);
+        titleAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemViewClick(View view, int position) {
+                titleAdapter.setPos(position);
+            }
+        });
+
     }
 
 

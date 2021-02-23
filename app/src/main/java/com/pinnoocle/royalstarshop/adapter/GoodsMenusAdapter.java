@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 
+import butterknife.ButterKnife;
+
 public class GoodsMenusAdapter extends BaseAdapter<String, GoodsMenusAdapter.VH> {
 
 
@@ -39,6 +41,7 @@ public class GoodsMenusAdapter extends BaseAdapter<String, GoodsMenusAdapter.VH>
 
         public VH(@NonNull View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
