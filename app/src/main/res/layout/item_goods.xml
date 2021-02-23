@@ -73,7 +73,6 @@
                 tools:text="128人付款" />
             <ImageView
                 android:padding="10dp"
-                android:src="@mipmap/shopping_cart_empty"
                 android:layout_marginEnd="8dp"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/iv_shop_car"
