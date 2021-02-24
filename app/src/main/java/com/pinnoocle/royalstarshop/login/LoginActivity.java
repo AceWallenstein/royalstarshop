@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -11,14 +12,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
+import com.pinnoocle.royalstarshop.MainActivity;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
 
@@ -68,5 +69,10 @@ public class LoginActivity extends BaseActivity {
         tvAdoptionAgreement.setText(spannableStringBuilder);
         tvAdoptionAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         tvAdoptionAgreement.setHighlightColor(getResources().getColor(R.color.transparent));
+    }
+
+    @OnClick(R.id.tv_login)
+    public void onViewClicked() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

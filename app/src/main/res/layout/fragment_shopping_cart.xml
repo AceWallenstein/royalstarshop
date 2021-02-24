@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white1">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="购物车"
+            android:textColor="@color/light_black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:padding="10dp"
+            android:text="编辑"
+            android:textColor="@color/light_black"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rl_panel"
+        android:layout_below="@id/rl_title"
+        android:overScrollMode="never" />
+
+    <RelativeLayout
+        android:id="@+id/rl_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/bg_white_25"
+        android:gravity="center_vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:id="@+id/ll_all_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="15dp"
+                android:button="@drawable/check_selector"
+                android:clickable="false"
+                android:gravity="center"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/tv_all_select_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/checkbox"
+                android:text="全选"
+                android:textColor="@color/black_1"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/tv_total_price"
+            android:text="合计："
+            android:textColor="@color/black_1"
+            android:textSize="12sp" />
+        <TextView
+            android:layout_marginEnd="5dp"
+            android:id="@+id/tv_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/tv_settlement"
+            android:text="￥22.00"
+            android:textColor="@color/light_red"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_marginEnd="5dp"
+            android:id="@+id/tv_freight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/tv_settlement"
+            android:layout_below="@id/tv_total_price"
+            android:text="运费:￥24"
+            android:textColor="@color/grey_2"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/tv_settlement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@mipmap/bg_btn_settlement"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="去结算"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+</RelativeLayout>

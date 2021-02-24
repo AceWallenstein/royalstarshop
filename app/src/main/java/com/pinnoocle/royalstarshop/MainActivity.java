@@ -88,18 +88,23 @@ public class MainActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_tab_home:
+                initRed();
                 tabAdapter.setCurrentFragment(0);
                 break;
             case R.id.ll_tab_video:
+                initRed();
                 tabAdapter.setCurrentFragment(1);
                 break;
             case R.id.ll_tab_vip:
+                initRed();
                 tabAdapter.setCurrentFragment(2);
                 break;
             case R.id.ll_tab_shop_car:
+                initWhite();
                 tabAdapter.setCurrentFragment(3);
                 break;
             case R.id.ll_tab_mine:
+                initJuice();
                 tabAdapter.setCurrentFragment(4);
                 break;
         }

@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffe45641"
+            app:srlAccentColor="@color/white" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_title"
+            android:background="@color/white1"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@drawable/bg_red_gradient" />
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="个人中心"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_person_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_title">
+
+                        <com.pinnoocle.royalstarshop.widget.RoundImageView
+                            android:id="@+id/iv_avater"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginStart="10dp"
+                            android:src="@mipmap/del_1" />
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_toEndOf="@id/iv_avater"
+                            android:text="纯白的猪"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:paddingStart="4dp"
+                            android:paddingTop="2dp"
+                            android:paddingEnd="4dp"
+                            android:paddingBottom="2dp"
+                            android:id="@+id/tv_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_name"
+                            android:layout_marginStart="5dp"
+                            android:layout_toEndOf="@id/iv_avater"
+                            android:text="188****8888"
+                            android:background="@drawable/bg_phone"
+                            android:textColor="@color/white"
+                            android:textSize="8sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_setting"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@id/iv_sign_in"
+                            android:src="@mipmap/setting" />
+
+                        <ImageView
+                            android:id="@+id/iv_sign_in"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@mipmap/sign_in" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/rl_person_info"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_recommended_revenue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="126.3"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/tv_recommended_revenue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="推荐收益"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="20dp"
+                            android:background="#F2F2F2" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_golden_bean"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="126.3"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/tv_golden_bean"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="我的金豆"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="20dp"
+                            android:background="#F2F2F2" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_history"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="132"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/tv_history"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="浏览足迹"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ll_1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/bg_yellow_gradient"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_vip_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/vip_btn_1"
+                            android:gravity="center"
+                            android:text="vip"
+                            android:textColor="@color/white"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_toStartOf="@id/tv_vip_2"
+                            android:layout_toEndOf="@id/tv_vip_1"
+                            android:text="尊享会员专属特权 超值返豆"
+                            android:textColor="@color/black_1"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tv_vip_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:background="@mipmap/vip_btn_2"
+                            android:gravity="center"
+                            android:text="立即续费"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我的订单"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_all_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:drawableEnd="@mipmap/arrow_right"
+                            android:drawablePadding="5dp"
+                            android:text="更多"
+                            android:textColor="@color/grey"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+
+                    <com.pinnoocle.royalstarshop.widget.TagsGridView
+                        android:id="@+id/gridView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:numColumns="5" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@mipmap/bg_recommend">
+
+                    <ImageView
+                        android:id="@+id/iv_award"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:src="@mipmap/recommendation_award" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/iv_award"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_white_10"
+                        android:paddingStart="4dp"
+                        android:paddingTop="2dp"
+                        android:paddingEnd="4dp"
+                        android:paddingBottom="2dp"
+                        android:text="奖励奖励奖励奖励奖励奖励"
+                        android:textColor="#DB342B"
+                        android:textSize="10sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="更多服务"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+
+                    <com.pinnoocle.royalstarshop.widget.TagsGridView
+                        android:id="@+id/grid_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:numColumns="4" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</RelativeLayout>
