@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.video;
 
+import android.content.Intent;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
@@ -15,7 +16,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import butterknife.BindView;
 
-public class VideoFragment extends BaseFragment {
+public class VideoFragment extends BaseFragment implements AdoptAdapter.OnItemClickListener {
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
     @BindView(R.id.ed_search)
@@ -25,6 +26,7 @@ public class VideoFragment extends BaseFragment {
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
     AdoptAdapter videoAdapter;
+
     @Override
     protected int LayoutId() {
         return R.layout.fragment_video;
@@ -41,5 +43,13 @@ public class VideoFragment extends BaseFragment {
         recycleView.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.VERTICAL, getResources().getColor(R.color.transparent), 30));
         videoAdapter = new AdoptAdapter(getContext());
         recycleView.setAdapter(videoAdapter);
+
+        videoAdapter.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
+        startActivity(intent);
     }
 }

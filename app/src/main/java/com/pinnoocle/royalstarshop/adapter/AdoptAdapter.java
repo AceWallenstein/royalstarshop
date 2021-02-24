@@ -42,7 +42,12 @@ public class AdoptAdapter extends RecyclerView.Adapter<AdoptAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-
+        holder.iv_image.setOnClickListener(v ->
+        {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick(position);
+            }
+        });
     }
 
     @Override
