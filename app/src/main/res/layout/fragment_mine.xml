@@ -71,7 +71,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="10dp"
                             android:layout_toEndOf="@id/iv_avater"
-                            android:text="纯白的猪12"
+                            android:text="纯白的猪123"
                             android:textColor="@color/white"
                             android:textSize="15sp" />
 
