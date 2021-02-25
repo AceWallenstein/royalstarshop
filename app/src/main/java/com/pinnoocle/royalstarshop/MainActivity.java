@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity {
                 tabAdapter.setCurrentFragment(1);
                 break;
             case R.id.ll_tab_vip:
-                initRed();
+                initGrey();
                 tabAdapter.setCurrentFragment(2);
                 break;
             case R.id.ll_tab_shop_car:

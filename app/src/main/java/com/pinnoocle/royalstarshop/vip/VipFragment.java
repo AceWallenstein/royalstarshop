@@ -6,6 +6,11 @@ import com.pinnoocle.royalstarshop.common.BaseFragment;
 public class VipFragment extends BaseFragment {
     @Override
     protected int LayoutId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_vip;
+    }
+
+    @Override
+    protected void initView() {
+
     }
 }
