@@ -207,7 +207,7 @@ public class HomeFragment extends BaseFragment {
         TitleAdapter titleAdapter = new TitleAdapter(getContext());
         titleAdapter.setData(titleBeans);
         rv3.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
-        rv3.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL, getResources().getColor(R.color.white1), 60));
+        rv3.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL, getResources().getColor(R.color.white), 60));
         rv3.setAdapter(titleAdapter);
         titleAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
