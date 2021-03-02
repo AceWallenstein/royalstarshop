@@ -5,4 +5,10 @@ public class LoginBean {
     public String type;
     public String code;
     public String wxapp_id;
+    public String token;
+    public String address_id;
+    public String region;
+    public String name;
+    public String phone;
+    public String detail;
 }

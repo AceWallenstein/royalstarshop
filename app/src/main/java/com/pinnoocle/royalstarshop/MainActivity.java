@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.pinnoocle.royalstarshop.adapter.FragmentTabAdapter;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.home.fragment.HomeFragment;
-import com.pinnoocle.royalstarshop.mine.MineFragment;
+import com.pinnoocle.royalstarshop.mine.fragment.MineFragment;
 import com.pinnoocle.royalstarshop.shoppingcart.ShoppingCartFragment;
 import com.pinnoocle.royalstarshop.video.VideoFragment;
 import com.pinnoocle.royalstarshop.vip.VipFragment;

@@ -1,5 +1,6 @@
-package com.pinnoocle.royalstarshop.mine;
+package com.pinnoocle.royalstarshop.mine.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
 import com.pinnoocle.royalstarshop.widget.TagsGridView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -72,7 +74,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     private String[] iconName = {"全部订单", "待付款", "待发货", "待评价", "退换/售后"};
 
 
-    private int[] serviceIcon = {R.mipmap.profit, R.mipmap.withdrawal,R.mipmap.jin_dou, R.mipmap.mark, R.mipmap.gps, R.mipmap.ic_kefu, R.mipmap.flower, R.mipmap.question
+    private int[] serviceIcon = {R.mipmap.profit, R.mipmap.withdrawal, R.mipmap.jin_dou, R.mipmap.mark, R.mipmap.gps, R.mipmap.ic_kefu, R.mipmap.flower, R.mipmap.question
             , R.mipmap.advise
     };
     private String[] serviceIconName = {"推荐收益", "提现", "我的金豆", "我的收藏", "收货地址", "我的客服", "评价", "常见问题", "意见反馈"};
@@ -167,6 +169,32 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (position) {
+            case 0: //推荐收益
 
+                break;
+            case 1: //提现
+
+                break;
+            case 2: //我的金豆
+
+                break;
+            case 3: //我的收藏
+
+                break;
+            case 4: //收货地址
+                startActivity(new Intent(getContext(), AddressActivity.class));
+                break;
+            case 5: //我的客服
+                break;
+            case 6: //评价
+                break;
+            case 7: //常见问题
+                break;
+            case 8: //意见反馈
+                break;
+            default:
+                break;
+        }
     }
 }
