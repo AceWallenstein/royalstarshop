@@ -115,6 +115,7 @@ public class AddressActivity extends BaseActivity {
         ViewLoading.show(this);
         LoginBean loginBean = new LoginBean();
         loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
         dataRepository.addressLists(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
@@ -217,7 +218,7 @@ public class AddressActivity extends BaseActivity {
 
     private void showAddressDeleteDialog(int address_id) {
         new TDialog.Builder(getSupportFragmentManager())
-                .setLayoutRes(R.layout.logout_dialog)
+                .setLayoutRes(R.layout.address_delete_dialog)
                 .setScreenWidthAspect(this, 0.7f)
                 .setGravity(Gravity.CENTER)
                 .setCancelableOutside(false)

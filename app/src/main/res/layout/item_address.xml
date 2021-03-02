@@ -81,6 +81,8 @@
 
 
         <TextView
+            android:drawableStart="@mipmap/address_edit"
+            android:drawablePadding="2dp"
             android:id="@+id/tv_del"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,6 +93,8 @@
             android:textSize="15sp" />
 
         <TextView
+            android:drawableStart="@mipmap/address_del"
+            android:drawablePadding="2dp"
             android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -30,7 +30,7 @@ public interface RetrofitService {
     Observable<IndexModel> index(@Body LoginBean loginBean);
 
     // 收货地址列表
-    @POST("api/category/index")
+    @POST("api/address/lists")
     Observable<AddressListModel> addressLists(@Body LoginBean loginBean);
 
     // 设为默认地址
@@ -38,10 +38,14 @@ public interface RetrofitService {
     Observable<ResultModel> setDefault(@Body LoginBean loginBean);
 
     // 删除收货地址
-    @POST("api/address/setDefault")
+    @POST("api/address/delete")
     Observable<ResultModel> addressDelete(@Body LoginBean loginBean);
 
     // 添加收货地址
     @POST("api/address/add")
     Observable<ResultModel> addressAdd(@Body LoginBean loginBean);
+
+    //修改收货地址
+    @POST("api/address/edit")
+    Observable<ResultModel> addressEdit(@Body LoginBean loginBean);
 }

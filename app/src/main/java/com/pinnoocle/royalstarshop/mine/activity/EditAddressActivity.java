@@ -17,6 +17,7 @@ import com.lljjcoder.style.citypickerview.CityPickerView;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
@@ -28,6 +29,8 @@ import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.utils.StatusBarUtil;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.io.Serializable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,11 +53,12 @@ public class EditAddressActivity  extends BaseActivity {
     EditText edAddress;
 
     CityPickerView mPicker = new CityPickerView();
-    String area_id;
+    String address_id;
     private String districtName;
     private String cityName;
     private String provinceName;
     private DataRepository dataRepository;
+    private AddressListModel.DataBean.ListBean dataBean;
 
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
@@ -69,15 +73,21 @@ public class EditAddressActivity  extends BaseActivity {
 
 
     private void initView() {
-
+        Serializable serializableExtra = getIntent().getSerializableExtra("dataBean");
+        dataBean = (AddressListModel.DataBean.ListBean) serializableExtra;
+        edName.setText(dataBean.getName().trim());
+        edPhone.setText(dataBean.getPhone().trim());
+        edArea.setText(dataBean.getRegion().toString().trim());
+        edAddress.setText(dataBean.getDetail().trim());
+        address_id = String.valueOf(dataBean.getAddress_id());
     }
 
     private void initData() {
         dataRepository = Injection.dataRepository(this);
     }
 
-    private void saveUserShip() {
-        if (TextUtils.isEmpty(area_id)) {
+    private void addressEdit() {
+        if (TextUtils.isEmpty(address_id)) {
             return;
         }
         ViewLoading.show(this);
@@ -88,7 +98,8 @@ public class EditAddressActivity  extends BaseActivity {
         loginBean.name = edName.getText().toString().trim();
         loginBean.phone = edPhone.getText().toString().trim();
         loginBean.detail = edAddress.getText().toString().trim();
-        dataRepository.addressAdd(loginBean, new RemotDataSource.getCallback() {
+        loginBean.address_id = address_id;
+        dataRepository.addressEdit(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
                 ViewLoading.dismiss(EditAddressActivity.this);
@@ -135,7 +146,7 @@ public class EditAddressActivity  extends BaseActivity {
                     } else {
                         //保存地址到服务器
 //                        getAreaId();
-                        saveUserShip();
+                        addressEdit();
                     }
                 }
                 break;
@@ -152,7 +163,7 @@ public class EditAddressActivity  extends BaseActivity {
             @Override
             public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
                 edArea.setText(province.getName() + " " + city.getName() + " " + district.getName());
-                area_id = district.getId();
+                address_id = district.getId();
                 provinceName = province.getName();
                 cityName = city.getName();
                 districtName = district.getName();

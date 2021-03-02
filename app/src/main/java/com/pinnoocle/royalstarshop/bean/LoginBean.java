@@ -4,7 +4,7 @@ public class LoginBean {
     public String mobile;
     public String type;
     public String code;
-    public String wxapp_id;
+    public String wxapp_id = "10001";
     public String token;
     public String address_id;
     public String region;

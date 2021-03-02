@@ -24,6 +24,7 @@
         <activity android:name=".video.VideoDetailActivity"></activity>
         <activity android:name=".login.LoginActivity">
 
+
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -31,6 +32,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".home.activity.GoodsDetailActivity" />
         <activity android:name=".home.activity.GoodsCommentActivity" />

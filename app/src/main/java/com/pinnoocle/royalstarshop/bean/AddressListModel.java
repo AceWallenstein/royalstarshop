@@ -223,7 +223,13 @@ public class AddressListModel {
                 public void setRegion(String region) {
                     this.region = region;
                 }
+
+                @Override
+                public String toString() {
+                    return province+city+region;
+                }
             }
+
         }
     }
 }
