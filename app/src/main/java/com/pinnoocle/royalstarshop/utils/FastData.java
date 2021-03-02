@@ -19,13 +19,21 @@ public class FastData extends Remember {
         return remember;
     }
 
-    //设备id
-    public static void setVolume(int volume) {
-        putInt("volume", volume);
+    //token
+    public static void setToken(String token) {
+        putString("token", token);
     }
 
-    public static int getVolume() {
-        return getInt("volume", -1);
+    public static String getToken() {
+        return getString("token", "");
     }
 
+    //user_id
+    public static void setUserId(int userId) {
+        putInt("userId", userId);
+    }
+
+    public static int getUserId() {
+        return getInt("userId", -1);
+    }
 }
