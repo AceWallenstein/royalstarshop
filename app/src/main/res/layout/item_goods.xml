@@ -65,13 +65,13 @@
                 android:layout_height="wrap_content"
                 android:text="会员￥1885"
                 android:textColor="@color/white"
-                android:textSize="10sp" />
+                android:textSize="8sp" />
             <ImageView
                 android:id="@+id/iv_shop_car"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/add_cart"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="5dp"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -25,6 +25,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.MainActivity;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.adapter.FragmentAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsMenusAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsOneAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsTwoAdapter;
@@ -262,18 +263,9 @@ public class HomeFragment extends BaseFragment {
             GoodListFragment goodListFragment = new GoodListFragment();
             fragments.add(goodListFragment);
         };
-        vpGoodsList.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
-            @NonNull
-            @Override
-            public Fragment getItem(int position) {
-                return fragments.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return fragments.size();
-            }
-        });
+        FragmentAdapter adatper = new FragmentAdapter(getFragmentManager(), fragments);
+        vpGoodsList.setAdapter(adatper);
+        vpGoodsList.setOffscreenPageLimit(fragments.size());
     }
 
 

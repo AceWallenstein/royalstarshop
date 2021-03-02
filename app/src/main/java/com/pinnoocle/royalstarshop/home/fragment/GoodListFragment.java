@@ -30,9 +30,9 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
 
     @Override
     protected void initView() {
+        recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         GoodsAdapter goodsAdapter = new GoodsAdapter(getContext());
         recycleView.setAdapter(goodsAdapter);
-        recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         refresh.setOnRefreshLoadMoreListener(this);
     }
 
