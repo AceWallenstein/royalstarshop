@@ -1,6 +1,7 @@
 package com.pinnoocle.royalstarshop.nets;
 
 import com.pinnoocle.royalstarshop.bean.CodeModel;
+import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
 
@@ -21,4 +22,8 @@ public interface RetrofitService {
     // 发送验证码
     @POST("api/user/getCode")
     Observable<CodeModel> getCode(@Body LoginBean loginBean);
+
+    // 分类列表
+    @POST("api/category/index")
+    Observable<IndexModel> index(@Body LoginBean loginBean);
 }

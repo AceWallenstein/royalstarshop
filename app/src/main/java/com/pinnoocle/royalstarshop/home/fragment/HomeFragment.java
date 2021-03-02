@@ -28,6 +28,8 @@ import com.pinnoocle.royalstarshop.adapter.TitleAdapter;
 import com.pinnoocle.royalstarshop.bean.TitleBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.nets.DataRepository;
+import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.utils.FontDisplayUtil;
 import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
 import com.timmy.tdialog.TDialog;
@@ -206,7 +208,7 @@ public class HomeFragment extends BaseFragment {
         }
         TitleAdapter titleAdapter = new TitleAdapter(getContext());
         titleAdapter.setData(titleBeans);
-        rv3.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
+        rv3.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
         rv3.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL, getResources().getColor(R.color.white), 60));
         rv3.setAdapter(titleAdapter);
         titleAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {

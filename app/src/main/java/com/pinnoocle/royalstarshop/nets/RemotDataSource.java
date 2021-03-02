@@ -17,4 +17,6 @@ public interface RemotDataSource {
     void reg(LoginBean loginBean, getCallback callback);
 
     void getCode(LoginBean loginBean, getCallback callback);
+
+    void index(LoginBean loginBean, getCallback callback);
 }
