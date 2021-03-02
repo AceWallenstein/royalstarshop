@@ -1,89 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="2dp"
-    app:cardCornerRadius="6dp"
     android:layout_margin="5dp"
->
+    android:elevation="2dp"
+    app:cardCornerRadius="6dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/iv_goods_pic"
-            android:scaleType="fitXY"
             android:layout_width="match_parent"
-            android:layout_height="160dp" />
+            android:layout_height="160dp"
+            android:scaleType="fitXY" />
 
         <TextView
-            android:padding="4dp"
-            android:layout_marginStart="5dp"
             android:id="@+id/tv_goods_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/light_black"
-            android:textSize="12sp"
-            android:maxLines="1"
+            android:layout_marginStart="5dp"
             android:ellipsize="end"
-            tools:text="居家日用百货 任选5款..." />
+            android:maxLines="1"
+            android:padding="4dp"
+            android:text="居家日用百货 任选5款..."
+            android:textColor="@color/light_black"
+            android:textSize="12sp" />
 
-        <RelativeLayout
-            android:layout_marginStart="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+        <TextView
+            android:padding="4dp"
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="节能省气，大出水量"
+            android:textColor="@color/grey"
+            android:textSize="11sp" />
+        <LinearLayout
+            android:padding="4dp"
+            android:gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <TextView
-                android:id="@+id/tv_membership_price"
+                android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/juice"
-                android:textSize="12sp"
-                tools:text="￥14.50" />
-
+                android:text="￥1885"
+                android:textColor="@color/light_red"
+                android:textSize="14sp" />
             <TextView
-                android:id="@+id/tv_non_member_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/tv_membership_price"
-                android:textColor="@color/grey"
-                android:textSize="12sp"
-                tools:text="非会员￥15.80" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_marginStart="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:id="@+id/tv_payment_num"
+                android:gravity="center"
+                android:id="@+id/tv_vip_price"
+                android:background="@mipmap/bg_vip_price_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/grey"
-                android:textSize="12sp"
-                tools:text="128人付款" />
+                android:text="会员￥1885"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
             <ImageView
-                android:padding="10dp"
-                android:layout_marginEnd="8dp"
-                android:layout_alignParentEnd="true"
                 android:id="@+id/iv_shop_car"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/juice"
-                android:textSize="12sp"
-                tools:text="￥14.50" />
+                android:src="@mipmap/add_cart"
+                android:layout_marginStart="10dp"/>
 
-        </RelativeLayout>
-
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

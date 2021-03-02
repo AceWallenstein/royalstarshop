@@ -11,41 +11,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 
-import butterknife.ButterKnife;
+public class CommentAdapter extends BaseAdapter<String, CommentAdapter.VH> {
 
-public class GoodsOneAdapter extends BaseAdapter<String, GoodsOneAdapter.VH> {
-
-
-    public GoodsOneAdapter(Context mContext) {
+    public CommentAdapter(Context mContext) {
         super(mContext);
     }
 
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new VH(LayoutInflater.from(mContext).inflate(R.layout.item_goods_one,parent,false));
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) {
-       holder.itemView.setOnClickListener(v -> {
-           if (mOnItemClickListener != null) {
-               mOnItemClickListener.onItemViewClick(v,position);
-           }
-       });
+        return new VH(LayoutInflater.from(mContext).inflate(R.layout.item_goods_comment, parent, false));
     }
 
     @Override
     public int getItemCount() {
-//        return mDatas == null ? 0 : mDatas.size();
-        return 3;
+        return 5;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VH holder, int position) {
+
     }
 
     static class VH extends RecyclerView.ViewHolder {
 
         public VH(@NonNull View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
     }
 }

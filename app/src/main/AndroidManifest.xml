@@ -32,6 +32,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".home.activity.GoodsDetailActivity" />
+        <activity android:name=".home.activity.GoodsCommentActivity" />
     </application>
 
 </manifest>

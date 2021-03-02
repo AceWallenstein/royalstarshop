@@ -9,15 +9,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.pinnoocle.royalstarshop.common.BaseAdapter;
-import com.bumptech.glide.Glide;
-import com.pinnoocle.royalstarshop.R;
 
+import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GoodsAdapter extends BaseAdapter<String, GoodsAdapter.VH> {
+
 
 
     public GoodsAdapter(Context mContext) {
@@ -36,7 +36,7 @@ public class GoodsAdapter extends BaseAdapter<String, GoodsAdapter.VH> {
         holder.itemView.setOnClickListener(v ->
         {
             if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
         holder.ivShopCar.setOnClickListener(v -> {
@@ -44,7 +44,7 @@ public class GoodsAdapter extends BaseAdapter<String, GoodsAdapter.VH> {
                 mOnItemClickListener.onItemViewClick(v, position);
             }
             if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
 
@@ -52,7 +52,8 @@ public class GoodsAdapter extends BaseAdapter<String, GoodsAdapter.VH> {
 
     @Override
     public int getItemCount() {
-        return mDatas == null ? 0 : mDatas.size();
+//        return mDatas == null ? 0 : mDatas.size();
+        return 5;
     }
 
 
@@ -62,12 +63,12 @@ public class GoodsAdapter extends BaseAdapter<String, GoodsAdapter.VH> {
         ImageView ivGoodsPic;
         @BindView(R.id.tv_goods_title)
         TextView tvGoodsTitle;
-        @BindView(R.id.tv_membership_price)
-        TextView tvMemberPrice;
-        @BindView(R.id.tv_non_member_price)
-        TextView tvNonMemberPrice;
-        @BindView(R.id.tv_payment_num)
-        TextView tvPaymentNum;
+        @BindView(R.id.tv_desc)
+        TextView tvDesc;
+        @BindView(R.id.tv_price)
+        TextView tvPrice;
+        @BindView(R.id.tv_vip_price)
+        TextView tvVipPrice;
         @BindView(R.id.iv_shop_car)
         ImageView ivShopCar;
 

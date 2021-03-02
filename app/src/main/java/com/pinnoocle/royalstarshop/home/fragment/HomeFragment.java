@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.home.fragment;
 
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +22,25 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pinnoocle.royalstarshop.MainActivity;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.adapter.GoodsMenusAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsOneAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsTwoAdapter;
 import com.pinnoocle.royalstarshop.adapter.TitleAdapter;
+import com.pinnoocle.royalstarshop.bean.IndexModel;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.TitleBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
-import com.pinnoocle.royalstarshop.utils.FontDisplayUtil;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
 import com.timmy.tdialog.TDialog;
 import com.timmy.tdialog.base.BindViewHolder;
@@ -57,12 +67,6 @@ public class HomeFragment extends BaseFragment {
     Banner banner;
     @BindView(R.id.scrollView)
     NestedScrollView scrollView;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-    @BindView(R.id.iv_tab_1)
-    ImageView ivTab1;
-    @BindView(R.id.iv_tab_2)
-    ImageView ivTab2;
     @BindView(R.id.tv_1)
     TextView tv1;
     @BindView(R.id.tv_vip_1)
@@ -75,7 +79,17 @@ public class HomeFragment extends BaseFragment {
     RecyclerView rv2;
     @BindView(R.id.rv_3)
     RecyclerView rv3;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.v_progress)
+    View vProgress;
+    @BindView(R.id.layout)
+    RelativeLayout layoutProgress;
+    @BindView(R.id.vp_goods_list)
+    ViewPager vpGoodsList;
     private List<Integer> bannerList = new ArrayList<>();
+    private GoodsMenusAdapter goodsMenusAdapter;
+    private DataRepository dataRepository;
 
     @Override
     protected int LayoutId() {
@@ -90,8 +104,42 @@ public class HomeFragment extends BaseFragment {
         initRv1();
         initRv2();
         initRv3();
+        initViewPager();
     }
 
+
+
+    @Override
+    protected void initData() {
+        dataRepository = Injection.dataRepository(getContext());
+        index();
+    }
+
+    private void index() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        dataRepository.index(loginBean,new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                IndexModel indexModel = (IndexModel) data;
+                if(indexModel.getCode() == 1){
+                    List<IndexModel.DataBean.ListBean> list = indexModel.getData().getList();
+                    if(list.size()<6){
+                        layoutProgress.setVisibility(View.GONE);
+                    }else {
+                        layoutProgress.setVisibility(View.VISIBLE);
+
+                    }
+                    goodsMenusAdapter.setData(list);
+                }
+            }
+        });
+    }
 
     @Override
     public void onResume() {
@@ -142,53 +190,42 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initGoodMenus() {
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new TabFragment());
-        fragments.add(new TabFragment());
-        viewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
-            @NonNull
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        goodsMenusAdapter = new GoodsMenusAdapter(getContext());
+        recyclerView.setAdapter(goodsMenusAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public Fragment getItem(int position) {
-                return fragments.get(position);
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
-            public int getCount() {
-                return fragments.size();
-            }
-        });
-//        viewPager.setOffscreenPageLimit(fragments.size());
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int range = recyclerView.computeHorizontalScrollRange(); //全长度
+                int extent = recyclerView.computeHorizontalScrollExtent(); // 当前显示的长度
+                int offset = recyclerView.computeHorizontalScrollOffset(); //已滑动的偏移量
 
-            }
+                //屏幕外的长度
+                float wai = range - extent;
+                // 已滑动长度的比例
+                float huabi = (float) (offset * 1.0) / wai; //注意！！！，如果用Int型，会取整；
 
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    ivTab1.setImageResource(R.drawable.tab_rect);
-                    ivTab2.setImageResource(R.drawable.tab_rect_1);
-                    setImageViewSize(ivTab1, FontDisplayUtil.dip2px(getContext(), 15));
-                    setImageViewSize(ivTab2, FontDisplayUtil.dip2px(getContext(), 6));
-
-                } else if (position == 1) {
-                    ivTab1.setImageResource(R.drawable.tab_rect_1);
-                    ivTab2.setImageResource(R.drawable.tab_rect);
-                    setImageViewSize(ivTab1, FontDisplayUtil.dip2px(getContext(), 6));
-                    setImageViewSize(ivTab2, FontDisplayUtil.dip2px(getContext(), 15));
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+                int huafan = layoutProgress.getWidth() - vProgress.getWidth(); //可滑动范围
+                float translationX = huabi * huafan; // view偏移量
+                vProgress.setTranslationX(translationX);
             }
         });
     }
 
     private void initRv1() {
         GoodsOneAdapter oneAdapter = new GoodsOneAdapter(getContext());
+        oneAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemViewClick(View view, int position) {
+                startActivity(new Intent(getContext(), GoodsDetailActivity.class));
+            }
+        });
         rv1.setLayoutManager(new GridLayoutManager(getContext(), 3));
 //        rv1.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL, getResources().getColor(R.color.white1), 60));
         rv1.setAdapter(oneAdapter);
@@ -218,6 +255,25 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+    }
+    private void initViewPager() {
+        List<Fragment> fragments = new ArrayList<>();
+        for (int i = 0; i <4; i++) {
+            GoodListFragment goodListFragment = new GoodListFragment();
+            fragments.add(goodListFragment);
+        };
+        vpGoodsList.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
+            @NonNull
+            @Override
+            public Fragment getItem(int position) {
+                return fragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return fragments.size();
+            }
+        });
     }
 
 

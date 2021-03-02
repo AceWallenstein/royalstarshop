@@ -65,4 +65,15 @@ dependencies {
     //刷新控件
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
+
+    //标签
+    implementation  'com.hyman:flowlayout-lib:1.1.2'
+
+    implementation 'com.jaeger.ninegridimageview:library:1.1.1'
+
+    //日志打印
+    implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
+
 }
