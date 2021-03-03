@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,8 +20,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
-import com.pinnoocle.royalstarshop.MainActivity;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.FragmentAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsMenusAdapter;
@@ -32,16 +28,14 @@ import com.pinnoocle.royalstarshop.adapter.GoodsTwoAdapter;
 import com.pinnoocle.royalstarshop.adapter.TitleAdapter;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
-import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.TitleBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
-import com.pinnoocle.royalstarshop.login.LoginActivity;
+import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
-import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
 import com.timmy.tdialog.TDialog;
 import com.timmy.tdialog.base.BindViewHolder;
@@ -54,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class HomeFragment extends BaseFragment {
     @BindView(R.id.iv_comment)
@@ -62,8 +57,8 @@ public class HomeFragment extends BaseFragment {
     ImageView ivKefu;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
-    @BindView(R.id.ed_search)
-    EditText edSearch;
+    @BindView(R.id.tv_search)
+    TextView tvSearch;
     @BindView(R.id.banner)
     Banner banner;
     @BindView(R.id.scrollView)
@@ -88,6 +83,8 @@ public class HomeFragment extends BaseFragment {
     RelativeLayout layoutProgress;
     @BindView(R.id.vp_goods_list)
     ViewPager vpGoodsList;
+    @BindView(R.id.iv_bg)
+    ImageView ivBg;
     private List<Integer> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
@@ -109,7 +106,6 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-
     @Override
     protected void initData() {
         dataRepository = Injection.dataRepository(getContext());
@@ -119,7 +115,7 @@ public class HomeFragment extends BaseFragment {
     private void index() {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
-        dataRepository.index(loginBean,new RemotDataSource.getCallback() {
+        dataRepository.index(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
 
@@ -128,11 +124,11 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(Object data) {
                 IndexModel indexModel = (IndexModel) data;
-                if(indexModel.getCode() == 1){
+                if (indexModel.getCode() == 1) {
                     List<IndexModel.DataBean.ListBean> list = indexModel.getData().getList();
-                    if(list.size()<6){
+                    if (list.size() < 6) {
                         layoutProgress.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         layoutProgress.setVisibility(View.VISIBLE);
 
                     }
@@ -257,12 +253,14 @@ public class HomeFragment extends BaseFragment {
         });
 
     }
+
     private void initViewPager() {
         List<Fragment> fragments = new ArrayList<>();
-        for (int i = 0; i <4; i++) {
+        for (int i = 0; i < 4; i++) {
             GoodListFragment goodListFragment = new GoodListFragment();
             fragments.add(goodListFragment);
-        };
+        }
+        ;
         FragmentAdapter adatper = new FragmentAdapter(getFragmentManager(), fragments);
         vpGoodsList.setAdapter(adatper);
         vpGoodsList.setOffscreenPageLimit(fragments.size());
@@ -275,6 +273,11 @@ public class HomeFragment extends BaseFragment {
         imageView.setLayoutParams(params);
     }
 
+    @OnClick(R.id.tv_search)
+    public void onViewClicked() {
+        Intent intent = new Intent(getContext(), SearchActivity.class);
+        startActivity(intent);
+    }
 }
 
 
