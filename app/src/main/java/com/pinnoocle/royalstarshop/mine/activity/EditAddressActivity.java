@@ -64,7 +64,7 @@ public class EditAddressActivity  extends BaseActivity {
         initWhite();
         StatusBarUtil.StatusBarLightMode(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivity_add_addresss);
+        setContentView(R.layout.acitivity_edit_addresss);
         ButterKnife.bind(this);
         initView();
         mPicker.init(this);
@@ -110,10 +110,10 @@ public class EditAddressActivity  extends BaseActivity {
                 ViewLoading.dismiss(EditAddressActivity.this);
                 ResultModel resultModel = (ResultModel) data;
                 if (resultModel.getCode() == 1) {
-                    ToastUtils.showToast(resultModel.getMsg());
                     EventBus.getDefault().post(new AddAddressEvent());
                     finish();
                 }
+                ToastUtils.showToast(resultModel.getMsg());
 
 
             }

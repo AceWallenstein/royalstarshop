@@ -29,4 +29,7 @@ public interface RemotDataSource {
     void addressAdd(LoginBean loginBean, getCallback callback);
 
     void addressEdit(LoginBean loginBean, getCallback callback);
+
+    void goodsLists(LoginBean loginBean, getCallback callback);
+    void banner(LoginBean loginBean, getCallback callback);
 }

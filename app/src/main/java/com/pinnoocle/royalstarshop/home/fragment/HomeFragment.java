@@ -97,7 +97,6 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        bannerList.add(R.mipmap.banner);
         initBanner();
         initGoodMenus();
         initRv1();
@@ -127,7 +126,7 @@ public class HomeFragment extends BaseFragment {
                 IndexModel indexModel = (IndexModel) data;
                 if (indexModel.getCode() == 1) {
                     List<IndexModel.DataBean.ListBean> list = indexModel.getData().getList();
-                    if (list.size() < 6) {
+                    if (list.size() < 5) {
                         layoutProgress.setVisibility(View.GONE);
                     } else {
                         layoutProgress.setVisibility(View.VISIBLE);
@@ -138,6 +137,33 @@ public class HomeFragment extends BaseFragment {
             }
         });
     }
+
+//    private void index() {
+//        LoginBean loginBean = new LoginBean();
+//        loginBean.wxapp_id = "10001";
+//        dataRepository.index(loginBean, new RemotDataSource.getCallback() {
+//            @Override
+//            public void onFailure(String info) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(Object data) {
+//                IndexModel indexModel = (IndexModel) data;
+//                if (indexModel.getCode() == 1) {
+//                    List<IndexModel.DataBean.ListBean> list = indexModel.getData().getList();
+//                    if (list.size() < 5) {
+//                        layoutProgress.setVisibility(View.GONE);
+//                    } else {
+//                        layoutProgress.setVisibility(View.VISIBLE);
+//
+//                    }
+//                    goodsMenusAdapter.setData(list);
+//                }
+//            }
+//        });
+//    }
+
 
     @Override
     public void onResume() {

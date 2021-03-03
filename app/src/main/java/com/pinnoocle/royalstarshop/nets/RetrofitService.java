@@ -1,7 +1,9 @@
 package com.pinnoocle.royalstarshop.nets;
 
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
+import com.pinnoocle.royalstarshop.bean.BannerModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
+import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
@@ -48,4 +50,13 @@ public interface RetrofitService {
     //修改收货地址
     @POST("api/address/edit")
     Observable<ResultModel> addressEdit(@Body LoginBean loginBean);
+
+    //商品列表
+    @POST("api/goods/lists")
+    Observable<GoodsListsModel> goodsLists(@Body LoginBean loginBean);
+
+    //banner列表
+    @POST("api/index/banner")
+    Observable<BannerModel> banner(@Body LoginBean loginBean);
+
 }

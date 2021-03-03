@@ -67,4 +67,14 @@ public class DataRepository implements RemotDataSource {
     public void addressEdit(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.addressEdit(loginBean, callback);
     }
+
+    @Override
+    public void goodsLists(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.goodsLists(loginBean, callback);
+    }
+
+    @Override
+    public void banner(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.banner(loginBean, callback);
+    }
 }
