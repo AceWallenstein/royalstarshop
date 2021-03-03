@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffe45641"
-    android:fitsSystemWindows="true">
+    android:background="#ffe45641">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh"
