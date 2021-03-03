@@ -108,13 +108,13 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
                 finish();
                 break;
             case R.id.tv_search:
-                ((InputMethodManager) etHomeSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                        .hideSoftInputFromWindow(
-                                getCurrentFocus().getWindowToken(),
-                                InputMethodManager.HIDE_NOT_ALWAYS);
                 if (etHomeSearch.getText().toString().equals("")) {
                     ToastUtils.showToast("搜索内容不能为空");
                 } else {
+                    ((InputMethodManager) etHomeSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                            .hideSoftInputFromWindow(
+                                    getCurrentFocus().getWindowToken(),
+                                    InputMethodManager.HIDE_NOT_ALWAYS);
                     MyApp.getInstance().getDaoSession().getHistoryBeanDao().queryBuilder().where(HistoryBeanDao.Properties.Name.eq(etHomeSearch.getText().toString())).buildDelete().executeDeleteWithoutDetachingEntities();
                     HistoryBean history = new HistoryBean();
                     history.setName(etHomeSearch.getText().toString());

@@ -31,6 +31,7 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.TitleBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.home.activity.CommentActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
@@ -273,10 +274,18 @@ public class HomeFragment extends BaseFragment {
         imageView.setLayoutParams(params);
     }
 
-    @OnClick(R.id.tv_search)
-    public void onViewClicked() {
-        Intent intent = new Intent(getContext(), SearchActivity.class);
-        startActivity(intent);
+    @OnClick({R.id.iv_comment, R.id.tv_search})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_comment:
+                Intent intent1 = new Intent(getContext(), CommentActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.tv_search:
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
 

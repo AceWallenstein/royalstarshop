@@ -14,6 +14,7 @@ import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.home.fragment.HomeFragment;
 import com.pinnoocle.royalstarshop.mine.fragment.MineFragment;
 import com.pinnoocle.royalstarshop.shoppingcart.ShoppingCartFragment;
+import com.pinnoocle.royalstarshop.utils.StatusBarUtil;
 import com.pinnoocle.royalstarshop.video.VideoFragment;
 import com.pinnoocle.royalstarshop.vip.VipFragment;
 
@@ -66,7 +67,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initRed();
+        initTransparent();
+        StatusBarUtil.StatusBarLightMode(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -88,23 +90,18 @@ public class MainActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_tab_home:
-                initRed();
                 tabAdapter.setCurrentFragment(0);
                 break;
             case R.id.ll_tab_video:
-                initRed();
                 tabAdapter.setCurrentFragment(1);
                 break;
             case R.id.ll_tab_vip:
-                initGrey();
                 tabAdapter.setCurrentFragment(2);
                 break;
             case R.id.ll_tab_shop_car:
-                initWhite();
                 tabAdapter.setCurrentFragment(3);
                 break;
             case R.id.ll_tab_mine:
-                initJuice();
                 tabAdapter.setCurrentFragment(4);
                 break;
         }

@@ -5,6 +5,12 @@
     android:background="#332E30"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#332E30"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
