@@ -26,6 +26,7 @@ import com.pinnoocle.royalstarshop.adapter.GoodsMenusAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsOneAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsTwoAdapter;
 import com.pinnoocle.royalstarshop.adapter.TitleAdapter;
+import com.pinnoocle.royalstarshop.bean.BannerModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.TitleBean;
@@ -86,7 +87,7 @@ public class HomeFragment extends BaseFragment {
     ViewPager vpGoodsList;
     @BindView(R.id.iv_bg)
     ImageView ivBg;
-    private List<Integer> bannerList = new ArrayList<>();
+    private List<String> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
 
@@ -97,7 +98,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        initBanner();
+
         initGoodMenus();
         initRv1();
         initRv2();
@@ -110,6 +111,7 @@ public class HomeFragment extends BaseFragment {
     protected void initData() {
         dataRepository = Injection.dataRepository(getContext());
         index();
+        banner();
     }
 
     private void index() {
@@ -138,31 +140,27 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-//    private void index() {
-//        LoginBean loginBean = new LoginBean();
-//        loginBean.wxapp_id = "10001";
-//        dataRepository.index(loginBean, new RemotDataSource.getCallback() {
-//            @Override
-//            public void onFailure(String info) {
-//
-//            }
-//
-//            @Override
-//            public void onSuccess(Object data) {
-//                IndexModel indexModel = (IndexModel) data;
-//                if (indexModel.getCode() == 1) {
-//                    List<IndexModel.DataBean.ListBean> list = indexModel.getData().getList();
-//                    if (list.size() < 5) {
-//                        layoutProgress.setVisibility(View.GONE);
-//                    } else {
-//                        layoutProgress.setVisibility(View.VISIBLE);
-//
-//                    }
-//                    goodsMenusAdapter.setData(list);
-//                }
-//            }
-//        });
-//    }
+    private void banner() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        dataRepository.banner(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                BannerModel bannerModel = (BannerModel) data;
+                if (bannerModel.getCode() == 1) {
+                    for (int i = 0; i < bannerModel.getData().size(); i++) {
+                        bannerList.add(bannerModel.getData().get(i).getImage().getFile_path());
+                    }
+                    initBanner();
+                }
+            }
+        });
+    }
 
 
     @Override
@@ -198,9 +196,9 @@ public class HomeFragment extends BaseFragment {
     private void initBanner() {
 
         banner.isAutoLoop(false)
-                .setAdapter(new BannerImageAdapter<Integer>(bannerList) {
+                .setAdapter(new BannerImageAdapter<String>(bannerList) {
                     @Override
-                    public void onBindView(BannerImageHolder holder, Integer data, int position, int size) {
+                    public void onBindView(BannerImageHolder holder, String data, int position, int size) {
                         holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         //图片加载自己实现
                         Glide.with(holder.itemView)
