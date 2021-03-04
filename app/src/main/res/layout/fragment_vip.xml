@@ -440,15 +440,16 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/open_vip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:background="@drawable/bg_yellow_20"
                         android:paddingLeft="50dp"
-                        android:paddingTop="10dp"
+                        android:paddingTop="8dp"
                         android:paddingRight="50dp"
-                        android:paddingBottom="10dp"
+                        android:paddingBottom="8dp"
                         android:text="立即开通"
                         android:textColor="@color/white"
                         android:textSize="16sp" />

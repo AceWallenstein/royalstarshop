@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.activity.CommentActivity"></activity>
+        <activity android:name=".vip.VipRenewActivity"></activity>
+        <activity android:name=".home.activity.CommentActivity" />
         <activity android:name=".home.activity.SearchActivity" />
         <activity android:name=".video.VideoDetailActivity" />
         <activity android:name=".login.LoginActivity" />
