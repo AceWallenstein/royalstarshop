@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="￥1885"
                 android:textColor="@color/light_red"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
             <TextView
                 android:layout_marginStart="5dp"
                 android:gravity="center"

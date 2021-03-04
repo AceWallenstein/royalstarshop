@@ -92,4 +92,14 @@ public class DataRepository implements RemotDataSource {
     public void getSubCategory(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.getSubCategory(loginBean, callback);
     }
+
+    @Override
+    public void cartAdd(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.cartAdd(loginBean, callback);
+    }
+
+    @Override
+    public void cartLists(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.cartLists(loginBean, callback);
+    }
 }

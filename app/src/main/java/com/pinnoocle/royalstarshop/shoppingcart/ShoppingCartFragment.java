@@ -8,9 +8,19 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.ShoppingCartAdapter;
+import com.pinnoocle.royalstarshop.bean.CartListsModel;
+import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.nets.DataRepository;
+import com.pinnoocle.royalstarshop.nets.Injection;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -37,6 +47,8 @@ public class ShoppingCartFragment extends BaseFragment {
     TextView tvSettlement;
     @BindView(R.id.rl_panel)
     RelativeLayout rlPanel;
+    private DataRepository dataRepository;
+    private ShoppingCartAdapter shoppingCartAdapter;
 
     @Override
     protected int LayoutId() {
@@ -46,6 +58,36 @@ public class ShoppingCartFragment extends BaseFragment {
     @Override
     protected void initView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ShoppingCartAdapter(getContext()));
+        shoppingCartAdapter = new ShoppingCartAdapter(getContext());
+        recyclerView.setAdapter(shoppingCartAdapter);
+    }
+
+    @Override
+    protected void initData() {
+        dataRepository = Injection.dataRepository(getContext());
+        cartLists();
+    }
+
+    private void cartLists() {
+        ViewLoading.show(getContext());
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        dataRepository.cartLists(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(getContext());
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(getContext());
+                CartListsModel cartListsModel = (CartListsModel) data;
+                if (cartListsModel.getCode() == 1) {
+                    List<CartListsModel.DataBean.GoodsListBean> goods_list = cartListsModel.getData().getGoods_list();
+                    shoppingCartAdapter.setData(goods_list);
+                }
+            }
+        });
     }
 }

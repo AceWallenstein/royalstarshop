@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.BannerModel;
+import com.pinnoocle.royalstarshop.bean.CartAddModel;
+import com.pinnoocle.royalstarshop.bean.CartListsModel;
 import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
@@ -319,6 +321,50 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(SubCategoryModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void cartAdd(LoginBean loginBean, getCallback callback) {
+        Observable<CartAddModel> observable = RetrofitHelper.getInstance(mContext).getServer().cartAdd(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CartAddModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(CartAddModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void cartLists(LoginBean loginBean, getCallback callback) {
+        Observable<CartListsModel> observable = RetrofitHelper.getInstance(mContext).getServer().cartLists(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<CartListsModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(CartListsModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

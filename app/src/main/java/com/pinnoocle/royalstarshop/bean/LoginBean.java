@@ -14,4 +14,8 @@ public class LoginBean {
     public String category_id;
     public String search;
     public String tag;
+    public String page;
+    public String goods_id;
+    public String goods_sku_id;
+    public String goods_num;
 }

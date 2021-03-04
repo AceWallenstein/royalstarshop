@@ -2,6 +2,8 @@ package com.pinnoocle.royalstarshop.nets;
 
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.BannerModel;
+import com.pinnoocle.royalstarshop.bean.CartAddModel;
+import com.pinnoocle.royalstarshop.bean.CartListsModel;
 import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
@@ -71,5 +73,11 @@ public interface RetrofitService {
     //子分类
     @POST("api/category/getSubCategory")
     Observable<SubCategoryModel> getSubCategory(@Body LoginBean loginBean);
+    //加入购物车
+    @POST("api/cart/add")
+    Observable<CartAddModel> cartAdd(@Body LoginBean loginBean);
+    //购物车列表
+    @POST("api/cart/lists")
+    Observable<CartListsModel> cartLists(@Body LoginBean loginBean);
 
 }

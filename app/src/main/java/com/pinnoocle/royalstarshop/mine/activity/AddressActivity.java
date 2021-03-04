@@ -141,6 +141,7 @@ public class AddressActivity extends BaseActivity {
         ViewLoading.show(this);
         LoginBean loginBean = new LoginBean();
         loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
         loginBean.address_id = id+"";
         dataRepository.setDefault(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -165,6 +166,7 @@ public class AddressActivity extends BaseActivity {
         ViewLoading.show(this);
         LoginBean loginBean = new LoginBean();
         loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
         loginBean.address_id = id+"";
         dataRepository.addressDelete(loginBean, new RemotDataSource.getCallback() {
             @Override

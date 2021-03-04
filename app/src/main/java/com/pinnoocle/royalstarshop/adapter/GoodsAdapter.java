@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.CategoryListModel;
+import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GoodsAdapter extends BaseAdapter<CategoryListModel.DataBean.ListBean, GoodsAdapter.VH> {
+public class GoodsAdapter extends BaseAdapter<GoodsListsModel.DataBeanX.ListBean.DataBean, GoodsAdapter.VH> {
 
     public GoodsAdapter(Context mContext) {
         super(mContext);
@@ -32,10 +33,11 @@ public class GoodsAdapter extends BaseAdapter<CategoryListModel.DataBean.ListBea
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Glide.with(mContext).load(mDatas.get(position).getImage()).centerCrop().into(holder.ivGoodsPic);
-        holder.tvGoodsTitle.setText(mDatas.get(position).getName());
-//        holder.tvDesc.setText(mDatas.get(position));
-//        holder.tvPrice.setText(mDatas.get(position).get);
+        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).centerCrop().into(holder.ivGoodsPic);
+        holder.tvGoodsTitle.setText(mDatas.get(position).getGoods_name());
+        holder.tvDesc.setText(mDatas.get(position).getSelling_point());
+        holder.tvPrice.setText("￥"+mDatas.get(position).getGoods_sku().getGoods_price());
+        holder.tvVipPrice.setText("会员￥"+mDatas.get(position).getGoods_sku().getBalance_price());
 
         holder.itemView.setOnClickListener(v ->
         {
