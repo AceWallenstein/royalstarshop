@@ -40,6 +40,7 @@
         <activity android:name=".mine.activity.AddressActivity" />
         <activity android:name=".mine.activity.AddAddressActivity" />
         <activity android:name=".mine.activity.EditAddressActivity" />
+        <activity android:name=".home.activity.GoodsListActivity" />
     </application>
 
 </manifest>

@@ -114,16 +114,16 @@
 
                         <RelativeLayout
                             android:id="@+id/layout"
-                            android:layout_width="68dp"
-                            android:layout_height="6dp"
+                            android:layout_width="40dp"
+                            android:layout_height="3dp"
                             android:layout_gravity="center_horizontal"
-                            android:background="#ddd">
+                            android:background="@drawable/bg_white1_2">
 
                             <View
                                 android:id="@+id/v_progress"
-                                android:layout_width="35dp"
+                                android:layout_width="20dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/dark_red" />
+                                android:background="@drawable/bg_red_2" />
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -203,8 +203,6 @@
                         android:id="@+id/rv_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
                         android:background="@color/white"
                         android:overScrollMode="never" />
 
@@ -261,7 +259,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:background="@color/white"
                         android:overScrollMode="never" />
 
                     <com.pinnoocle.royalstarshop.widget.MyViewPager

@@ -2,12 +2,15 @@ package com.pinnoocle.royalstarshop.nets;
 
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.BannerModel;
+import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
+import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
+import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -58,5 +61,15 @@ public interface RetrofitService {
     //banner列表
     @POST("api/index/banner")
     Observable<BannerModel> banner(@Body LoginBean loginBean);
+
+    //首页商品
+    @POST("api/index/index")
+    Observable<HomeModel> home(@Body LoginBean loginBean);
+    //二级分类列表
+    @POST("api/category/index")
+    Observable<CategoryListModel> categoryList(@Body LoginBean loginBean);
+    //子分类
+    @POST("api/category/getSubCategory")
+    Observable<SubCategoryModel> getSubCategory(@Body LoginBean loginBean);
 
 }

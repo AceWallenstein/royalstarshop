@@ -11,13 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.TitleBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TitleAdapter extends BaseAdapter<TitleBean, TitleAdapter.VH> {
+public class TitleAdapter extends BaseAdapter<HomeModel.DataBean.TagGoodsBean, TitleAdapter.VH> {
     private int pos;
 
     public TitleAdapter(Context mContext) {
@@ -38,8 +39,8 @@ public class TitleAdapter extends BaseAdapter<TitleBean, TitleAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        holder.title.setText(mDatas.get(position).title);
-        holder.title1.setText(mDatas.get(position).title1);
+        holder.title.setText(mDatas.get(position).getTitle());
+//        holder.title1.setText(mDatas.get(position).title1);
         if (position == pos) {
             holder.title.setTextColor(mContext.getResources().getColor(R.color.light_red));
             holder.title1.setTextColor(mContext.getResources().getColor(R.color.white));

@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.FragmentAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsMenusAdapter;
@@ -27,6 +28,7 @@ import com.pinnoocle.royalstarshop.adapter.GoodsOneAdapter;
 import com.pinnoocle.royalstarshop.adapter.GoodsTwoAdapter;
 import com.pinnoocle.royalstarshop.adapter.TitleAdapter;
 import com.pinnoocle.royalstarshop.bean.BannerModel;
+import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.TitleBean;
@@ -34,6 +36,7 @@ import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.home.activity.CommentActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
+import com.pinnoocle.royalstarshop.home.activity.GoodsListActivity;
 import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -90,6 +93,9 @@ public class HomeFragment extends BaseFragment {
     private List<String> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
+    private GoodsOneAdapter oneAdapter;
+    private GoodsTwoAdapter twoAdapter;
+    private TitleAdapter titleAdapter;
 
     @Override
     protected int LayoutId() {
@@ -112,6 +118,7 @@ public class HomeFragment extends BaseFragment {
         dataRepository = Injection.dataRepository(getContext());
         index();
         banner();
+        home();
     }
 
     private void index() {
@@ -128,7 +135,7 @@ public class HomeFragment extends BaseFragment {
                 IndexModel indexModel = (IndexModel) data;
                 if (indexModel.getCode() == 1) {
                     List<IndexModel.DataBean.ListBean> list = indexModel.getData().getList();
-                    if (list.size() < 5) {
+                    if (list.size() <5) {
                         layoutProgress.setVisibility(View.GONE);
                     } else {
                         layoutProgress.setVisibility(View.VISIBLE);
@@ -161,6 +168,33 @@ public class HomeFragment extends BaseFragment {
             }
         });
     }
+
+    private void home() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        ViewLoading.show(getContext());
+        dataRepository.home(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(getContext());
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(getContext());
+                HomeModel homeModel = (HomeModel) data;
+                if (homeModel.getCode() == 1) {
+                    List<HomeModel.DataBean.VipGoodsBean> vipGoods = homeModel.getData().getVipGoods();
+                    oneAdapter.setData(vipGoods);
+                    List<HomeModel.DataBean.VideoGoodsBean> videoGoods = homeModel.getData().getVideoGoods();
+                    twoAdapter.setData(videoGoods);
+                    List<HomeModel.DataBean.TagGoodsBean> tagGoods = homeModel.getData().getTagGoods();
+                    titleAdapter.setData(tagGoods);
+                }
+            }
+        });
+    }
+
 
 
     @Override
@@ -238,10 +272,19 @@ public class HomeFragment extends BaseFragment {
                 vProgress.setTranslationX(translationX);
             }
         });
+        goodsMenusAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<IndexModel.DataBean.ListBean>() {
+            @Override
+            public void onItemViewClick(View view, int position, IndexModel.DataBean.ListBean o) {
+                Intent intent = new Intent(getContext(), GoodsListActivity.class);
+                intent.putExtra("category_id",o.getCategory_id()+"");
+                intent.putExtra("title",o.getName()+"");
+                startActivity(intent);
+            }
+        });
     }
 
     private void initRv1() {
-        GoodsOneAdapter oneAdapter = new GoodsOneAdapter(getContext());
+        oneAdapter = new GoodsOneAdapter(getContext());
         oneAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override
             public void onItemViewClick(View view, int position) {
@@ -254,21 +297,16 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initRv2() {
-        GoodsTwoAdapter twoAdapter = new GoodsTwoAdapter(getContext());
+        twoAdapter = new GoodsTwoAdapter(getContext());
         rv2.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rv2.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.VERTICAL, getResources().getColor(R.color.white), 60));
         rv2.setAdapter(twoAdapter);
     }
 
     private void initRv3() {
-        List<TitleBean> titleBeans = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            titleBeans.add(new TitleBean("热销爆款", "火爆商品"));
-        }
-        TitleAdapter titleAdapter = new TitleAdapter(getContext());
-        titleAdapter.setData(titleBeans);
-        rv3.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
-        rv3.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL, getResources().getColor(R.color.white), 60));
+        titleAdapter = new TitleAdapter(getContext());
+        rv3.setLayoutManager(new GridLayoutManager(getContext(), 4));
+//        rv3.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL, getResources().getColor(R.color.white), 60));
         rv3.setAdapter(titleAdapter);
         titleAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
             @Override

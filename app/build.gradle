@@ -92,4 +92,7 @@ dependencies {
     implementation 'com.lxj:xpopup-ext:0.0.3'
 //由于扩展库依赖XPopup才能正常使用，所以还必须添加XPopup依赖
     implementation 'com.lxj:xpopup:2.0.2'
+    //顶部导航栏
+    implementation 'com.androidkun:XTabLayout:1.1.5'
+
 }

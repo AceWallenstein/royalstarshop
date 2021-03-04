@@ -37,6 +37,11 @@ public class GoodsMenusAdapter extends BaseAdapter<IndexModel.DataBean.ListBean,
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Glide.with(mContext).load(mDatas.get(position).getImage().getFile_path()).into(holder.ivAvatarOne);
         holder.tvTitle.setText(mDatas.get(position).getName());
+        holder.itemView.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
+            }
+        });
     }
 
     @Override
