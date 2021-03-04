@@ -7,12 +7,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.GoodsAdapter;
+import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -27,6 +32,11 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
 
     private int category_id;
     private DataRepository dataRepository;
+
+    public GoodListFragment() {
+
+    }
+
 
     public GoodListFragment(int category_id) {
         this.category_id = category_id;
@@ -48,11 +58,28 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
     @Override
     protected void initData() {
         dataRepository = Injection.dataRepository(getContext());
-        categoryList();
+        goodsLists();
     }
 
-    private void categoryList() {
+    private void goodsLists() {
+        ViewLoading.show(getContext());
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.category_id = category_id+"";
+        dataRepository.goodsLists(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(getContext());
+            }
 
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(getContext());
+                GoodsListsModel goodsListsModel = (GoodsListsModel) data;
+//                if(goodsListsModel.getCode() == 1){
+//                }
+            }
+        });
     }
 
     @Override
