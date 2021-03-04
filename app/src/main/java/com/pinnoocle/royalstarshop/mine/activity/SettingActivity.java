@@ -1,4 +1,4 @@
-package com.pinnoocle.royalstarshop.mine.fragment;
+package com.pinnoocle.royalstarshop.mine.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +35,12 @@ public class SettingActivity extends BaseActivity {
     SwitchView switchDisturb;
     @BindView(R.id.tv_quit)
     TextView tvQuit;
+    @BindView(R.id.rl_transaction_code)
+    RelativeLayout rlTransactionCode;
+    @BindView(R.id.rl_modify_phone)
+    RelativeLayout rlModifyPhone;
+    @BindView(R.id.rl_about_us)
+    RelativeLayout rlAboutUs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +50,7 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.rl_personal, R.id.tv_quit})
+    @OnClick({R.id.iv_back, R.id.rl_personal, R.id.tv_quit, R.id.rl_transaction_code, R.id.rl_modify_phone,R.id.rl_about_us})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -55,6 +61,18 @@ public class SettingActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.tv_quit:
+                break;
+            case R.id.rl_transaction_code:
+                Intent intent1 = new Intent(this, TransactionCodeActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.rl_modify_phone:
+                Intent intent2 = new Intent(this, ModifyNumberActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.rl_about_us:
+                Intent intent3 = new Intent(this, AboutUsActivity.class);
+                startActivity(intent3);
                 break;
         }
     }

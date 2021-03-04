@@ -1,4 +1,4 @@
-package com.pinnoocle.royalstarshop.mine.fragment;
+package com.pinnoocle.royalstarshop.mine.activity;
 
 import android.os.Bundle;
 import android.view.View;

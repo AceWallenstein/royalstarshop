@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
-import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
+import com.pinnoocle.royalstarshop.mine.activity.SettingActivity;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
 import com.pinnoocle.royalstarshop.widget.TagsGridView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
