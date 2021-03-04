@@ -89,4 +89,7 @@ dependencies {
     implementation 'com.github.LRH1993:AutoFlowLayout:1.0.5'
 
     implementation 'ch.ielse:switchbutton:1.0.1'
+    implementation 'com.lxj:xpopup-ext:0.0.3'
+//由于扩展库依赖XPopup才能正常使用，所以还必须添加XPopup依赖
+    implementation 'com.lxj:xpopup:2.0.2'
 }

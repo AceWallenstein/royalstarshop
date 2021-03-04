@@ -39,6 +39,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_personal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -300,7 +301,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/open_vip"
+        android:id="@+id/tv_quit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"

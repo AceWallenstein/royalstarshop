@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mine.fragment.SettingActivity"></activity>
+        <activity android:name=".mine.fragment.PersonalActivity"></activity>
+        <activity android:name=".mine.fragment.SettingActivity" />
         <activity android:name=".vip.VipRenewActivity" />
         <activity android:name=".home.activity.CommentActivity" />
         <activity android:name=".home.activity.SearchActivity" />
