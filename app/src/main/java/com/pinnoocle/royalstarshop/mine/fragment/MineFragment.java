@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
+import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
 import com.pinnoocle.royalstarshop.widget.TagsGridView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MineFragment extends BaseFragment implements AdapterView.OnItemClickListener {
     @BindView(R.id.tv_title)
@@ -194,6 +196,18 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             case 8: //意见反馈
                 break;
             default:
+                break;
+        }
+    }
+
+    @OnClick({R.id.iv_setting, R.id.iv_sign_in})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_setting:
+                Intent intent = new Intent(getContext(), SettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.iv_sign_in:
                 break;
         }
     }
