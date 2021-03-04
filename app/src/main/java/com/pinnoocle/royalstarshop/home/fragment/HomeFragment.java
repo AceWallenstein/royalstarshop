@@ -135,7 +135,7 @@ public class HomeFragment extends BaseFragment {
                 IndexModel indexModel = (IndexModel) data;
                 if (indexModel.getCode() == 1) {
                     List<IndexModel.DataBean.ListBean> list = indexModel.getData().getList();
-                    if (list.size() <5) {
+                    if (list.size() <6) {
                         layoutProgress.setVisibility(View.GONE);
                     } else {
                         layoutProgress.setVisibility(View.VISIBLE);
@@ -320,10 +320,9 @@ public class HomeFragment extends BaseFragment {
     private void initViewPager() {
         List<Fragment> fragments = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            GoodListFragment goodListFragment = new GoodListFragment();
+            GoodsFragment goodListFragment = new GoodsFragment();
             fragments.add(goodListFragment);
         }
-        ;
         FragmentAdapter adatper = new FragmentAdapter(getFragmentManager(), fragments);
         vpGoodsList.setAdapter(adatper);
         vpGoodsList.setOffscreenPageLimit(fragments.size());

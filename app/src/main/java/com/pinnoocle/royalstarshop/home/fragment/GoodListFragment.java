@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.GoodsAdapter;
+import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
@@ -22,6 +23,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreListener {
@@ -32,11 +35,7 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
 
     private int category_id;
     private DataRepository dataRepository;
-
-    public GoodListFragment() {
-
-    }
-
+    private GoodsAdapter goodsAdapter;
 
     public GoodListFragment(int category_id) {
         this.category_id = category_id;
@@ -50,7 +49,7 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
     @Override
     protected void initView() {
         recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        GoodsAdapter goodsAdapter = new GoodsAdapter(getContext());
+        goodsAdapter = new GoodsAdapter(getContext());
         recycleView.setAdapter(goodsAdapter);
         refresh.setOnRefreshLoadMoreListener(this);
     }
@@ -66,7 +65,7 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.category_id = category_id+"";
-        dataRepository.goodsLists(loginBean, new RemotDataSource.getCallback() {
+        dataRepository.categoryList(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
                 ViewLoading.dismiss(getContext());
@@ -75,9 +74,11 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(getContext());
-                GoodsListsModel goodsListsModel = (GoodsListsModel) data;
-//                if(goodsListsModel.getCode() == 1){
-//                }
+                CategoryListModel categoryListModel = (CategoryListModel) data;
+                if(categoryListModel.getCode() == 1){
+                    List<CategoryListModel.DataBean.ListBean> listBeans = categoryListModel.getData().getList();
+                    goodsAdapter.setData(listBeans);
+                }
             }
         });
     }

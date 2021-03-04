@@ -100,7 +100,7 @@ public class GoodsListActivity extends BaseActivity {
         }
         FragmentAdapter adatper = new FragmentAdapter(getSupportFragmentManager(), fragments, titles);
         viewPager.setAdapter(adatper);
-        viewPager.setOffscreenPageLimit(titles.size());
+//        viewPager.setOffscreenPageLimit(titles.size());
         //将TabLayout和ViewPager关联起来。
         xTablayout.setupWithViewPager(viewPager);
     }

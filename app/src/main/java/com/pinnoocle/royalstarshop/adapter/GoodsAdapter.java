@@ -10,15 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GoodsAdapter extends BaseAdapter<String, GoodsAdapter.VH> {
-
-
+public class GoodsAdapter extends BaseAdapter<CategoryListModel.DataBean.ListBean, GoodsAdapter.VH> {
 
     public GoodsAdapter(Context mContext) {
         super(mContext);
@@ -32,6 +32,10 @@ public class GoodsAdapter extends BaseAdapter<String, GoodsAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
+        Glide.with(mContext).load(mDatas.get(position).getImage()).centerCrop().into(holder.ivGoodsPic);
+        holder.tvGoodsTitle.setText(mDatas.get(position).getName());
+//        holder.tvDesc.setText(mDatas.get(position));
+//        holder.tvPrice.setText(mDatas.get(position).get);
 
         holder.itemView.setOnClickListener(v ->
         {
@@ -52,8 +56,8 @@ public class GoodsAdapter extends BaseAdapter<String, GoodsAdapter.VH> {
 
     @Override
     public int getItemCount() {
-//        return mDatas == null ? 0 : mDatas.size();
-        return 5;
+        return mDatas == null ? 0 : mDatas.size();
+
     }
 
 
