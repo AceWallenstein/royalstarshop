@@ -109,6 +109,187 @@ public class HomeModel {
             private int goods_sales;
             private List<ImageBean> image;
             private List<SkuBean> sku;
+            private String goods_min_price;
+            private String goods_max_price;
+            private String goods_image;
+            private GoodsSkuBean goods_sku;
+            private int goods_stock;
+
+            public String getGoods_min_price() {
+                return goods_min_price;
+            }
+
+            public void setGoods_min_price(String goods_min_price) {
+                this.goods_min_price = goods_min_price;
+            }
+
+            public String getGoods_max_price() {
+                return goods_max_price;
+            }
+
+            public void setGoods_max_price(String goods_max_price) {
+                this.goods_max_price = goods_max_price;
+            }
+
+            public String getGoods_image() {
+                return goods_image;
+            }
+
+            public void setGoods_image(String goods_image) {
+                this.goods_image = goods_image;
+            }
+
+            public GoodsSkuBean getGoods_sku() {
+                return goods_sku;
+            }
+
+            public void setGoods_sku(GoodsSkuBean goods_sku) {
+                this.goods_sku = goods_sku;
+            }
+
+            public int getGoods_stock() {
+                return goods_stock;
+            }
+
+            public void setGoods_stock(int goods_stock) {
+                this.goods_stock = goods_stock;
+            }
+
+            public static class GoodsSkuBean {
+                /**
+                 * goods_sku_id : 39248
+                 * goods_id : 12926
+                 * spec_sku_id : 12180
+                 * image_id : 0
+                 * goods_no : 10001
+                 * balance_price : 1000.00
+                 * goods_price : 2000.00
+                 * line_price : 3000.00
+                 * stock_num : 100
+                 * goods_sales : 0
+                 * goods_weight : 10
+                 * goods_attr : 颜色:黑色;
+                 * image : null
+                 */
+
+                private int goods_sku_id;
+                private int goods_id;
+                private String spec_sku_id;
+                private int image_id;
+                private String goods_no;
+                private String balance_price;
+                private String goods_price;
+                private String line_price;
+                private int stock_num;
+                private int goods_sales;
+                private int goods_weight;
+                private String goods_attr;
+                private Object image;
+
+                public int getGoods_sku_id() {
+                    return goods_sku_id;
+                }
+
+                public void setGoods_sku_id(int goods_sku_id) {
+                    this.goods_sku_id = goods_sku_id;
+                }
+
+                public int getGoods_id() {
+                    return goods_id;
+                }
+
+                public void setGoods_id(int goods_id) {
+                    this.goods_id = goods_id;
+                }
+
+                public String getSpec_sku_id() {
+                    return spec_sku_id;
+                }
+
+                public void setSpec_sku_id(String spec_sku_id) {
+                    this.spec_sku_id = spec_sku_id;
+                }
+
+                public int getImage_id() {
+                    return image_id;
+                }
+
+                public void setImage_id(int image_id) {
+                    this.image_id = image_id;
+                }
+
+                public String getGoods_no() {
+                    return goods_no;
+                }
+
+                public void setGoods_no(String goods_no) {
+                    this.goods_no = goods_no;
+                }
+
+                public String getBalance_price() {
+                    return balance_price;
+                }
+
+                public void setBalance_price(String balance_price) {
+                    this.balance_price = balance_price;
+                }
+
+                public String getGoods_price() {
+                    return goods_price;
+                }
+
+                public void setGoods_price(String goods_price) {
+                    this.goods_price = goods_price;
+                }
+
+                public String getLine_price() {
+                    return line_price;
+                }
+
+                public void setLine_price(String line_price) {
+                    this.line_price = line_price;
+                }
+
+                public int getStock_num() {
+                    return stock_num;
+                }
+
+                public void setStock_num(int stock_num) {
+                    this.stock_num = stock_num;
+                }
+
+                public int getGoods_sales() {
+                    return goods_sales;
+                }
+
+                public void setGoods_sales(int goods_sales) {
+                    this.goods_sales = goods_sales;
+                }
+
+                public int getGoods_weight() {
+                    return goods_weight;
+                }
+
+                public void setGoods_weight(int goods_weight) {
+                    this.goods_weight = goods_weight;
+                }
+
+                public String getGoods_attr() {
+                    return goods_attr;
+                }
+
+                public void setGoods_attr(String goods_attr) {
+                    this.goods_attr = goods_attr;
+                }
+
+                public Object getImage() {
+                    return image;
+                }
+
+                public void setImage(Object image) {
+                    this.image = image;
+                }
+            }
 
             public int getGoods_id() {
                 return goods_id;

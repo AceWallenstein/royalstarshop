@@ -28,7 +28,7 @@ public class GlideRoundTransform extends BitmapTransformation {
      * @param context Context
      */
     public GlideRoundTransform(Context context) {
-        this(context, 8);
+        this(context, 4);
     }
 
     /**

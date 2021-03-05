@@ -14,9 +14,12 @@ import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class GoodsOneAdapter extends BaseAdapter<HomeModel.DataBean.VipGoodsBean, GoodsOneAdapter.VH> {
 
@@ -35,10 +38,10 @@ public class GoodsOneAdapter extends BaseAdapter<HomeModel.DataBean.VipGoodsBean
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.tvTitle.setText(mDatas.get(position).getGoods_name());
         if (mDatas.get(position).getSku() != null && mDatas.get(position).getSku().size() > 0)
-            holder.tvPrice.setText("￥" + mDatas.get(position).getSku().get(0).getBalance_price());
+            holder.tvPrice.setText("￥" + mDatas.get(position).getGoods_sku().getGoods_price());
         holder.tvPoints.setText("返" + mDatas.get(position).getPoints() + "豆");
         if (mDatas.get(position).getImage() != null && mDatas.get(position).getImage().size() > 0)
-            Glide.with(mContext).load(mDatas.get(position).getImage().get(0).getFile_path()).centerCrop().into(holder.ivGoodsPic);
+            Glide.with(mContext).load(mDatas.get(position).getGoods_image()).apply(bitmapTransform(new GlideRoundTransform(mContext))).into(holder.ivGoodsPic);
 
         holder.itemView.setOnClickListener(v -> {
             if (mOnItemClickListener != null) {
