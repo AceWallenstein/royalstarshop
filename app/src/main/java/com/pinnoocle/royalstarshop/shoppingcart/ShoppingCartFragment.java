@@ -19,6 +19,8 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.event.CanSettlement;
 import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
+import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
+import com.pinnoocle.royalstarshop.event.UpdateTotalPriceEvent;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -28,14 +30,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ShoppingCartFragment extends BaseFragment {
-    @BindView(R.id.tv_del)
-    TextView tvDel;
+    @BindView(R.id.tv_edit)
+    TextView tvEdit;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
     @BindView(R.id.recyclerView)
@@ -109,26 +112,52 @@ public class ShoppingCartFragment extends BaseFragment {
 
     private void updateTotalPrice() {
         double totalPrice = 0;
+        double totalFreight = 0;
         for (CartListsModel.DataBean.GoodsListBean listBean :
                 adapter.getData()) {
             if (listBean.isIs_select()) {
-//                int getGrade = SPUtils.getInstance().getInt("getGrade");
-//                if(getGrade<3) {
-//                    totalPrice += listBean.getNums() * Double.parseDouble(listBean.getProducts().getPrice());
-//                }else {
-//                    totalPrice += listBean.getNums() * Double.parseDouble(listBean.getProducts().getCostprice());
-//                }
+                totalPrice += listBean.getTotal_num() * Double.parseDouble(listBean.getGoods_price());
+                tvTotalPrice.setText("￥" + totalPrice);
+                totalFreight += listBean.getTotal_num() * Double.parseDouble(listBean.getFreight());
+                tvFreight.setText("运费：￥" + totalFreight);
 
             }
         }
-//        tvTotalPrice.setText("   ￥" + doubleToString(totalPrice));
+        tvTotalPrice.setText("   ￥" + doubleToString(totalPrice));
     }
+
+    public static String doubleToString(double num) {
+        //使用0.00不足位补0，#.##仅保留有效位
+        return new DecimalFormat("0.00").format(num);
+    }
+
+    private void refreshEditStatus() {
+        boolean isEditStatus = "去结算".equals(tvSettlement.getText().toString());
+        String text;
+        if (isEditStatus) {
+//            tvCancel.setVisibility(View.GONE);
+//            tvAllSelect.setVisibility(View.GONE);
+            llAllSelect.setVisibility(View.GONE);
+            tvTotalPrice.setVisibility(View.GONE);
+            tvSettlement.setVisibility(View.GONE);
+            text = "完成";
+        } else {
+//            tvCancel.setVisibility(View.VISIBLE);
+//            tvAllSelect.setVisibility(View.VISIBLE);
+//            llAllSelect.setVisibility(View.VISIBLE);
+            text = "编辑";
+            tvTotalPrice.setVisibility(View.VISIBLE);
+            tvSettlement.setVisibility(View.VISIBLE);
+        }
+        tvEdit.setText(text);
+    }
+
 
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(CartAllCheckedEvent event) {
         checkbox.setChecked(event.getAllChecked());
-//        updateTotalPrice();
+        updateTotalPrice();
 //        if (event.getAllChecked()) {
 //            tvAllSelect.setTextColor(getResources().getColor(R.color.grey));
 //            tvCancel.setTextColor(getResources().getColor(R.color.light_black));
@@ -138,26 +167,27 @@ public class ShoppingCartFragment extends BaseFragment {
 
 //        }
     }
-//
-//    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
-//    public void onEvent(UpdateTotalPriceEvent event) {
-//        updateTotalPrice();
-//    }
+
+    //
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(UpdateTotalPriceEvent event) {
+        updateTotalPrice();
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(CanSettlement event) {
         tvSettlement.setEnabled(event.canSettlement());
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    //    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
 //    public void onEvent(SetCartNums event) {
 //        setNum(event.getId(),event.getNums());
 //    }
 //
-//    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
-//    public void onEvent(ShopCartRefreshEvent event) {
-//        shoppingCartList();
-//    }
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(ShopCartRefreshEvent event) {
+        cartLists();
+    }
 
     @Override
     public void onDestroy() {
@@ -165,7 +195,7 @@ public class ShoppingCartFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.ll_all_select, R.id.tv_settlement})
+    @OnClick({R.id.ll_all_select, R.id.tv_settlement,R.id.tv_edit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_all_select:
@@ -179,6 +209,9 @@ public class ShoppingCartFragment extends BaseFragment {
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.tv_settlement:
+                break;
+            case R.id.tv_edit:
+                refreshEditStatus();
                 break;
         }
     }

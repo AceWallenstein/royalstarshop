@@ -77,10 +77,11 @@ public class GoodsListActivity extends BaseActivity {
                     List<SubCategoryModel.DataBean> dataBeans = subCategoryModel.getData();
                     if (dataBeans.size() > 1){
                         xTablayout.setVisibility(View.VISIBLE);
-                        initTab(dataBeans);
+
                     }else {
                         xTablayout.setVisibility(View.GONE);
                     }
+                    initTab(dataBeans);
                 }
             }
         });

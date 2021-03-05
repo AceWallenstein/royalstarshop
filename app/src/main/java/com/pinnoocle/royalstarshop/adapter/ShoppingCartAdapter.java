@@ -68,7 +68,7 @@ public class ShoppingCartAdapter extends BaseAdapter<CartListsModel.DataBean.Goo
             }
         });
 
-        holder.tvFreight.setText("运费：￥"+mDatas.get(position).getTotal_freight());
+        holder.tvFreight.setText("运费：￥"+mDatas.get(position).getFreight());
         holder.mGoodsCountBtn
 //                .setBuyMax(buy_limit)
                 .setCurrentNumber(mDatas.get(position).getTotal_num());
