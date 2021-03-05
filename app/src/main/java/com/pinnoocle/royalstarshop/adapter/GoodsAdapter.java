@@ -33,7 +33,7 @@ public class GoodsAdapter extends BaseAdapter<GoodsListsModel.DataBeanX.ListBean
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).centerCrop().into(holder.ivGoodsPic);
+        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).fitCenter().into(holder.ivGoodsPic);
         holder.tvGoodsTitle.setText(mDatas.get(position).getGoods_name());
         holder.tvDesc.setText(mDatas.get(position).getSelling_point());
         holder.tvPrice.setText("￥"+mDatas.get(position).getGoods_sku().getGoods_price());

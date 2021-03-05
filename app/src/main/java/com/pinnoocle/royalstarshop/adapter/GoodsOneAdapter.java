@@ -48,6 +48,11 @@ public class GoodsOneAdapter extends BaseAdapter<HomeModel.DataBean.VipGoodsBean
                 mOnItemClickListener.onItemViewClick(v, position);
             }
         });
+        holder.itemView.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
+            }
+        });
     }
 
     @Override

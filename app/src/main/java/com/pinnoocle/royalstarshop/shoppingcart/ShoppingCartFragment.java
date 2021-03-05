@@ -12,13 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.ShoppingCartAdapter;
 import com.pinnoocle.royalstarshop.bean.CartListsModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.event.CanSettlement;
 import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
+import com.pinnoocle.royalstarshop.event.SetCartNums;
 import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
 import com.pinnoocle.royalstarshop.event.UpdateTotalPriceEvent;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
@@ -31,6 +34,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,6 +65,8 @@ public class ShoppingCartFragment extends BaseFragment {
     RelativeLayout rlPanel;
     private DataRepository dataRepository;
     private ShoppingCartAdapter adapter;
+    private List<String> cartIdList;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +92,7 @@ public class ShoppingCartFragment extends BaseFragment {
         cartLists();
     }
 
+
     private void cartLists() {
         ViewLoading.show(getContext());
         LoginBean loginBean = new LoginBean();
@@ -105,6 +112,53 @@ public class ShoppingCartFragment extends BaseFragment {
                     List<CartListsModel.DataBean.GoodsListBean> goods_list = cartListsModel.getData().getGoods_list();
                     adapter.setData(goods_list);
                 }
+            }
+        });
+    }
+
+    private void setNum(String goods_id, String goods_sku_id, String num) {
+        LoginBean loginBean = new LoginBean();
+        loginBean.goods_id = goods_id + "";
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.goods_sku_id = goods_sku_id;
+        loginBean.type = 3 + "";  //1 减少 2增加 3直接修改数量
+        loginBean.num = num + "";
+        dataRepository.cartChangeNums(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(getContext());
+                ResultModel resultModel = (ResultModel) data;
+                if (resultModel.getCode() == 1) {
+                    cartLists();
+                }
+                ToastUtils.showToast(resultModel.getMsg());
+            }
+        });
+    }
+
+    private void deleteCart(String goods_sku_id) {
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        loginBean.goods_sku_id = goods_sku_id;
+        dataRepository.cartDelete(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(getContext());
+                ResultModel resultModel = (ResultModel) data;
+                if (resultModel.getCode() == 1) {
+                    cartLists();
+                }
+                ToastUtils.showToast(resultModel.getMsg());
             }
         });
     }
@@ -132,26 +186,37 @@ public class ShoppingCartFragment extends BaseFragment {
     }
 
     private void refreshEditStatus() {
-        boolean isEditStatus = "去结算".equals(tvSettlement.getText().toString());
+        boolean isEditStatus = "编辑" == tvEdit.getText().toString();
         String text;
         if (isEditStatus) {
-//            tvCancel.setVisibility(View.GONE);
-//            tvAllSelect.setVisibility(View.GONE);
-            llAllSelect.setVisibility(View.GONE);
+            tvTotal.setVisibility(View.GONE);
             tvTotalPrice.setVisibility(View.GONE);
-            tvSettlement.setVisibility(View.GONE);
+            tvFreight.setVisibility(View.GONE);
+            tvSettlement.setText("删 除");
+            //删除按钮
             text = "完成";
         } else {
-//            tvCancel.setVisibility(View.VISIBLE);
-//            tvAllSelect.setVisibility(View.VISIBLE);
-//            llAllSelect.setVisibility(View.VISIBLE);
             text = "编辑";
+            tvTotal.setVisibility(View.VISIBLE);
             tvTotalPrice.setVisibility(View.VISIBLE);
-            tvSettlement.setVisibility(View.VISIBLE);
+            tvFreight.setVisibility(View.VISIBLE);
+            tvSettlement.setText("去结算");
+
         }
         tvEdit.setText(text);
     }
 
+    private String dealCartIdList() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < cartIdList.size(); i++) {
+            if (i == cartIdList.size() - 1) {
+                sb.append(cartIdList.get(i) + "");
+            } else {
+                sb.append(cartIdList.get(i) + ",");
+            }
+        }
+        return sb.toString();
+    }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
@@ -179,11 +244,13 @@ public class ShoppingCartFragment extends BaseFragment {
         tvSettlement.setEnabled(event.canSettlement());
     }
 
-    //    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
-//    public void onEvent(SetCartNums event) {
-//        setNum(event.getId(),event.getNums());
-//    }
-//
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(SetCartNums event) {
+        setNum(event.getGoods_id(), event.getGoods_sku_id(), event.getNum());
+        updateTotalPrice();
+    }
+
+    //
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(ShopCartRefreshEvent event) {
         cartLists();
@@ -195,7 +262,7 @@ public class ShoppingCartFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.ll_all_select, R.id.tv_settlement,R.id.tv_edit})
+    @OnClick({R.id.ll_all_select, R.id.tv_settlement, R.id.tv_edit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_all_select:
@@ -209,10 +276,27 @@ public class ShoppingCartFragment extends BaseFragment {
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.tv_settlement:
+                if (tvSettlement.getText().toString().equals("删 除")) {
+
+                }
+                cartIdList = new ArrayList();
+                List<CartListsModel.DataBean.GoodsListBean> adapterList = adapter.getData();
+                for (int i = 0; i < adapterList.size(); i++) {
+                    if (adapterList.get(i).isIs_select()) {
+                        cartIdList.add(adapterList.get(i).getGoods_id() + "_" + adapterList.get(i).getGoods_sku_id());
+                    }
+                }
+                if (cartIdList.size() == 0) {
+                    ToastUtils.showToast("请选择需要删除的数据");
+                } else {
+                    String cartIds = dealCartIdList();
+                    deleteCart(cartIds);
+                }
                 break;
             case R.id.tv_edit:
                 refreshEditStatus();
                 break;
+
         }
     }
 }

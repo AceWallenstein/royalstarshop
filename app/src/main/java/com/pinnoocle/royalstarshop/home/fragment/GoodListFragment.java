@@ -19,6 +19,7 @@ import com.pinnoocle.royalstarshop.bean.HistoryBean;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -26,6 +27,8 @@ import com.pinnoocle.royalstarshop.utils.FastData;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,7 +154,7 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
                 ViewLoading.dismiss(getContext());
                 CartAddModel cartAddModel = (CartAddModel) data;
                 if(cartAddModel.getCode() == 1){
-
+                    EventBus.getDefault().post(new ShopCartRefreshEvent());
                 }
                 ToastUtils.showToast(cartAddModel.getMsg());
             }

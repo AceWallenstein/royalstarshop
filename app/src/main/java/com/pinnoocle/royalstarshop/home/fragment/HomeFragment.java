@@ -286,10 +286,12 @@ public class HomeFragment extends BaseFragment {
 
     private void initRv1() {
         oneAdapter = new GoodsOneAdapter(getContext());
-        oneAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+        oneAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<HomeModel.DataBean.VipGoodsBean>() {
             @Override
-            public void onItemViewClick(View view, int position) {
-                startActivity(new Intent(getContext(), GoodsDetailActivity.class));
+            public void onItemViewClick(View view, int position, HomeModel.DataBean.VipGoodsBean o) {
+                Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
+                intent.putExtra("goods_id",o.getGoods_id()+"");
+                startActivity(intent);
             }
         });
         rv1.setLayoutManager(new GridLayoutManager(getContext(), 3));

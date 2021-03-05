@@ -41,6 +41,11 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private int mBuyMax = Integer.MAX_VALUE;
     private EditText mCount;
     private OnWarnListener mOnWarnListener;
+    private OnNumberButtonListener onNumberButtonListener;
+
+    public void setOnNumberButtonListener(OnNumberButtonListener onNumberButtonListener) {
+        this.onNumberButtonListener = onNumberButtonListener;
+    }
 
     public NumberButton(Context context) {
         this(context, null);
@@ -129,6 +134,10 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         } else if (id == R.id.text_count) {
             mCount.setSelection(mCount.getText().toString().length());
         }
+        if (onNumberButtonListener != null) {
+            onNumberButtonListener.onNumberButtonListener(v);
+        }
+
     }
 
     private void onNumberInput() {
@@ -230,5 +239,9 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         void onWarningForInventory(int inventory);
 
         void onWarningForBuyMax(int max);
+    }
+
+    public interface OnNumberButtonListener{
+        void onNumberButtonListener(View v);
     }
 }

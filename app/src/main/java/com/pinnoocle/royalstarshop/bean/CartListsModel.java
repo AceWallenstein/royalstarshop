@@ -1,5 +1,8 @@
 package com.pinnoocle.royalstarshop.bean;
 
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class CartListsModel {
@@ -388,6 +391,7 @@ public class CartListsModel {
             private int points_bonus;
             private int goods_sales;
             private boolean is_select;
+            private int nums;
 
             public int getGoods_id() {
                 return goods_id;
@@ -675,6 +679,14 @@ public class CartListsModel {
 
             public void setIs_select(boolean is_select) {
                 this.is_select = is_select;
+            }
+
+            public void setNums(int nums) {
+                this.nums = nums;
+            }
+
+            public int getNums() {
+                return nums;
             }
 
             public static class GoodsStatusBean {

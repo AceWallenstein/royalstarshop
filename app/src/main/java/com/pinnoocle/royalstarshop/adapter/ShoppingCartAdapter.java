@@ -18,6 +18,8 @@ import com.pinnoocle.royalstarshop.bean.CartListsModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.event.CanSettlement;
 import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
+import com.pinnoocle.royalstarshop.event.SetCartNums;
+import com.pinnoocle.royalstarshop.event.UpdateTotalPriceEvent;
 import com.pinnoocle.royalstarshop.widget.NumberButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -42,7 +44,7 @@ public class ShoppingCartAdapter extends BaseAdapter<CartListsModel.DataBean.Goo
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.mCheckedCb.setChecked(mDatas.get(position).isIs_select());
-        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).centerCrop().into(holder.mGoodsIconIv);
+        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).fitCenter().into(holder.mGoodsIconIv);
         holder.mGoodsDescTv.setText(mDatas.get(position).getGoods_name());
         holder.mGoodsSkuTv.setText(mDatas.get(position).getGoods_sku().getGoods_attr());
         holder.mGoodsPriceTv.setText(mDatas.get(position).getGoods_price());
@@ -67,11 +69,22 @@ public class ShoppingCartAdapter extends BaseAdapter<CartListsModel.DataBean.Goo
                 EventBus.getDefault().post(new CartAllCheckedEvent(isAllChecked));
             }
         });
-
-        holder.tvFreight.setText("运费：￥"+mDatas.get(position).getFreight());
+        holder.tvFreight.setText("运费：￥"+mDatas.get(position).getTotal_freight());
         holder.mGoodsCountBtn
 //                .setBuyMax(buy_limit)
-                .setCurrentNumber(mDatas.get(position).getTotal_num());
+                .setCurrentNumber(mDatas.get(position).getTotal_num())
+                .setOnNumberButtonListener(new NumberButton.OnNumberButtonListener() {
+                    @Override
+                    public void onNumberButtonListener(View v) {
+                        holder.mCheckedCb.setChecked(true);
+                        mDatas.get(position).setIs_select(true);
+                        isOnechecked(holder, position);
+                        mDatas.get(position).setNums(holder.mGoodsCountBtn.getNumber());
+                        EventBus.getDefault().post(new UpdateTotalPriceEvent());
+                        EventBus.getDefault().post(new SetCartNums(mDatas.get(position).getGoods_id()+"",mDatas.get(position).getGoods_sku_id(), holder.mGoodsCountBtn.getNumber()+""));
+                    }
+                });
+        ;
 //                .setInventory(stock)
 //                .setOnWarnListener(new NumberButton.OnWarnListener() {
 //                    @Override
@@ -84,6 +97,12 @@ public class ShoppingCartAdapter extends BaseAdapter<CartListsModel.DataBean.Goo
 //                        ToastUtils.showToast("超过最大购买数:" + buyMax);
 //                    }
 //                });
+        holder.mGoodsIconIv.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
+            }
+        });
+
 
     }
     private boolean isAllchecked(@NonNull VH holder, int position) {

@@ -102,4 +102,19 @@ public class DataRepository implements RemotDataSource {
     public void cartLists(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.cartLists(loginBean, callback);
     }
+
+    @Override
+    public void cartChangeNums(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.cartChangeNums(loginBean, callback);
+    }
+
+    @Override
+    public void cartDelete(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.cartDelete(loginBean, callback);
+    }
+
+    @Override
+    public void goodsDetail(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.goodsDetail(loginBean, callback);
+    }
 }

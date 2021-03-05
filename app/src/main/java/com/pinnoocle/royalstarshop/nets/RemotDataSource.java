@@ -37,4 +37,7 @@ public interface RemotDataSource {
     void getSubCategory(LoginBean loginBean, getCallback callback);
     void cartAdd(LoginBean loginBean, getCallback callback);
     void cartLists(LoginBean loginBean, getCallback callback);
+    void cartChangeNums(LoginBean loginBean, getCallback callback);
+    void cartDelete(LoginBean loginBean, getCallback callback);
+    void goodsDetail(LoginBean loginBean, getCallback callback);
 }
