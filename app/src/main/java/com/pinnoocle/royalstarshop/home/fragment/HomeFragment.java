@@ -98,6 +98,8 @@ public class HomeFragment extends BaseFragment {
     private TitleAdapter titleAdapter;
     private List<HomeModel.DataBean.TagGoodsBean> tagGoods = new ArrayList<>();
     private GoodsFragment goodListFragment;
+    private int lastValue;
+    private boolean moveRight;
 
     @Override
     protected int LayoutId() {
@@ -330,6 +332,34 @@ public class HomeFragment extends BaseFragment {
         FragmentAdapter adatper = new FragmentAdapter(getFragmentManager(), fragments);
         vpGoodsList.setAdapter(adatper);
         vpGoodsList.setOffscreenPageLimit(fragments.size());
+
+        vpGoodsList.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (lastValue > positionOffsetPixels) {
+                    moveRight = true;
+                } else if (lastValue < positionOffsetPixels) {
+                    moveRight = false;
+                }
+                lastValue = positionOffsetPixels;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (moveRight) {
+                    titleAdapter.setPos(position);
+                    rv3.scrollToPosition(position - 1);
+                } else {
+                    titleAdapter.setPos(position);
+                    rv3.scrollToPosition(position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
