@@ -96,6 +96,8 @@ public class HomeFragment extends BaseFragment {
     private GoodsOneAdapter oneAdapter;
     private GoodsTwoAdapter twoAdapter;
     private TitleAdapter titleAdapter;
+    private List<HomeModel.DataBean.TagGoodsBean> tagGoods = new ArrayList<>();
+    private GoodsFragment goodListFragment;
 
     @Override
     protected int LayoutId() {
@@ -109,7 +111,6 @@ public class HomeFragment extends BaseFragment {
         initRv1();
         initRv2();
         initRv3();
-        initViewPager();
     }
 
 
@@ -188,8 +189,9 @@ public class HomeFragment extends BaseFragment {
                     oneAdapter.setData(vipGoods);
                     List<HomeModel.DataBean.VideoGoodsBean> videoGoods = homeModel.getData().getVideoGoods();
                     twoAdapter.setData(videoGoods);
-                    List<HomeModel.DataBean.TagGoodsBean> tagGoods = homeModel.getData().getTagGoods();
+                    tagGoods = homeModel.getData().getTagGoods();
                     titleAdapter.setData(tagGoods);
+                    initViewPager();
                 }
             }
         });
@@ -309,6 +311,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemViewClick(View view, int position) {
                 titleAdapter.setPos(position);
+                vpGoodsList.setCurrentItem(position);
             }
         });
 
@@ -316,8 +319,12 @@ public class HomeFragment extends BaseFragment {
 
     private void initViewPager() {
         List<Fragment> fragments = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            GoodsFragment goodListFragment = new GoodsFragment();
+        for (int i = 0; i < tagGoods.size(); i++) {
+            if (tagGoods.get(i).getList().size() > 0) {
+                goodListFragment = new GoodsFragment(tagGoods.get(i).getList());
+            } else {
+                goodListFragment = new GoodsFragment("1");
+            }
             fragments.add(goodListFragment);
         }
         FragmentAdapter adatper = new FragmentAdapter(getFragmentManager(), fragments);

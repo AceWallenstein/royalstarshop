@@ -40,7 +40,7 @@ public class TitleAdapter extends BaseAdapter<HomeModel.DataBean.TagGoodsBean, T
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.title.setText(mDatas.get(position).getTitle());
-//        holder.title1.setText(mDatas.get(position).title1);
+        holder.title1.setText(mDatas.get(position).getSub_title());
         if (position == pos) {
             holder.title.setTextColor(mContext.getResources().getColor(R.color.light_red));
             holder.title1.setTextColor(mContext.getResources().getColor(R.color.white));
