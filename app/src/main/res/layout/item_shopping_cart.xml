@@ -51,7 +51,7 @@
             android:maxLines="1"
             android:textColor="@color/black_1"
             android:textSize="12sp"
-            android:text="轻熟风chic树莓色垂感先手首要系带翻领双排扣过膝风衣外套女" />
+       />
 
         <TextView
             android:id="@+id/mGoodsSkuTv"
@@ -62,7 +62,7 @@
             android:layout_marginTop="12dp"
             android:textColor="@color/grey"
             android:textSize="12sp"
-            android:text="杏色；xs" />
+            />
 
         <TextView
             android:id="@+id/mGoodsPriceTv"
@@ -73,7 +73,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/light_red"
             android:textSize="14sp"
-            android:text="￥299.00" />
+            />
 
         <com.pinnoocle.royalstarshop.widget.NumberButton
             android:id="@+id/mGoodsCountBtn"
@@ -101,7 +101,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@id/tv_vip_desc"
-                android:text="233豆"
                 android:textColor="@color/light_red"
                 android:textSize="12sp" />
 
@@ -112,7 +111,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="10dp"
-                android:text="运费"
                 android:textColor="@color/black_1"
                 android:textSize="11sp" />
         </RelativeLayout>

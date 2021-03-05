@@ -1,10 +1,13 @@
 package com.pinnoocle.royalstarshop.shoppingcart;
 
+import android.os.Bundle;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,17 +15,23 @@ import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.ShoppingCartAdapter;
 import com.pinnoocle.royalstarshop.bean.CartListsModel;
-import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.event.CanSettlement;
+import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ShoppingCartFragment extends BaseFragment {
     @BindView(R.id.tv_del)
@@ -48,7 +57,13 @@ public class ShoppingCartFragment extends BaseFragment {
     @BindView(R.id.rl_panel)
     RelativeLayout rlPanel;
     private DataRepository dataRepository;
-    private ShoppingCartAdapter shoppingCartAdapter;
+    private ShoppingCartAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected int LayoutId() {
@@ -58,8 +73,8 @@ public class ShoppingCartFragment extends BaseFragment {
     @Override
     protected void initView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        shoppingCartAdapter = new ShoppingCartAdapter(getContext());
-        recyclerView.setAdapter(shoppingCartAdapter);
+        adapter = new ShoppingCartAdapter(getContext());
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -85,9 +100,86 @@ public class ShoppingCartFragment extends BaseFragment {
                 CartListsModel cartListsModel = (CartListsModel) data;
                 if (cartListsModel.getCode() == 1) {
                     List<CartListsModel.DataBean.GoodsListBean> goods_list = cartListsModel.getData().getGoods_list();
-                    shoppingCartAdapter.setData(goods_list);
+                    adapter.setData(goods_list);
                 }
             }
         });
+    }
+
+
+    private void updateTotalPrice() {
+        double totalPrice = 0;
+        for (CartListsModel.DataBean.GoodsListBean listBean :
+                adapter.getData()) {
+            if (listBean.isIs_select()) {
+//                int getGrade = SPUtils.getInstance().getInt("getGrade");
+//                if(getGrade<3) {
+//                    totalPrice += listBean.getNums() * Double.parseDouble(listBean.getProducts().getPrice());
+//                }else {
+//                    totalPrice += listBean.getNums() * Double.parseDouble(listBean.getProducts().getCostprice());
+//                }
+
+            }
+        }
+//        tvTotalPrice.setText("   ￥" + doubleToString(totalPrice));
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(CartAllCheckedEvent event) {
+        checkbox.setChecked(event.getAllChecked());
+//        updateTotalPrice();
+//        if (event.getAllChecked()) {
+//            tvAllSelect.setTextColor(getResources().getColor(R.color.grey));
+//            tvCancel.setTextColor(getResources().getColor(R.color.light_black));
+//        } else {
+//            tvAllSelect.setTextColor(getResources().getColor(R.color.light_black));
+//            tvCancel.setTextColor(getResources().getColor(R.color.grey));
+
+//        }
+    }
+//
+//    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+//    public void onEvent(UpdateTotalPriceEvent event) {
+//        updateTotalPrice();
+//    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(CanSettlement event) {
+        tvSettlement.setEnabled(event.canSettlement());
+    }
+
+//    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+//    public void onEvent(SetCartNums event) {
+//        setNum(event.getId(),event.getNums());
+//    }
+//
+//    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+//    public void onEvent(ShopCartRefreshEvent event) {
+//        shoppingCartList();
+//    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @OnClick({R.id.ll_all_select, R.id.tv_settlement})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ll_all_select:
+                checkbox.setChecked(!checkbox.isChecked());
+                for (CartListsModel.DataBean.GoodsListBean listBean :
+                        adapter.getData()) {
+                    listBean.setIs_select(checkbox.isChecked());
+                }
+                EventBus.getDefault().post(new CartAllCheckedEvent(checkbox.isChecked()));
+                EventBus.getDefault().post(new CanSettlement(checkbox.isChecked()));
+                adapter.notifyDataSetChanged();
+                break;
+            case R.id.tv_settlement:
+                break;
+        }
     }
 }

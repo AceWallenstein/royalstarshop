@@ -387,6 +387,7 @@ public class CartListsModel {
             private String express_price;
             private int points_bonus;
             private int goods_sales;
+            private boolean is_select;
 
             public int getGoods_id() {
                 return goods_id;
@@ -666,6 +667,14 @@ public class CartListsModel {
 
             public void setGoods_sales(int goods_sales) {
                 this.goods_sales = goods_sales;
+            }
+
+            public boolean isIs_select() {
+                return is_select;
+            }
+
+            public void setIs_select(boolean is_select) {
+                this.is_select = is_select;
             }
 
             public static class GoodsStatusBean {
