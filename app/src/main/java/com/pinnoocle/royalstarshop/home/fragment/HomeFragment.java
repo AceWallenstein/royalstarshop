@@ -232,6 +232,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onBindView(BannerImageHolder holder, String data, int position, int size) {
                 //图片加载自己实现
+                holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 Glide.with(holder.itemView)
                         .load(data)
                         .into(holder.imageView);
