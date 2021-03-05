@@ -119,8 +119,8 @@
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:background="@drawable/a" />
+            android:scaleType="fitXY"
+            android:layout_height="64dp" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -158,6 +158,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="185"
@@ -166,6 +167,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_vip_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -190,6 +192,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_sales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="499件已售"

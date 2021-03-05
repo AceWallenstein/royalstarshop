@@ -23,18 +23,23 @@ import android.widget.VideoView;
 
 import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
-import com.pinnoocle.royalstarshop.utils.FastData;
-import com.pinnoocle.royalstarshop.widget.VolumeChangeObserver;
+import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class VideoDetailActivity extends BaseActivity {
 
@@ -68,6 +73,12 @@ public class VideoDetailActivity extends BaseActivity {
     TextView tvTime;
     @BindView(R.id.iv_volume)
     ImageView ivVolume;
+    @BindView(R.id.tv_money)
+    TextView tvMoney;
+    @BindView(R.id.tv_vip_price)
+    TextView tvVipPrice;
+    @BindView(R.id.tv_sales)
+    TextView tvSales;
     private ObjectAnimator bufferAnimation;
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
@@ -75,6 +86,8 @@ public class VideoDetailActivity extends BaseActivity {
     private boolean isPlayOver = false;
     private boolean isVolume = true;
     private AudioManager mAudioManager;
+    private List<GoodsListsModel.DataBeanX.ListBean.DataBean> dataBeanList = new ArrayList<>();
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +96,16 @@ public class VideoDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_video_detail);
         ButterKnife.bind(this);
 
+        dataBeanList = (List<GoodsListsModel.DataBeanX.ListBean.DataBean>) getIntent().getSerializableExtra("dataBeanList");
+        pos = getIntent().getIntExtra("pos", -1);
+        Glide.with(this).load(dataBeanList.get(pos).getGoods_image()).into(ivThumb);
+        Glide.with(this).load(dataBeanList.get(pos).getGoods_image()).apply(bitmapTransform(new GlideRoundTransform(this))).into(ivImage);
+        tvName.setText(dataBeanList.get(pos).getGoods_name());
+        tvMoney.setText(dataBeanList.get(pos).getGoods_sku().getGoods_price());
+        tvSales.setText(dataBeanList.get(pos).getGoods_sku().getGoods_sales() + "件已售");
+        tvVipPrice.setText("会员￥" + dataBeanList.get(pos).getGoods_sku().getBalance_price());
+
         verifyStoragePermissions(this);
-//        ivThumb.setImageBitmap(createVideoThumbnail("http://1251316161.vod2.myqcloud.com/5f6ddb64vodsh1251316161/ece2c7df5285890812999168943/mKHguCyn6gIA.mp4"));
         mRunnable = new Runnable() {
             @Override
             public void run() {
@@ -177,11 +198,11 @@ public class VideoDetailActivity extends BaseActivity {
                 if (isVolume) {
                     ivVolume.setImageResource(R.mipmap.stop);
                     isVolume = false;
-                    mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC,true);
+                    mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
                 } else {
                     ivVolume.setImageResource(R.mipmap.volume);
                     isVolume = true;
-                    mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC,false);
+                    mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
                 }
                 break;
             case R.id.iv_close:
@@ -192,7 +213,7 @@ public class VideoDetailActivity extends BaseActivity {
                 ivThumb.setVisibility(View.GONE);
                 ivLoading.setVisibility(View.VISIBLE);
                 startBufferAnimation();
-                String videoUrl2 = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
+                String videoUrl2 = dataBeanList.get(pos).getVideo().getFile_path();
                 //设置视频控制器
 //                videoView.setMediaController(new MediaController(this));
                 //播放完成回调

@@ -1,8 +1,9 @@
 package com.pinnoocle.royalstarshop.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GoodsListsModel {
+public class GoodsListsModel implements Serializable {
 
 
     /**
@@ -39,7 +40,7 @@ public class GoodsListsModel {
         this.data = data;
     }
 
-    public static class DataBeanX {
+    public static class DataBeanX implements Serializable {
         /**
          * list : {"total":1,"per_page":15,"current_page":1,"last_page":1,"data":[{"goods_id":12927,"goods_name":"海尔（Haier）2匹/3匹自清洁变频空调柜机 家用冷暖立式空调 客厅圆柱立柜式空调 帝樽EDS系列 KFR-50LW/07EDS83/2匹","selling_point":"产品特色：自动清洁，静音空调，圆柱式空调","category_id":10586,"spec_type":10,"deduct_stock_type":10,"goods_sort":100,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":1,"text":"普通商品"},"freight":"0.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"goods_sales":0,"goods_min_price":"4099.00","goods_max_price":"4099.00","goods_stock":1000,"goods_image":"http://gsyp.vtui365.com/uploads/20210304144650c92fa5848.jpg","goods_sku":{"goods_sku_id":39246,"goods_id":12927,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"0.00","goods_price":"4099.00","line_price":"6299.00","stock_num":1000,"goods_sales":0,"goods_weight":100,"image":null},"goods_multi_spec":null,"is_user_grade":false}]}
          */
@@ -54,7 +55,7 @@ public class GoodsListsModel {
             this.list = list;
         }
 
-        public static class ListBean {
+        public static class ListBean implements Serializable {
             /**
              * total : 1
              * per_page : 15
@@ -109,7 +110,7 @@ public class GoodsListsModel {
                 this.data = data;
             }
 
-            public static class DataBean {
+            public static class DataBean implements Serializable {
                 /**
                  * goods_id : 12927
                  * goods_name : 海尔（Haier）2匹/3匹自清洁变频空调柜机 家用冷暖立式空调 客厅圆柱立柜式空调 帝樽EDS系列 KFR-50LW/07EDS83/2匹
@@ -157,7 +158,131 @@ public class GoodsListsModel {
                 private GoodsSkuBean goods_sku;
                 private Object goods_multi_spec;
                 private boolean is_user_grade;
+                private VideoBean video;
 
+                public VideoBean getVideo() {
+                    return video;
+                }
+
+                public void setVideo(VideoBean video) {
+                    this.video = video;
+                }
+
+                public static class VideoBean implements Serializable{
+                    /**
+                     * value : 1
+                     * text : 普通商品
+                     */
+
+                    private int file_id;
+                    private int group_id;
+                    private int is_user;
+                    private int is_recycle;
+                    private int is_delete;
+                    private String storage;
+                    private String file_url;
+                    private String file_name;
+                    private String file_size;
+                    private String file_type;
+                    private String extension;
+                    private String file_path;
+
+                    public int getFile_id() {
+                        return file_id;
+                    }
+
+                    public void setFile_id(int file_id) {
+                        this.file_id = file_id;
+                    }
+
+                    public int getGroup_id() {
+                        return group_id;
+                    }
+
+                    public void setGroup_id(int group_id) {
+                        this.group_id = group_id;
+                    }
+
+                    public int getIs_user() {
+                        return is_user;
+                    }
+
+                    public void setIs_user(int is_user) {
+                        this.is_user = is_user;
+                    }
+
+                    public int getIs_recycle() {
+                        return is_recycle;
+                    }
+
+                    public void setIs_recycle(int is_recycle) {
+                        this.is_recycle = is_recycle;
+                    }
+
+                    public int getIs_delete() {
+                        return is_delete;
+                    }
+
+                    public void setIs_delete(int is_delete) {
+                        this.is_delete = is_delete;
+                    }
+
+                    public String getStorage() {
+                        return storage;
+                    }
+
+                    public void setStorage(String storage) {
+                        this.storage = storage;
+                    }
+
+                    public String getFile_url() {
+                        return file_url;
+                    }
+
+                    public void setFile_url(String file_url) {
+                        this.file_url = file_url;
+                    }
+
+                    public String getFile_name() {
+                        return file_name;
+                    }
+
+                    public void setFile_name(String file_name) {
+                        this.file_name = file_name;
+                    }
+
+                    public String getFile_size() {
+                        return file_size;
+                    }
+
+                    public void setFile_size(String file_size) {
+                        this.file_size = file_size;
+                    }
+
+                    public String getFile_type() {
+                        return file_type;
+                    }
+
+                    public void setFile_type(String file_type) {
+                        this.file_type = file_type;
+                    }
+
+                    public String getExtension() {
+                        return extension;
+                    }
+
+                    public void setExtension(String extension) {
+                        this.extension = extension;
+                    }
+
+                    public String getFile_path() {
+                        return file_path;
+                    }
+
+                    public void setFile_path(String file_path) {
+                        this.file_path = file_path;
+                    }
+                }
                 public int getGoods_id() {
                     return goods_id;
                 }
@@ -334,7 +459,7 @@ public class GoodsListsModel {
                     this.is_user_grade = is_user_grade;
                 }
 
-                public static class GoodsStatusBean {
+                public static class GoodsStatusBean implements Serializable{
                     /**
                      * text : 上架
                      * value : 10
@@ -360,7 +485,7 @@ public class GoodsListsModel {
                     }
                 }
 
-                public static class TypeBean {
+                public static class TypeBean implements Serializable{
                     /**
                      * value : 1
                      * text : 普通商品
@@ -386,7 +511,7 @@ public class GoodsListsModel {
                     }
                 }
 
-                public static class TagBean {
+                public static class TagBean implements Serializable{
                     /**
                      * value : 1
                      * text : 精选
@@ -412,7 +537,7 @@ public class GoodsListsModel {
                     }
                 }
 
-                public static class GoodsSkuBean {
+                public static class GoodsSkuBean implements Serializable{
                     /**
                      * goods_sku_id : 39246
                      * goods_id : 12927
