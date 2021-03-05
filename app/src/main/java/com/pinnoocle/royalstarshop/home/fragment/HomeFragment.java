@@ -135,7 +135,7 @@ public class HomeFragment extends BaseFragment {
                 IndexModel indexModel = (IndexModel) data;
                 if (indexModel.getCode() == 1) {
                     List<IndexModel.DataBean.ListBean> list = indexModel.getData().getList();
-                    if (list.size() <6) {
+                    if (list.size() < 6) {
                         layoutProgress.setVisibility(View.GONE);
                     } else {
                         layoutProgress.setVisibility(View.VISIBLE);
@@ -196,7 +196,6 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -229,19 +228,16 @@ public class HomeFragment extends BaseFragment {
 
     private void initBanner() {
 
-        banner.isAutoLoop(false)
-                .setAdapter(new BannerImageAdapter<String>(bannerList) {
-                    @Override
-                    public void onBindView(BannerImageHolder holder, String data, int position, int size) {
-                        holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                        //图片加载自己实现
-                        Glide.with(holder.itemView)
-                                .load(data)
-                                .fitCenter()
-                                .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
-                                .into(holder.imageView);
-                    }
-                })
+        banner.setAdapter(new BannerImageAdapter<String>(bannerList) {
+            @Override
+            public void onBindView(BannerImageHolder holder, String data, int position, int size) {
+                //图片加载自己实现
+                Glide.with(holder.itemView)
+                        .load(data)
+                        .into(holder.imageView);
+            }
+        })
+                .setBannerRound(20)
                 .isAutoLoop(true);
     }
 
@@ -276,8 +272,8 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemViewClick(View view, int position, IndexModel.DataBean.ListBean o) {
                 Intent intent = new Intent(getContext(), GoodsListActivity.class);
-                intent.putExtra("category_id",o.getCategory_id()+"");
-                intent.putExtra("title",o.getName()+"");
+                intent.putExtra("category_id", o.getCategory_id() + "");
+                intent.putExtra("title", o.getName() + "");
                 startActivity(intent);
             }
         });
