@@ -47,8 +47,9 @@ public class AddressActivity extends BaseActivity {
     @BindView(R.id.tv_add_address)
     TextView tvAddAddress;
     private AddressAdapter adapter;
-//    private List<AddressBean> list;
+    //    private List<AddressBean> list;
     private DataRepository dataRepository;
+    private AddressListModel addressListModel;
 
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
@@ -80,10 +81,15 @@ public class AddressActivity extends BaseActivity {
                     case R.id.tv_del:
                         Intent intent = new Intent(AddressActivity.this, EditAddressActivity.class);
                         intent.putExtra("dataBean", dataBean);
+                        if (dataBean.getAddress_id() == addressListModel.getData().getDefault_id()) {
+                            intent.putExtra("default_id", 1);
+                        }else {
+                            intent.putExtra("default_id", 0);
+                        }
                         startActivity(intent);
                         break;
                     case R.id.tv_delete:
-                       showAddressDeleteDialog(dataBean.getAddress_id());
+                        showAddressDeleteDialog(dataBean.getAddress_id());
                         break;
 
                     default:
@@ -125,8 +131,8 @@ public class AddressActivity extends BaseActivity {
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(AddressActivity.this);
-                AddressListModel addressListModel = (AddressListModel) data;
-                if (addressListModel.getCode()==1) {
+                addressListModel = (AddressListModel) data;
+                if (addressListModel.getCode() == 1) {
                     List<AddressListModel.DataBean.ListBean> dataBeanList = addressListModel.getData().getList();
                     adapter.setDefaultId(addressListModel.getData().getDefault_id());
                     adapter.setData(dataBeanList);
@@ -142,7 +148,7 @@ public class AddressActivity extends BaseActivity {
         LoginBean loginBean = new LoginBean();
         loginBean.token = FastData.getToken();
         loginBean.wxapp_id = "10001";
-        loginBean.address_id = id+"";
+        loginBean.address_id = id + "";
         dataRepository.setDefault(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
@@ -153,7 +159,7 @@ public class AddressActivity extends BaseActivity {
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(AddressActivity.this);
                 ResultModel resultModel = (ResultModel) data;
-                if (resultModel.getCode()==1) {
+                if (resultModel.getCode() == 1) {
                     addressLists();
                 }
 
@@ -161,13 +167,14 @@ public class AddressActivity extends BaseActivity {
             }
         });
     }
-//
+
+    //
     private void addressDelete(int id) {
         ViewLoading.show(this);
         LoginBean loginBean = new LoginBean();
         loginBean.token = FastData.getToken();
         loginBean.wxapp_id = "10001";
-        loginBean.address_id = id+"";
+        loginBean.address_id = id + "";
         dataRepository.addressDelete(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
@@ -178,7 +185,7 @@ public class AddressActivity extends BaseActivity {
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(AddressActivity.this);
                 ResultModel resultModel = (ResultModel) data;
-                if (resultModel.getCode()==1) {
+                if (resultModel.getCode() == 1) {
                     addressLists();
                 }
             }
@@ -212,7 +219,7 @@ public class AddressActivity extends BaseActivity {
                 break;
             case R.id.tv_add_address:
 //                ActivityUtils.startActivity(this, AddAddressActivity.class);
-                startActivity(new Intent(this,AddAddressActivity.class));
+                startActivity(new Intent(this, AddAddressActivity.class));
                 break;
         }
 

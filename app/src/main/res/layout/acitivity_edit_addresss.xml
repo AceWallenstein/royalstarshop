@@ -162,6 +162,30 @@
         </LinearLayout>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="设为默认地址"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <ch.ielse.view.SwitchView
+            android:id="@+id/switch_disturb"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            app:primaryColor="@color/light_red"
+            app:primaryColorDark="@color/light_red" />
+    </RelativeLayout>
+
     <TextView
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"

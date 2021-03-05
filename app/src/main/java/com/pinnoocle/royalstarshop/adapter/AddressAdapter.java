@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,22 +50,27 @@ public class AddressAdapter extends BaseAdapter<AddressListModel.DataBean.ListBe
             }
             holder.tvPhone.setText(sb.toString());
         }
-        holder.checkBox.setChecked(mDatas.get(position).getAddress_id()==default_id);//1表示默认地址
-        holder.tvAddress.setText(mDatas.get(position).getRegion().getProvince()+mDatas.get(position).getRegion().getCity()+mDatas.get(position).getRegion().getRegion());
+        holder.checkBox.setChecked(mDatas.get(position).getAddress_id() == default_id);//1表示默认地址
+        if (mDatas.get(position).getAddress_id() == default_id) {
+            holder.tvCheck.setText("默认");
+        }else {
+            holder.tvCheck.setText("选择");
+        }
+        holder.tvAddress.setText(mDatas.get(position).getRegion().getProvince() + mDatas.get(position).getRegion().getCity() + mDatas.get(position).getRegion().getRegion());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     holder.tvCheck.setText("默认");
-                }else {
+                } else {
                     holder.tvCheck.setText("选择");
                 }
             }
         });
-        holder.itemView.setOnClickListener(v -> mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position)));
-        holder.ll_check.setOnClickListener(v -> mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position)) );
-        holder.tvDelete.setOnClickListener(v -> mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position)) );
-        holder.tvEdit.setOnClickListener(v -> mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position)) );
+        holder.itemView.setOnClickListener(v -> mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position)));
+        holder.ll_check.setOnClickListener(v -> mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position)));
+        holder.tvDelete.setOnClickListener(v -> mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position)));
+        holder.tvEdit.setOnClickListener(v -> mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position)));
     }
 
     @Override

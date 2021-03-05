@@ -30,10 +30,10 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginTop="6dp"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -50,14 +50,14 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:textColor="@color/light_black"
-                android:maxLines="1"
                 android:id="@+id/ed_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="38dp"
                 android:background="@null"
                 android:hint="请输入收货人姓名"
+                android:maxLines="1"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/grey"
                 android:textSize="15sp" />
 
@@ -82,15 +82,15 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:textColor="@color/light_black"
                 android:id="@+id/ed_phone"
-                android:inputType="phone"
-                android:maxLength="11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="38dp"
                 android:background="@null"
                 android:hint="请输入收货人联系电话"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/grey"
                 android:textSize="15sp" />
 
@@ -118,13 +118,13 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:textColor="@color/light_black"
                 android:id="@+id/ed_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
                 android:background="@null"
                 android:hint="选择省、市、区"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/grey"
                 android:textSize="15sp" />
 
@@ -149,32 +149,56 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:textColor="@color/light_black"
                 android:id="@+id/ed_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
                 android:background="@null"
                 android:hint="请输入街道小区楼层"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/grey"
                 android:textSize="15sp" />
 
         </LinearLayout>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="设为默认地址"
+            android:textColor="#333333"
+            android:textSize="15sp" />
+
+        <ch.ielse.view.SwitchView
+            android:id="@+id/switch_disturb"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            app:primaryColor="@color/light_red"
+            app:primaryColorDark="@color/light_red" />
+    </RelativeLayout>
+
     <TextView
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="18dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:id="@+id/tv_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="18dp"
         android:background="@drawable/bg_red_22"
         android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="保存"
         android:textColor="@color/white"
         android:textSize="15sp" />

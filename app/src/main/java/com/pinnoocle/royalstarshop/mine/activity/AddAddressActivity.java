@@ -32,6 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ch.ielse.view.SwitchView;
 
 public class AddAddressActivity extends BaseActivity {
     @BindView(R.id.iv_back)
@@ -51,9 +52,12 @@ public class AddAddressActivity extends BaseActivity {
 
     CityPickerView mPicker = new CityPickerView();
     String area_id;
+    @BindView(R.id.switch_disturb)
+    SwitchView switchDisturb;
     private String districtName;
     private String cityName;
     private String provinceName;
+    private String is_default = "0";
     private DataRepository dataRepository;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,20 @@ public class AddAddressActivity extends BaseActivity {
 
     private void initData() {
         dataRepository = Injection.dataRepository(this);
+
+        switchDisturb.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
+            @Override
+            public void toggleToOn(SwitchView view) {
+                switchDisturb.setOpened(true);
+                is_default = "1";
+            }
+
+            @Override
+            public void toggleToOff(SwitchView view) {
+                switchDisturb.setOpened(false);
+                is_default = "0";
+            }
+        });
     }
 
     private void saveUserShip() {
@@ -84,10 +102,11 @@ public class AddAddressActivity extends BaseActivity {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
-        loginBean.region =  provinceName+","+ cityName+","+ districtName;
+        loginBean.region = provinceName + "," + cityName + "," + districtName;
         loginBean.name = edName.getText().toString().trim();
         loginBean.phone = edPhone.getText().toString().trim();
         loginBean.detail = edAddress.getText().toString().trim();
+        loginBean.is_default = is_default;
         dataRepository.addressAdd(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
@@ -103,8 +122,6 @@ public class AddAddressActivity extends BaseActivity {
                     EventBus.getDefault().post(new AddAddressEvent());
                     finish();
                 }
-
-
             }
         });
     }

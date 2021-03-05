@@ -35,8 +35,9 @@ import java.io.Serializable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ch.ielse.view.SwitchView;
 
-public class EditAddressActivity  extends BaseActivity {
+public class EditAddressActivity extends BaseActivity {
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.rl_title)
@@ -54,11 +55,15 @@ public class EditAddressActivity  extends BaseActivity {
 
     CityPickerView mPicker = new CityPickerView();
     String address_id;
+    @BindView(R.id.switch_disturb)
+    SwitchView switchDisturb;
     private String districtName;
     private String cityName;
     private String provinceName;
     private DataRepository dataRepository;
     private AddressListModel.DataBean.ListBean dataBean;
+    private String is_default;
+    private int default_id;
 
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
@@ -74,16 +79,36 @@ public class EditAddressActivity  extends BaseActivity {
 
     private void initView() {
         Serializable serializableExtra = getIntent().getSerializableExtra("dataBean");
+        default_id = getIntent().getIntExtra("default_id", -1);
         dataBean = (AddressListModel.DataBean.ListBean) serializableExtra;
         edName.setText(dataBean.getName().trim());
         edPhone.setText(dataBean.getPhone().trim());
         edArea.setText(dataBean.getRegion().toString().trim());
         edAddress.setText(dataBean.getDetail().trim());
         address_id = String.valueOf(dataBean.getAddress_id());
+
+        if (default_id == 0) {
+            switchDisturb.setOpened(false);
+        } else {
+            switchDisturb.setOpened(true);
+        }
     }
 
     private void initData() {
         dataRepository = Injection.dataRepository(this);
+        switchDisturb.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
+            @Override
+            public void toggleToOn(SwitchView view) {
+                switchDisturb.setOpened(true);
+                is_default = "1";
+            }
+
+            @Override
+            public void toggleToOff(SwitchView view) {
+                switchDisturb.setOpened(false);
+                is_default = "0";
+            }
+        });
     }
 
     private void addressEdit() {
@@ -94,11 +119,12 @@ public class EditAddressActivity  extends BaseActivity {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
-        loginBean.region =  provinceName+","+ cityName+","+ districtName;
+        loginBean.region = provinceName + "," + cityName + "," + districtName;
         loginBean.name = edName.getText().toString().trim();
         loginBean.phone = edPhone.getText().toString().trim();
         loginBean.detail = edAddress.getText().toString().trim();
         loginBean.address_id = address_id;
+        loginBean.is_default = is_default;
         dataRepository.addressEdit(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {

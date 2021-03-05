@@ -18,4 +18,5 @@ public class LoginBean {
     public String goods_id;
     public String goods_sku_id;
     public String goods_num;
+    public String is_default;
 }
