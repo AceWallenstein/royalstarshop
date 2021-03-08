@@ -17,6 +17,7 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
+import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 
 import rx.Observable;
 import rx.Observer;
@@ -432,6 +433,28 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(GoodsDetailModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void userDetail(LoginBean loginBean, getCallback callback) {
+        Observable<UserDetailModel> observable = RetrofitHelper.getInstance(mContext).getServer().userDetail(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<UserDetailModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(UserDetailModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

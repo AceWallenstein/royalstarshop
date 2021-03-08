@@ -11,13 +11,27 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
+
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
 import com.pinnoocle.royalstarshop.mine.activity.SettingActivity;
+import com.pinnoocle.royalstarshop.nets.DataRepository;
+import com.pinnoocle.royalstarshop.nets.Injection;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
 import com.pinnoocle.royalstarshop.widget.TagsGridView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,6 +84,28 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     TagsGridView gridService;
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.iv_header)
+    ImageView ivHeader;
+    @BindView(R.id.tv_vip_3)
+    TextView tvVip3;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
+    @BindView(R.id.tv_balance)
+    TextView tvBalance;
+    @BindView(R.id.tv_points)
+    TextView tvPoints;
+    @BindView(R.id.tv_footprint)
+    TextView tvFootprint;
+    @BindView(R.id.tv_vip_4)
+    TextView tvVip4;
+    @BindView(R.id.iv_crown)
+    ImageView ivCrown;
+    @BindView(R.id.rl_avatar)
+    RelativeLayout rlAvatar;
+    @BindView(R.id.iv_avater1)
+    RoundImageView ivAvater1;
+    @BindView(R.id.rl_avatar1)
+    RelativeLayout rlAvatar1;
 
     private int[] icon = {R.mipmap.order, R.mipmap.to_be_paid, R.mipmap.to_be_delivered, R.mipmap.to_be_evaluated, R.mipmap.after_sells
     };
@@ -84,6 +120,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     private SimpleAdapter sim_adapter;
     private List<Map<String, Object>> data_list;
     private List<Map<String, Object>> serviceDataList;
+    private float mOffset;
+    private float mScrollY;
+    private DataRepository dataRepository;
 
     @Override
     protected int LayoutId() {
@@ -92,8 +131,128 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
 
     @Override
     protected void initView() {
+        dataRepository = Injection.dataRepository(getContext());
+        refresh.setOnMultiPurposeListener(new OnMultiPurposeListener() {
+            @Override
+            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+                mOffset = offset;
+                ivHeader.setTranslationY(mOffset - mScrollY);
+            }
+
+            @Override
+            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onHeaderFinish(RefreshHeader header, boolean success) {
+                refresh.finishRefresh();
+            }
+
+            @Override
+            public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterReleased(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+
+            }
+
+            @Override
+            public void onFooterFinish(RefreshFooter footer, boolean success) {
+
+            }
+
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                userInfo();
+            }
+
+            @Override
+            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+
+            }
+        });
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                ivHeader.setTranslationY(-scrollY);
+            }
+        });
         grid();
         gridMyService();
+
+        userInfo();
+    }
+
+    private void userInfo() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        dataRepository.userDetail(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                refresh.finishRefresh();
+                UserDetailModel userDetailModel = (UserDetailModel) data;
+                if (userDetailModel.getCode() == 1) {
+                    tvName.setText(userDetailModel.getData().getUserInfo().getNickName());
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < userDetailModel.getData().getUserInfo().getPhone().length(); i++) {
+                        char c = userDetailModel.getData().getUserInfo().getPhone().charAt(i);
+                        if (i >= 3 && i <= 6) {
+                            sb.append('*');
+                        } else {
+                            sb.append(c);
+                        }
+                    }
+                    tvPhone.setText(sb.toString());
+                    tvBalance.setText(userDetailModel.getData().getUserInfo().getBalance());
+                    tvPoints.setText(userDetailModel.getData().getUserInfo().getPoints() + "");
+                    tvFootprint.setText(userDetailModel.getData().getUserInfo().getScan_num());
+                    if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
+                        rlAvatar.setVisibility(View.VISIBLE);
+                        ivAvater1.setVisibility(View.GONE);
+                        ivCrown.setVisibility(View.VISIBLE);
+                        tvVip3.setText("尊享会员");
+                        tvVip4.setText("专属特权 超值返豆");
+                        if (userDetailModel.getData().getUserInfo().getIs_exprire() == 1) {
+                            tvVip2.setText("立即续费");
+                            tvVip2.setVisibility(View.VISIBLE);
+                        } else {
+                            tvVip2.setVisibility(View.GONE);
+                        }
+                    } else {
+                        rlAvatar.setVisibility(View.GONE);
+                        ivAvater1.setVisibility(View.VISIBLE);
+                        tvVip3.setText("开通会员");
+                        tvVip4.setText("超值权益 等你来享");
+                        tvVip2.setText("立即开通");
+                    }
+                }
+            }
+        });
     }
 
     private void grid() {
@@ -167,7 +326,6 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         }
         return serviceDataList;
     }
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

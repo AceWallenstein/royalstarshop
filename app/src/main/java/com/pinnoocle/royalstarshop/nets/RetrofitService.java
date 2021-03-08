@@ -14,6 +14,7 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
+import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -89,6 +90,9 @@ public interface RetrofitService {
     //商品详情
     @POST("api/goods/detail")
     Observable<GoodsDetailModel> goodsDetail(@Body LoginBean loginBean);
+    //用户信息
+    @POST("/api/user.index/detail")
+    Observable<UserDetailModel> userDetail(@Body LoginBean loginBean);
 
 
 }

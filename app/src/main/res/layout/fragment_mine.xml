@@ -1,51 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#ffe45641">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_header"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginLeft="-100dp"
+        android:layout_marginTop="-250dp"
+        android:layout_marginRight="-100dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/bg_per_1"
+        app:layout_collapseMode="parallax" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:srlEnablePreviewInEditMode="false">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffe45641"
+            android:layout_height="wrap_content"
             app:srlAccentColor="@color/white" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white1"
+            android:layout_height="match_parent"
             android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/bg_per_1" />
+                    <!--                    <ImageView-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:background="@mipmap/bg_per_1" />-->
 
                     <TextView
                         android:id="@+id/tv_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:layout_marginTop="20dp"
                         android:text="个人中心"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
@@ -56,12 +65,40 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_title">
 
-                        <com.pinnoocle.royalstarshop.widget.RoundImageView
-                            android:id="@+id/iv_avater"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="10dp"
-                            android:src="@mipmap/del_1" />
+                        <RelativeLayout
+                            android:id="@+id/rl_avatar1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <RelativeLayout
+                                android:id="@+id/rl_avatar"
+                                android:layout_width="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/iv_crown"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@mipmap/crown" />
+
+                                <com.pinnoocle.royalstarshop.widget.RoundImageView
+                                    android:id="@+id/iv_avater"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginTop="8dp"
+                                    android:src="@mipmap/del_1" />
+                            </RelativeLayout>
+
+                            <com.pinnoocle.royalstarshop.widget.RoundImageView
+                                android:id="@+id/iv_avater1"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_marginLeft="10dp"
+                                android:src="@mipmap/del_1" />
+                        </RelativeLayout>
+
 
                         <TextView
                             android:id="@+id/tv_name"
@@ -69,25 +106,23 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="10dp"
-                            android:layout_toEndOf="@id/iv_avater"
-                            android:text="纯白的猪123"
+                            android:layout_toEndOf="@id/rl_avatar1"
                             android:textColor="@color/white"
                             android:textSize="15sp" />
 
                         <TextView
-                            android:layout_marginTop="5dp"
-                            android:paddingStart="4dp"
-                            android:paddingTop="2dp"
-                            android:paddingEnd="4dp"
-                            android:paddingBottom="2dp"
                             android:id="@+id/tv_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_name"
                             android:layout_marginStart="5dp"
-                            android:layout_toEndOf="@id/iv_avater"
-                            android:text="188****8888"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@id/rl_avatar1"
                             android:background="@drawable/bg_phone"
+                            android:paddingStart="4dp"
+                            android:paddingTop="2dp"
+                            android:paddingEnd="4dp"
+                            android:paddingBottom="2dp"
                             android:textColor="@color/white"
                             android:textSize="8sp" />
 
@@ -95,19 +130,20 @@
                             android:id="@+id/iv_setting"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
-                            android:padding="10dp"
                             android:layout_toStartOf="@id/iv_sign_in"
+                            android:padding="10dp"
                             android:src="@mipmap/setting" />
 
                         <ImageView
                             android:id="@+id/iv_sign_in"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:padding="10dp"
                             android:layout_centerVertical="true"
-                            android:src="@mipmap/sign_in" />
+                            android:padding="10dp"
+                            android:src="@mipmap/sign_in"
+                            android:visibility="gone" />
 
                     </RelativeLayout>
 
@@ -130,9 +166,9 @@
                             android:paddingBottom="15dp">
 
                             <TextView
+                                android:id="@+id/tv_balance"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="126.3"
                                 android:textColor="@color/white"
                                 android:textSize="15sp" />
 
@@ -162,9 +198,9 @@
                             android:paddingBottom="15dp">
 
                             <TextView
+                                android:id="@+id/tv_points"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="126.3"
                                 android:textColor="@color/white"
                                 android:textSize="15sp" />
 
@@ -194,9 +230,9 @@
                             android:paddingBottom="15dp">
 
                             <TextView
+                                android:id="@+id/tv_footprint"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="132"
                                 android:textColor="@color/white"
                                 android:textSize="15sp" />
 
@@ -231,13 +267,21 @@
                             android:textSize="13sp" />
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:id="@+id/tv_vip_3"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
                             android:layout_marginStart="5dp"
-                            android:layout_toStartOf="@id/tv_vip_2"
-                            android:layout_toEndOf="@id/tv_vip_1"
-                            android:text="尊享会员专属特权 超值返豆"
+                            android:layout_toRightOf="@id/tv_vip_1"
+                            android:textColor="@color/black_1"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_vip_4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/tv_vip_3"
+                            android:layout_marginStart="5dp"
+                            android:layout_toRightOf="@id/tv_vip_3"
                             android:textColor="@color/black_1"
                             android:textSize="12sp" />
 
@@ -248,7 +292,6 @@
                             android:layout_alignParentEnd="true"
                             android:background="@mipmap/vip_btn_2"
                             android:gravity="center"
-                            android:text="立即续费"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
                     </RelativeLayout>
@@ -293,7 +336,8 @@
                         android:layout_marginEnd="15dp"
                         android:background="@color/white"
                         android:gravity="center"
-                        android:numColumns="5" />
+                        android:numColumns="5"
+                        android:scrollbars="none" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -346,7 +390,6 @@
                     </RelativeLayout>
 
                     <com.pinnoocle.royalstarshop.widget.TagsGridView
-                        android:scrollbars="none"
                         android:id="@+id/grid_service"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -356,11 +399,10 @@
                         android:gravity="center"
                         android:numColumns="4"
                         android:paddingBottom="10dp"
-                        />
+                        android:scrollbars="none" />
                 </LinearLayout>
-
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-</RelativeLayout>
+</FrameLayout>
