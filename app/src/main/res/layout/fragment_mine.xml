@@ -124,7 +124,7 @@
                             android:paddingEnd="4dp"
                             android:paddingBottom="2dp"
                             android:textColor="@color/white"
-                            android:textSize="8sp" />
+                            android:textSize="12sp" />
 
                         <ImageView
                             android:id="@+id/iv_setting"
@@ -133,7 +133,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_toStartOf="@id/iv_sign_in"
-                            android:padding="10dp"
+                            android:padding="15dp"
                             android:src="@mipmap/setting" />
 
                         <ImageView

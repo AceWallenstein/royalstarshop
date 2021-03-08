@@ -19,6 +19,7 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
+import com.pinnoocle.royalstarshop.mine.activity.RecommendedIncomeActivity;
 import com.pinnoocle.royalstarshop.mine.activity.SettingActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -358,7 +359,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         }
     }
 
-    @OnClick({R.id.iv_setting, R.id.iv_sign_in})
+    @OnClick({R.id.iv_setting, R.id.iv_sign_in,R.id.ll_recommended_revenue})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
@@ -366,6 +367,10 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 startActivity(intent);
                 break;
             case R.id.iv_sign_in:
+                break;
+            case R.id.ll_recommended_revenue:
+                Intent intent1 = new Intent(getContext(), RecommendedIncomeActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
