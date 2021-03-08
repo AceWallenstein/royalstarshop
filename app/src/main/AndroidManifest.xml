@@ -36,13 +36,15 @@
         <activity android:name=".home.activity.CommentActivity" />
         <activity android:name=".home.activity.SearchActivity" />
         <activity android:name=".video.VideoDetailActivity" />
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".login.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+
         </activity>
         <activity android:name=".home.activity.GoodsDetailActivity" />
         <activity android:name=".home.activity.GoodsCommentActivity" />
@@ -51,6 +53,7 @@
         <activity android:name=".mine.activity.EditAddressActivity" />
         <activity android:name=".home.activity.GoodsListActivity" />
         <activity android:name=".home.activity.TaskBigImgActivity" />
+        <activity android:name=".mine.activity.OrderConfirmActivity" />
     </application>
 
 </manifest>

@@ -18,6 +18,7 @@ import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MainActivity;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
@@ -62,6 +63,10 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        if (!TextUtils.isEmpty(FastData.getToken())) {
+            startActivity(new Intent(this,MainActivity.class));
+            finish();
+        }
         dataRepository = Injection.dataRepository(this);
 
         final String linkWord1 = "《用户协议》";
@@ -156,6 +161,11 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(LoginActivity.this);
                 ToastUtils.showToast("验证码发送成功");
+                CodeModel data1 = (CodeModel) data;
+                if(data1.getCode()==1){
+
+                ToastUtils.showToast(data1.getData().getCode()+"");
+                }
                 getCode();
             }
         });

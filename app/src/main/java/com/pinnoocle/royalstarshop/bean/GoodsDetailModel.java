@@ -484,7 +484,7 @@ public class GoodsDetailModel {
                 private int stock_num;
                 private int goods_sales;
                 private int goods_weight;
-                private Object image;
+                private String image;
 
                 public int getGoods_sku_id() {
                     return goods_sku_id;
@@ -574,11 +574,11 @@ public class GoodsDetailModel {
                     this.goods_weight = goods_weight;
                 }
 
-                public Object getImage() {
+                public String getImage() {
                     return image;
                 }
 
-                public void setImage(Object image) {
+                public void setImage(String image) {
                     this.image = image;
                 }
             }
@@ -1244,14 +1244,14 @@ public class GoodsDetailModel {
                      * spec_value : 黑色
                      */
 
-                    private int item_id;
+                    private String item_id;
                     private String spec_value;
 
-                    public int getItem_id() {
+                    public String getItem_id() {
                         return item_id;
                     }
 
-                    public void setItem_id(int item_id) {
+                    public void setItem_id(String item_id) {
                         this.item_id = item_id;
                     }
 

@@ -13,5 +13,9 @@
         <attr name="textSize" format="dimension" />
         <attr name="textColor" format="color" />
     </declare-styleable>
+    <declare-styleable name="MyScrollView">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+
 
 </resources>

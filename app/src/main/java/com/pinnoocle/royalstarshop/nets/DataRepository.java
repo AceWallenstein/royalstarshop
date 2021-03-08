@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 
+import java.util.Map;
+
 /**
  * Created by whs on 2017/5/18
  */
@@ -126,5 +128,16 @@ public class DataRepository implements RemotDataSource {
     @Override
     public void userDetail(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.userDetail(loginBean, callback);
+    }
+
+    @Override
+    public void sureOrder(Map<String, String> queryMap, getCallback callback) {
+        mRemoteDataSource.sureOrder(queryMap, callback);
+
+    }
+
+    @Override
+    public void orderCart(Map<String, String> queryMap, getCallback callback) {
+        mRemoteDataSource.orderCart(queryMap, callback);
     }
 }

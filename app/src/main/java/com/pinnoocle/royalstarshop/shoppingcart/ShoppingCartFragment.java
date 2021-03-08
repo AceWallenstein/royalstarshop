@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.shoppingcart;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -17,13 +18,16 @@ import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.ShoppingCartAdapter;
 import com.pinnoocle.royalstarshop.bean.CartListsModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
+import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.event.CanSettlement;
 import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
 import com.pinnoocle.royalstarshop.event.SetCartNums;
 import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
 import com.pinnoocle.royalstarshop.event.UpdateTotalPriceEvent;
+import com.pinnoocle.royalstarshop.mine.activity.OrderConfirmActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -35,7 +39,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -170,6 +176,32 @@ public class ShoppingCartFragment extends BaseFragment {
         });
     }
 
+    private void orderCart(String cart_ids) {
+        Map<String, String> map = new HashMap<>();
+        map.put("wxapp_id", "10001");
+        map.put("token", FastData.getToken());
+        map.put("cart_ids", cart_ids);
+        ViewLoading.show(getContext());
+        dataRepository.orderCart(map, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(getContext());
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(getContext());
+                OrderCartModel orderCartModel = (OrderCartModel) data;
+                if (orderCartModel.getCode() == 1) {
+                    Intent intent = new Intent(getContext(), OrderConfirmActivity.class);
+                    intent.putExtra("sureOrderData", orderCartModel.getData());
+                    startActivity(intent);
+                }
+//                ToastUtils.showToast(sureOrderModel.getMsg());
+            }
+        });
+    }
+
 
     private void updateTotalPrice() {
         double totalPrice = 0;
@@ -283,9 +315,7 @@ public class ShoppingCartFragment extends BaseFragment {
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.tv_settlement:
-                if (tvSettlement.getText().toString().equals("删 除")) {
 
-                }
                 cartIdList = new ArrayList();
                 List<CartListsModel.DataBean.GoodsListBean> adapterList = adapter.getData();
                 for (int i = 0; i < adapterList.size(); i++) {
@@ -293,11 +323,20 @@ public class ShoppingCartFragment extends BaseFragment {
                         cartIdList.add(adapterList.get(i).getGoods_id() + "_" + adapterList.get(i).getGoods_sku_id());
                     }
                 }
-                if (cartIdList.size() == 0) {
-                    ToastUtils.showToast("请选择需要删除的数据");
+                if (tvSettlement.getText().toString().equals("删 除")) {
+                    if (cartIdList.size() == 0) {
+                        ToastUtils.showToast("请选择需要删除的商品");
+                    } else {
+                        String cartIds = dealCartIdList();
+                        deleteCart(cartIds);
+                    }
                 } else {
-                    String cartIds = dealCartIdList();
-                    deleteCart(cartIds);
+                    if (cartIdList.size() == 0) {
+                        ToastUtils.showToast("请选择需要购买的数据");
+                    } else {
+                        String cartIds = dealCartIdList();
+                        orderCart(cartIds);
+                    }
                 }
                 break;
             case R.id.tv_edit:

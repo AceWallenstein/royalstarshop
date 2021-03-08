@@ -20,7 +20,6 @@
 
         <TextView
             android:layout_marginTop="10dp"
-            android:text="¥332"
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +34,6 @@
             android:layout_toLeftOf="@id/iv_shop"
             android:layout_below="@id/tv_price"
             android:layout_marginTop="10dp"
-            android:text="库存234件"
             android:id="@+id/tv_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,14 +79,13 @@
             android:textColor="@color/black_3"
             android:textSize="14sp" />
 
-        <com.pinnoocle.royalstarshop.widget.NumberButton
+        <com.pinnoocle.royalstarshop.widget.NumberButton1
             android:id="@+id/number_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
-            android:paddingStart="10dp"
             app:editable="false"
             app:textSize="4sp" />
 

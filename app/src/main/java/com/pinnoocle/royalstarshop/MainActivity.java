@@ -19,6 +19,7 @@ import com.pinnoocle.royalstarshop.utils.StatusBarUtils;
 import com.pinnoocle.royalstarshop.video.VideoFragment;
 import com.pinnoocle.royalstarshop.vip.VipFragment;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -164,8 +165,15 @@ public class MainActivity extends BaseActivity {
     }
 
 
+
+
     private void initData() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100

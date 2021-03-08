@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsSku;
+import com.pinnoocle.royalstarshop.event.TagRefleshEvent;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -24,21 +25,27 @@ import java.util.List;
 
 public class SkuView extends FrameLayout {
 
-
+    private List<GoodsDetailModel.DataBean.SpecDataBean.SpecAttrBeanX.SpecItemsBeanX> spec_items;
     private GoodsSku mGoodsSku;
     private TextView tvSpec;
     private TagFlowLayout flowlayout;
+
+    public List<GoodsDetailModel.DataBean.SpecDataBean.SpecAttrBeanX.SpecItemsBeanX> getData() {
+        return spec_items;
+    }
+
     private int position;
+
 
     public TagFlowLayout getFlowlayout() {
         return flowlayout;
     }
 
-    public int getCurrentId() {
+    public String getCurrentId() {
         return currentId;
     }
 
-    private int currentId;
+    private String currentId;
 
     public SkuView(@NonNull Context context) {
         this(context, null);
@@ -68,6 +75,7 @@ public class SkuView extends FrameLayout {
     动态设置SKU数据
      */
     public void setSkuData(String group_name, List<GoodsDetailModel.DataBean.SpecDataBean.SpecAttrBeanX.SpecItemsBeanX> spec_items) {
+        this.spec_items = spec_items;
         tvSpec.setText(group_name);
         //FlowLayout设置数据
         flowlayout.setAdapter(new TagAdapter<GoodsDetailModel.DataBean.SpecDataBean.SpecAttrBeanX.SpecItemsBeanX>(spec_items) {
@@ -99,7 +107,7 @@ public class SkuView extends FrameLayout {
         flowlayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-
+                EventBus.getDefault().post(new TagRefleshEvent( spec_items.get(position).getItem_id()));
                 return true;
             }
         });

@@ -2,6 +2,8 @@ package com.pinnoocle.royalstarshop.nets;
 
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 
+import java.util.Map;
+
 /**
  * Created by whs on 2017/6/7
  */
@@ -42,4 +44,6 @@ public interface RemotDataSource {
     void goodsDetail(LoginBean loginBean, getCallback callback);
     void goodsCollect(LoginBean loginBean, getCallback callback);
     void userDetail(LoginBean loginBean, getCallback callback);
+    void sureOrder(Map<String, String> queryMap, getCallback callback);
+    void orderCart(Map<String, String> queryMap, getCallback callback);
 }

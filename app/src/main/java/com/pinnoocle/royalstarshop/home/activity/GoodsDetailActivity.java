@@ -114,7 +114,7 @@ public class GoodsDetailActivity extends BaseActivity {
     TextView bannerIndicator;
     private DataRepository dataRepository;
     private List<String> bannerList;
-    private GoodsDetailModel.DataBean.SpecDataBean specData;
+    private GoodsDetailModel.DataBean dataBean;
     private BasePopupView selectDialog;
     private GoodsDetailModel goodsDetailModel;
 
@@ -164,12 +164,12 @@ public class GoodsDetailActivity extends BaseActivity {
                     for (int i = 0; i < image.size(); i++) {
                         images.add(image.get(i).getFile_path());
                     }
-                    if(goodsDetailModel.getData().getDetail().getIs_collect()==0){
+                    if (goodsDetailModel.getData().getDetail().getIs_collect() == 0) {
                         ivMark.setImageResource(R.mipmap.mark);
-                    }else {
+                    } else {
                         ivMark.setImageResource(R.mipmap.mark_1);
                     }
-                    specData = goodsDetailModel.getData().getSpecData();
+                    dataBean = goodsDetailModel.getData();
                     initBanner(images);
                     RichText.from(goodsDetailModel.getData().getDetail().getContent()).bind(this)
                             .showBorder(false)
@@ -187,7 +187,7 @@ public class GoodsDetailActivity extends BaseActivity {
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
         loginBean.goods_id = getIntent().getStringExtra("goods_id");
-        loginBean.goods_sku_id = goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_sku_id()+"";
+        loginBean.goods_sku_id = goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_sku_id() + "";
         ViewLoading.show(this);
         dataRepository.goodsCollect(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -229,14 +229,16 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
 
-    private void showSelectDialog() {
-        if (selectDialog == null) {
-                selectDialog = new XPopup.Builder(this)
-                        .enableDrag(false)
-                        .asCustom(new DialogShopCar(this, getSupportFragmentManager(), specData));
+    private void showSelectDialog(String type) {
+        if (selectDialog == null && dataBean != null) {
+            selectDialog = new XPopup.Builder(this)
+                    .enableDrag(false)
+                    .asCustom(new DialogShopCar(this, getSupportFragmentManager(), dataBean, type));
 
         }
-        selectDialog.show();
+        if (selectDialog != null) {
+            selectDialog.show();
+        }
 
     }
 
@@ -248,21 +250,22 @@ public class GoodsDetailActivity extends BaseActivity {
                 break;
             case R.id.ll_shop_car:
                 startActivity(new Intent(this, MainActivity.class));
-                EventBus.getDefault().post("to_shop_cart");
+                EventBus.getDefault().postSticky("to_shop_cart");
                 break;
             case R.id.ll_mark:
                 goodsCollect();
                 break;
             case R.id.ll_vip_buy:
-                showSelectDialog();
+                showSelectDialog("vip");
                 break;
             case R.id.ll_normal_buy:
-                showSelectDialog();
+                showSelectDialog("normal");
                 break;
             case R.id.tv_more:
-                startActivity(new Intent(this,GoodsCommentActivity.class));
+                startActivity(new Intent(this, GoodsCommentActivity.class));
                 break;
             case R.id.ll_add_shop_cart:
+                showSelectDialog("add_shop_cart");
                 break;
         }
     }

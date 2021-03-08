@@ -12,12 +12,18 @@ import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
+import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
+import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 
+import java.util.Map;
+
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -95,8 +101,15 @@ public interface RetrofitService {
     Observable<ResultModel> goodsCollect(@Body LoginBean loginBean);
 
     //用户信息
-    @POST("/api/user.index/detail")
+    @POST("api/user.index/detail")
     Observable<UserDetailModel> userDetail(@Body LoginBean loginBean);
+    //立即购买确认订单/提交订单
+    @GET("api/order/buyNow")
+    Observable<SureOrderModel> sureOrder(@QueryMap Map<String, String> queryMap);
+
+    //购物车购买
+    @GET("api/order/cart")
+    Observable<OrderCartModel> orderCart(@QueryMap Map<String, String> queryMap);
 
 
 }
