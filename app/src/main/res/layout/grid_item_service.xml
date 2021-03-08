@@ -4,8 +4,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:orientation="vertical">
 
 
     <ImageView
@@ -21,5 +22,5 @@
         android:layout_height="wrap_content"
         android:text="文字"
         android:textColor="@color/light_black"
-        android:textSize="9sp" />
+        android:textSize="10sp" />
 </LinearLayout>

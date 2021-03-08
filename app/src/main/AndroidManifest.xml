@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mine.activity.WithdrawalActivity"></activity>
+        <activity android:name=".mine.activity.CollectionActivity"></activity>
+        <activity android:name=".mine.activity.WithdrawalActivity" />
         <activity android:name=".mine.activity.WithdrawalDetailActivity" />
         <activity android:name=".mine.activity.ProfitDetailActivity" />
         <activity android:name=".mine.activity.RecommendedIncomeActivity" />

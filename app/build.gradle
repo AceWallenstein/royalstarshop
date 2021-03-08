@@ -101,5 +101,5 @@ dependencies {
     implementation('com.zzhoujay.richtext:richtext:3.0.7') {
         exclude group: 'com.android.support'
     }
-
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
 }
