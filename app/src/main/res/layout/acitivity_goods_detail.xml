@@ -64,6 +64,27 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_mark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_mark"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/mark" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收藏"
+                android:textSize="10dp" />
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/ll_shop_car"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -91,27 +112,6 @@
                 android:textSize="10dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_mark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv_mark"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_gravity="center"
-                android:src="@mipmap/mark" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="收藏"
-                android:textSize="10dp" />
-        </LinearLayout>
 
         <LinearLayout
             android:background="@drawable/bg_pink"
@@ -271,6 +271,7 @@
                         android:textSize="11sp" />
 
                     <LinearLayout
+                        android:id="@+id/ll_add_shop_cart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"

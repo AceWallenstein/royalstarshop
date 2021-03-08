@@ -31,7 +31,9 @@
         <activity android:name=".home.activity.CommentActivity" />
         <activity android:name=".home.activity.SearchActivity" />
         <activity android:name=".video.VideoDetailActivity" />
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.LoginActivity" >
+
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +47,7 @@
         <activity android:name=".mine.activity.AddAddressActivity" />
         <activity android:name=".mine.activity.EditAddressActivity" />
         <activity android:name=".home.activity.GoodsListActivity" />
+        <activity android:name=".home.activity.TaskBigImgActivity" />
     </application>
 
 </manifest>

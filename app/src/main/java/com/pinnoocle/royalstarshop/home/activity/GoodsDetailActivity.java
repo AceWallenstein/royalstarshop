@@ -1,32 +1,46 @@
 package com.pinnoocle.royalstarshop.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
+import com.pinnoocle.royalstarshop.MainActivity;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.widget.DialogShopCar;
 import com.pinnoocle.royalstarshop.widget.NoScrollViewPager;
 import com.pinnoocle.royalstarshop.widget.VerticalMarqueeLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.zhy.view.flowlayout.TagFlowLayout;
+import com.zzhoujay.richtext.ImageHolder;
+import com.zzhoujay.richtext.RichText;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GoodsDetailActivity extends BaseActivity {
 
@@ -100,13 +114,17 @@ public class GoodsDetailActivity extends BaseActivity {
     TextView bannerIndicator;
     private DataRepository dataRepository;
     private List<String> bannerList;
+    private GoodsDetailModel.DataBean.SpecDataBean specData;
+    private BasePopupView selectDialog;
+    private GoodsDetailModel goodsDetailModel;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_goods_detail);
         ButterKnife.bind(this);
-//        RichText.initCacheDir(this);
+        RichText.initCacheDir(this);
         initView();
         initData();
     }
@@ -134,7 +152,7 @@ public class GoodsDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(mContext);
-                GoodsDetailModel goodsDetailModel = (GoodsDetailModel) data;
+                goodsDetailModel = (GoodsDetailModel) data;
                 if (goodsDetailModel.getCode() == 1) {
                     tvPrice.setText("￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_price());
                     tvVipPrice.setText("会员价￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getBalance_price());
@@ -146,11 +164,49 @@ public class GoodsDetailActivity extends BaseActivity {
                     for (int i = 0; i < image.size(); i++) {
                         images.add(image.get(i).getFile_path());
                     }
+                    if(goodsDetailModel.getData().getDetail().getIs_collect()==0){
+                        ivMark.setImageResource(R.mipmap.mark);
+                    }else {
+                        ivMark.setImageResource(R.mipmap.mark_1);
+                    }
+                    specData = goodsDetailModel.getData().getSpecData();
                     initBanner(images);
+                    RichText.from(goodsDetailModel.getData().getDetail().getContent()).bind(this)
+                            .showBorder(false)
+                            .autoPlay(false)
+                            .size(ImageHolder.MATCH_PARENT, ImageHolder.WRAP_CONTENT)
+                            .into(tvContent);
+
                 }
             }
         });
     }
+
+    private void goodsCollect() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.goods_id = getIntent().getStringExtra("goods_id");
+        loginBean.goods_sku_id = goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_sku_id()+"";
+        ViewLoading.show(this);
+        dataRepository.goodsCollect(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                ResultModel resultModel = (ResultModel) data;
+                if (resultModel.getCode() == 1) {
+                    goodsDetail();
+                }
+                ToastUtils.showToast(resultModel.getMsg());
+            }
+        });
+    }
+
 
     private void initBanner(List<String> album) {
         bannerList = new ArrayList<>();
@@ -171,5 +227,45 @@ public class GoodsDetailActivity extends BaseActivity {
         bannerIndicator.setText("1/" + bannerList.size());
 
     }
+
+
+    private void showSelectDialog() {
+        if (selectDialog == null) {
+                selectDialog = new XPopup.Builder(this)
+                        .enableDrag(false)
+                        .asCustom(new DialogShopCar(this, getSupportFragmentManager(), specData));
+
+        }
+        selectDialog.show();
+
+    }
+
+
+    @OnClick({R.id.ll_customer_service, R.id.ll_shop_car, R.id.ll_mark, R.id.ll_vip_buy, R.id.ll_normal_buy, R.id.tv_more, R.id.ll_add_shop_cart})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ll_customer_service:
+                break;
+            case R.id.ll_shop_car:
+                startActivity(new Intent(this, MainActivity.class));
+                EventBus.getDefault().post("to_shop_cart");
+                break;
+            case R.id.ll_mark:
+                goodsCollect();
+                break;
+            case R.id.ll_vip_buy:
+                showSelectDialog();
+                break;
+            case R.id.ll_normal_buy:
+                showSelectDialog();
+                break;
+            case R.id.tv_more:
+                startActivity(new Intent(this,GoodsCommentActivity.class));
+                break;
+            case R.id.ll_add_shop_cart:
+                break;
+        }
+    }
+
 
 }

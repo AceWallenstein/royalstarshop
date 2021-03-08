@@ -107,6 +107,7 @@ public class GoodsDetailModel {
              * goods_multi_spec : {"spec_attr":[{"group_id":10403,"group_name":"颜色","spec_items":[{"item_id":12180,"spec_value":"黑色"},{"item_id":12181,"spec_value":"白色"}]}],"spec_list":[{"goods_sku_id":39248,"spec_sku_id":"12180","rows":[],"form":{"image_id":0,"image_path":"","goods_no":"10001","balance_price":"1000.00","goods_price":"2000.00","goods_weight":10,"line_price":"3000.00","stock_num":100}},{"goods_sku_id":39249,"spec_sku_id":"12181","rows":[],"form":{"image_id":0,"image_path":"","goods_no":"10001","balance_price":"1000.00","goods_price":"2000.00","goods_weight":10,"line_price":"3000.00","stock_num":100}}]}
              * is_user_grade : false
              * bought_num : 0
+             *  "is_collect": 0
              * category : {"category_id":10581,"name":"电视","parent_id":0,"image_id":26082,"sort":100,"create_time":"2021-02-25 22:28:55"}
              * image : [{"id":34548,"goods_id":12926,"image_id":26082,"file_path":"http://www.rongshida.com/uploads/20210225222922115662859.jpg","file_name":"20210225222922115662859.jpg","file_url":""}]
              * sku : [{"goods_sku_id":39248,"goods_id":12926,"spec_sku_id":"12180","image_id":0,"goods_no":"10001","balance_price":"1000.00","goods_price":"2000.00","line_price":"3000.00","stock_num":100,"goods_sales":0,"goods_weight":10,"image":null},{"goods_sku_id":39249,"goods_id":12926,"spec_sku_id":"12181","image_id":0,"goods_no":"10001","balance_price":"1000.00","goods_price":"2000.00","line_price":"3000.00","stock_num":100,"goods_sales":0,"goods_weight":10,"image":null}]
@@ -137,6 +138,16 @@ public class GoodsDetailModel {
             private GoodsMultiSpecBean goods_multi_spec;
             private boolean is_user_grade;
             private int bought_num;
+            private int is_collect;
+
+            public int getIs_collect() {
+                return is_collect;
+            }
+
+            public void setIs_collect(int is_collect) {
+                this.is_collect = is_collect;
+            }
+
             private CategoryBean category;
             private VideoBean video;
             private int goods_sales;

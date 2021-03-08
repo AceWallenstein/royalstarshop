@@ -390,7 +390,8 @@ public class CartListsModel {
             private String express_price;
             private int points_bonus;
             private int goods_sales;
-            private boolean is_select;
+
+            private transient boolean is_select;
             private int nums;
 
             public int getGoods_id() {

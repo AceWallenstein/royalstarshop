@@ -90,6 +90,10 @@ public interface RetrofitService {
     //商品详情
     @POST("api/goods/detail")
     Observable<GoodsDetailModel> goodsDetail(@Body LoginBean loginBean);
+    //收藏商品
+    @POST("api/user.collect/add")
+    Observable<ResultModel> goodsCollect(@Body LoginBean loginBean);
+
     //用户信息
     @POST("/api/user.index/detail")
     Observable<UserDetailModel> userDetail(@Body LoginBean loginBean);

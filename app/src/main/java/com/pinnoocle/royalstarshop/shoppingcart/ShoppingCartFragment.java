@@ -110,7 +110,14 @@ public class ShoppingCartFragment extends BaseFragment {
                 CartListsModel cartListsModel = (CartListsModel) data;
                 if (cartListsModel.getCode() == 1) {
                     List<CartListsModel.DataBean.GoodsListBean> goods_list = cartListsModel.getData().getGoods_list();
-                    adapter.setData(goods_list);
+                    if (goods_list == null || goods_list.size() == 0) {
+                        EventBus.getDefault().post(new CartAllCheckedEvent(false));
+                        EventBus.getDefault().post(new CanSettlement(false));
+                    }
+                    if (goods_list != null) {
+                        adapter.setData(goods_list);
+                        updateTotalPrice();
+                    }
                 }
             }
         });
@@ -134,7 +141,7 @@ public class ShoppingCartFragment extends BaseFragment {
                 ViewLoading.dismiss(getContext());
                 ResultModel resultModel = (ResultModel) data;
                 if (resultModel.getCode() == 1) {
-                    cartLists();
+
                 }
                 ToastUtils.showToast(resultModel.getMsg());
             }

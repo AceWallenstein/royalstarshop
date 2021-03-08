@@ -40,5 +40,6 @@ public interface RemotDataSource {
     void cartChangeNums(LoginBean loginBean, getCallback callback);
     void cartDelete(LoginBean loginBean, getCallback callback);
     void goodsDetail(LoginBean loginBean, getCallback callback);
+    void goodsCollect(LoginBean loginBean, getCallback callback);
     void userDetail(LoginBean loginBean, getCallback callback);
 }

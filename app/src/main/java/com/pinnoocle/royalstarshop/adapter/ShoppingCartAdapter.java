@@ -79,8 +79,7 @@ public class ShoppingCartAdapter extends BaseAdapter<CartListsModel.DataBean.Goo
                         holder.mCheckedCb.setChecked(true);
                         mDatas.get(position).setIs_select(true);
                         isOnechecked(holder, position);
-                        mDatas.get(position).setNums(holder.mGoodsCountBtn.getNumber());
-                        EventBus.getDefault().post(new UpdateTotalPriceEvent());
+                        mDatas.get(position).setTotal_num(holder.mGoodsCountBtn.getNumber());
                         EventBus.getDefault().post(new SetCartNums(mDatas.get(position).getGoods_id()+"",mDatas.get(position).getGoods_sku_id(), holder.mGoodsCountBtn.getNumber()+""));
                     }
                 });

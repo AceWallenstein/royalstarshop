@@ -19,6 +19,9 @@ import com.pinnoocle.royalstarshop.utils.StatusBarUtils;
 import com.pinnoocle.royalstarshop.video.VideoFragment;
 import com.pinnoocle.royalstarshop.vip.VipFragment;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,6 +165,16 @@ public class MainActivity extends BaseActivity {
 
 
     private void initData() {
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String event)
+    {
+        if(event.equals("to_shop_cart")){
+            initWhite();
+            tabAdapter.setCurrentFragment(3);
+        }
 
     }
 
