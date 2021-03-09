@@ -1,40 +1,37 @@
 package com.pinnoocle.royalstarshop.home.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import androidx.viewpager.widget.ViewPager;
+
+import com.androidkun.xtablayout.XTabLayout;
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.CommentListModel;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
-import com.pinnoocle.royalstarshop.widget.NoScrollViewPager;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
-import com.zhy.view.flowlayout.TagFlowLayout;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.pinnoocle.royalstarshop.nets.DataRepository;
+import com.pinnoocle.royalstarshop.nets.Injection;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class GoodsCommentActivity extends BaseActivity {
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
+
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
-    @BindView(R.id.flowlayout)
-    TagFlowLayout flowlayout;
+    @BindView(R.id.xTablayout)
+    XTabLayout xTablayout;
     @BindView(R.id.viewPager)
-    NoScrollViewPager viewPager;
+    ViewPager viewPager;
+    private DataRepository dataRepository;
 
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
@@ -46,53 +43,39 @@ public class GoodsCommentActivity extends BaseActivity {
     }
 
     private void initView() {
-        initTagFlowLayout();
+
     }
 
 
     private void initData() {
+        dataRepository = Injection.dataRepository(this);
+        commentList();
     }
 
-    private void initTagFlowLayout() {
-        List<String> titles = new ArrayList<>();
-        titles.add("全部");
-        titles.add("好评");
-        titles.add("中评");
-        titles.add("差评");
-        flowlayout.setAdapter(new TagAdapter<String>(titles) {
+    private void commentList() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.goods_id = getIntent().getStringExtra("goods_id");
+        ViewLoading.show(this);
+        dataRepository.commentList(loginBean, new RemotDataSource.getCallback() {
             @Override
-            public void onSelected(int position, View view) {
-                super.onSelected(position, view);
-                TextView textView = view.findViewById(R.id.text);
-                textView.setTextColor(Color.WHITE);
-
-
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
             }
 
             @Override
-            public void unSelected(int position, View view) {
-                super.unSelected(position, view);
-                TextView textView = view.findViewById(R.id.text);
-                textView.setTextColor(Color.BLACK);
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                CommentListModel commentListModel = (CommentListModel) data;
+//                if (commentListModel.getCode() == 1) {
+////                    goodsDetail();
+//                }
 
-            }
-
-            @Override
-            public TextView getView(FlowLayout parent, int position, String s) {
-                TextView view = (TextView) LayoutInflater.from(GoodsCommentActivity.this)
-                        .inflate(R.layout.layout_titles, parent, false);
-                view.setText(s);
-                return view;
             }
         });
-        flowlayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-            @Override
-            public boolean onTagClick(View view, int position, FlowLayout parent) {
-                return true;
-            }
-        });
-        flowlayout.getAdapter().setSelectedList(0);
     }
+
 
     @OnClick(R.id.iv_back)
     public void onViewClicked() {

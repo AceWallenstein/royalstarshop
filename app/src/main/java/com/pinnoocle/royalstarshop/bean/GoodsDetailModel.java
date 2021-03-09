@@ -484,7 +484,134 @@ public class GoodsDetailModel {
                 private int stock_num;
                 private int goods_sales;
                 private int goods_weight;
-                private String image;
+                private Image image;
+
+                public static class  Image{
+
+                    /**
+                     * file_id : 26088
+                     * storage : local
+                     * group_id : 0
+                     * file_url :
+                     * file_name : 20210305095413e69454970.png
+                     * file_size : 376823
+                     * file_type : image
+                     * extension : png
+                     * is_user : 0
+                     * is_recycle : 0
+                     * is_delete : 0
+                     * file_path : http://gsyp.vtui365.com/uploads/20210305095413e69454970.png
+                     */
+
+                    private int file_id;
+                    private String storage;
+                    private int group_id;
+                    private String file_url;
+                    private String file_name;
+                    private int file_size;
+                    private String file_type;
+                    private String extension;
+                    private int is_user;
+                    private int is_recycle;
+                    private int is_delete;
+                    private String file_path;
+
+                    public int getFile_id() {
+                        return file_id;
+                    }
+
+                    public void setFile_id(int file_id) {
+                        this.file_id = file_id;
+                    }
+
+                    public String getStorage() {
+                        return storage;
+                    }
+
+                    public void setStorage(String storage) {
+                        this.storage = storage;
+                    }
+
+                    public int getGroup_id() {
+                        return group_id;
+                    }
+
+                    public void setGroup_id(int group_id) {
+                        this.group_id = group_id;
+                    }
+
+                    public String getFile_url() {
+                        return file_url;
+                    }
+
+                    public void setFile_url(String file_url) {
+                        this.file_url = file_url;
+                    }
+
+                    public String getFile_name() {
+                        return file_name;
+                    }
+
+                    public void setFile_name(String file_name) {
+                        this.file_name = file_name;
+                    }
+
+                    public int getFile_size() {
+                        return file_size;
+                    }
+
+                    public void setFile_size(int file_size) {
+                        this.file_size = file_size;
+                    }
+
+                    public String getFile_type() {
+                        return file_type;
+                    }
+
+                    public void setFile_type(String file_type) {
+                        this.file_type = file_type;
+                    }
+
+                    public String getExtension() {
+                        return extension;
+                    }
+
+                    public void setExtension(String extension) {
+                        this.extension = extension;
+                    }
+
+                    public int getIs_user() {
+                        return is_user;
+                    }
+
+                    public void setIs_user(int is_user) {
+                        this.is_user = is_user;
+                    }
+
+                    public int getIs_recycle() {
+                        return is_recycle;
+                    }
+
+                    public void setIs_recycle(int is_recycle) {
+                        this.is_recycle = is_recycle;
+                    }
+
+                    public int getIs_delete() {
+                        return is_delete;
+                    }
+
+                    public void setIs_delete(int is_delete) {
+                        this.is_delete = is_delete;
+                    }
+
+                    public String getFile_path() {
+                        return file_path;
+                    }
+
+                    public void setFile_path(String file_path) {
+                        this.file_path = file_path;
+                    }
+                }
 
                 public int getGoods_sku_id() {
                     return goods_sku_id;
@@ -574,11 +701,11 @@ public class GoodsDetailModel {
                     this.goods_weight = goods_weight;
                 }
 
-                public String getImage() {
+                public Image getImage() {
                     return image;
                 }
 
-                public void setImage(String image) {
+                public void setImage(Image image) {
                     this.image = image;
                 }
             }

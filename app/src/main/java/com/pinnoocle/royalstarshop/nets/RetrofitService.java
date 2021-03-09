@@ -6,6 +6,7 @@ import com.pinnoocle.royalstarshop.bean.CartAddModel;
 import com.pinnoocle.royalstarshop.bean.CartListsModel;
 import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
+import com.pinnoocle.royalstarshop.bean.CommentListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.HomeModel;
@@ -118,6 +119,9 @@ public interface RetrofitService {
     //购物车购买
     @POST("api/order/cart")
     Observable<OrderCartModel> buyNowCart(@Body LoginBean loginBean);
+    //商品评价列表
+    @POST("api/comment/lists")
+    Observable<CommentListModel> commentList(@Body LoginBean loginBean);
 
 
 }

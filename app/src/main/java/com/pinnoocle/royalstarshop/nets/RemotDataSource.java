@@ -48,4 +48,5 @@ public interface RemotDataSource {
     void orderCart(Map<String, String> queryMap, getCallback callback);
     void buyNow(LoginBean loginBean, getCallback callback);
     void buyNowCart(LoginBean loginBean, getCallback callback);
+    void commentList(LoginBean loginBean, getCallback callback);
 }

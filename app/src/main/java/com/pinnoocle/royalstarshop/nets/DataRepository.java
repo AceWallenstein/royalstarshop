@@ -151,4 +151,9 @@ public class DataRepository implements RemotDataSource {
         mRemoteDataSource.buyNowCart(loginBean, callback);
     }
 
+    @Override
+    public void commentList(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.commentList(loginBean, callback);
+    }
+
 }

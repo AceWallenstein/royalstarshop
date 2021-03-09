@@ -72,6 +72,10 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
         this.type = type;
     }
 
+    public void setType(String type){
+        this.type = type;
+    }
+
     @Override
     protected int getImplLayoutId() {
         return R.layout.dialog_shop_car;
@@ -121,7 +125,7 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
 
         }
         GoodsDetailModel.DataBean.DetailBean.GoodsSkuBean goods_sku = dataBean.getDetail().getGoods_sku();
-        Glide.with(context).load(goods_sku.getImage()).fitCenter().into(ivShop);
+        Glide.with(context).load(goods_sku.getImage().getFile_path()).fitCenter().into(ivShop);
         tvStock.setText("库存" + goods_sku.getStock_num() + "件");
         if (type.equals("vip")) {
             tvPrice.setText("￥" + goods_sku.getBalance_price());
@@ -145,6 +149,7 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
 
     private void getProductInfo(String id) {
         item_ids.clear();
+        imageList.clear();
         for (int i = 0; i < skuViews.size(); i++) {
             Integer next = skuViews.get(i).getFlowlayout().getSelectedList().iterator().next();
             String item_id = skuViews.get(i).getData().get(next).getItem_id();
@@ -167,8 +172,13 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
                     goods_sku_id = spec_list.get(i).getGoods_sku_id();
                     GoodsDetailModel.DataBean.SpecDataBean.SpecListBeanX.FormBeanX form = spec_list.get(i).getForm();
                     Glide.with(context).load(form.getImage_path()).fitCenter().into(ivShop);
+                    imageList.add(form.getImage_path());
                     tvStock.setText("库存" + form.getStock_num() + "件");
-                    tvPrice.setText("￥" + form.getGoods_price());
+                    if (type.equals("vip")) {
+                        tvPrice.setText("￥" + form.getBalance_price());
+                    } else {
+                        tvPrice.setText("￥" + form.getGoods_price());
+                    }
                 }
 
             }

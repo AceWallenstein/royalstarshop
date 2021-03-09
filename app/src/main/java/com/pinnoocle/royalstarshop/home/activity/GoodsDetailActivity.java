@@ -18,11 +18,13 @@ import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
+import com.pinnoocle.royalstarshop.bean.ServiceBean;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.widget.DialogPledge;
 import com.pinnoocle.royalstarshop.widget.DialogShopCar;
 import com.pinnoocle.royalstarshop.widget.NoScrollViewPager;
 import com.pinnoocle.royalstarshop.widget.VerticalMarqueeLayout;
@@ -117,6 +119,8 @@ public class GoodsDetailActivity extends BaseActivity {
     private GoodsDetailModel.DataBean dataBean;
     private BasePopupView selectDialog;
     private GoodsDetailModel goodsDetailModel;
+    private BasePopupView dialogPledge;
+    private BasePopupView pledgePopupView;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,20 +234,32 @@ public class GoodsDetailActivity extends BaseActivity {
 
 
     private void showSelectDialog(String type) {
-        if (selectDialog == null && dataBean != null) {
+        if (dataBean != null) {
             selectDialog = new XPopup.Builder(this)
                     .enableDrag(false)
                     .asCustom(new DialogShopCar(this, getSupportFragmentManager(), dataBean, type));
+            selectDialog.show();
 
         }
-        if (selectDialog != null) {
-            selectDialog.show();
+    }
+
+    private void showPledgeDialog() {
+        List<ServiceBean> service = new ArrayList<>();
+        service.add(new ServiceBean("假一赔十", "商家质保产品正品，如发现假货直接上报投诉，平台将会严重处理，返退钱款并给予奖励。", R.mipmap.compensation));
+        service.add(new ServiceBean("7天无理由退换", "商家产品支持7天无理由退换货。", R.mipmap.retreat));
+        service.add(new ServiceBean("免费上门安装", "商家免费上门安装，免费送货上门，也可联系当地的门店工作人员协商上门安装具体事项。", R.mipmap.free));
+        dialogPledge = new DialogPledge(this, service);
+        if (pledgePopupView == null) {
+            pledgePopupView = new XPopup.Builder(this)
+                    .enableDrag(false)
+                    .asCustom(dialogPledge);
         }
+        pledgePopupView.show();
 
     }
 
 
-    @OnClick({R.id.ll_customer_service, R.id.ll_shop_car, R.id.ll_mark, R.id.ll_vip_buy, R.id.ll_normal_buy, R.id.tv_more, R.id.ll_add_shop_cart,R.id.iv_back})
+    @OnClick({R.id.ll_customer_service, R.id.ll_shop_car, R.id.ll_mark, R.id.ll_vip_buy, R.id.ll_normal_buy, R.id.tv_more, R.id.ll_add_shop_cart, R.id.iv_back, R.id.rl_pledge})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_customer_service:
@@ -262,13 +278,18 @@ public class GoodsDetailActivity extends BaseActivity {
                 showSelectDialog("normal");
                 break;
             case R.id.tv_more:
-                startActivity(new Intent(this, GoodsCommentActivity.class));
+                Intent intent = new Intent(this, GoodsCommentActivity.class);
+                intent.putExtra("goods_id", getIntent().getStringExtra("goods_id"));
+                startActivity(intent);
                 break;
             case R.id.ll_add_shop_cart:
                 showSelectDialog("add_shop_cart");
                 break;
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.rl_pledge:
+                showPledgeDialog();
                 break;
         }
     }
