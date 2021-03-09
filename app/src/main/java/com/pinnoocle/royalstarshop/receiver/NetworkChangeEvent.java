@@ -6,4 +6,5 @@ public class NetworkChangeEvent {
     public NetworkChangeEvent(boolean isConnected) {
         this.isConnected = isConnected;
     }
+
 }

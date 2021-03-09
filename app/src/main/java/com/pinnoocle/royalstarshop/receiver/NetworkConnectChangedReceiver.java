@@ -16,5 +16,8 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
         boolean isConnected = NetUtils.isConnected(context);
         Log.d(TAG, "onReceive: 当前网络 " + isConnected);
         EventBus.getDefault().post(new NetworkChangeEvent(isConnected));
+
+        boolean isWifi = NetUtils.isWifi(context);
+        EventBus.getDefault().post(new WifiChangeEvent(isWifi));
     }
 }

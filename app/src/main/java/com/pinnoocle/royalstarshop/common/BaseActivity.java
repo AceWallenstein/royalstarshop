@@ -17,6 +17,7 @@ import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.receiver.NetUtils;
 import com.pinnoocle.royalstarshop.receiver.NetworkChangeEvent;
 import com.pinnoocle.royalstarshop.receiver.NetworkConnectChangedReceiver;
+import com.pinnoocle.royalstarshop.receiver.WifiChangeEvent;
 import com.pinnoocle.royalstarshop.utils.StatusBarUtil;
 import com.pinnoocle.royalstarshop.utils.StatusBarUtils;
 
@@ -28,6 +29,7 @@ import org.greenrobot.eventbus.ThreadMode;
 public class BaseActivity extends AppCompatActivity {
     protected Context mContext;
     protected boolean mCheckNetWork = true; //默认检查网络状态
+    protected boolean mCheckWifi = true; //默认检查wifi
     android.view.View mTipView;
     WindowManager mWindowManager;
     WindowManager.LayoutParams mLayoutParams;
@@ -54,6 +56,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onResume();
         //在无网络情况下打开APP时，系统不会发送网络状况变更的Intent，需要自己手动检查
         hasNetWork(NetUtils.isConnected(mContext));
+        hasWifi(NetUtils.isWifi(mContext));
     }
 
     @Override
@@ -82,24 +85,45 @@ public class BaseActivity extends AppCompatActivity {
         hasNetWork(event.isConnected);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWifiChangeEvent(WifiChangeEvent event) {
+        hasWifi(event.isWifi);
+    }
+
+    private void hasWifi(boolean has) {
+        if (isCheckWifi()) {
+            if (has) {
+               EventBus.getDefault().post("1");
+            } else {
+                EventBus.getDefault().post("2");
+            }
+        }
+    }
+
     private void hasNetWork(boolean has) {
         if (isCheckNetWork()) {
             if (has) {
                 if (mTipView != null && mTipView.getParent() != null) {
                     mWindowManager.removeView(mTipView);
-                    EventBus.getDefault().post("9");
                 }
             } else {
                 if (mTipView.getParent() == null) {
                     mWindowManager.addView(mTipView, mLayoutParams);
-                    EventBus.getDefault().post("10");
                 }
             }
         }
     }
 
+    public void setCheckWifi(boolean checkWifi) {
+        mCheckWifi = checkWifi;
+    }
+
     public void setCheckNetWork(boolean checkNetWork) {
         mCheckNetWork = checkNetWork;
+    }
+
+    public boolean isCheckWifi() {
+        return mCheckWifi;
     }
 
     public boolean isCheckNetWork() {
