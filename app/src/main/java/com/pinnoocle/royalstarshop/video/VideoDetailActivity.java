@@ -377,6 +377,7 @@ public class VideoDetailActivity extends BaseActivity {
             startTime.setVisibility(View.GONE);
             tvTime.setVisibility(View.GONE);
             ivVolume.setVisibility(View.GONE);
+            time = 0;
         }
     }
 
