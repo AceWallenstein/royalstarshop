@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.FragmentAdapter;
@@ -31,12 +29,12 @@ import com.pinnoocle.royalstarshop.bean.BannerModel;
 import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
-import com.pinnoocle.royalstarshop.bean.TitleBean;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.home.activity.CommentActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsListActivity;
+import com.pinnoocle.royalstarshop.home.activity.GoodsVideoDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -49,6 +47,9 @@ import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,8 @@ public class HomeFragment extends BaseFragment {
     ViewPager vpGoodsList;
     @BindView(R.id.iv_bg)
     ImageView ivBg;
+    @BindView(R.id.tv_more)
+    TextView tvMore;
     private List<String> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
@@ -290,7 +293,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemViewClick(View view, int position, HomeModel.DataBean.VipGoodsBean o) {
                 Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
-                intent.putExtra("goods_id",o.getGoods_id()+"");
+                intent.putExtra("goods_id", o.getGoods_id() + "");
                 startActivity(intent);
             }
         });
@@ -304,6 +307,15 @@ public class HomeFragment extends BaseFragment {
         rv2.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rv2.addItemDecoration(new CommItemDecoration(getContext(), DividerItemDecoration.VERTICAL, getResources().getColor(R.color.white), 60));
         rv2.setAdapter(twoAdapter);
+
+        twoAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<HomeModel.DataBean.VideoGoodsBean>() {
+            @Override
+            public void onItemViewClick(View view, int position, HomeModel.DataBean.VideoGoodsBean o) {
+                Intent intent = new Intent(getActivity(), GoodsVideoDetailActivity.class);
+                intent.putExtra("dataBeanList", (Serializable) o);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initRv3() {
@@ -371,7 +383,7 @@ public class HomeFragment extends BaseFragment {
         imageView.setLayoutParams(params);
     }
 
-    @OnClick({R.id.iv_comment, R.id.tv_search})
+    @OnClick({R.id.iv_comment, R.id.tv_search,R.id.tv_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_comment:
@@ -381,6 +393,9 @@ public class HomeFragment extends BaseFragment {
             case R.id.tv_search:
                 Intent intent = new Intent(getContext(), SearchActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.tv_more:
+                EventBus.getDefault().post("3");
                 break;
         }
     }
