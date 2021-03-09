@@ -195,6 +195,7 @@ public class ShoppingCartFragment extends BaseFragment {
                 if (orderCartModel.getCode() == 1) {
                     Intent intent = new Intent(getContext(), OrderConfirmActivity.class);
                     intent.putExtra("sureOrderData", orderCartModel.getData());
+                    intent.putExtra("cart_ids",cart_ids);
                     startActivity(intent);
                 }
 //                ToastUtils.showToast(sureOrderModel.getMsg());

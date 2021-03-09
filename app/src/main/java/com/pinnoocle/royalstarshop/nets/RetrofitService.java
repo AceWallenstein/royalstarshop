@@ -111,5 +111,13 @@ public interface RetrofitService {
     @GET("api/order/cart")
     Observable<OrderCartModel> orderCart(@QueryMap Map<String, String> queryMap);
 
+    //立即购买确认订单/提交订单
+    @POST("api/order/buyNow")
+    Observable<SureOrderModel> buyNow(@Body LoginBean loginBean);
+
+    //购物车购买
+    @POST("api/order/cart")
+    Observable<OrderCartModel> buyNowCart(@Body LoginBean loginBean);
+
 
 }

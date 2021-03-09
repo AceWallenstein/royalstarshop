@@ -529,4 +529,48 @@ public class RemotDataSourceImpl implements RemotDataSource {
                     }
                 });
     }
+
+    @Override
+    public void buyNow(LoginBean loginBean, getCallback callback) {
+        Observable<SureOrderModel> observable = RetrofitHelper.getInstance(mContext).getServer().buyNow(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SureOrderModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(SureOrderModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void buyNowCart(LoginBean loginBean, getCallback callback) {
+        Observable<OrderCartModel> observable = RetrofitHelper.getInstance(mContext).getServer().buyNowCart(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<OrderCartModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(OrderCartModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
 }

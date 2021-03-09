@@ -140,4 +140,15 @@ public class DataRepository implements RemotDataSource {
     public void orderCart(Map<String, String> queryMap, getCallback callback) {
         mRemoteDataSource.orderCart(queryMap, callback);
     }
+
+    @Override
+    public void buyNow(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.buyNow(loginBean, callback);
+    }
+
+    @Override
+    public void buyNowCart(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.buyNowCart(loginBean, callback);
+    }
+
 }

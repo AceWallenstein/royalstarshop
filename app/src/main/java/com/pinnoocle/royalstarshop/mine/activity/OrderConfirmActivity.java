@@ -11,11 +11,20 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.OrderConfirmAdapter;
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.OrderCartModel;
+import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.nets.DataRepository;
+import com.pinnoocle.royalstarshop.nets.Injection;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,6 +66,7 @@ public class OrderConfirmActivity extends BaseActivity {
     @BindView(R.id.rl_panel)
     RelativeLayout rlPanel;
     private SureOrderModel.DataBean sureOrderData;
+    private DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +84,7 @@ public class OrderConfirmActivity extends BaseActivity {
     }
 
     private void initData() {
+        dataRepository = Injection.dataRepository(this);
         if (getIntent().getSerializableExtra("sureOrderData") != null) {
             Serializable serializableExtra = getIntent().getSerializableExtra("sureOrderData");
             sureOrderData = (SureOrderModel.DataBean) serializableExtra;
@@ -88,9 +99,70 @@ public class OrderConfirmActivity extends BaseActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter.setData( sureOrderData.getGoods_list());
             recyclerView.setAdapter(adapter);
+
         }
 
     }
+
+    /*
+     map.put("wxapp_id", "10001");
+        map.put("token", FastData.getToken());
+        map.put("goods_id", dataBean.getDetail().getGoods_id() + "");
+        map.put("goods_sku_id", goods_sku_id + "");
+        map.put("goods_num", numberButton.getNumber() + "");
+     */
+    private void buyNow() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.goods_id = sureOrderData.getGoods_list().get(0).getGoods_id() + "";
+        loginBean.goods_sku_id = sureOrderData.getGoods_list().get(0).getGoods_sku().getGoods_sku_id() + "";
+        loginBean.goods_num = sureOrderData.getGoods_list().get(0).getTotal_num() + "";
+        ViewLoading.show(this);
+        dataRepository.buyNow(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                SureOrderModel sureOrderModel = (SureOrderModel) data;
+                if (sureOrderModel.getCode() == 1) {
+
+                }
+                ToastUtils.showToast(sureOrderModel.getMsg());
+            }
+        });
+    }
+
+    private void buyNowCart(String cart_ids) {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.cart_ids = cart_ids;
+        ViewLoading.show(this);
+        dataRepository.buyNowCart(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                OrderCartModel orderCartModel = (OrderCartModel) data;
+                if (orderCartModel.getCode() == 1) {
+
+                }
+                ToastUtils.showToast(orderCartModel.getMsg());
+            }
+        });
+    }
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

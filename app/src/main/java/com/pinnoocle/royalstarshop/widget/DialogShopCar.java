@@ -222,10 +222,10 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(context);
-                OrderCartModel orderCartModel = (OrderCartModel) data;
-                if (orderCartModel.getCode() == 1) {
+                SureOrderModel sureOrderModel = (SureOrderModel) data;
+                if (sureOrderModel.getCode() == 1) {
                     Intent intent = new Intent(context, OrderConfirmActivity.class);
-                    intent.putExtra("sureOrderData", orderCartModel.getData());
+                    intent.putExtra("sureOrderData", sureOrderModel.getData());
                     context.startActivity(intent);
                 }
 //                ToastUtils.showToast(sureOrderModel.getMsg());
