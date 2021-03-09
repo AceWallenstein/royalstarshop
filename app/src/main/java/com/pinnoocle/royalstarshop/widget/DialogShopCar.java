@@ -72,7 +72,7 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
         this.type = type;
     }
 
-    public void setType(String type){
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -125,7 +125,10 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
 
         }
         GoodsDetailModel.DataBean.DetailBean.GoodsSkuBean goods_sku = dataBean.getDetail().getGoods_sku();
-        Glide.with(context).load(goods_sku.getImage().getFile_path()).fitCenter().into(ivShop);
+        if (goods_sku.getImage() != null) {
+
+            Glide.with(context).load(goods_sku.getImage().getFile_path()).fitCenter().into(ivShop);
+        }
         tvStock.setText("库存" + goods_sku.getStock_num() + "件");
         if (type.equals("vip")) {
             tvPrice.setText("￥" + goods_sku.getBalance_price());
@@ -198,9 +201,9 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
                         ToastUtils.showToast("请选择商品规格");
                         return;
                     }
-                    if(type.equals("add_shop_cart")){
+                    if (type.equals("add_shop_cart")) {
                         cartAdd();
-                    }else {
+                    } else {
                         sureOrder();
                     }
                 }
@@ -249,7 +252,7 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
         loginBean.goods_id = dataBean.getDetail().getGoods_id() + "";
-        loginBean.goods_sku_id = goods_sku_id+"";
+        loginBean.goods_sku_id = goods_sku_id + "";
         loginBean.goods_num = numberButton.getNumber() + "";
         dataRepository.cartAdd(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -261,14 +264,13 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(getContext());
                 CartAddModel cartAddModel = (CartAddModel) data;
-                if(cartAddModel.getCode() == 1){
+                if (cartAddModel.getCode() == 1) {
                     EventBus.getDefault().post(new ShopCartRefreshEvent());
                 }
                 ToastUtils.showToast(cartAddModel.getMsg());
             }
         });
     }
-
 
 
     private void viewPluImg(ArrayList<String> list, int index) {
