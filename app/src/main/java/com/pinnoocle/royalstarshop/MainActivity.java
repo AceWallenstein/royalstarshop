@@ -182,6 +182,9 @@ public class MainActivity extends BaseActivity {
         if(event.equals("to_shop_cart")){
             initWhite();
             tabAdapter.setCurrentFragment(3);
+        }else if(event.equals("3")){
+            initTransparent();
+            tabAdapter.setCurrentFragment(1);
         }
 
     }

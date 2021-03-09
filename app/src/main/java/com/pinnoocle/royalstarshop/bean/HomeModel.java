@@ -1,8 +1,9 @@
 package com.pinnoocle.royalstarshop.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class HomeModel {
+public class HomeModel implements Serializable  {
 
     /**
      * code : 1
@@ -38,7 +39,7 @@ public class HomeModel {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         private List<VipGoodsBean> vipGoods;
         private List<VideoGoodsBean> videoGoods;
         private List<TagGoodsBean> tagGoods;
@@ -67,7 +68,7 @@ public class HomeModel {
             this.tagGoods = tagGoods;
         }
 
-        public static class VipGoodsBean {
+        public static class VipGoodsBean implements Serializable {
             /**
              * goods_id : 12924
              * goods_name : 电视
@@ -155,7 +156,7 @@ public class HomeModel {
                 this.goods_stock = goods_stock;
             }
 
-            public static class GoodsSkuBean {
+            public static class GoodsSkuBean implements Serializable {
                 /**
                  * goods_sku_id : 39248
                  * goods_id : 12926
@@ -443,7 +444,7 @@ public class HomeModel {
                 this.sku = sku;
             }
 
-            public static class GoodsStatusBean {
+            public static class GoodsStatusBean implements Serializable {
                 /**
                  * text : 上架
                  * value : 10
@@ -469,7 +470,7 @@ public class HomeModel {
                 }
             }
 
-            public static class TypeBean {
+            public static class TypeBean implements Serializable {
                 /**
                  * value : 3
                  * text : 会员商品
@@ -495,7 +496,7 @@ public class HomeModel {
                 }
             }
 
-            public static class TagBean {
+            public static class TagBean implements Serializable {
                 /**
                  * value : 0
                  * text :
@@ -521,7 +522,7 @@ public class HomeModel {
                 }
             }
 
-            public static class CategoryBean {
+            public static class CategoryBean implements Serializable {
                 /**
                  * category_id : 10581
                  * name : 电视
@@ -587,7 +588,7 @@ public class HomeModel {
                 }
             }
 
-            public static class ImageBean {
+            public static class ImageBean implements Serializable {
                 /**
                  * id : 34547
                  * goods_id : 12924
@@ -653,7 +654,7 @@ public class HomeModel {
                 }
             }
 
-            public static class SkuBean {
+            public static class SkuBean implements Serializable {
                 /**
                  * goods_sku_id : 39247
                  * goods_id : 12924
@@ -780,7 +781,7 @@ public class HomeModel {
             }
         }
 
-        public static class VideoGoodsBean {
+        public static class VideoGoodsBean implements Serializable {
             /**
              * goods_id : 12926
              * goods_name : 电视
@@ -827,7 +828,131 @@ public class HomeModel {
             private String goods_image;
             private GoodsSkuBean goods_sku;
             private int goods_stock;
+            private VideoBean video;
 
+            public VideoBean getVideo() {
+                return video;
+            }
+
+            public void setVideo(VideoBean video) {
+                this.video = video;
+            }
+
+            public static class VideoBean implements Serializable {
+                /**
+                 * value : 1
+                 * text : 普通商品
+                 */
+
+                private int file_id;
+                private int group_id;
+                private int is_user;
+                private int is_recycle;
+                private int is_delete;
+                private String storage;
+                private String file_url;
+                private String file_name;
+                private String file_size;
+                private String file_type;
+                private String extension;
+                private String file_path;
+
+                public int getFile_id() {
+                    return file_id;
+                }
+
+                public void setFile_id(int file_id) {
+                    this.file_id = file_id;
+                }
+
+                public int getGroup_id() {
+                    return group_id;
+                }
+
+                public void setGroup_id(int group_id) {
+                    this.group_id = group_id;
+                }
+
+                public int getIs_user() {
+                    return is_user;
+                }
+
+                public void setIs_user(int is_user) {
+                    this.is_user = is_user;
+                }
+
+                public int getIs_recycle() {
+                    return is_recycle;
+                }
+
+                public void setIs_recycle(int is_recycle) {
+                    this.is_recycle = is_recycle;
+                }
+
+                public int getIs_delete() {
+                    return is_delete;
+                }
+
+                public void setIs_delete(int is_delete) {
+                    this.is_delete = is_delete;
+                }
+
+                public String getStorage() {
+                    return storage;
+                }
+
+                public void setStorage(String storage) {
+                    this.storage = storage;
+                }
+
+                public String getFile_url() {
+                    return file_url;
+                }
+
+                public void setFile_url(String file_url) {
+                    this.file_url = file_url;
+                }
+
+                public String getFile_name() {
+                    return file_name;
+                }
+
+                public void setFile_name(String file_name) {
+                    this.file_name = file_name;
+                }
+
+                public String getFile_size() {
+                    return file_size;
+                }
+
+                public void setFile_size(String file_size) {
+                    this.file_size = file_size;
+                }
+
+                public String getFile_type() {
+                    return file_type;
+                }
+
+                public void setFile_type(String file_type) {
+                    this.file_type = file_type;
+                }
+
+                public String getExtension() {
+                    return extension;
+                }
+
+                public void setExtension(String extension) {
+                    this.extension = extension;
+                }
+
+                public String getFile_path() {
+                    return file_path;
+                }
+
+                public void setFile_path(String file_path) {
+                    this.file_path = file_path;
+                }
+            }
             public String getGoods_min_price() {
                 return goods_min_price;
             }
@@ -868,7 +993,7 @@ public class HomeModel {
                 this.goods_stock = goods_stock;
             }
 
-            public static class GoodsSkuBean {
+            public static class GoodsSkuBean implements Serializable {
                 /**
                  * goods_sku_id : 39248
                  * goods_id : 12926
@@ -1156,7 +1281,7 @@ public class HomeModel {
                 this.sku = sku;
             }
 
-            public static class GoodsStatusBeanX {
+            public static class GoodsStatusBeanX implements Serializable {
                 /**
                  * text : 上架
                  * value : 10
@@ -1182,7 +1307,7 @@ public class HomeModel {
                 }
             }
 
-            public static class TypeBeanX {
+            public static class TypeBeanX implements Serializable {
                 /**
                  * value : 2
                  * text : 视频购物
@@ -1208,7 +1333,7 @@ public class HomeModel {
                 }
             }
 
-            public static class TagBeanX {
+            public static class TagBeanX implements Serializable {
                 /**
                  * value : 2
                  * text : 热销爆款
@@ -1234,7 +1359,7 @@ public class HomeModel {
                 }
             }
 
-            public static class CategoryBeanX {
+            public static class CategoryBeanX implements Serializable {
                 /**
                  * category_id : 10581
                  * name : 电视
@@ -1300,7 +1425,7 @@ public class HomeModel {
                 }
             }
 
-            public static class ImageBeanX {
+            public static class ImageBeanX implements Serializable {
                 /**
                  * id : 34548
                  * goods_id : 12926
@@ -1366,7 +1491,7 @@ public class HomeModel {
                 }
             }
 
-            public static class SkuBeanX {
+            public static class SkuBeanX implements Serializable {
                 /**
                  * goods_sku_id : 39248
                  * goods_id : 12926
@@ -1493,7 +1618,7 @@ public class HomeModel {
             }
         }
 
-        public static class TagGoodsBean {
+        public static class TagGoodsBean implements Serializable {
             /**
              * title : 精选
              * value : 1
@@ -1513,7 +1638,7 @@ public class HomeModel {
                 this.sub_title = sub_title;
             }
 
-            public static class ListBean {
+            public static class ListBean implements Serializable {
                 /**
                  * goods_id : 12927
                  * goods_name : 海尔（Haier）2匹/3匹自清洁变频空调柜机 家用冷暖立式空调 客厅圆柱立柜式空调 帝樽EDS系列 KFR-50LW/07EDS83/2匹
@@ -1588,7 +1713,7 @@ public class HomeModel {
                     this.sku = sku;
                 }
 
-                public static class CategoryBeanX {
+                public static class CategoryBeanX implements Serializable {
                     /**
                      * category_id : 10581
                      * name : 电视
@@ -1654,7 +1779,7 @@ public class HomeModel {
                     }
                 }
 
-                public static class ImageBeanX {
+                public static class ImageBeanX implements Serializable {
                     /**
                      * id : 34548
                      * goods_id : 12926
@@ -1720,7 +1845,7 @@ public class HomeModel {
                     }
                 }
 
-                public static class SkuBeanX {
+                public static class SkuBeanX implements Serializable {
                     /**
                      * goods_sku_id : 39248
                      * goods_id : 12926
@@ -2015,7 +2140,7 @@ public class HomeModel {
                 }
 
 
-                public static class GoodsStatusBean {
+                public static class GoodsStatusBean implements Serializable {
                     /**
                      * text : 上架
                      * value : 10
@@ -2041,7 +2166,7 @@ public class HomeModel {
                     }
                 }
 
-                public static class TypeBean {
+                public static class TypeBean implements Serializable {
                     /**
                      * value : 1
                      * text : 普通商品
@@ -2067,7 +2192,7 @@ public class HomeModel {
                     }
                 }
 
-                public static class TagBean {
+                public static class TagBean implements Serializable {
                     /**
                      * value : 1
                      * text : 精选
@@ -2093,7 +2218,7 @@ public class HomeModel {
                     }
                 }
 
-                public static class GoodsSkuBean {
+                public static class GoodsSkuBean implements Serializable {
                     /**
                      * goods_sku_id : 39246
                      * goods_id : 12927

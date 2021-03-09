@@ -50,7 +50,11 @@ public class GoodsTwoAdapter extends BaseAdapter<HomeModel.DataBean.VideoGoodsBe
                 mOnItemClickListener.onItemViewClick(v, position);
             }
         });
-
+        holder.itemView.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
+            }
+        });
     }
 
     @Override
