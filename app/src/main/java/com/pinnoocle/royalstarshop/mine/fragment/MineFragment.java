@@ -20,8 +20,10 @@ import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
 import com.pinnoocle.royalstarshop.mine.activity.CollectionActivity;
+import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanActivity;
 import com.pinnoocle.royalstarshop.mine.activity.RecommendedIncomeActivity;
 import com.pinnoocle.royalstarshop.mine.activity.SettingActivity;
+import com.pinnoocle.royalstarshop.mine.activity.WithdrawalActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -333,13 +335,13 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0: //推荐收益
-
+                startActivity(new Intent(getContext(), RecommendedIncomeActivity.class));
                 break;
             case 1: //提现
-
+                startActivity(new Intent(getContext(), WithdrawalActivity.class));
                 break;
             case 2: //我的金豆
-
+                startActivity(new Intent(getContext(), GoldenBeanActivity.class));
                 break;
             case 3: //我的收藏
                 startActivity(new Intent(getContext(), CollectionActivity.class));
