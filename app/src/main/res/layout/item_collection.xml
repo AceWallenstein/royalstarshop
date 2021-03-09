@@ -18,6 +18,8 @@
         android:layout_toRightOf="@id/iv_picture"
         android:layout_marginLeft="10dp"
         android:text="节能环保便携式高级进口纳米净水器"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:textColor="#111111"
         android:textSize="15sp" />
 

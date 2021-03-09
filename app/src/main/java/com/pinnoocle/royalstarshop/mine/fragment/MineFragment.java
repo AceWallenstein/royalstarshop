@@ -362,7 +362,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         }
     }
 
-    @OnClick({R.id.iv_setting, R.id.iv_sign_in,R.id.ll_recommended_revenue})
+    @OnClick({R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
@@ -374,6 +374,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             case R.id.ll_recommended_revenue:
                 Intent intent1 = new Intent(getContext(), RecommendedIncomeActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.ll_golden_bean:
+                startActivity(new Intent(getContext(), GoldenBeanActivity.class));
                 break;
         }
     }
