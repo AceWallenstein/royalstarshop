@@ -2,12 +2,15 @@ package com.pinnoocle.royalstarshop.video;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,9 +27,11 @@ import android.widget.VideoView;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.receiver.NetUtils;
 import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
 import java.util.ArrayList;
@@ -89,6 +94,17 @@ public class VideoDetailActivity extends BaseActivity {
     private List<GoodsListsModel.DataBeanX.ListBean.DataBean> dataBeanList = new ArrayList<>();
     private int pos;
 
+    public static boolean isWifi(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkINfo = cm.getActiveNetworkInfo();
+        if (networkINfo != null
+                && networkINfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initBlack();
@@ -106,6 +122,54 @@ public class VideoDetailActivity extends BaseActivity {
         tvVipPrice.setText("会员￥" + dataBeanList.get(pos).getGoods_sku().getBalance_price());
 
         verifyStoragePermissions(this);
+        if (isWifi(this)) {
+            ivStart.setVisibility(View.GONE);
+            ivThumb.setVisibility(View.GONE);
+            ivLoading.setVisibility(View.VISIBLE);
+            startBufferAnimation();
+            String videoUrl2 = dataBeanList.get(pos).getVideo().getFile_path();
+            //设置视频控制器
+//                videoView.setMediaController(new MediaController(this));
+            //播放完成回调
+            videoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
+            //设置视频路径
+            videoView.setVideoPath(videoUrl2);
+            videoView.requestFocus();
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    ivLoading.setVisibility(View.GONE);
+                    stopBufferAnimation();
+                    mp.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+                    seek.setVisibility(View.VISIBLE);
+                    startTime.setVisibility(View.VISIBLE);
+                    tvTime.setVisibility(View.VISIBLE);
+                    ivVolume.setVisibility(View.VISIBLE);
+                    tvTime.setText(stringForTime(videoView.getDuration()));
+                    mHandler.post(mRunnable);
+                    mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                        @Override
+                        public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                            if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+//                                    // video 视屏播放的时候把背景设置为透明
+                                videoView.setBackgroundColor(Color.TRANSPARENT);
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                }
+            });
+            //开始播放视频
+            videoView.start();
+        } else {
+            if(NetUtils.isConnected(this)){
+                ToastUtils.showToast("您当前处于移动网络状态，请注意流量使用");
+            }else {
+                ToastUtils.showToast("当前无网络连接");
+            }
+        }
+
         mRunnable = new Runnable() {
             @Override
             public void run() {
