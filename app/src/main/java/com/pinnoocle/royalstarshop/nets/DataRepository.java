@@ -156,4 +156,9 @@ public class DataRepository implements RemotDataSource {
         mRemoteDataSource.commentList(loginBean, callback);
     }
 
+    @Override
+    public void orderList(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.orderList(loginBean, callback);
+    }
+
 }

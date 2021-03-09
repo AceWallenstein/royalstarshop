@@ -3,6 +3,7 @@
     xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white1">
 
     <ImageView
@@ -49,7 +50,7 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="贾凯丽"
+            tools:text="贾凯丽"
             android:textColor="@color/black_1"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/tv_name"
-            android:text="18857489300"
+            tools:text="18857489300"
             android:textColor="@color/black_1"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -71,9 +72,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_name"
             android:layout_marginTop="10dp"
-            android:text="合肥市蜀山区南七街道西湖国际广场A座1608"
+            tools:text="合肥市蜀山区南七街道西湖国际广场A座1608"
             android:textColor="@color/black_1"
             android:textSize="12sp" />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/arrow_right"
+            android:layout_alignParentEnd="true"/>
+
 
     </RelativeLayout>
 
@@ -106,7 +115,6 @@
                 android:id="@+id/rl_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/scrollView"
                 android:background="@drawable/bg_white_8"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
@@ -144,7 +152,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/scrollView"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"

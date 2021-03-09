@@ -14,6 +14,7 @@ import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
+import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
@@ -122,6 +123,10 @@ public interface RetrofitService {
     //商品评价列表
     @POST("api/comment/lists")
     Observable<CommentListModel> commentList(@Body LoginBean loginBean);
+    //订单列表
+    @POST("api/user.order/lists")
+    Observable<OrderListModel> orderList(@Body LoginBean loginBean);
+
 
 
 }

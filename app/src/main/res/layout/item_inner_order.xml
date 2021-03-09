@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:id="@+id/iv_shop"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/tv_num"
+        android:layout_toRightOf="@id/iv_shop"
+        android:textColor="@color/light_black"
+        android:textSize="12sp"
+        tools:text="轻熟风垂感先手首要系带翻领双排扣过膝风衣外套女" />
+
+    <TextView
+        android:id="@+id/tv_goods_pattern"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/tv_num"
+        android:layout_toRightOf="@id/iv_shop"
+        android:textColor="#B0B0B0"
+        android:textSize="12sp"
+        tools:text="杏色；xs" />
+
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/light_black"
+        android:textSize="15sp"
+        tools:text="X1件" />
+</RelativeLayout>

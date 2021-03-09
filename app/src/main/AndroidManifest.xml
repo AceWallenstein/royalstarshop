@@ -57,6 +57,8 @@
         <activity android:name=".home.activity.TaskBigImgActivity" />
         <activity android:name=".mine.activity.OrderConfirmActivity" />
         <activity android:name=".home.activity.GoodsVideoDetailActivity" />
+        <activity android:name=".mine.activity.OrderActivity" />
+        <activity android:name=".mine.activity.OrderDetailActivity" />
     </application>
 
 </manifest>

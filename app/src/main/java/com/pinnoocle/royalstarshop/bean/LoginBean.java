@@ -22,4 +22,5 @@ public class LoginBean {
     public String num;
     public String cart_ids;
     public String pay_type;
+    public String dataType;
 }

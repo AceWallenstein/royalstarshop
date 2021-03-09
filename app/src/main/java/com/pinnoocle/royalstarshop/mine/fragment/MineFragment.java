@@ -21,6 +21,7 @@ import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
 import com.pinnoocle.royalstarshop.mine.activity.CollectionActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanActivity;
+import com.pinnoocle.royalstarshop.mine.activity.OrderActivity;
 import com.pinnoocle.royalstarshop.mine.activity.RecommendedIncomeActivity;
 import com.pinnoocle.royalstarshop.mine.activity.SettingActivity;
 import com.pinnoocle.royalstarshop.mine.activity.WithdrawalActivity;
@@ -275,7 +276,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0: //全部
-
+                        startActivity(new Intent(getContext(), OrderActivity.class));
                         break;
                     case 1: //待付款
 
