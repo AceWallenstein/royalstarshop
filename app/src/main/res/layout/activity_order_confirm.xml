@@ -78,11 +78,11 @@
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_below="@id/rl_address"
-        android:layout_above="@id/rl_panel"
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/rl_panel"
+        android:layout_below="@id/rl_address"
         android:overScrollMode="never">
 
         <LinearLayout
@@ -91,22 +91,64 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:overScrollMode="never"
-                android:background="@drawable/bg_white_8"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_address"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp" />
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_white_8"
+                android:overScrollMode="never"
+                android:padding="10dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/scrollView"
+                android:background="@drawable/bg_white_8"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/ic_money" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/iv_money"
+                    android:text="剩余可用平台货币122元"
+                    android:textColor="#111111"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:src="@mipmap/juice_circle" />
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/scrollView"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_white_8"
                 android:orientation="vertical"
                 android:padding="10dp">
 
@@ -146,7 +188,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="15dp"
-                        android:src="@mipmap/grey_circle" />
+                        android:src="@mipmap/juice_circle" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -177,7 +219,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="15dp"
-                        android:src="@mipmap/juice_circle" />
+                        android:src="@mipmap/grey_circle" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -197,10 +239,10 @@
         android:padding="5dp">
 
         <TextView
-            android:layout_marginStart="5dp"
             android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:text="合计："
             android:textColor="@color/black_1"
             android:textSize="12sp" />
@@ -216,11 +258,11 @@
             android:textSize="12sp" />
 
         <TextView
-            android:layout_marginStart="5dp"
             android:id="@+id/tv_discount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_total_price"
+            android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:text="抵扣平台货币58元"
             android:textColor="@color/grey_3"
@@ -233,7 +275,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:background="@mipmap/bg_btn_settlement"
-            android:enabled="false"
             android:gravity="center"
             android:text="提交订单"
             android:textColor="@color/white"

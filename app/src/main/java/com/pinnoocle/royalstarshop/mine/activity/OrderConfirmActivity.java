@@ -70,7 +70,7 @@ public class OrderConfirmActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initWhite();
+        initRed();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirm);
         ButterKnife.bind(this);
@@ -93,11 +93,14 @@ public class OrderConfirmActivity extends BaseActivity {
                 tvName.setText(sureOrderData.getAddress().getName());
                 tvPhone.setText(sureOrderData.getAddress().getPhone());
                 tvAddress.setText(sureOrderData.getAddress().getRegion().toString());
+            }else {
+                tvName.setText("暂无地址");
+                tvAddress.setText("请选择配送地址");
             }
             tvTotalPrice.setText(sureOrderData.getOrder_total_price());
             OrderConfirmAdapter adapter = new OrderConfirmAdapter(this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            adapter.setData( sureOrderData.getGoods_list());
+            adapter.setData(sureOrderData.getGoods_list());
             recyclerView.setAdapter(adapter);
 
         }
@@ -118,6 +121,7 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.goods_id = sureOrderData.getGoods_list().get(0).getGoods_id() + "";
         loginBean.goods_sku_id = sureOrderData.getGoods_list().get(0).getGoods_sku().getGoods_sku_id() + "";
         loginBean.goods_num = sureOrderData.getGoods_list().get(0).getTotal_num() + "";
+        loginBean.pay_type  = "20";
         ViewLoading.show(this);
         dataRepository.buyNow(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -142,6 +146,7 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
         loginBean.cart_ids = cart_ids;
+        loginBean.pay_type  = "20";
         ViewLoading.show(this);
         dataRepository.buyNowCart(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -162,21 +167,20 @@ public class OrderConfirmActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (data.getSerializableExtra("result") != null) {
                 Serializable result = data.getSerializableExtra("result");
-                AddressListModel.DataBean.ListBean  userShipBean = (AddressListModel.DataBean.ListBean) result;
+                AddressListModel.DataBean.ListBean userShipBean = (AddressListModel.DataBean.ListBean) result;
                 if (userShipBean == null) {
                     return;
                 }
                 tvName.setText(userShipBean.getName());
                 String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
                 tvPhone.setText(phone);
-                tvAddress.setText(userShipBean.getRegion().getProvince()+ userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
+                tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
             }
         }
     }
@@ -194,6 +198,14 @@ public class OrderConfirmActivity extends BaseActivity {
 
                 break;
             case R.id.tv_settlement:
+                if (sureOrderData.getAddress() == null) {
+                    ToastUtils.showToast("请输入收货地址");
+                }
+                if (getIntent().getStringExtra("cart_ids") != null) {
+                    buyNowCart(getIntent().getStringExtra("cart_ids"));
+                } else {
+                    buyNow();
+                }
                 break;
         }
     }

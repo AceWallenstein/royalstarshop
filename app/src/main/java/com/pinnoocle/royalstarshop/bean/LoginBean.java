@@ -21,4 +21,5 @@ public class LoginBean {
     public String is_default;
     public String num;
     public String cart_ids;
+    public String pay_type;
 }

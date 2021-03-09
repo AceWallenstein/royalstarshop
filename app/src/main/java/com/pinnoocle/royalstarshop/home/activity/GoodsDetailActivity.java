@@ -243,7 +243,7 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.ll_customer_service, R.id.ll_shop_car, R.id.ll_mark, R.id.ll_vip_buy, R.id.ll_normal_buy, R.id.tv_more, R.id.ll_add_shop_cart})
+    @OnClick({R.id.ll_customer_service, R.id.ll_shop_car, R.id.ll_mark, R.id.ll_vip_buy, R.id.ll_normal_buy, R.id.tv_more, R.id.ll_add_shop_cart,R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_customer_service:
@@ -266,6 +266,9 @@ public class GoodsDetailActivity extends BaseActivity {
                 break;
             case R.id.ll_add_shop_cart:
                 showSelectDialog("add_shop_cart");
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }
