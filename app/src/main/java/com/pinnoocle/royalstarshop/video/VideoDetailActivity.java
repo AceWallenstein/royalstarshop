@@ -280,7 +280,7 @@ public class VideoDetailActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.iv_start:
-                if (!videoView.isPlaying()) {
+                if (time == 0) {
                     ivStart.setVisibility(View.GONE);
                     ivThumb.setVisibility(View.GONE);
                     ivLoading.setVisibility(View.VISIBLE);
@@ -321,6 +321,7 @@ public class VideoDetailActivity extends BaseActivity {
                     //开始播放视频
                     videoView.start();
                 } else {
+                    ivStart.setVisibility(View.GONE);
                     videoView.start();
                 }
                 break;
