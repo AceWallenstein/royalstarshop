@@ -161,4 +161,14 @@ public class DataRepository implements RemotDataSource {
         mRemoteDataSource.orderList(loginBean, callback);
     }
 
+    @Override
+    public void collectList(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.collectList(loginBean, callback);
+    }
+
+    @Override
+    public void delCollect(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.delCollect(loginBean, callback);
+    }
+
 }

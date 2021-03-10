@@ -1,47 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="10dp"
+    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:layout_height="wrap_content">
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/iv_picture"
         android:layout_width="77dp"
         android:layout_height="77dp"
-        android:background="@drawable/a" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_picture"
         android:layout_marginLeft="10dp"
-        android:text="节能环保便携式高级进口纳米净水器"
-        android:singleLine="true"
+        android:layout_toRightOf="@id/iv_picture"
         android:ellipsize="end"
+        android:singleLine="true"
         android:textColor="#111111"
         android:textSize="15sp" />
 
     <TextView
+        android:id="@+id/tv_spec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_picture"
         android:layout_below="@id/tv_name"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:text="颜色：米色"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/iv_picture"
         android:textColor="#666666"
         android:textSize="13sp" />
 
     <TextView
+        android:id="@+id/tv_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_picture"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:text="￥186.88"
         android:layout_alignBottom="@id/iv_picture"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/iv_picture"
         android:textColor="#FF5036"
         android:textSize="16sp" />
 </RelativeLayout>

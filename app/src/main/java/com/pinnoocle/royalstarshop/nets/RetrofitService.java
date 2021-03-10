@@ -6,6 +6,7 @@ import com.pinnoocle.royalstarshop.bean.CartAddModel;
 import com.pinnoocle.royalstarshop.bean.CartListsModel;
 import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
+import com.pinnoocle.royalstarshop.bean.CollectListModel;
 import com.pinnoocle.royalstarshop.bean.CommentListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
@@ -77,27 +78,35 @@ public interface RetrofitService {
     //首页商品
     @POST("api/index/index")
     Observable<HomeModel> home(@Body LoginBean loginBean);
+
     //二级分类列表
     @POST("api/category/index")
     Observable<CategoryListModel> categoryList(@Body LoginBean loginBean);
+
     //子分类
     @POST("api/category/getSubCategory")
     Observable<SubCategoryModel> getSubCategory(@Body LoginBean loginBean);
+
     //加入购物车
     @POST("api/cart/add")
     Observable<CartAddModel> cartAdd(@Body LoginBean loginBean);
+
     //购物车列表
     @POST("api/cart/lists")
     Observable<CartListsModel> cartLists(@Body LoginBean loginBean);
+
     //修改购物车商品数量
     @POST("api/cart/sub")
     Observable<ResultModel> cartChangeNums(@Body LoginBean loginBean);
+
     //删除购物车商品
     @POST("api/cart/delete")
     Observable<ResultModel> cartDelete(@Body LoginBean loginBean);
+
     //商品详情
     @POST("api/goods/detail")
     Observable<GoodsDetailModel> goodsDetail(@Body LoginBean loginBean);
+
     //收藏商品
     @POST("api/user.collect/add")
     Observable<ResultModel> goodsCollect(@Body LoginBean loginBean);
@@ -105,6 +114,7 @@ public interface RetrofitService {
     //用户信息
     @POST("api/user.index/detail")
     Observable<UserDetailModel> userDetail(@Body LoginBean loginBean);
+
     //立即购买确认订单/提交订单
     @GET("api/order/buyNow")
     Observable<SureOrderModel> sureOrder(@QueryMap Map<String, String> queryMap);
@@ -120,13 +130,20 @@ public interface RetrofitService {
     //购物车购买
     @POST("api/order/cart")
     Observable<OrderCartModel> buyNowCart(@Body LoginBean loginBean);
+
     //商品评价列表
     @POST("api/comment/lists")
     Observable<CommentListModel> commentList(@Body LoginBean loginBean);
+
     //订单列表
     @POST("api/user.order/lists")
     Observable<OrderListModel> orderList(@Body LoginBean loginBean);
 
+    //收藏列表
+    @POST("api/user.collect/lists")
+    Observable<CollectListModel> collectList(@Body LoginBean loginBean);
 
-
+    //收藏商品
+    @POST("api/user.collect/del")
+    Observable<ResultModel> delCollect(@Body LoginBean loginBean);
 }

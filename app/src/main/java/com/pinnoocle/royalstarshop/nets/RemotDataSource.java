@@ -33,21 +33,42 @@ public interface RemotDataSource {
     void addressEdit(LoginBean loginBean, getCallback callback);
 
     void goodsLists(LoginBean loginBean, getCallback callback);
+
     void banner(LoginBean loginBean, getCallback callback);
+
     void home(LoginBean loginBean, getCallback callback);
+
     void categoryList(LoginBean loginBean, getCallback callback);
+
     void getSubCategory(LoginBean loginBean, getCallback callback);
+
     void cartAdd(LoginBean loginBean, getCallback callback);
+
     void cartLists(LoginBean loginBean, getCallback callback);
+
     void cartChangeNums(LoginBean loginBean, getCallback callback);
+
     void cartDelete(LoginBean loginBean, getCallback callback);
+
     void goodsDetail(LoginBean loginBean, getCallback callback);
+
     void goodsCollect(LoginBean loginBean, getCallback callback);
+
     void userDetail(LoginBean loginBean, getCallback callback);
+
     void sureOrder(Map<String, String> queryMap, getCallback callback);
+
     void orderCart(Map<String, String> queryMap, getCallback callback);
+
     void buyNow(LoginBean loginBean, getCallback callback);
+
     void buyNowCart(LoginBean loginBean, getCallback callback);
+
     void commentList(LoginBean loginBean, getCallback callback);
+
     void orderList(LoginBean loginBean, getCallback callback);
+
+    void collectList(LoginBean loginBean, getCallback callback);
+
+    void delCollect(LoginBean loginBean, getCallback callback);
 }
