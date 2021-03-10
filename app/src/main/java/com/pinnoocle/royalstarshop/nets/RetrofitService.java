@@ -17,6 +17,7 @@ import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
+import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
@@ -146,4 +147,8 @@ public interface RetrofitService {
     //收藏商品
     @POST("api/user.collect/del")
     Observable<ResultModel> delCollect(@Body LoginBean loginBean);
+
+    //修改手机号
+    @POST("api/user/changePhone")
+    Observable<StatusModel> changePhone(@Body LoginBean loginBean);
 }

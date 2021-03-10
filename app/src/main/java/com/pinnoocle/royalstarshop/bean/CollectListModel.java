@@ -522,7 +522,16 @@ public class CollectListModel {
                         private int stock_num;
                         private int goods_sales;
                         private int goods_weight;
+                        private String goods_attr;
                         private ImageBean image;
+
+                        public String getGoods_attr() {
+                            return goods_attr;
+                        }
+
+                        public void setGoods_attr(String goods_attr) {
+                            this.goods_attr = goods_attr;
+                        }
 
                         public int getGoods_sku_id() {
                             return goods_sku_id;

@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         if (!TextUtils.isEmpty(FastData.getToken())) {
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
         dataRepository = Injection.dataRepository(this);
@@ -107,11 +107,11 @@ public class LoginActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_login:
-                if(TextUtils.isEmpty(edPhone.getText().toString())){
+                if (TextUtils.isEmpty(edPhone.getText().toString())) {
                     ToastUtils.showToast("请输入手机号码");
                     return;
                 }
-                if(TextUtils.isEmpty(edCode.getText().toString())){
+                if (TextUtils.isEmpty(edCode.getText().toString())) {
                     ToastUtils.showToast("请输入验证码");
                     return;
                 }
@@ -136,7 +136,7 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(LoginActivity.this);
                 LoginModel loginModel = (LoginModel) data;
-                if(loginModel.getCode() == 1){
+                if (loginModel.getCode() == 1) {
                     FastData.setUserId(loginModel.getData().getUser().getUser_id());
                     FastData.setToken(loginModel.getData().getToken());
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -162,9 +162,9 @@ public class LoginActivity extends BaseActivity {
                 ViewLoading.dismiss(LoginActivity.this);
                 ToastUtils.showToast("验证码发送成功");
                 CodeModel data1 = (CodeModel) data;
-                if(data1.getCode()==1){
+                if (data1.getCode() == 1) {
 
-                ToastUtils.showToast(data1.getData().getCode()+"");
+                    ToastUtils.showToast(data1.getData().getCode() + "");
                 }
                 getCode();
             }

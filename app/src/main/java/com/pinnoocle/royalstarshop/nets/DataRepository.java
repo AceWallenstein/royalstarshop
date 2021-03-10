@@ -171,4 +171,9 @@ public class DataRepository implements RemotDataSource {
         mRemoteDataSource.delCollect(loginBean, callback);
     }
 
+    @Override
+    public void changePhone(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.changePhone(loginBean, callback);
+    }
+
 }

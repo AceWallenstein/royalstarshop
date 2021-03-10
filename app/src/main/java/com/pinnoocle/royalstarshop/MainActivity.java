@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.pinnoocle.royalstarshop.adapter.FragmentTabAdapter;
+import com.pinnoocle.royalstarshop.common.AppManager;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.home.fragment.HomeFragment;
 import com.pinnoocle.royalstarshop.mine.fragment.MineFragment;
@@ -74,6 +75,7 @@ public class MainActivity extends BaseActivity {
         StatusBarUtils.setColor(this.getWindow(), getResources().getColor(R.color.transparent));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AppManager.getInstance().addActivity(this);
         initTransparent();
         ButterKnife.bind(this);
         initView();

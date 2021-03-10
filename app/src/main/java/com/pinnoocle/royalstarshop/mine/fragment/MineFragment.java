@@ -38,6 +38,9 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,6 +131,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     private float mOffset;
     private float mScrollY;
     private DataRepository dataRepository;
+    private UserDetailModel userDetailModel;
 
     @Override
     protected int LayoutId() {
@@ -220,7 +224,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             @Override
             public void onSuccess(Object data) {
                 refresh.finishRefresh();
-                UserDetailModel userDetailModel = (UserDetailModel) data;
+                userDetailModel = (UserDetailModel) data;
                 if (userDetailModel.getCode() == 1) {
                     tvName.setText(userDetailModel.getData().getUserInfo().getNickName());
                     StringBuilder sb = new StringBuilder();
@@ -368,6 +372,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         switch (view.getId()) {
             case R.id.iv_setting:
                 Intent intent = new Intent(getContext(), SettingActivity.class);
+                intent.putExtra("phone", userDetailModel.getData().getUserInfo().getPhone());
                 startActivity(intent);
                 break;
             case R.id.iv_sign_in:
@@ -379,6 +384,13 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             case R.id.ll_golden_bean:
                 startActivity(new Intent(getContext(), GoldenBeanActivity.class));
                 break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String event) {
+        if (event.equals("4")) {
+            userInfo();
         }
     }
 }

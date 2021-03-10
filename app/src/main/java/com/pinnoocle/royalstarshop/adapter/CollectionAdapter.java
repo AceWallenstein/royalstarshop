@@ -42,7 +42,7 @@ public class CollectionAdapter extends BaseAdapter<CollectListModel.DataBeanX.Li
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Glide.with(mContext).load(mDatas.get(position).getGoods().getGoods_image()).apply(bitmapTransform(new GlideRoundTransform(mContext))).into(holder.ivPicture);
         holder.tvName.setText(mDatas.get(position).getGoods().getGoods_name());
-//        holder.tvSpec.setText(mDatas.get(position).getGoods().getGoods_name());
+        holder.tvSpec.setText(mDatas.get(position).getGoods().getGoods_sku().getGoods_attr());
         holder.tvMoney.setText("￥" + mDatas.get(position).getGoods().getGoods_sku().getGoods_price());
     }
 

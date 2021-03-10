@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 
@@ -41,6 +43,8 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout rlModifyPhone;
     @BindView(R.id.rl_about_us)
     RelativeLayout rlAboutUs;
+    @BindView(R.id.tv_modify_phone)
+    TextView tvModifyPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +52,19 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < getIntent().getStringExtra("phone").length(); i++) {
+            char c = getIntent().getStringExtra("phone").charAt(i);
+            if (i >= 3 && i <= 6) {
+                sb.append('*');
+            } else {
+                sb.append(c);
+            }
+        }
+        tvModifyPhone.setText(sb.toString());
     }
 
-    @OnClick({R.id.iv_back, R.id.rl_personal, R.id.tv_quit, R.id.rl_transaction_code, R.id.rl_modify_phone,R.id.rl_about_us})
+    @OnClick({R.id.iv_back, R.id.rl_personal, R.id.tv_quit, R.id.rl_transaction_code, R.id.rl_modify_phone, R.id.rl_about_us})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -68,7 +82,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rl_modify_phone:
                 Intent intent2 = new Intent(this, ModifyNumberActivity.class);
-                startActivity(intent2);
+                startActivityForResult(intent2, 1000);
                 break;
             case R.id.rl_about_us:
                 Intent intent3 = new Intent(this, AboutUsActivity.class);

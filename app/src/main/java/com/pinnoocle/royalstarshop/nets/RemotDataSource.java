@@ -71,4 +71,6 @@ public interface RemotDataSource {
     void collectList(LoginBean loginBean, getCallback callback);
 
     void delCollect(LoginBean loginBean, getCallback callback);
+
+    void changePhone(LoginBean loginBean, getCallback callback);
 }

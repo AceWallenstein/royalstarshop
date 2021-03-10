@@ -57,6 +57,8 @@
             android:layout_toLeftOf="@id/tv_get_code"
             android:hint="请输入手机号"
             android:padding="10dp"
+            android:maxLength="11"
+            android:inputType="number"
             android:textColor="@color/black"
             android:textColorHint="#CCCCCC"
             android:textSize="16sp" />
@@ -90,11 +92,13 @@
             android:textSize="16sp" />
 
         <EditText
+            android:id="@+id/ed_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:hint="请输入验证码"
             android:padding="10dp"
+            android:inputType="number"
             android:textColor="@color/black"
             android:textColorHint="#CCCCCC"
             android:textSize="16sp" />
