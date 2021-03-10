@@ -3,6 +3,8 @@ package com.pinnoocle.royalstarshop.mine.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -12,8 +14,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 
+import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
@@ -38,6 +42,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -134,6 +139,18 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     private UserDetailModel userDetailModel;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected int LayoutId() {
         return R.layout.fragment_mine;
     }
@@ -226,6 +243,13 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 refresh.finishRefresh();
                 userDetailModel = (UserDetailModel) data;
                 if (userDetailModel.getCode() == 1) {
+                    if (TextUtils.isEmpty(userDetailModel.getData().getUserInfo().getAvatarUrl())) {
+                        ivAvater.setImageResource(R.drawable.default_avatar);
+                        ivAvater1.setImageResource(R.drawable.default_avatar);
+                    } else {
+                        Glide.with(getActivity()).load(userDetailModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
+                        Glide.with(getActivity()).load(userDetailModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater1);
+                    }
                     tvName.setText(userDetailModel.getData().getUserInfo().getNickName());
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < userDetailModel.getData().getUserInfo().getPhone().length(); i++) {
@@ -372,7 +396,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         switch (view.getId()) {
             case R.id.iv_setting:
                 Intent intent = new Intent(getContext(), SettingActivity.class);
-                intent.putExtra("phone", userDetailModel.getData().getUserInfo().getPhone());
+                intent.putExtra("phone", tvPhone.getText().toString());
                 startActivity(intent);
                 break;
             case R.id.iv_sign_in:

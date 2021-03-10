@@ -6,6 +6,8 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+
 /**
  * Created by whs on 2017/5/18
  */
@@ -174,6 +176,16 @@ public class DataRepository implements RemotDataSource {
     @Override
     public void changePhone(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.changePhone(loginBean, callback);
+    }
+
+    @Override
+    public void changeInfo(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.changeInfo(loginBean, callback);
+    }
+
+    @Override
+    public void image(String wxappid, String token, MultipartBody.Part file, getCallback callback) {
+        mRemoteDataSource.image(wxappid, token, file, callback);
     }
 
 }

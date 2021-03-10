@@ -100,6 +100,7 @@ public class UserDetailModel {
             private String pay_money;
             private String expend_money;
             private String phone;
+            private String birth;
             private Object lasttime;
             private Object username;
             private Object invite_code;
@@ -113,6 +114,14 @@ public class UserDetailModel {
             private AddressDefaultBean address_default;
             private Object grade;
             private List<AddressBean> address;
+
+            public String getBirth() {
+                return birth;
+            }
+
+            public void setBirth(String birth) {
+                this.birth = birth;
+            }
 
             public String getScan_num() {
                 return scan_num;

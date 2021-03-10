@@ -14,6 +14,7 @@ import com.pinnoocle.royalstarshop.bean.CommentListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.HomeModel;
+import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
@@ -27,6 +28,7 @@ import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -683,6 +685,50 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(StatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void changeInfo(LoginBean loginBean, getCallback callback) {
+        Observable<ResultModel> observable = RetrofitHelper.getInstance(mContext).getServer().changeInfo(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ResultModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void image(String wxappid, String token, MultipartBody.Part file, getCallback callback) {
+        Observable<ImageModel> observable = RetrofitHelper.getInstance(mContext).getServer().image(wxappid, token, file);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ImageModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ImageModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

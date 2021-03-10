@@ -4,6 +4,8 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+
 /**
  * Created by whs on 2017/6/7
  */
@@ -73,4 +75,8 @@ public interface RemotDataSource {
     void delCollect(LoginBean loginBean, getCallback callback);
 
     void changePhone(LoginBean loginBean, getCallback callback);
+
+    void changeInfo(LoginBean loginBean, getCallback callback);
+
+    void image(String wxappid, String token, MultipartBody.Part file, getCallback callback);
 }

@@ -7,10 +7,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.common.AppManager;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
+import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.widget.DataCleanManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +48,10 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout rlAboutUs;
     @BindView(R.id.tv_modify_phone)
     TextView tvModifyPhone;
+    @BindView(R.id.rl_clean)
+    RelativeLayout rlClean;
+    @BindView(R.id.tv_cache)
+    TextView tvCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,19 +59,15 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < getIntent().getStringExtra("phone").length(); i++) {
-            char c = getIntent().getStringExtra("phone").charAt(i);
-            if (i >= 3 && i <= 6) {
-                sb.append('*');
-            } else {
-                sb.append(c);
-            }
+        tvModifyPhone.setText(getIntent().getStringExtra("phone"));
+        try {
+            tvCache.setText(DataCleanManager.getTotalCacheSize(this));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        tvModifyPhone.setText(sb.toString());
     }
 
-    @OnClick({R.id.iv_back, R.id.rl_personal, R.id.tv_quit, R.id.rl_transaction_code, R.id.rl_modify_phone, R.id.rl_about_us})
+    @OnClick({R.id.iv_back, R.id.rl_personal, R.id.tv_quit, R.id.rl_transaction_code, R.id.rl_modify_phone, R.id.rl_about_us, R.id.rl_clean})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -75,6 +78,11 @@ public class SettingActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.tv_quit:
+                FastData.clear();
+                Intent intent4 = new Intent(SettingActivity.this, LoginActivity.class);
+                intent4.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent4);
+                AppManager.getInstance().killAllActivity();
                 break;
             case R.id.rl_transaction_code:
                 Intent intent1 = new Intent(this, TransactionCodeActivity.class);
@@ -87,6 +95,15 @@ public class SettingActivity extends BaseActivity {
             case R.id.rl_about_us:
                 Intent intent3 = new Intent(this, AboutUsActivity.class);
                 startActivity(intent3);
+                break;
+            case R.id.rl_clean:
+                DataCleanManager.clearAllCache(this);
+                try {
+                    tvCache.setText(DataCleanManager.getTotalCacheSize(this));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                ToastUtils.showToast("清除缓存成功");
                 break;
         }
     }

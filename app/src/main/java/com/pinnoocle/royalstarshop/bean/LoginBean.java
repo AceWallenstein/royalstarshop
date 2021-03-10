@@ -24,4 +24,7 @@ public class LoginBean {
     public String pay_type;
     public String dataType;
     public String collect_id;
+    public String avatarUrl;
+    public String nickName;
+    public String birth;
 }

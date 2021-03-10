@@ -11,6 +11,7 @@ import com.pinnoocle.royalstarshop.bean.CommentListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.HomeModel;
+import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
@@ -24,9 +25,13 @@ import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -151,4 +156,14 @@ public interface RetrofitService {
     //修改手机号
     @POST("api/user/changePhone")
     Observable<StatusModel> changePhone(@Body LoginBean loginBean);
+
+    //修改用户信息
+    @POST("api/user.index/changeInfo")
+    Observable<ResultModel> changeInfo(@Body LoginBean loginBean);
+
+    //上传图片
+    @Multipart
+    @POST("api/upload/image")
+    Observable<ImageModel> image(@Query("wxapp_id") String wxappid, @Query("token") String token, @Part MultipartBody.Part file);
+
 }
