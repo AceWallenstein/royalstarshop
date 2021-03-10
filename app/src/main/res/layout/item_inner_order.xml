@@ -11,6 +11,8 @@
         android:layout_height="80dp" />
 
     <TextView
+        android:lines="2"
+        android:ellipsize="end"
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

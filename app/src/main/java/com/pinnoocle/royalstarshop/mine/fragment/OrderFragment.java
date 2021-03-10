@@ -60,7 +60,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         orderAdapter = new OrderAdapter(getContext());
         recycleView.setAdapter(orderAdapter);
-        refresh.setOnLoadMoreListener(this);
+        refresh.setOnRefreshLoadMoreListener(this);
         orderAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderListModel.DataBeanX.ListBean.DataBean>() {
             @Override
             public void onItemViewClick(View view, int position, OrderListModel.DataBeanX.ListBean.DataBean o) {
@@ -100,8 +100,8 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(getContext());
                 OrderListModel orderListModel = (OrderListModel) data;
+                refresh.finishRefresh();
                 if (orderListModel.getCode() == 1) {
-
                     if (orderListModel.getData().getList().getCurrent_page() == orderListModel.getData().getList().getLast_page()) {
                         refresh.finishLoadMoreWithNoMoreData();
                     } else {

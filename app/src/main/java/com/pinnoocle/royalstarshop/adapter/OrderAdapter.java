@@ -81,10 +81,15 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
         }
 
 
-        holder.llOrder.setOnClickListener(v ->
+        holder.itemView.setOnClickListener(v ->
         {
             Intent intent = new Intent(mContext, OrderDetailActivity.class);
             mContext.startActivity(intent);
+        });
+        adapter.setOnItemClickListener((v,pos)->{
+            Intent intent = new Intent(mContext, OrderDetailActivity.class);
+            mContext.startActivity(intent);
+
         });
 
     }

@@ -102,4 +102,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
+    //NiceSpinner
+    implementation 'com.github.arcadefire:nice-spinner:1.4.5'
+
 }

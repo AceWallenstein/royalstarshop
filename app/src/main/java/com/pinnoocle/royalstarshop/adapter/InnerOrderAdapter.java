@@ -38,6 +38,11 @@ public class InnerOrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.List
         holder.tvTitle.setText(mDatas.get(position).getGoods_name());
         holder.tvGoodsPattern.setText(mDatas.get(position).getGoods_attr());
         holder.tvNum.setText("x"+mDatas.get(position).getTotal_num());
+        holder.itemView.setOnClickListener(v -> {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemViewClick(v,position);
+            }
+        });
     }
 
     @Override
