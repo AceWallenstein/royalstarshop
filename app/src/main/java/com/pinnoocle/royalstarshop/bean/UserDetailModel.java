@@ -91,7 +91,7 @@ public class UserDetailModel {
 
             private int user_id;
             private String nickName;
-            private String scan_num;
+            private String san_num;
             private String avatarUrl;
             private String gender;
             private int address_id;
@@ -123,12 +123,12 @@ public class UserDetailModel {
                 this.birth = birth;
             }
 
-            public String getScan_num() {
-                return scan_num;
+            public String getSan_num() {
+                return san_num;
             }
 
-            public void setScan_num(String scan_num) {
-                this.scan_num = scan_num;
+            public void setSan_num(String san_num) {
+                this.san_num = san_num;
             }
 
             public int getUser_id() {

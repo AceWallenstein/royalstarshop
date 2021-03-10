@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mine.activity.GoldenBeanDetailActivity"></activity>
+        <activity android:name=".mine.activity.ScanListActivity"></activity>
+        <activity android:name=".mine.activity.GoldenBeanDetailActivity" />
         <activity android:name=".mine.activity.GoldenBeanActivity" />
         <activity android:name=".mine.activity.CollectionActivity" />
         <activity android:name=".mine.activity.WithdrawalActivity" />
@@ -39,16 +40,14 @@
         <activity android:name=".home.activity.CommentActivity" />
         <activity android:name=".home.activity.SearchActivity" />
         <activity android:name=".video.VideoDetailActivity" />
-        <activity android:name=".login.LoginActivity" >
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".home.activity.GoodsDetailActivity" />
         <activity android:name=".home.activity.GoodsCommentActivity" />
         <activity android:name=".mine.activity.AddressActivity" />

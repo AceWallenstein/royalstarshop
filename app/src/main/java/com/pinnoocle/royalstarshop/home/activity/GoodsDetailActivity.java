@@ -140,6 +140,30 @@ public class GoodsDetailActivity extends BaseActivity {
     private void initData() {
         dataRepository = Injection.dataRepository(this);
         goodsDetail();
+        addGoodsLog();
+    }
+
+    private void addGoodsLog() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.goods_id = getIntent().getStringExtra("goods_id");
+        ViewLoading.show(this);
+        dataRepository.addGoodsLog(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                ResultModel resultModel = (ResultModel) data;
+                if (resultModel.getCode() == 1) {
+                    EventBus.getDefault().post("4");
+                }
+            }
+        });
     }
 
     private void goodsDetail() {

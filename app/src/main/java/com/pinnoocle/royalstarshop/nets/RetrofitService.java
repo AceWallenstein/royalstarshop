@@ -19,6 +19,7 @@ import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
+import com.pinnoocle.royalstarshop.bean.ScanListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
@@ -85,27 +86,35 @@ public interface RetrofitService {
     //首页商品
     @POST("api/index/index")
     Observable<HomeModel> home(@Body LoginBean loginBean);
+
     //二级分类列表
     @POST("api/category/index")
     Observable<CategoryListModel> categoryList(@Body LoginBean loginBean);
+
     //子分类
     @POST("api/category/getSubCategory")
     Observable<SubCategoryModel> getSubCategory(@Body LoginBean loginBean);
+
     //加入购物车
     @POST("api/cart/add")
     Observable<CartAddModel> cartAdd(@Body LoginBean loginBean);
+
     //购物车列表
     @POST("api/cart/lists")
     Observable<CartListsModel> cartLists(@Body LoginBean loginBean);
+
     //修改购物车商品数量
     @POST("api/cart/sub")
     Observable<ResultModel> cartChangeNums(@Body LoginBean loginBean);
+
     //删除购物车商品
     @POST("api/cart/delete")
     Observable<ResultModel> cartDelete(@Body LoginBean loginBean);
+
     //商品详情
     @POST("api/goods/detail")
     Observable<GoodsDetailModel> goodsDetail(@Body LoginBean loginBean);
+
     //收藏商品
     @POST("api/user.collect/add")
     Observable<ResultModel> goodsCollect(@Body LoginBean loginBean);
@@ -113,6 +122,7 @@ public interface RetrofitService {
     //用户信息
     @POST("api/user.index/detail")
     Observable<UserDetailModel> userDetail(@Body LoginBean loginBean);
+
     //立即购买确认订单/提交订单
     @GET("api/order/buyNow")
     Observable<SureOrderModel> sureOrder(@QueryMap Map<String, String> queryMap);
@@ -161,11 +171,21 @@ public interface RetrofitService {
     //订单详情
     @POST("api/user.order/detail")
     Observable<OrderDetailModel> orderDetail(@Body LoginBean loginBean);
+
     //取消订单
     @POST("api/user.order/cancel")
     Observable<StatusModel> orderCancel(@Body LoginBean loginBean);
+
     //取消订单
     @POST("api/user.order/receipt")
     Observable<StatusModel> orderReceipt(@Body LoginBean loginBean);
+
+    //商品浏览记录
+    @POST("api/user.index/addGoodsLog")
+    Observable<ResultModel> addGoodsLog(@Body LoginBean loginBean);
+
+    //商品浏览记录列表
+    @POST("api/user.index/scanList")
+    Observable<ScanListModel> scanList(@Body LoginBean loginBean);
 
 }

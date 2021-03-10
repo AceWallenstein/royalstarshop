@@ -27,6 +27,7 @@ import com.pinnoocle.royalstarshop.mine.activity.CollectionActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanActivity;
 import com.pinnoocle.royalstarshop.mine.activity.OrderActivity;
 import com.pinnoocle.royalstarshop.mine.activity.RecommendedIncomeActivity;
+import com.pinnoocle.royalstarshop.mine.activity.ScanListActivity;
 import com.pinnoocle.royalstarshop.mine.activity.SettingActivity;
 import com.pinnoocle.royalstarshop.mine.activity.WithdrawalActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
@@ -263,7 +264,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                     tvPhone.setText(sb.toString());
                     tvBalance.setText(userDetailModel.getData().getUserInfo().getBalance());
                     tvPoints.setText(userDetailModel.getData().getUserInfo().getPoints() + "");
-                    tvFootprint.setText(userDetailModel.getData().getUserInfo().getScan_num());
+                    tvFootprint.setText(userDetailModel.getData().getUserInfo().getSan_num());
                     if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
                         rlAvatar.setVisibility(View.VISIBLE);
                         ivAvater1.setVisibility(View.GONE);
@@ -398,7 +399,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         }
     }
 
-    @OnClick({R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean,R.id.tv_all_order})
+    @OnClick({R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean, R.id.tv_all_order,R.id.ll_history})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
@@ -417,6 +418,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 break;
             case R.id.tv_all_order:
                 startActivity(new Intent(getContext(), OrderActivity.class));
+                break;
+            case R.id.ll_history:
+                startActivity(new Intent(getContext(), ScanListActivity.class));
                 break;
         }
     }
