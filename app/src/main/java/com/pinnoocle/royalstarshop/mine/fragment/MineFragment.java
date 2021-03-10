@@ -307,15 +307,22 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                         startActivity(new Intent(getContext(), OrderActivity.class));
                         break;
                     case 1: //待付款
-
+                        Intent intent1 = new Intent(getContext(), OrderActivity.class);
+                        intent1.putExtra("type", 1);
+                        startActivity(intent1);
                         break;
                     case 2: //待发货
-
+                        Intent intent2 = new Intent(getContext(), OrderActivity.class);
+                        intent2.putExtra("type", 2);
+                        startActivity(intent2);
                         break;
                     case 3: //待评价
-
+                        Intent intent3 = new Intent(getContext(), OrderActivity.class);
+                        intent3.putExtra("type", 4);
+                        startActivity(intent3);
                         break;
                     case 4: //退换
+
                         break;
                     default:
                         break;
@@ -391,7 +398,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         }
     }
 
-    @OnClick({R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean})
+    @OnClick({R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean,R.id.tv_all_order})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_setting:
@@ -407,6 +414,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 break;
             case R.id.ll_golden_bean:
                 startActivity(new Intent(getContext(), GoldenBeanActivity.class));
+                break;
+            case R.id.tv_all_order:
+                startActivity(new Intent(getContext(), OrderActivity.class));
                 break;
         }
     }

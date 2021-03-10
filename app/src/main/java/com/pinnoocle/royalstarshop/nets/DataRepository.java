@@ -179,6 +179,21 @@ public class DataRepository implements RemotDataSource {
     }
 
     @Override
+    public void orderCancel(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.orderCancel(loginBean, callback);
+    }
+
+    @Override
+    public void orderReceipt(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.orderReceipt(loginBean, callback);
+    }
+
+    @Override
+    public void orderDetail(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.orderDetail(loginBean, callback);
+    }
+
+    @Override
     public void changeInfo(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.changeInfo(loginBean, callback);
     }

@@ -60,6 +60,7 @@
         <activity android:name=".home.activity.GoodsVideoDetailActivity" />
         <activity android:name=".mine.activity.OrderActivity" />
         <activity android:name=".mine.activity.OrderDetailActivity" />
+        <activity android:name=".mine.activity.OrderCommentActivity" />
     </application>
 
 </manifest>

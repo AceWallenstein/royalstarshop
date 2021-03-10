@@ -15,6 +15,7 @@ import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
+import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
@@ -84,35 +85,27 @@ public interface RetrofitService {
     //首页商品
     @POST("api/index/index")
     Observable<HomeModel> home(@Body LoginBean loginBean);
-
     //二级分类列表
     @POST("api/category/index")
     Observable<CategoryListModel> categoryList(@Body LoginBean loginBean);
-
     //子分类
     @POST("api/category/getSubCategory")
     Observable<SubCategoryModel> getSubCategory(@Body LoginBean loginBean);
-
     //加入购物车
     @POST("api/cart/add")
     Observable<CartAddModel> cartAdd(@Body LoginBean loginBean);
-
     //购物车列表
     @POST("api/cart/lists")
     Observable<CartListsModel> cartLists(@Body LoginBean loginBean);
-
     //修改购物车商品数量
     @POST("api/cart/sub")
     Observable<ResultModel> cartChangeNums(@Body LoginBean loginBean);
-
     //删除购物车商品
     @POST("api/cart/delete")
     Observable<ResultModel> cartDelete(@Body LoginBean loginBean);
-
     //商品详情
     @POST("api/goods/detail")
     Observable<GoodsDetailModel> goodsDetail(@Body LoginBean loginBean);
-
     //收藏商品
     @POST("api/user.collect/add")
     Observable<ResultModel> goodsCollect(@Body LoginBean loginBean);
@@ -120,7 +113,6 @@ public interface RetrofitService {
     //用户信息
     @POST("api/user.index/detail")
     Observable<UserDetailModel> userDetail(@Body LoginBean loginBean);
-
     //立即购买确认订单/提交订单
     @GET("api/order/buyNow")
     Observable<SureOrderModel> sureOrder(@QueryMap Map<String, String> queryMap);
@@ -149,7 +141,7 @@ public interface RetrofitService {
     @POST("api/user.collect/lists")
     Observable<CollectListModel> collectList(@Body LoginBean loginBean);
 
-    //收藏商品
+    //取消收藏商品
     @POST("api/user.collect/del")
     Observable<ResultModel> delCollect(@Body LoginBean loginBean);
 
@@ -165,5 +157,15 @@ public interface RetrofitService {
     @Multipart
     @POST("api/upload/image")
     Observable<ImageModel> image(@Query("wxapp_id") String wxappid, @Query("token") String token, @Part MultipartBody.Part file);
+
+    //订单详情
+    @POST("api/user.order/detail")
+    Observable<OrderDetailModel> orderDetail(@Body LoginBean loginBean);
+    //取消订单
+    @POST("api/user.order/cancel")
+    Observable<StatusModel> orderCancel(@Body LoginBean loginBean);
+    //取消订单
+    @POST("api/user.order/receipt")
+    Observable<StatusModel> orderReceipt(@Body LoginBean loginBean);
 
 }

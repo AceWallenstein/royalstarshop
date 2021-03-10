@@ -1,10 +1,13 @@
 package com.pinnoocle.royalstarshop.mine.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,8 +17,12 @@ import com.pinnoocle.royalstarshop.adapter.OrderAdapter;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
+import com.pinnoocle.royalstarshop.bean.ResultModel;
+import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
+import com.pinnoocle.royalstarshop.mine.activity.OrderCommentActivity;
 import com.pinnoocle.royalstarshop.mine.activity.OrderDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -24,8 +31,16 @@ import com.pinnoocle.royalstarshop.utils.FastData;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+import com.timmy.tdialog.TDialog;
+import com.timmy.tdialog.base.BindViewHolder;
+import com.timmy.tdialog.listener.OnBindViewListener;
+import com.timmy.tdialog.listener.OnViewClickListener;
 import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +71,27 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String event) {
+        if(event.equals("order_refresh")){
+            page = 1;
+            dataBeanList.clear();
+            orderList();
+        }
+    }
+
+    @Override
     protected void initView() {
         recycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         orderAdapter = new OrderAdapter(getContext());
@@ -64,8 +100,23 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
         orderAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderListModel.DataBeanX.ListBean.DataBean>() {
             @Override
             public void onItemViewClick(View view, int position, OrderListModel.DataBeanX.ListBean.DataBean o) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.tv_cancel:
+                        if (o.getState_text().equals("待付款")) {  //取消
+                            showOrderCancelDialog(o.getOrder_id() + "");
+                        } else if (o.getState_text().equals("待付款")) {//联系客服
+
+                        }
+                        break;
+
+                    case R.id.tv_pay:
+                        if (o.getState_text().equals("待付款")) {  //去付款
+
+                        } else if (o.getState_text().equals("待收货")) {//确认收货
+                            showOrderConfirmDialog(o.getOrder_id() + "");
+                        } else if (o.getState_text().equals("已完成")) {//去评价
+
+                        }
 
                         break;
 
@@ -121,6 +172,161 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
             }
         });
     }
+
+    private void orderCancel(String order_ids) {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.order_id	 = order_ids;
+        ViewLoading.show(getContext());
+        dataRepository.orderCancel(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(getContext());
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(getContext());
+                StatusModel statusModel = (StatusModel) data;
+                refresh.finishRefresh();
+                if (statusModel.getCode() == 1) {
+                    page = 1;
+                    dataBeanList.clear();
+                    orderList();
+                }
+            }
+
+        });
+    }
+
+    private void orderReceipt(String order_ids) {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.order_id = order_ids;
+        ViewLoading.show(getContext());
+        dataRepository.orderReceipt(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(getContext());
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(getContext());
+                StatusModel statusModel = (StatusModel) data;
+                refresh.finishRefresh();
+                if (statusModel.getCode() == 1) {
+                    page = 1;
+                    dataBeanList.clear();
+                    orderList();
+                    showOrderCommentDialog(order_ids);
+                }
+            }
+
+        });
+    }
+
+
+    private void showOrderCancelDialog(String order_ids) {
+        new TDialog.Builder(getActivity().getSupportFragmentManager())
+                .setLayoutRes(R.layout.order_cancel_dialog)
+                .setScreenWidthAspect(getContext(), 0.7f)
+                .setGravity(Gravity.CENTER)
+                .setCancelableOutside(false)
+                .addOnClickListener(R.id.tv_cancel, R.id.tv_sure)
+                .setOnBindViewListener(new OnBindViewListener() {
+                    @Override
+                    public void bindView(BindViewHolder viewHolder) {
+                    }
+                })
+                .setOnViewClickListener(new OnViewClickListener() {
+                    @Override
+                    public void onViewClick(BindViewHolder viewHolder, View view, TDialog tDialog) {
+                        switch (view.getId()) {
+                            case R.id.tv_cancel:
+                                tDialog.dismiss();
+                                break;
+                            case R.id.tv_sure:
+                                orderCancel(order_ids);
+                                tDialog.dismiss();
+
+                                break;
+                        }
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void showOrderConfirmDialog(String order_ids) {
+        new TDialog.Builder(getActivity().getSupportFragmentManager())
+                .setLayoutRes(R.layout.order_confirm_dialog)
+                .setScreenWidthAspect(getContext(), 0.7f)
+                .setGravity(Gravity.CENTER)
+                .setCancelableOutside(false)
+                .addOnClickListener(R.id.tv_cancel, R.id.tv_sure)
+                .setOnBindViewListener(new OnBindViewListener() {
+                    @Override
+                    public void bindView(BindViewHolder viewHolder) {
+                        TextView tv_content = viewHolder.itemView.findViewById(R.id.tv_content);
+                        tv_content.setText("确认签收订单：" + order_ids);
+                    }
+                })
+                .setOnViewClickListener(new OnViewClickListener() {
+                    @Override
+                    public void onViewClick(BindViewHolder viewHolder, View view, TDialog tDialog) {
+                        switch (view.getId()) {
+                            case R.id.tv_cancel:
+                                tDialog.dismiss();
+                                break;
+                            case R.id.tv_sure:
+                                orderReceipt(order_ids);
+                                tDialog.dismiss();
+                                break;
+                        }
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void showOrderCommentDialog(String order_ids) {
+        new TDialog.Builder(getActivity().getSupportFragmentManager())
+                .setLayoutRes(R.layout.order_comment_dialog)
+                .setScreenWidthAspect(getContext(), 0.7f)
+                .setGravity(Gravity.CENTER)
+                .setCancelableOutside(false)
+                .addOnClickListener(R.id.tv_cancel, R.id.tv_sure)
+                .setOnBindViewListener(new OnBindViewListener() {
+                    @Override
+                    public void bindView(BindViewHolder viewHolder) {
+                        TextView tv_content = viewHolder.itemView.findViewById(R.id.tv_content);
+                        tv_content.setText("确认签收订单：" + order_ids + "成功，，现在去评价订单？");
+                    }
+                })
+                .setOnViewClickListener(new OnViewClickListener() {
+                    @Override
+                    public void onViewClick(BindViewHolder viewHolder, View view, TDialog tDialog) {
+                        switch (view.getId()) {
+                            case R.id.tv_cancel:
+                                tDialog.dismiss();
+                                break;
+                            case R.id.tv_sure:
+                                Intent intent = new Intent(getContext(), OrderCommentActivity.class);
+                                intent.putExtra("order_ids", order_ids);
+                                startActivity(intent);
+                                tDialog.dismiss();
+                                break;
+                        }
+                    }
+                })
+                .create()
+                .show();
+    }
+
+
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {

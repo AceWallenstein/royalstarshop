@@ -73,21 +73,32 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
 
                 break;
             case "已评价":
+            case "已取消":
                 holder.rl_panel.setVisibility(View.GONE);
                 holder.tvStatus.setTextColor(0xff666666);
-
                 break;
 
         }
-
+        holder.tvPay.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
+            }
+        });
+        holder.tvCancel.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
+            }
+        });
 
         holder.itemView.setOnClickListener(v ->
         {
             Intent intent = new Intent(mContext, OrderDetailActivity.class);
+            intent.putExtra("order_id",mDatas.get(position).getOrder_id());
             mContext.startActivity(intent);
         });
         adapter.setOnItemClickListener((v,pos)->{
             Intent intent = new Intent(mContext, OrderDetailActivity.class);
+            intent.putExtra("order_id",mDatas.get(position).getOrder_id());
             mContext.startActivity(intent);
 
         });
