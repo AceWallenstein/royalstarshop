@@ -29,6 +29,7 @@ import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
+import com.pinnoocle.royalstarshop.bean.VipOpenModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 
 import java.util.Map;
@@ -214,5 +215,9 @@ public interface RetrofitService {
     //会员套餐
     @POST("api/vip/info")
     Observable<VipInfoModel> vipInfo(@Body LoginBean loginBean);
+
+    //开通会员
+    @POST("api/vip/vip")
+    Observable<VipOpenModel> vipOpen(@Body LoginBean loginBean);
 
 }

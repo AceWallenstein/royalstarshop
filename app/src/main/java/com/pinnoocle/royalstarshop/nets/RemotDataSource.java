@@ -98,6 +98,7 @@ public interface RemotDataSource {
     void feedbackList(LoginBean loginBean, getCallback callback);
 
     void vipInfo(LoginBean loginBean, getCallback callback);
+    void vipOpen(LoginBean loginBean, getCallback callback);
 
     void image(String wxappid, String token, MultipartBody.Part file, getCallback callback);
 
