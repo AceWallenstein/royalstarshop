@@ -29,6 +29,15 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:src="@mipmap/ic_back" />
+        <ImageView
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/iv_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:src="@mipmap/record" />
+
     </RelativeLayout>
 
     <View
@@ -98,6 +107,7 @@
             android:verticalSpacing="5dp" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_text_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -12,6 +12,7 @@ import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.CollectListModel;
 import com.pinnoocle.royalstarshop.bean.CommentListModel;
+import com.pinnoocle.royalstarshop.bean.FeedbackListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.HomeModel;
@@ -31,6 +32,7 @@ import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
+import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 
 import java.util.Map;
 
@@ -544,9 +546,9 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
     @Override
     public void buyNow(LoginBean loginBean, getCallback callback) {
-        Observable<SureOrderModel> observable = RetrofitHelper.getInstance(mContext).getServer().buyNow(loginBean);
+        Observable<WxPayResultModel> observable = RetrofitHelper.getInstance(mContext).getServer().buyNow(loginBean);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<SureOrderModel>() {
+                .subscribe(new Observer<WxPayResultModel>() {
                     @Override
                     public void onCompleted() { // 完成请求后
 
@@ -558,7 +560,7 @@ public class RemotDataSourceImpl implements RemotDataSource {
                     }
 
                     @Override
-                    public void onNext(SureOrderModel s) { // 请求成功
+                    public void onNext(WxPayResultModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });
@@ -911,6 +913,28 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(QuestionModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void feedbackList(LoginBean loginBean, getCallback callback) {
+        Observable<FeedbackListModel> observable = RetrofitHelper.getInstance(mContext).getServer().feedbackList(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<FeedbackListModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(FeedbackListModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

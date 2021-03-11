@@ -95,6 +95,7 @@ public interface RemotDataSource {
     void feedback(LoginBean loginBean, getCallback callback);
 
     void question(LoginBean loginBean, getCallback callback);
+    void feedbackList(LoginBean loginBean, getCallback callback);
 
     void vipInfo(LoginBean loginBean, getCallback callback);
 

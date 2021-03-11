@@ -18,6 +18,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.GridViewAdapter;
@@ -113,13 +114,14 @@ public class QuestionFeedbackActivity extends BaseActivity {
                 BackTypeModel backTypeModel = (BackTypeModel) data;
                 if (backTypeModel.getCode() == 1) {
 
-                    initFlowLayout(backTypeModel.getData());
+                    initFlowLayout(backTypeModel.getData().getType());
                 }
             }
         });
     }
 
     private void feedback(String type, String content, String images, String phone) {
+        ViewLoading.show(this);
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
@@ -131,11 +133,13 @@ public class QuestionFeedbackActivity extends BaseActivity {
         dataRepository.feedback(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
+                ViewLoading.dismiss(QuestionFeedbackActivity.this);
 
             }
 
             @Override
             public void onSuccess(Object data) {
+                ViewLoading.dismiss(QuestionFeedbackActivity.this);
                 StatusModel statusModel = (StatusModel) data;
                 if (statusModel.getCode() == 1) {
                     finish();
@@ -171,8 +175,8 @@ public class QuestionFeedbackActivity extends BaseActivity {
     }
 
 
-    private void initFlowLayout(List<String> data) {
-        flowlayout.setAdapter(new TagAdapter<String>(data) {
+    private void initFlowLayout(List<BackTypeModel.DataBean.TypeBean> data) {
+        flowlayout.setAdapter(new TagAdapter<BackTypeModel.DataBean.TypeBean>(data) {
             @Override
             public void onSelected(int position, View view) {
                 super.onSelected(position, view);
@@ -191,10 +195,10 @@ public class QuestionFeedbackActivity extends BaseActivity {
             }
 
             @Override
-            public TextView getView(FlowLayout parent, int position, String s) {
+            public TextView getView(FlowLayout parent, int position, BackTypeModel.DataBean.TypeBean s) {
                 TextView view = (TextView) LayoutInflater.from(QuestionFeedbackActivity.this)
                         .inflate(R.layout.layout_sku_item, parent, false);
-                view.setText(s);
+                view.setText(s.getTitle());
                 return view;
             }
         });
@@ -296,7 +300,7 @@ public class QuestionFeedbackActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_sure})
+    @OnClick({R.id.iv_back, R.id.tv_sure,R.id.iv_record})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -326,6 +330,9 @@ public class QuestionFeedbackActivity extends BaseActivity {
                     }
                 }
                 feedback(type, edAdvise.getText().toString(), sb.toString(), edPhone.getText().toString());
+                break;
+            case R.id.iv_record:
+                startActivity(new Intent(this,QuestionRecordActivity.class));
                 break;
         }
     }

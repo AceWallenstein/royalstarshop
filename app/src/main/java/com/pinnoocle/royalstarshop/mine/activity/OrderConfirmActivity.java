@@ -23,6 +23,7 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
+import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -138,27 +139,38 @@ public class OrderConfirmActivity extends BaseActivity {
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(mContext);
-                SureOrderModel sureOrderModel = (SureOrderModel) data;
-                if (sureOrderModel.getCode() == 1) {
-
+                WxPayResultModel wxPayResultModel = (WxPayResultModel) data;
+                if (wxPayResultModel.getCode() == 1) {
+                    wxPay(wxPayResultModel.getData().getPayment());
                 }
-                ToastUtils.showToast(sureOrderModel.getMsg());
+//                ToastUtils.showToast(wxPayResultModel.getMsg());
             }
         });
     }
 
-    private void wxPay(){
+    /**
+     * prepay_id : wx11140431963012c5cb5a8cd613d3130000
+     * nonceStr : ca39047264ad5a85a7f3c640289e48d4
+     * timeStamp : 1615442671
+     * paySign : 7DADAB91C216E61708420EF8F82ABEA8
+     * mch_id : 1605495785
+     * app_id : wx541630a0717a5007
+     * package : Sign=WXPay
+     * @param payment
+     */
+
+    private void wxPay(WxPayResultModel.DataBean.PaymentBean payment){
         PayReq req = new PayReq();
         Gson gson = new Gson();
         Map<String, String> map = new HashMap<>();
 //        map = gson.fromJson(alipayRecord.getData(), map.getClass());
-        req.appId = (String) map.get("appid");
-        req.nonceStr = (String) map.get("noncestr");
-        req.packageValue = (String) map.get("package");
-        req.partnerId = (String) map.get("partnerid");
-        req.prepayId = (String) map.get("prepayid");
-        req.sign = (String) map.get("sign");
-        req.timeStamp = (String) map.get("timestamp");
+        req.appId = payment.getApp_id();
+        req.nonceStr = payment.getNonceStr();
+        req.packageValue = payment.getPackageX();
+        req.partnerId = payment.getMch_id();
+        req.prepayId = payment.getPrepay_id();
+        req.sign = payment.getPaySign();
+        req.timeStamp = payment.getTimeStamp();
         MyApp.mWxApi.sendReq(req);
     }
 

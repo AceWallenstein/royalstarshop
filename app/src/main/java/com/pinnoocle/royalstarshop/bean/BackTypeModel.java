@@ -8,12 +8,12 @@ public class BackTypeModel {
     /**
      * code : 1
      * msg : success
-     * data : ["产品使用问题","产品使用问题2"]
+     * data : {"type":[{"id":"2","title":"产品使用问题"},{"id":"2","title":"产品使用问题2"}]}
      */
 
     private int code;
     private String msg;
-    private List<String> data;
+    private DataBean data;
 
     public int getCode() {
         return code;
@@ -31,11 +31,49 @@ public class BackTypeModel {
         this.msg = msg;
     }
 
-    public List<String> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(List<String> data) {
+    public void setData(DataBean data) {
         this.data = data;
+    }
+
+    public static class DataBean {
+        private List<TypeBean> type;
+
+        public List<TypeBean> getType() {
+            return type;
+        }
+
+        public void setType(List<TypeBean> type) {
+            this.type = type;
+        }
+
+        public static class TypeBean {
+            /**
+             * id : 2
+             * title : 产品使用问题
+             */
+
+            private String id;
+            private String title;
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+        }
     }
 }

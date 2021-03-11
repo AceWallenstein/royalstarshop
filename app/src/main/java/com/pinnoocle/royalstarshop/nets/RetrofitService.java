@@ -9,6 +9,7 @@ import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.CollectListModel;
 import com.pinnoocle.royalstarshop.bean.CommentListModel;
+import com.pinnoocle.royalstarshop.bean.FeedbackListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.HomeModel;
@@ -28,6 +29,7 @@ import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
+import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 
 import java.util.Map;
 
@@ -137,7 +139,7 @@ public interface RetrofitService {
 
     //立即购买确认订单/提交订单
     @POST("api/order/buyNow")
-    Observable<SureOrderModel> buyNow(@Body LoginBean loginBean);
+    Observable<WxPayResultModel> buyNow(@Body LoginBean loginBean);
 
     //购物车购买
     @POST("api/order/cart")
@@ -205,6 +207,9 @@ public interface RetrofitService {
     //添加反馈
     @POST("api/user.feedback/feedback")
     Observable<StatusModel> feedback(@Body LoginBean loginBean);
+    //反馈列表
+    @POST("api/user.feedback/lists")
+    Observable<FeedbackListModel> feedbackList(@Body LoginBean loginBean);
 
     //会员套餐
     @POST("api/vip/info")
