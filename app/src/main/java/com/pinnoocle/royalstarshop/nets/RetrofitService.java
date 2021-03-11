@@ -18,6 +18,7 @@ import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
+import com.pinnoocle.royalstarshop.bean.QuestionModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.ScanListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
@@ -188,4 +189,7 @@ public interface RetrofitService {
     @POST("api/user.index/scanList")
     Observable<ScanListModel> scanList(@Body LoginBean loginBean);
 
+    //常见问题
+    @POST("api/index/question")
+    Observable<QuestionModel> question(@Body LoginBean loginBean);
 }

@@ -24,6 +24,7 @@ import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
 import com.pinnoocle.royalstarshop.mine.activity.CollectionActivity;
+import com.pinnoocle.royalstarshop.mine.activity.CommonProblemActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanActivity;
 import com.pinnoocle.royalstarshop.mine.activity.OrderActivity;
 import com.pinnoocle.royalstarshop.mine.activity.RecommendedIncomeActivity;
@@ -391,6 +392,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             case 6: //评价
                 break;
             case 7: //常见问题
+                startActivity(new Intent(getContext(), CommonProblemActivity.class));
                 break;
             case 8: //意见反馈
                 break;

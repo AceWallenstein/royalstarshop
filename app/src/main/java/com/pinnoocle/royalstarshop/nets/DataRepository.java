@@ -209,6 +209,11 @@ public class DataRepository implements RemotDataSource {
     }
 
     @Override
+    public void question(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.question(loginBean, callback);
+    }
+
+    @Override
     public void image(String wxappid, String token, MultipartBody.Part file, getCallback callback) {
         mRemoteDataSource.image(wxappid, token, file, callback);
     }
