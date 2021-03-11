@@ -28,4 +28,6 @@ public class LoginBean {
     public String avatarUrl;
     public String nickName;
     public String birth;
+    public String content;
+    public String images;
 }

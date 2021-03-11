@@ -4,6 +4,7 @@ package com.pinnoocle.royalstarshop.nets;
 import android.content.Context;
 
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
+import com.pinnoocle.royalstarshop.bean.BackTypeModel;
 import com.pinnoocle.royalstarshop.bean.BannerModel;
 import com.pinnoocle.royalstarshop.bean.CartAddModel;
 import com.pinnoocle.royalstarshop.bean.CartListsModel;
@@ -21,6 +22,7 @@ import com.pinnoocle.royalstarshop.bean.LoginModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
+import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.ScanListModel;
@@ -672,6 +674,50 @@ public class RemotDataSourceImpl implements RemotDataSource {
     }
 
     @Override
+    public void backType(LoginBean loginBean, getCallback callback) {
+        Observable<BackTypeModel> observable = RetrofitHelper.getInstance(mContext).getServer().backType(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BackTypeModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(BackTypeModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void feedback(LoginBean loginBean, getCallback callback) {
+        Observable<StatusModel> observable = RetrofitHelper.getInstance(mContext).getServer().feedback(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StatusModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(StatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
     public void delCollect(LoginBean loginBean, getCallback callback) {
         Observable<ResultModel> observable = RetrofitHelper.getInstance(mContext).getServer().delCollect(loginBean);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -776,6 +822,28 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(StatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void refundLists(LoginBean loginBean, getCallback callback) {
+        Observable<RefundListsModel> observable = RetrofitHelper.getInstance(mContext).getServer().refundLists(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RefundListsModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(RefundListsModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

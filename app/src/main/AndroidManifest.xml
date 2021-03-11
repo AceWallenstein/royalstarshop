@@ -62,6 +62,8 @@
         <activity android:name=".mine.activity.OrderActivity" />
         <activity android:name=".mine.activity.OrderDetailActivity" />
         <activity android:name=".mine.activity.OrderCommentActivity" />
+        <activity android:name=".mine.activity.AfterSalesListActivity" />
+        <activity android:name=".mine.activity.QuestionFeedbackActivity" />
     </application>
 
 </manifest>

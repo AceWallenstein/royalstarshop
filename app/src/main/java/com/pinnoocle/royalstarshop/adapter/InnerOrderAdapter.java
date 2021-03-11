@@ -14,9 +14,12 @@ import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class InnerOrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean, InnerOrderAdapter.VH> {
 
@@ -34,7 +37,7 @@ public class InnerOrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.List
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Glide.with(mContext).load(mDatas.get(position).getImage().getFile_path()).fitCenter().into(holder.ivShop);
+        Glide.with(mContext).load(mDatas.get(position).getImage().getFile_path()).apply(bitmapTransform(new GlideRoundTransform(mContext))).into(holder.ivShop);
         holder.tvTitle.setText(mDatas.get(position).getGoods_name());
         holder.tvGoodsPattern.setText(mDatas.get(position).getGoods_attr());
         holder.tvNum.setText("x"+mDatas.get(position).getTotal_num());

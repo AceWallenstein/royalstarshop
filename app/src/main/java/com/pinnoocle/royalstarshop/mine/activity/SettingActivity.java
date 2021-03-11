@@ -67,7 +67,7 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.iv_back, R.id.rl_personal, R.id.tv_quit, R.id.rl_transaction_code, R.id.rl_modify_phone, R.id.rl_about_us, R.id.rl_clean})
+    @OnClick({R.id.iv_back, R.id.rl_personal, R.id.tv_quit, R.id.rl_transaction_code, R.id.rl_modify_phone, R.id.rl_about_us, R.id.rl_clean,R.id.rl_question})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -104,6 +104,9 @@ public class SettingActivity extends BaseActivity {
                     e.printStackTrace();
                 }
                 ToastUtils.showToast("清除缓存成功");
+                break;
+            case R.id.rl_question:
+                startActivity(new Intent(this,QuestionFeedbackActivity.class));
                 break;
         }
     }

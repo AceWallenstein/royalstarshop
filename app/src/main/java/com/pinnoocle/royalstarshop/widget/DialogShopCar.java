@@ -128,6 +128,8 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
         if (goods_sku.getImage() != null) {
 
             Glide.with(context).load(goods_sku.getImage().getFile_path()).fitCenter().into(ivShop);
+        }else {
+            Glide.with(context).load(dataBean.getDetail().getGoods_image()).fitCenter().into(ivShop);
         }
         tvStock.setText("库存" + goods_sku.getStock_num() + "件");
         if (type.equals("vip")) {
@@ -206,6 +208,13 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
                     } else {
                         sureOrder();
                     }
+                }else {
+                    if (type.equals("add_shop_cart")) {
+                        cartAdd();
+                    } else {
+                        sureOrder();
+                    }
+
                 }
 
 //                ToastUtils.showToast("暂不支持支付");

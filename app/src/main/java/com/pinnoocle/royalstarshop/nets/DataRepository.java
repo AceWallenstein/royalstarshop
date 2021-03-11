@@ -189,6 +189,11 @@ public class DataRepository implements RemotDataSource {
     }
 
     @Override
+    public void refundLists(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.refundLists(loginBean, callback);
+    }
+
+    @Override
     public void orderDetail(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.orderDetail(loginBean, callback);
     }
@@ -206,6 +211,16 @@ public class DataRepository implements RemotDataSource {
     @Override
     public void scanList(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.scanList(loginBean, callback);
+    }
+
+    @Override
+    public void backType(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.backType(loginBean, callback);
+    }
+
+    @Override
+    public void feedback(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.feedback(loginBean, callback);
     }
 
     @Override

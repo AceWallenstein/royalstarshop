@@ -23,6 +23,7 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
+import com.pinnoocle.royalstarshop.mine.activity.AfterSalesListActivity;
 import com.pinnoocle.royalstarshop.mine.activity.CollectionActivity;
 import com.pinnoocle.royalstarshop.mine.activity.CommonProblemActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanActivity;
@@ -324,7 +325,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                         startActivity(intent3);
                         break;
                     case 4: //退换
-
+                        startActivity(new Intent(getContext(), AfterSalesListActivity.class));
                         break;
                     default:
                         break;

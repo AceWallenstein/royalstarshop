@@ -11,8 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.lljjcoder.Constant;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
+import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.OrderConfirmAdapter;
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
@@ -25,10 +28,13 @@ import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -139,6 +145,21 @@ public class OrderConfirmActivity extends BaseActivity {
                 ToastUtils.showToast(sureOrderModel.getMsg());
             }
         });
+    }
+
+    private void wxPay(){
+        PayReq req = new PayReq();
+        Gson gson = new Gson();
+        Map<String, String> map = new HashMap<>();
+//        map = gson.fromJson(alipayRecord.getData(), map.getClass());
+        req.appId = (String) map.get("appid");
+        req.nonceStr = (String) map.get("noncestr");
+        req.packageValue = (String) map.get("package");
+        req.partnerId = (String) map.get("partnerid");
+        req.prepayId = (String) map.get("prepayid");
+        req.sign = (String) map.get("sign");
+        req.timeStamp = (String) map.get("timestamp");
+        MyApp.mWxApi.sendReq(req);
     }
 
     private void buyNowCart(String cart_ids) {

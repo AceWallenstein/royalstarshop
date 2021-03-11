@@ -1,6 +1,7 @@
 package com.pinnoocle.royalstarshop.nets;
 
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
+import com.pinnoocle.royalstarshop.bean.BackTypeModel;
 import com.pinnoocle.royalstarshop.bean.BannerModel;
 import com.pinnoocle.royalstarshop.bean.CartAddModel;
 import com.pinnoocle.royalstarshop.bean.CartListsModel;
@@ -19,6 +20,7 @@ import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
+import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.ScanListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
@@ -180,6 +182,9 @@ public interface RetrofitService {
     //取消订单
     @POST("api/user.order/receipt")
     Observable<StatusModel> orderReceipt(@Body LoginBean loginBean);
+    //售后单列表
+    @POST("api/user.refund/lists")
+    Observable<RefundListsModel> refundLists(@Body LoginBean loginBean);
 
     //商品浏览记录
     @POST("api/user.index/addGoodsLog")
@@ -192,4 +197,14 @@ public interface RetrofitService {
     //常见问题
     @POST("api/index/question")
     Observable<QuestionModel> question(@Body LoginBean loginBean);
+    //反馈类型
+    @POST("api/index/backType")
+    Observable<BackTypeModel> backType(@Body LoginBean loginBean);
+
+    //添加反馈
+    @POST("api/user.feedback/feedback")
+    Observable<StatusModel> feedback(@Body LoginBean loginBean);
+
+
+
 }
