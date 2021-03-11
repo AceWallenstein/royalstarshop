@@ -89,10 +89,14 @@ public interface RemotDataSource {
     void addGoodsLog(LoginBean loginBean, getCallback callback);
 
     void scanList(LoginBean loginBean, getCallback callback);
+
     void backType(LoginBean loginBean, getCallback callback);
+
     void feedback(LoginBean loginBean, getCallback callback);
 
     void question(LoginBean loginBean, getCallback callback);
+
+    void vipInfo(LoginBean loginBean, getCallback callback);
 
     void image(String wxappid, String token, MultipartBody.Part file, getCallback callback);
 

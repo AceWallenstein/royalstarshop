@@ -278,8 +278,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:overScrollMode="never"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -312,6 +312,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="纯白的猪"
@@ -402,6 +403,7 @@
                             android:textSize="24sp" />
 
                         <TextView
+                            android:id="@+id/tv_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="99"
@@ -421,19 +423,20 @@
                         android:id="@+id/ll_select"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:layout_below="@id/ll_comers"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp">
+                        android:layout_marginLeft="20dp">
 
                         <ImageView
+                            android:id="@+id/iv_grey_circle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/select" />
+                            android:padding="10dp"
+                            android:src="@mipmap/grey_circle" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:text="到期自动续费，可随时取消"
                             android:textColor="#D1B496"
                             android:textSize="13sp" />
@@ -504,6 +507,7 @@
                             android:src="@mipmap/bg_light_yellow" />
 
                         <LinearLayout
+                            android:id="@+id/ll_hint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -537,6 +541,14 @@
                                 android:textColor="#B99865"
                                 android:textSize="13sp" />
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_photo"
+                            android:layout_width="100dp"
+                            android:layout_height="70dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@id/ll_hint" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -560,15 +572,15 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:orientation="vertical"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_weight="1">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -588,10 +600,10 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:orientation="vertical"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_weight="1">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -611,10 +623,10 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:orientation="vertical"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_weight="1">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -634,10 +646,10 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:orientation="vertical"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_weight="1">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -680,13 +692,53 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:background="@mipmap/rect"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:background="@mipmap/rect">
 
+                    <ImageView
+                        android:id="@+id/iv_goods_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginRight="50dp"
+                        android:scaleType="fitXY" />
 
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/iv_goods_photo"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#111111"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_below="@id/tv_title"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_gold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FF2229"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:id="@+id/tv_drawLine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/shape_line"
+                            android:textColor="#666666"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

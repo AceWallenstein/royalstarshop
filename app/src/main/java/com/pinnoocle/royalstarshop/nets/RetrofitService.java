@@ -27,6 +27,7 @@ import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
+import com.pinnoocle.royalstarshop.bean.VipInfoModel;
 
 import java.util.Map;
 
@@ -205,6 +206,8 @@ public interface RetrofitService {
     @POST("api/user.feedback/feedback")
     Observable<StatusModel> feedback(@Body LoginBean loginBean);
 
-
+    //会员套餐
+    @POST("api/vip/info")
+    Observable<VipInfoModel> vipInfo(@Body LoginBean loginBean);
 
 }
