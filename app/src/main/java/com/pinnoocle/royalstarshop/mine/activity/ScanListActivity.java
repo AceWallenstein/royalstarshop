@@ -1,22 +1,31 @@
 package com.pinnoocle.royalstarshop.mine.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.CollectionAdapter;
 import com.pinnoocle.royalstarshop.adapter.ScanListAdapter;
+import com.pinnoocle.royalstarshop.bean.CartAddModel;
 import com.pinnoocle.royalstarshop.bean.CollectListModel;
+import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.ScanListModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -25,6 +34,8 @@ import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,13 +68,54 @@ public class ScanListActivity extends BaseActivity implements OnRefreshLoadMoreL
         dataRepository = Injection.dataRepository(this);
 
         scanListAdapter = new ScanListAdapter(this);
-        recycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recycleView.addItemDecoration(new CommItemDecoration(this, DividerItemDecoration.VERTICAL, getResources().getColor(R.color.transparent), 30));
+        recycleView.setLayoutManager(new GridLayoutManager(this, 2));
         recycleView.setAdapter(scanListAdapter);
 
         refresh.setOnRefreshLoadMoreListener(this);
 
+        scanListAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<ScanListModel.DataBeanX.DataBean>() {
+            @Override
+            public void onItemViewClick(View view, int position, ScanListModel.DataBeanX.DataBean o) {
+                switch (view.getId()){
+                    case R.id.iv_shop_car:
+                        cartAdd(o.getGoods_id(),o.getGoods_sku().getGoods_sku_id(),1);
+                        break;
+                    default:
+                        Intent intent = new Intent(ScanListActivity.this, GoodsDetailActivity.class);
+                        intent.putExtra("goods_id", o.getGoods_id() + "");
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+
         scanList(page);
+    }
+
+    private void cartAdd(int goods_id, int goods_sku_id, int goods_num) {
+        ViewLoading.show(this);
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.goods_id = goods_id + "";
+        loginBean.goods_sku_id = goods_sku_id + "";
+        loginBean.goods_num = goods_num+"";
+        dataRepository.cartAdd(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(ScanListActivity.this);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(ScanListActivity.this);
+                CartAddModel cartAddModel = (CartAddModel) data;
+                if (cartAddModel.getCode() == 1) {
+                    EventBus.getDefault().post(new ShopCartRefreshEvent());
+                }
+                ToastUtils.showToast(cartAddModel.getMsg());
+            }
+        });
     }
 
     private void scanList(int page) {

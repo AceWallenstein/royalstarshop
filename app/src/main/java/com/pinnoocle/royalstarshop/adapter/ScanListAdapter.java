@@ -31,7 +31,7 @@ public class ScanListAdapter extends BaseAdapter<ScanListModel.DataBeanX.DataBea
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new VH(LayoutInflater.from(mContext).inflate(R.layout.item_collection, parent, false));
+        return new VH(LayoutInflater.from(mContext).inflate(R.layout.item_goods, parent, false));
     }
 
     @Override
@@ -41,21 +41,41 @@ public class ScanListAdapter extends BaseAdapter<ScanListModel.DataBeanX.DataBea
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).apply(bitmapTransform(new GlideRoundTransform(mContext))).into(holder.ivPicture);
-        holder.tvName.setText(mDatas.get(position).getGoods_name());
-        holder.tvSpec.setText(mDatas.get(position).getGoods_sku().getGoods_attr());
-        holder.tvMoney.setText("￥" + mDatas.get(position).getGoods_sku().getGoods_price());
+        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).centerCrop().into(holder.ivGoodsPic);
+        holder.tvGoodsTitle.setText(mDatas.get(position).getGoods_name());
+        holder.tvDesc.setText(mDatas.get(position).getGoods_sku().getGoods_attr());
+        holder.tvPrice.setText("￥"+mDatas.get(position).getGoods_sku().getGoods_price());
+        holder.tvVipPrice.setText("会员￥"+mDatas.get(position).getGoods_sku().getBalance_price());
+
+        holder.itemView.setOnClickListener(v ->
+        {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
+            }
+        });
+        holder.ivShopCar.setOnClickListener(v -> {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemViewClick(v, position);
+            }
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
+            }
+        });
     }
 
     static class VH extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_picture)
-        ImageView ivPicture;
-        @BindView(R.id.tv_name)
-        TextView tvName;
-        @BindView(R.id.tv_spec)
-        TextView tvSpec;
-        @BindView(R.id.tv_money)
-        TextView tvMoney;
+        @BindView(R.id.iv_goods_pic)
+        ImageView ivGoodsPic;
+        @BindView(R.id.tv_goods_title)
+        TextView tvGoodsTitle;
+        @BindView(R.id.tv_desc)
+        TextView tvDesc;
+        @BindView(R.id.tv_price)
+        TextView tvPrice;
+        @BindView(R.id.tv_vip_price)
+        TextView tvVipPrice;
+        @BindView(R.id.iv_shop_car)
+        ImageView ivShopCar;
 
         public VH(@NonNull View itemView) {
             super(itemView);
