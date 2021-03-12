@@ -27,6 +27,8 @@ public class MyApp extends Application {
         setDatabase();
 
         mWxApi = WXAPIFactory.createWXAPI(this, WX_APPID, true);
+        mWxApi.registerApp(WX_APPID);
+
 
     }
 

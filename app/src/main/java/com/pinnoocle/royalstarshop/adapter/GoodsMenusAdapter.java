@@ -1,6 +1,8 @@
 package com.pinnoocle.royalstarshop.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,9 @@ public class GoodsMenusAdapter extends BaseAdapter<IndexModel.DataBean.ListBean,
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new VH(LayoutInflater.from(mContext).inflate(R.layout.item_goods_menus, parent, false));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_goods_menus, parent, false);
+        view.getLayoutParams().width = getScreenWidth() / 5;
+        return new VH(view);
     }
 
     @Override
@@ -39,7 +43,7 @@ public class GoodsMenusAdapter extends BaseAdapter<IndexModel.DataBean.ListBean,
         holder.tvTitle.setText(mDatas.get(position).getName());
         holder.itemView.setOnClickListener(v -> {
             if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
     }
@@ -66,5 +70,11 @@ public class GoodsMenusAdapter extends BaseAdapter<IndexModel.DataBean.ListBean,
             ButterKnife.bind(this, itemView);
 
         }
+    }
+
+    private int getScreenWidth() {
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
     }
 }

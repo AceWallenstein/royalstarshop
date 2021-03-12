@@ -89,11 +89,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
                     android:orientation="vertical">
 
                     <com.youth.banner.Banner
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:id="@+id/banner"
                         android:layout_width="match_parent"
                         android:layout_height="150dp" />
@@ -101,9 +101,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:layout_marginTop="20dp"
-                        android:layout_marginEnd="10dp"
                         android:orientation="vertical">
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -128,6 +126,9 @@
                     </LinearLayout>
 
                     <RelativeLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
@@ -200,6 +201,9 @@
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+
                         android:id="@+id/rv_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -207,6 +211,8 @@
                         android:overScrollMode="never" />
 
                     <RelativeLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -249,6 +255,9 @@
                     </RelativeLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+
                         android:id="@+id/rv_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

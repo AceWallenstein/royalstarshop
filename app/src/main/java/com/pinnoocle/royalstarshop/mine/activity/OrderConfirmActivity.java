@@ -161,12 +161,13 @@ public class OrderConfirmActivity extends BaseActivity {
 
     private void wxPay(WxPayResultModel.DataBean.PaymentBean payment){
         PayReq req = new PayReq();
-        Gson gson = new Gson();
-        Map<String, String> map = new HashMap<>();
+//        Gson gson = new Gson();
+//        Map<String, String> map = new HashMap<>();
 //        map = gson.fromJson(alipayRecord.getData(), map.getClass());
         req.appId = payment.getApp_id();
         req.nonceStr = payment.getNonceStr();
         req.packageValue = payment.getPackageX();
+//        req.packageValue = "Sign=WXPay";
         req.partnerId = payment.getMch_id();
         req.prepayId = payment.getPrepay_id();
         req.sign = payment.getPaySign();
