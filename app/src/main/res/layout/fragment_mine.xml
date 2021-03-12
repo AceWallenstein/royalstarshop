@@ -73,8 +73,8 @@
                             <RelativeLayout
                                 android:id="@+id/rl_avatar"
                                 android:layout_width="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp">
 
                                 <ImageView
                                     android:id="@+id/iv_crown"
@@ -84,8 +84,8 @@
 
                                 <com.pinnoocle.royalstarshop.widget.RoundImageView
                                     android:id="@+id/iv_avater"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="45dp"
+                                    android:layout_height="45dp"
                                     android:layout_marginLeft="8dp"
                                     android:layout_marginTop="8dp" />
                             </RelativeLayout>
@@ -95,9 +95,8 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_marginLeft="10dp"
-                                android:src="@drawable/default_avatar"/>
+                                android:src="@drawable/default_avatar" />
                         </RelativeLayout>
-
 
                         <TextView
                             android:id="@+id/tv_name"
@@ -109,18 +108,26 @@
                             android:textColor="@color/white"
                             android:textSize="15sp" />
 
+                        <ImageView
+                            android:id="@+id/iv_vip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_name"
+                            android:layout_toEndOf="@id/rl_avatar1"
+                            android:src="@mipmap/vip_1" />
+
                         <TextView
                             android:id="@+id/tv_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tv_name"
                             android:layout_marginStart="5dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_toEndOf="@id/rl_avatar1"
+                            android:layout_toRightOf="@id/iv_vip"
                             android:background="@drawable/bg_phone"
                             android:paddingStart="4dp"
                             android:paddingTop="2dp"
                             android:paddingEnd="4dp"
+                            android:text="sadas"
                             android:paddingBottom="2dp"
                             android:textColor="@color/white"
                             android:textSize="12sp" />

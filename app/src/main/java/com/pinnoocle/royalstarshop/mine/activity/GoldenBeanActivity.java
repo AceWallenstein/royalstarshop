@@ -39,6 +39,7 @@ public class GoldenBeanActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_golden_bean);
         ButterKnife.bind(this);
+        tvMoney.setText(getIntent().getStringExtra("golden"));
     }
 
     @OnClick({R.id.iv_back, R.id.tv_more})

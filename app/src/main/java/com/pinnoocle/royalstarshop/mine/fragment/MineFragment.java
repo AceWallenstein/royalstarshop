@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -19,13 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
-import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
-import com.pinnoocle.royalstarshop.bean.VipOpenModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
 import com.pinnoocle.royalstarshop.mine.activity.AfterSalesListActivity;
@@ -51,11 +47,6 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
-import com.tencent.mm.opensdk.modelpay.PayReq;
-import com.timmy.tdialog.TDialog;
-import com.timmy.tdialog.base.BindViewHolder;
-import com.timmy.tdialog.listener.OnBindViewListener;
-import com.timmy.tdialog.listener.OnViewClickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -134,6 +125,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     RoundImageView ivAvater1;
     @BindView(R.id.rl_avatar1)
     RelativeLayout rlAvatar1;
+    @BindView(R.id.iv_vip)
+    ImageView ivVip;
 
     private int[] icon = {R.mipmap.order, R.mipmap.to_be_paid, R.mipmap.to_be_delivered, R.mipmap.to_be_evaluated, R.mipmap.after_sells
     };
@@ -293,7 +286,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                         } else {
                             tvVip2.setVisibility(View.GONE);
                         }
+                        ivVip.setVisibility(View.VISIBLE);
                     } else {
+                        ivVip.setVisibility(View.GONE);
                         rlAvatar.setVisibility(View.GONE);
                         ivAvater1.setVisibility(View.VISIBLE);
                         tvVip3.setText("开通会员");
@@ -445,7 +440,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 }
                 break;
             case R.id.ll_golden_bean:
-                startActivity(new Intent(getContext(), GoldenBeanActivity.class));
+                Intent intent1 = new Intent(getContext(), GoldenBeanActivity.class);
+                intent1.putExtra("golden", userDetailModel.getData().getUserInfo().getPoints() + "");
+                startActivity(intent1);
                 break;
             case R.id.tv_all_order:
                 startActivity(new Intent(getContext(), OrderActivity.class));
