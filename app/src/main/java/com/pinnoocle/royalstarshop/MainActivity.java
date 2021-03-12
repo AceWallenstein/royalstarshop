@@ -187,6 +187,9 @@ public class MainActivity extends BaseActivity {
         }else if(event.equals("3")){
             initTransparent();
             tabAdapter.setCurrentFragment(1);
+        }else if(event.equals("5")){
+            initTransparent();
+            tabAdapter.setCurrentFragment(2);
         }
 
     }

@@ -302,8 +302,7 @@
                     <com.pinnoocle.royalstarshop.widget.RoundImageView
                         android:id="@+id/iv_avatar_one"
                         android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@mipmap/del_1" />
+                        android:layout_height="60dp"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -315,7 +314,6 @@
                             android:id="@+id/tv_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="纯白的猪"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
 
@@ -392,6 +390,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/rl_recommendation"
+                        android:layout_marginTop="20dp"
                         android:layout_centerHorizontal="true"
                         android:gravity="center_horizontal">
 
@@ -406,7 +405,6 @@
                             android:id="@+id/tv_money"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="99"
                             android:textColor="#D1B496"
                             android:textSize="36sp" />
 
@@ -424,6 +422,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:visibility="gone"
                         android:layout_below="@id/ll_comers"
                         android:layout_marginLeft="20dp">
 

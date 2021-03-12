@@ -439,7 +439,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 startActivity(new Intent(getContext(), ScanListActivity.class));
                 break;
             case R.id.tv_vip_2:
-                showVipOpenDialog();
+                EventBus.getDefault().post("5");
+//                showVipOpenDialog();
                 break;
         }
     }

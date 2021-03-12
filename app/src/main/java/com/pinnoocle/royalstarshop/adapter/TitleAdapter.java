@@ -1,7 +1,9 @@
 package com.pinnoocle.royalstarshop.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +36,9 @@ public class TitleAdapter extends BaseAdapter<HomeModel.DataBean.TagGoodsBean, T
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new VH(LayoutInflater.from(mContext).inflate(R.layout.item_title, parent, false));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_title, parent, false);
+        view.getLayoutParams().width = getScreenWidth() / 4;
+        return new TitleAdapter.VH(view);
     }
 
     @Override
@@ -73,5 +77,11 @@ public class TitleAdapter extends BaseAdapter<HomeModel.DataBean.TagGoodsBean, T
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    private int getScreenWidth() {
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
     }
 }
