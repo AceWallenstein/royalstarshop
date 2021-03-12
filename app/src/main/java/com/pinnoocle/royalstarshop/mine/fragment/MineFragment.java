@@ -271,7 +271,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                         }
                     }
                     tvPhone.setText(sb.toString());
-                    tvBalance.setText(userDetailModel.getData().getUserInfo().getBalance());
+                    tvBalance.setText(userDetailModel.getData().getUserInfo().getMoney());
                     tvPoints.setText(userDetailModel.getData().getUserInfo().getPoints() + "");
                     tvFootprint.setText(userDetailModel.getData().getUserInfo().getSan_num());
                     if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {

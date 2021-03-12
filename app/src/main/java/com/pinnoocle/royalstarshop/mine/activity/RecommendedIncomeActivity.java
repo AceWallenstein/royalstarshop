@@ -92,6 +92,7 @@ public class RecommendedIncomeActivity extends BaseActivity {
                 break;
             case R.id.rl_profit_detail:
                 Intent intent = new Intent(this, ProfitDetailActivity.class);
+                intent.putExtra("money",tvMoney.getText().toString());
                 startActivity(intent);
                 break;
             case R.id.rl_withdrawal_detail:

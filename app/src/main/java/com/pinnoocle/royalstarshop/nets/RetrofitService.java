@@ -17,6 +17,7 @@ import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
+import com.pinnoocle.royalstarshop.bean.MoneyListModel;
 import com.pinnoocle.royalstarshop.bean.MoneyModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
@@ -228,5 +229,9 @@ public interface RetrofitService {
     //推荐收益
     @POST("api/user.index/money")
     Observable<MoneyModel> money(@Body LoginBean loginBean);
+
+    //收益明细
+    @POST("api/user.dealer.order/lists")
+    Observable<MoneyListModel> moneyList(@Body LoginBean loginBean);
 
 }
