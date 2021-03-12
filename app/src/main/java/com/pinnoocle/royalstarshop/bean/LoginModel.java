@@ -45,6 +45,15 @@ public class LoginModel {
 
         private UserBean user;
         private String token;
+        private int is_first;
+
+        public int getIs_first() {
+            return is_first;
+        }
+
+        public void setIs_first(int is_first) {
+            this.is_first = is_first;
+        }
 
         public UserBean getUser() {
             return user;

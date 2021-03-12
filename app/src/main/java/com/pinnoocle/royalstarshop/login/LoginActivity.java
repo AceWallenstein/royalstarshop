@@ -108,7 +108,6 @@ public class LoginActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_login:
-                startActivity(new Intent(this, InvitationCodeActivity.class));
                 if (TextUtils.isEmpty(edPhone.getText().toString())) {
                     ToastUtils.showToast("请输入手机号码");
                     return;
@@ -141,7 +140,12 @@ public class LoginActivity extends BaseActivity {
                 if (loginModel.getCode() == 1) {
                     FastData.setUserId(loginModel.getData().getUser().getUser_id());
                     FastData.setToken(loginModel.getData().getToken());
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    if(loginModel.getData().getIs_first() == 1){
+                        startActivity(new Intent(LoginActivity.this, InvitationCodeActivity.class));
+                    }else {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    }
+                    finish();
                 }
             }
         });

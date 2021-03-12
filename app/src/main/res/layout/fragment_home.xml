@@ -231,6 +231,7 @@
                             android:layout_toEndOf="@id/tv_title"
                             android:background="@mipmap/bg_live"
                             android:gravity="center"
+                            android:visibility="gone"
                             android:text="999人观看"
                             android:textColor="@color/white"
                             android:textSize="8sp" />

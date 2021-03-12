@@ -220,4 +220,8 @@ public interface RetrofitService {
     @POST("api/vip/vip")
     Observable<VipOpenModel> vipOpen(@Body LoginBean loginBean);
 
+    //用户注册接口
+    @POST("api/user/bindParent")
+    Observable<ResultModel> bindParent(@Body LoginBean loginBean);
+
 }

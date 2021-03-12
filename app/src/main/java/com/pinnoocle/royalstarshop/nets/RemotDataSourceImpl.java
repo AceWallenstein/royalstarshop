@@ -1006,4 +1006,26 @@ public class RemotDataSourceImpl implements RemotDataSource {
                     }
                 });
     }
+
+    @Override
+    public void bindParent(LoginBean loginBean, getCallback callback) {
+        Observable<ResultModel> observable = RetrofitHelper.getInstance(mContext).getServer().bindParent(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ResultModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
 }
