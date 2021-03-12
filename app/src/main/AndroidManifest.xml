@@ -69,6 +69,7 @@
             android:exported="true"
             android:launchMode="singleTop" />
         <activity android:name=".mine.activity.QuestionRecordActivity" />
+        <activity android:name=".vip.InvitationCodeActivity" />
     </application>
 
 </manifest>

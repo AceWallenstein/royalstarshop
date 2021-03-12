@@ -27,6 +27,7 @@ import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.CountDownTimerUtils;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.vip.InvitationCodeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,6 +108,7 @@ public class LoginActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_login:
+                startActivity(new Intent(this, InvitationCodeActivity.class));
                 if (TextUtils.isEmpty(edPhone.getText().toString())) {
                     ToastUtils.showToast("请输入手机号码");
                     return;
