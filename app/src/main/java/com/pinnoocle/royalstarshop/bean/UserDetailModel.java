@@ -105,8 +105,8 @@ public class UserDetailModel {
             private Object username;
             private Object invite_code;
             private int isVip;
-            private int vip_time;
-            private int vip_expire;
+            private String vip_time;
+            private String vip_expire;
             private int parent_id;
             private int service_id;
             private String total_balance;
@@ -243,19 +243,19 @@ public class UserDetailModel {
                 this.isVip = isVip;
             }
 
-            public int getVip_time() {
+            public String getVip_time() {
                 return vip_time;
             }
 
-            public void setVip_time(int vip_time) {
+            public void setVip_time(String vip_time) {
                 this.vip_time = vip_time;
             }
 
-            public int getVip_expire() {
+            public String getVip_expire() {
                 return vip_expire;
             }
 
-            public void setVip_expire(int vip_expire) {
+            public void setVip_expire(String vip_expire) {
                 this.vip_expire = vip_expire;
             }
 

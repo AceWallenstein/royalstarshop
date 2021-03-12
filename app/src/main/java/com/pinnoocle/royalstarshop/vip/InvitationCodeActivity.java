@@ -70,7 +70,8 @@ public class InvitationCodeActivity extends BaseActivity {
                 ViewLoading.dismiss(InvitationCodeActivity.this);
                 ResultModel loginModel = (ResultModel) data;
                 if (loginModel.getCode() == 1) {
-
+                    startActivity(new Intent(InvitationCodeActivity.this, MainActivity.class));
+                    finish();
                 }
             }
         });

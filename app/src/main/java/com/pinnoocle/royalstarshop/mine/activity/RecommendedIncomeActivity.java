@@ -8,8 +8,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.MoneyModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.nets.DataRepository;
+import com.pinnoocle.royalstarshop.nets.Injection;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +44,11 @@ public class RecommendedIncomeActivity extends BaseActivity {
     RelativeLayout rlWithdrawalDetail;
     @BindView(R.id.tv_withdrawal)
     TextView tvWithdrawal;
+    @BindView(R.id.tv_money)
+    TextView tvMoney;
+    @BindView(R.id.tv_money_one)
+    TextView tvMoneyOne;
+    private DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +56,32 @@ public class RecommendedIncomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommended_income);
         ButterKnife.bind(this);
+        dataRepository = Injection.dataRepository(this);
+
+        money();
+    }
+
+    private void money() {
+        ViewLoading.show(this);
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        dataRepository.money(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(RecommendedIncomeActivity.this);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(RecommendedIncomeActivity.this);
+                MoneyModel moneyModel = (MoneyModel) data;
+                if (moneyModel.getCode() == 1) {
+                    tvMoney.setText(moneyModel.getData().getMoney());
+                    tvMoneyOne.setText(moneyModel.getData().getToday_money() + "");
+                }
+            }
+        });
     }
 
     @OnClick({R.id.iv_back, R.id.rl_profit_detail, R.id.rl_withdrawal_detail, R.id.tv_withdrawal})

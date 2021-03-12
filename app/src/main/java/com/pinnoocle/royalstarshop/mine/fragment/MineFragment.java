@@ -20,6 +20,7 @@ import androidx.core.widget.NestedScrollView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
@@ -32,6 +33,7 @@ import com.pinnoocle.royalstarshop.mine.activity.CollectionActivity;
 import com.pinnoocle.royalstarshop.mine.activity.CommonProblemActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanActivity;
 import com.pinnoocle.royalstarshop.mine.activity.OrderActivity;
+import com.pinnoocle.royalstarshop.mine.activity.PersonalActivity;
 import com.pinnoocle.royalstarshop.mine.activity.QuestionFeedbackActivity;
 import com.pinnoocle.royalstarshop.mine.activity.RecommendedIncomeActivity;
 import com.pinnoocle.royalstarshop.mine.activity.ScanListActivity;
@@ -150,7 +152,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     private float mScrollY;
     private DataRepository dataRepository;
     private UserDetailModel userDetailModel;
-    private ImageView iv_ali_mark,iv_wx_mark;
+    private ImageView iv_ali_mark, iv_wx_mark;
     private String pay_mode = "";
 
     @Override
@@ -386,7 +388,12 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0: //推荐收益
-                startActivity(new Intent(getContext(), RecommendedIncomeActivity.class));
+                if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
+                    Intent intent1 = new Intent(getContext(), RecommendedIncomeActivity.class);
+                    startActivity(intent1);
+                } else {
+                    ToastUtils.showToast("会员可查看");
+                }
                 break;
             case 1: //提现
                 startActivity(new Intent(getContext(), WithdrawalActivity.class));
@@ -415,9 +422,13 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         }
     }
 
-    @OnClick({R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean, R.id.tv_all_order,R.id.ll_history,R.id.tv_vip_2})
+    @OnClick({R.id.rl_avatar, R.id.iv_avater1, R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean, R.id.tv_all_order, R.id.ll_history, R.id.tv_vip_2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.rl_avatar:
+            case R.id.iv_avater1:
+                startActivity(new Intent(getContext(), PersonalActivity.class));
+                break;
             case R.id.iv_setting:
                 Intent intent = new Intent(getContext(), SettingActivity.class);
                 intent.putExtra("phone", tvPhone.getText().toString());
@@ -426,8 +437,12 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             case R.id.iv_sign_in:
                 break;
             case R.id.ll_recommended_revenue:
-                Intent intent1 = new Intent(getContext(), RecommendedIncomeActivity.class);
-                startActivity(intent1);
+                if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
+                    Intent intent1 = new Intent(getContext(), RecommendedIncomeActivity.class);
+                    startActivity(intent1);
+                } else {
+                    ToastUtils.showToast("会员可查看");
+                }
                 break;
             case R.id.ll_golden_bean:
                 startActivity(new Intent(getContext(), GoldenBeanActivity.class));
@@ -440,97 +455,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 break;
             case R.id.tv_vip_2:
                 EventBus.getDefault().post("5");
-//                showVipOpenDialog();
                 break;
         }
     }
-
-    private void vipOpen() {
-        LoginBean loginBean = new LoginBean();
-        loginBean.wxapp_id = "10001";
-        loginBean.token = FastData.getToken();
-        dataRepository.vipOpen(loginBean, new RemotDataSource.getCallback() {
-            @Override
-            public void onFailure(String info) {
-
-            }
-
-            @Override
-            public void onSuccess(Object data) {
-                VipOpenModel vipOpenModel = (VipOpenModel) data;
-                if (vipOpenModel.getCode() == 1) {
-                    if(pay_mode.equals("wx_pay")) {
-                        wxPay(vipOpenModel.getData().getPayment());
-                    }else if(pay_mode.equals("ali_pay")) {
-
-                    }
-                }
-            }
-        });
-    }
-
-    private void wxPay(VipOpenModel.DataBean.PaymentBean payment){
-        PayReq req = new PayReq();
-        Gson gson = new Gson();
-        Map<String, String> map = new HashMap<>();
-//        map = gson.fromJson(alipayRecord.getData(), map.getClass());
-        req.appId = payment.getApp_id();
-        req.nonceStr = payment.getNonceStr();
-        req.packageValue = payment.getPackageX();
-        req.partnerId = payment.getMch_id();
-        req.prepayId = payment.getPrepay_id();
-        req.sign = payment.getPaySign();
-        req.timeStamp = payment.getTimeStamp();
-        MyApp.mWxApi.sendReq(req);
-    }
-
-
-
-    private void showVipOpenDialog() {
-        new TDialog.Builder(getActivity().getSupportFragmentManager())
-                .setLayoutRes(R.layout.order_vip_open_dialog)
-                .setScreenWidthAspect(getContext(), 1f)
-                .setGravity(Gravity.BOTTOM)
-                .setCancelableOutside(true)
-                .addOnClickListener(R.id.open_vip,R.id.rl_ali,R.id.rl_wechat)
-                .setOnBindViewListener(new OnBindViewListener() {
-                    @Override
-                    public void bindView(BindViewHolder viewHolder) {
-                        iv_ali_mark = viewHolder.itemView.findViewById(R.id.iv_ali_mark);
-                        iv_wx_mark = viewHolder.itemView.findViewById(R.id.iv_wx_mark);
-                    }
-                })
-                .setOnViewClickListener(new OnViewClickListener() {
-                    @Override
-                    public void onViewClick(BindViewHolder viewHolder, View view, TDialog tDialog) {
-                        switch (view.getId()) {
-                            case R.id.open_vip:
-                                vipOpen();
-                                tDialog.dismiss();
-
-                                break;
-                            case R.id.rl_ali:
-                                setPayMode(iv_ali_mark,"ali_pay");
-                                break;
-                            case R.id.rl_wechat:
-                                setPayMode(iv_wx_mark,"wx_pay");
-                                break;
-                        }
-                    }
-                })
-                .create()
-                .show();
-    }
-
-    private void setPayMode(ImageView imageView,String pay_mode){
-        iv_ali_mark.setImageResource(R.mipmap.grey_circle);
-        iv_wx_mark.setImageResource(R.mipmap.grey_circle);
-        this.pay_mode = pay_mode;
-        imageView.setImageResource(R.mipmap.juice_circle);
-    }
-
-
-
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(String event) {

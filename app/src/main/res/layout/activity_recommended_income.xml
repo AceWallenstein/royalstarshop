@@ -49,10 +49,10 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="99"
             android:textColor="@color/white"
             android:textSize="40sp" />
     </LinearLayout>
@@ -77,10 +77,10 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_money_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_profit"
-            android:text="13.48"
             android:textColor="#333333"
             android:textSize="24sp" />
 
