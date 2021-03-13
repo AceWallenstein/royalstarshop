@@ -30,4 +30,6 @@ public class LoginBean {
     public String birth;
     public String content;
     public String images;
+    public String sortType;
+    public String orderType;
 }

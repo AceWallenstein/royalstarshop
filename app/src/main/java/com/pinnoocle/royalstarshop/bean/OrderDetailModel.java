@@ -1,8 +1,9 @@
 package com.pinnoocle.royalstarshop.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderDetailModel {
+public class OrderDetailModel implements Serializable {
 
     /**
      * code : 1
@@ -38,7 +39,7 @@ public class OrderDetailModel {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * order : {"order_id":26190,"order_no":"2021031009282456505548","total_price":"4319.00","order_price":"4319.00","coupon_id":0,"coupon_money":"0.00","points_money":"0.00","points_num":0,"virtual_code":"","virtual_code_money":"0.00","points_exchange_num":0,"pay_price":"4319.00","update_price":{"symbol":"+","value":"0.00"},"buyer_remark":"","seller_remark":"","pay_type":{"text":"微信支付","value":20},"pay_status":{"text":"待付款","value":10},"pay_time":0,"delivery_type":{"text":"快递配送","value":10},"extract_shop_id":0,"extract_clerk_id":0,"express_price":"0.00","express_id":0,"express_company":"","express_no":"","delivery_status":{"text":"待发货","value":10},"delivery_time":0,"receipt_status":{"text":"待收货","value":10},"receipt_time":0,"order_status":{"text":"进行中","value":10},"cancel_time":0,"points_bonus":0,"is_settled":0,"transaction_id":"","is_comment":0,"order_source":10,"order_source_id":0,"source_id":0,"user_id":19533,"push_zto":0,"is_delete":0,"create_time":"2021-03-10 09:28:24","isAllowRefund":false,"goods":[{"order_goods_id":31467,"goods_id":12927,"goods_name":"海尔（Haier）2匹/3匹自清洁变频空调柜机 家用冷暖立式空调 客厅圆柱立柜式空调 帝樽EDS系列 KFR-50LW/07EDS83/2匹","image_id":26087,"deduct_stock_type":10,"spec_type":10,"spec_sku_id":"0","goods_sku_id":39246,"goods_attr":"","goods_no":"","goods_price":"4099.00","line_price":"6299.00","goods_weight":100,"is_user_grade":0,"grade_ratio":0,"grade_goods_price":"0.00","grade_total_money":"0.00","coupon_money":"0.00","points_money":"0.00","points_num":0,"points_bonus":0,"virtual_code_money":"0.00","exchange_points_num":0,"exchange_points_money":"0.00","total_num":1,"total_price":"4099.00","total_pay_price":"4099.00","is_ind_dealer":0,"dealer_money_type":10,"first_money":"0.00","second_money":"0.00","third_money":"0.00","is_comment":0,"order_id":26190,"user_id":19533,"image":{"file_id":26087,"storage":"local","group_id":0,"file_url":"","file_name":"20210304144650c92fa5848.jpg","file_size":202536,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"wxapp_id":10001,"create_time":"2021-03-04 14:46:50","file_path":"http://gsyp.vtui365.com/uploads/20210304144650c92fa5848.jpg"},"sku":{"goods_sku_id":39246,"goods_id":12927,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"0.00","goods_price":"4099.00","line_price":"6299.00","stock_num":997,"goods_sales":0,"goods_weight":100},"goods":{"goods_id":12927,"goods_name":"海尔（Haier）2匹/3匹自清洁变频空调柜机 家用冷暖立式空调 客厅圆柱立柜式空调 帝樽EDS系列 KFR-50LW/07EDS83/2匹","selling_point":"产品特色：自动清洁，静音空调，圆柱式空调","category_id":10586,"spec_type":10,"deduct_stock_type":10,"content":"&lt;p&gt;暂无&lt;/p&gt;","goods_sort":100,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":1,"text":"普通商品"},"freight":"0.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":17,"goods_sales":0},"refund":null},{"order_goods_id":31468,"goods_id":12931,"goods_name":"电视","image_id":26092,"deduct_stock_type":10,"spec_type":20,"spec_sku_id":"12185_12186","goods_sku_id":39262,"goods_attr":"颜色:黄色; 尺寸:22寸; ","goods_no":"","goods_price":"220.00","line_price":"0.00","goods_weight":1000,"is_user_grade":0,"grade_ratio":0,"grade_goods_price":"0.00","grade_total_money":"0.00","coupon_money":"0.00","points_money":"0.00","points_num":0,"points_bonus":0,"virtual_code_money":"0.00","exchange_points_num":0,"exchange_points_money":"0.00","total_num":1,"total_price":"220.00","total_pay_price":"220.00","is_ind_dealer":0,"dealer_money_type":10,"first_money":"0.00","second_money":"0.00","third_money":"0.00","is_comment":0,"order_id":26190,"user_id":19533,"image":{"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"wxapp_id":10001,"create_time":"2021-03-05 10:02:27","file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"},"sku":{"goods_sku_id":39262,"goods_id":12931,"spec_sku_id":"12185_12186","image_id":26092,"goods_no":"","balance_price":"0.00","goods_price":"220.00","line_price":"0.00","stock_num":95,"goods_sales":0,"goods_weight":1000},"goods":{"goods_id":12931,"goods_name":"电视","selling_point":"","category_id":10581,"spec_type":20,"deduct_stock_type":10,"content":"","goods_sort":1,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":3,"text":"会员商品"},"freight":"0.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":198,"goods_sales":0},"refund":null}],"address":{"order_address_id":21155,"name":"cccc","phone":"16313131245","date_time":0,"province_id":1,"city_id":2,"region_id":3,"detail":"ttttt","order_id":26190,"user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}},"express":null,"extract_shop":null,"state_text":"待付款"}
          * setting : {"points_name":"积分"}
@@ -63,7 +64,7 @@ public class OrderDetailModel {
             this.setting = setting;
         }
 
-        public static class OrderBean {
+        public static class OrderBean implements Serializable{
             /**
              * order_id : 26190
              * order_no : 2021031009282456505548
@@ -556,7 +557,7 @@ public class OrderDetailModel {
                 this.goods = goods;
             }
 
-            public static class UpdatePriceBean {
+            public static class UpdatePriceBean implements Serializable {
                 /**
                  * symbol : +
                  * value : 0.00
@@ -582,7 +583,7 @@ public class OrderDetailModel {
                 }
             }
 
-            public static class PayTypeBean {
+            public static class PayTypeBean implements Serializable {
                 /**
                  * text : 微信支付
                  * value : 20
@@ -608,7 +609,7 @@ public class OrderDetailModel {
                 }
             }
 
-            public static class PayStatusBean {
+            public static class PayStatusBean implements Serializable {
                 /**
                  * text : 待付款
                  * value : 10
@@ -634,7 +635,7 @@ public class OrderDetailModel {
                 }
             }
 
-            public static class DeliveryTypeBean {
+            public static class DeliveryTypeBean implements Serializable {
                 /**
                  * text : 快递配送
                  * value : 10
@@ -660,7 +661,7 @@ public class OrderDetailModel {
                 }
             }
 
-            public static class DeliveryStatusBean {
+            public static class DeliveryStatusBean implements Serializable {
                 /**
                  * text : 待发货
                  * value : 10
@@ -686,7 +687,7 @@ public class OrderDetailModel {
                 }
             }
 
-            public static class ReceiptStatusBean {
+            public static class ReceiptStatusBean implements Serializable {
                 /**
                  * text : 待收货
                  * value : 10
@@ -712,7 +713,7 @@ public class OrderDetailModel {
                 }
             }
 
-            public static class OrderStatusBean {
+            public static class OrderStatusBean implements Serializable{
                 /**
                  * text : 进行中
                  * value : 10
@@ -738,7 +739,7 @@ public class OrderDetailModel {
                 }
             }
 
-            public static class AddressBean {
+            public static class AddressBean implements Serializable {
                 /**
                  * order_address_id : 21155
                  * name : cccc
@@ -853,7 +854,7 @@ public class OrderDetailModel {
                     this.region = region;
                 }
 
-                public static class RegionBean {
+                public static class RegionBean implements Serializable{
                     /**
                      * province : 北京市
                      * city : 北京市
@@ -896,7 +897,7 @@ public class OrderDetailModel {
             }
         }
 
-        public static class SettingBean {
+        public static class SettingBean implements Serializable {
             /**
              * points_name : 积分
              */

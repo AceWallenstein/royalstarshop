@@ -61,15 +61,18 @@
         <activity android:name=".home.activity.GoodsVideoDetailActivity" />
         <activity android:name=".mine.activity.OrderActivity" />
         <activity android:name=".mine.activity.OrderDetailActivity" />
-        <activity android:name=".mine.activity.OrderCommentActivity" />
+        <activity android:name=".mine.activity.OrderCommentActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".mine.activity.AfterSalesListActivity" />
-        <activity android:name=".mine.activity.QuestionFeedbackActivity" />
+        <activity android:name=".mine.activity.QuestionFeedbackActivity" android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
         <activity android:name=".mine.activity.QuestionRecordActivity" />
         <activity android:name=".vip.InvitationCodeActivity" />
+        <activity android:name=".mine.activity.OrderPayActivity" />
+        <activity android:name=".mine.activity.PaySuccessActivity" />
+
     </application>
 
 </manifest>

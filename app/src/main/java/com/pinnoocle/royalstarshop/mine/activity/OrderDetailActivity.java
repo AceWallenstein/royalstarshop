@@ -171,6 +171,7 @@ public class OrderDetailActivity extends BaseActivity {
                             break;
                         case "待发货":
                         case "已取消":
+                        case "已完成":
                             rl1.setVisibility(View.GONE);
                             rlPanel.setVisibility(View.GONE);
                             break;
@@ -182,6 +183,7 @@ public class OrderDetailActivity extends BaseActivity {
                             tvCancel.setText("删除订单");
                             tvPay.setText("去评价");
                             break;
+
                     }
 
                 }
@@ -189,7 +191,7 @@ public class OrderDetailActivity extends BaseActivity {
         });
     }
 
-    private void orderReceipt(String order_ids) {
+    private void orderReceipt(String order_ids, String order_no) {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
@@ -208,7 +210,7 @@ public class OrderDetailActivity extends BaseActivity {
                 if (statusModel.getCode() == 1) {
                     orderDetail();
                     EventBus.getDefault().post("order_refresh");
-                    showOrderCommentDialog(order_ids);
+                    showOrderCommentDialog(order_ids, order_no);
                 }
             }
 
@@ -234,14 +236,47 @@ public class OrderDetailActivity extends BaseActivity {
                 if (statusModel.getCode() == 1) {
                     orderDetail();
                     EventBus.getDefault().post("order_refresh");
-                    showOrderCommentDialog(order_ids);
+
                 }
             }
 
         });
     }
 
-    private void showOrderCommentDialog(String order_ids) {
+    private void showOrderConfirmDialog(String order_ids, String order_no) {
+        new TDialog.Builder(getSupportFragmentManager())
+                .setLayoutRes(R.layout.order_confirm_dialog)
+                .setScreenWidthAspect(this, 0.7f)
+                .setGravity(Gravity.CENTER)
+                .setCancelableOutside(false)
+                .addOnClickListener(R.id.tv_cancel, R.id.tv_sure)
+                .setOnBindViewListener(new OnBindViewListener() {
+                    @Override
+                    public void bindView(BindViewHolder viewHolder) {
+                        TextView tv_content = viewHolder.itemView.findViewById(R.id.tv_content);
+                        tv_content.setText("确认签收订单：" + order_no);
+                    }
+                })
+                .setOnViewClickListener(new OnViewClickListener() {
+                    @Override
+                    public void onViewClick(BindViewHolder viewHolder, View view, TDialog tDialog) {
+                        switch (view.getId()) {
+                            case R.id.tv_cancel:
+                                tDialog.dismiss();
+                                break;
+                            case R.id.tv_sure:
+                                orderReceipt(order_ids, order_no);
+                                tDialog.dismiss();
+                                break;
+                        }
+                    }
+                })
+                .create()
+                .show();
+    }
+
+
+    private void showOrderCommentDialog(String order_ids, String order_no) {
         new TDialog.Builder(OrderDetailActivity.this.getSupportFragmentManager())
                 .setLayoutRes(R.layout.order_comment_dialog)
                 .setScreenWidthAspect(OrderDetailActivity.this, 0.7f)
@@ -252,7 +287,7 @@ public class OrderDetailActivity extends BaseActivity {
                     @Override
                     public void bindView(BindViewHolder viewHolder) {
                         TextView tv_content = viewHolder.itemView.findViewById(R.id.tv_content);
-                        tv_content.setText("确认签收订单：" + order_ids + "成功，，现在去评价订单？");
+                        tv_content.setText("确认签收订单：" + order_no + "成功，，现在去评价订单？");
                     }
                 })
                 .setOnViewClickListener(new OnViewClickListener() {
@@ -264,7 +299,7 @@ public class OrderDetailActivity extends BaseActivity {
                                 break;
                             case R.id.tv_sure:
                                 Intent intent = new Intent(OrderDetailActivity.this, OrderCommentActivity.class);
-                                intent.putExtra("order_ids", order_ids);
+                                intent.putExtra("order_id", order_ids);
                                 startActivity(intent);
                                 tDialog.dismiss();
                                 break;
@@ -316,9 +351,17 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case R.id.tv_pay:
                 if (tvPay.getText().toString().equals("确认收货")) {
-                    orderReceipt(orderDetailModel.getData().getOrder().getOrder_id() + "");
+                    showOrderConfirmDialog(orderDetailModel.getData().getOrder().getOrder_id() + "", orderDetailModel.getData().getOrder().getOrder_no());
                 } else if (tvPay.getText().toString().equals("去评价")) {
-                    startActivity(new Intent(OrderDetailActivity.this, OrderCommentActivity.class));
+                    Intent intent = new Intent(OrderDetailActivity.this, OrderCommentActivity.class);
+                    intent.putExtra("order_id", orderDetailModel.getData().getOrder().getOrder_id()+"");
+                    startActivity(intent);
+                } else if (tvPay.getText().toString().equals("去付款")) {
+                    Intent intent = new Intent(this, OrderPayActivity.class);
+                    intent.putExtra("order_id", orderDetailModel.getData().getOrder().getOrder_id() + "");
+                    intent.putExtra("order_no", orderDetailModel.getData().getOrder().getOrder_no() + "");
+                    intent.putExtra("order_money", orderDetailModel.getData().getOrder().getOrder_price());
+                    startActivity(intent);
                 }
                 break;
             case R.id.tv_cancel://删除订单

@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
-import com.pinnoocle.royalstarshop.bean.CollectListModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
@@ -18,7 +16,6 @@ import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
-import com.pinnoocle.royalstarshop.utils.StatusBarUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -35,12 +32,12 @@ public class AfterSalesListActivity extends BaseActivity implements OnRefreshLoa
     ImageView ivBack;
     @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
-    @BindView(R.id.tv_empty)
-    TextView tvEmpty;
     @BindView(R.id.recycleView)
     SwipeMenuRecyclerView recycleView;
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.rl_empty)
+    RelativeLayout rlEmpty;
     private DataRepository dataRepository;
     private int page = 1;
 
@@ -83,14 +80,14 @@ public class AfterSalesListActivity extends BaseActivity implements OnRefreshLoa
                 refresh.finishRefresh();
                 ViewLoading.dismiss(AfterSalesListActivity.this);
                 RefundListsModel refundListsModel = (RefundListsModel) data;
-                tvEmpty.setVisibility(View.VISIBLE);
+                rlEmpty.setVisibility(View.VISIBLE);
                 recycleView.setVisibility(View.GONE);
                 refresh.finishRefresh();
 //                if (collectListModel.getCode() == 1) {
 //                    if (orderListModel.getData().getList().getCurrent_page() == orderListModel.getData().getList().getLast_page()) {
-                        refresh.finishLoadMoreWithNoMoreData();
+                refresh.finishLoadMoreWithNoMoreData();
 //                    } else {
-                        refresh.finishLoadMore();
+                refresh.finishLoadMore();
 //                    }
 //                    if (dataBeanList.size() == 0 && orderListModel.getData().getList().getData().size() == 0) {
 //                        tvEmpty.setVisibility(View.VISIBLE);

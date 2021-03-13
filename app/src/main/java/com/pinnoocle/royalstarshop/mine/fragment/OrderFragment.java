@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.mine.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -24,6 +25,7 @@ import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
 import com.pinnoocle.royalstarshop.mine.activity.OrderCommentActivity;
 import com.pinnoocle.royalstarshop.mine.activity.OrderDetailActivity;
+import com.pinnoocle.royalstarshop.mine.activity.OrderPayActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -111,10 +113,17 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
 
                     case R.id.tv_pay:
                         if (o.getState_text().equals("待付款")) {  //去付款
-
+                            Intent intent = new Intent(getContext(), OrderPayActivity.class);
+                            intent.putExtra("order_id",o.getOrder_id()+"");
+                            intent.putExtra("order_no",o.getOrder_no()+"");
+                            intent.putExtra("order_money",o.getOrder_price());
+                            startActivity(intent);
                         } else if (o.getState_text().equals("待收货")) {//确认收货
-                            showOrderConfirmDialog(o.getOrder_id() + "");
+                            showOrderConfirmDialog(o.getOrder_id() + "",o.getOrder_no());
                         } else if (o.getState_text().equals("已完成")) {//去评价
+                            Intent intent = new Intent(getContext(), OrderCommentActivity.class);
+                            intent.putExtra("order_id",o.getOrder_id()+"");
+                            startActivity(intent);
 
                         }
 
@@ -200,7 +209,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
         });
     }
 
-    private void orderReceipt(String order_ids) {
+    private void orderReceipt(String order_ids,String order_no) {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
@@ -221,7 +230,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                     page = 1;
                     dataBeanList.clear();
                     orderList();
-                    showOrderCommentDialog(order_ids);
+                    showOrderCommentDialog(order_ids,order_no);
                 }
             }
 
@@ -260,7 +269,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                 .show();
     }
 
-    private void showOrderConfirmDialog(String order_ids) {
+    private void showOrderConfirmDialog(String order_ids,String order_no) {
         new TDialog.Builder(getActivity().getSupportFragmentManager())
                 .setLayoutRes(R.layout.order_confirm_dialog)
                 .setScreenWidthAspect(getContext(), 0.7f)
@@ -271,7 +280,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                     @Override
                     public void bindView(BindViewHolder viewHolder) {
                         TextView tv_content = viewHolder.itemView.findViewById(R.id.tv_content);
-                        tv_content.setText("确认签收订单：" + order_ids);
+                        tv_content.setText("确认签收订单：" + order_no);
                     }
                 })
                 .setOnViewClickListener(new OnViewClickListener() {
@@ -282,7 +291,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                                 tDialog.dismiss();
                                 break;
                             case R.id.tv_sure:
-                                orderReceipt(order_ids);
+                                orderReceipt(order_ids,order_no);
                                 tDialog.dismiss();
                                 break;
                         }
@@ -292,7 +301,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                 .show();
     }
 
-    private void showOrderCommentDialog(String order_ids) {
+    private void showOrderCommentDialog(String order_ids,String order_no) {
         new TDialog.Builder(getActivity().getSupportFragmentManager())
                 .setLayoutRes(R.layout.order_comment_dialog)
                 .setScreenWidthAspect(getContext(), 0.7f)
@@ -303,7 +312,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                     @Override
                     public void bindView(BindViewHolder viewHolder) {
                         TextView tv_content = viewHolder.itemView.findViewById(R.id.tv_content);
-                        tv_content.setText("确认签收订单：" + order_ids + "成功，，现在去评价订单？");
+                        tv_content.setText("确认签收订单：" + order_no + "成功，，现在去评价订单？");
                     }
                 })
                 .setOnViewClickListener(new OnViewClickListener() {
@@ -315,7 +324,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                                 break;
                             case R.id.tv_sure:
                                 Intent intent = new Intent(getContext(), OrderCommentActivity.class);
-                                intent.putExtra("order_ids", order_ids);
+                                intent.putExtra("order_id", order_ids);
                                 startActivity(intent);
                                 tDialog.dismiss();
                                 break;

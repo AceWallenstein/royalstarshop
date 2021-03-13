@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class OrderListModel {
@@ -745,7 +746,7 @@ public class OrderListModel {
                     }
                 }
 
-                public static class GoodsBean {
+                public static class GoodsBean implements Serializable {
                     /**
                      * order_goods_id : 31460
                      * goods_id : 12931
@@ -1110,7 +1111,7 @@ public class OrderListModel {
                         this.image = image;
                     }
 
-                    public static class ImageBean {
+                    public static class ImageBean implements Serializable{
                         /**
                          * file_id : 26091
                          * storage : local

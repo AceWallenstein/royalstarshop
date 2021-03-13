@@ -40,6 +40,10 @@ import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.timmy.tdialog.TDialog;
 import com.timmy.tdialog.base.BindViewHolder;
 import com.timmy.tdialog.listener.OnViewClickListener;
@@ -56,7 +60,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements OnRefreshListener {
     @BindView(R.id.iv_comment)
     ImageView ivComment;
     @BindView(R.id.iv_kefu)
@@ -93,6 +97,8 @@ public class HomeFragment extends BaseFragment {
     ImageView ivBg;
     @BindView(R.id.tv_more)
     TextView tvMore;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout refresh;
     private List<String> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
@@ -116,6 +122,7 @@ public class HomeFragment extends BaseFragment {
         initRv1();
         initRv2();
         initRv3();
+        refresh.setOnRefreshListener(this);
     }
 
 
@@ -190,6 +197,7 @@ public class HomeFragment extends BaseFragment {
                 ViewLoading.dismiss(getContext());
                 HomeModel homeModel = (HomeModel) data;
                 if (homeModel.getCode() == 1) {
+                    refresh.finishRefresh();
                     List<HomeModel.DataBean.VipGoodsBean> vipGoods = homeModel.getData().getVipGoods();
                     oneAdapter.setData(vipGoods);
                     List<HomeModel.DataBean.VideoGoodsBean> videoGoods = homeModel.getData().getVideoGoods();
@@ -383,7 +391,7 @@ public class HomeFragment extends BaseFragment {
         imageView.setLayoutParams(params);
     }
 
-    @OnClick({R.id.iv_comment, R.id.tv_search,R.id.tv_more})
+    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_comment:
@@ -398,6 +406,12 @@ public class HomeFragment extends BaseFragment {
                 EventBus.getDefault().post("3");
                 break;
         }
+    }
+
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        initData();
     }
 }
 

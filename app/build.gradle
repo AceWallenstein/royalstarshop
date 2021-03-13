@@ -16,7 +16,8 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('D:\\pinuoke\\royalstarshop\\gsyp.jks')
+//            storeFile file('D:\\pinuoke\\royalstarshop\\gsyp.jks')
+            storeFile file('D:\\workspace\\RoyalstarShop\\gsyp.jks')
             storePassword '123456'
             keyAlias 'alias'
             keyPassword '123456'

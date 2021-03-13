@@ -65,6 +65,8 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
     ImageView ivSortPriceDown;
     @BindView(R.id.rl_price)
     RelativeLayout rlPrice;
+    @BindView(R.id.rl_empty)
+    RelativeLayout rlEmpty;
 
     private List<HistoryBean> historyList = new ArrayList<>();
     private boolean countFlag = false;
@@ -76,6 +78,8 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
     private GoodsAdapter goodsAdapter;
     private int page = 1;
     private List<GoodsListsModel.DataBeanX.ListBean.DataBean> dataBeanList = new ArrayList<>();
+    private String sortType = "all";
+    private String orderType = "asc ";
 
     public GoodListFragment(int category_id) {
         this.category_id = category_id;
@@ -123,6 +127,8 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
         loginBean.wxapp_id = "10001";
         loginBean.category_id = category_id + "";
         loginBean.page = page + "";
+        loginBean.sortType = sortType;
+        loginBean.orderType = orderType;
         dataRepository.goodsLists(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
@@ -140,8 +146,15 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
                     } else {
                         refresh.finishLoadMore();
                     }
-                    dataBeanList.addAll(goodsListsModel.getData().getList().getData());
-                    goodsAdapter.setData(dataBeanList);
+                    if (dataBeanList.size() == 0 && goodsListsModel.getData().getList().getData().size() == 0) {
+                        rlEmpty.setVisibility(View.VISIBLE);
+                        recycleView.setVisibility(View.GONE);
+                    } else {
+                        rlEmpty.setVisibility(View.GONE);
+                        recycleView.setVisibility(View.VISIBLE);
+                        dataBeanList.addAll(goodsListsModel.getData().getList().getData());
+                        goodsAdapter.setData(dataBeanList);
+                    }
 
                 }
             }
@@ -175,40 +188,53 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
     }
 
 
-    private void switchPage(int page) {
+    private void switchPage(int page_) {         //排序 all 全部 sales 销量 price 价格    desc 降序 asc 升序
 
-        if (page == 0) {
+        if (page_ == 0) {
 //            EventBus.getDefault().post(new ComprehensiveEvent());
+            sortType = "all";
+            orderType = "asc";
             setSortViewStatus(ivSortComposite, R.mipmap.sort_down_red);
 
-        } else if (page == 1) {
+        } else if (page_ == 1) {
             countFlag = !countFlag;
+            sortType = "sales";
             if (countFlag) {
+                orderType = "asc";
                 setSortViewStatus(ivSortSalesTop, R.mipmap.sort_top_red);
             } else {
+                orderType = "desc";
                 setSortViewStatus(ivSortSalesDown, R.mipmap.sort_down_red);
             }
 //            EventBus.getDefault().post(new BuyCountSortEvent(countFlag));
 
-        } else if (page == 2) {
+        } else if (page_ == 2) {
             priceFlag = !priceFlag;
+            sortType = "price";
             if (priceFlag) {
+                orderType = "asc";
                 setSortViewStatus(ivSortPriceTop, R.mipmap.sort_top_red);
             } else {
+                orderType = "desc";
                 setSortViewStatus(ivSortPriceDown, R.mipmap.sort_down_red);
             }
 //            EventBus.getDefault().post(new PriceSortEvent(priceFlag));
 
         }
         for (int i = 0; i < pageIds.length; i++) {
-            if (i == page) {
+            if (i == page_) {
                 pageIds[i].setTextColor(getResources().getColor(R.color.light_red));
             } else {
                 pageIds[i].setTextColor(getResources().getColor(R.color.black_3));
             }
 
         }
-        currentPage = page;
+        currentPage = page_;
+        page = 1;
+        dataBeanList.clear();
+        goodsLists();
+
+
     }
 
     private void setSortViewStatus(ImageView imageView, int res) {

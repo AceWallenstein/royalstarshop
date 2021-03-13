@@ -11,8 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-import com.lljjcoder.Constant;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MyApp;
@@ -21,7 +19,6 @@ import com.pinnoocle.royalstarshop.adapter.OrderConfirmAdapter;
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
-import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
@@ -31,11 +28,10 @@ import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -241,6 +237,20 @@ public class OrderConfirmActivity extends BaseActivity {
                     buyNow();
                 }
                 break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String event) {
+        if (event.equals("pay_success")) {
+            Intent intent = new Intent(this, PaySuccessActivity.class);
+            intent.putExtra("type", "1");
+            startActivity(intent);
+        }
+        if (event.equals("pay_cancel")) {
+//            Intent intent = new Intent(mContext, OrderDetailActivity.class);
+//            intent.putExtra("order_id",sureOrderData.get.getOrder_id());
+//            startActivity(intent);
         }
     }
 }

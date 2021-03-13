@@ -229,4 +229,8 @@ public interface RetrofitService {
     @POST("api/user.index/money")
     Observable<MoneyModel> money(@Body LoginBean loginBean);
 
+    //添加商品评价
+    @POST("api/user.comment/order")
+    Observable<StatusModel> comment(@Body LoginBean loginBean);
+
 }
