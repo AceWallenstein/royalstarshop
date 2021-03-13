@@ -95,7 +95,7 @@ public class UserDetailModel {
             private String avatarUrl;
             private String gender;
             private int address_id;
-            private String balance;
+            private String money;
             private int points;
             private String pay_money;
             private String expend_money;
@@ -114,6 +114,14 @@ public class UserDetailModel {
             private AddressDefaultBean address_default;
             private Object grade;
             private List<AddressBean> address;
+
+            public String getMoney() {
+                return money;
+            }
+
+            public void setMoney(String money) {
+                this.money = money;
+            }
 
             public String getBirth() {
                 return birth;
@@ -169,14 +177,6 @@ public class UserDetailModel {
 
             public void setAddress_id(int address_id) {
                 this.address_id = address_id;
-            }
-
-            public String getBalance() {
-                return balance;
-            }
-
-            public void setBalance(String balance) {
-                this.balance = balance;
             }
 
             public int getPoints() {

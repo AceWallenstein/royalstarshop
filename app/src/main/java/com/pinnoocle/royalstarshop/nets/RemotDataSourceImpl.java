@@ -20,6 +20,7 @@ import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
+import com.pinnoocle.royalstarshop.bean.MoneyListModel;
 import com.pinnoocle.royalstarshop.bean.MoneyModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
@@ -1069,6 +1070,28 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(StatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void moneyList(LoginBean loginBean, getCallback callback) {
+        Observable<MoneyListModel> observable = RetrofitHelper.getInstance(mContext).getServer().moneyList(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MoneyListModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(MoneyListModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

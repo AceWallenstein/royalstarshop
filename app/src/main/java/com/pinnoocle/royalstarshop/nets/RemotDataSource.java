@@ -107,6 +107,8 @@ public interface RemotDataSource {
     void money(LoginBean loginBean, getCallback callback);
     void comment(LoginBean loginBean, getCallback callback);
 
+    void moneyList(LoginBean loginBean, getCallback callback);
+
     void image(String wxappid, String token, MultipartBody.Part file, getCallback callback);
 
 }
