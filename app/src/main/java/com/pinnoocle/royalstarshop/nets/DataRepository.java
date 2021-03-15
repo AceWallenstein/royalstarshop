@@ -274,6 +274,11 @@ public class DataRepository implements RemotDataSource {
     }
 
     @Override
+    public void getVipGoods(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.getVipGoods(loginBean, callback);
+    }
+
+    @Override
     public void myComments(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.myComments(loginBean, callback);
     }

@@ -15,6 +15,8 @@ import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.widget.DataCleanManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -79,10 +81,12 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.tv_quit:
                 FastData.clear();
-                Intent intent4 = new Intent(SettingActivity.this, LoginActivity.class);
-                intent4.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent4);
-                AppManager.getInstance().killAllActivity();
+                EventBus.getDefault().post("6");
+                finish();
+//                Intent intent4 = new Intent(SettingActivity.this, LoginActivity.class);
+//                intent4.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent4);
+//                AppManager.getInstance().killAllActivity();
                 break;
             case R.id.rl_transaction_code:
                 Intent intent1 = new Intent(this, TransactionCodeActivity.class);

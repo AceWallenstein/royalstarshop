@@ -20,10 +20,8 @@ import com.google.gson.Gson;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
-import com.pinnoocle.royalstarshop.adapter.GoodsListAdapter;
 import com.pinnoocle.royalstarshop.adapter.HotGoodsAdapter;
 import com.pinnoocle.royalstarshop.adapter.VipGoodsListAdapter;
-import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
@@ -31,6 +29,8 @@ import com.pinnoocle.royalstarshop.bean.VipOpenModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
+import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -110,6 +110,8 @@ public class VipFragment extends BaseFragment {
     RecyclerView rv1;
     @BindView(R.id.recycleView)
     RecyclerView recycleView;
+    @BindView(R.id.tv_gold_detail)
+    TextView tvGoldDetail;
     private DataRepository dataRepository;
     private boolean isSelect = true;
     private ImageView iv_ali_mark;
@@ -193,6 +195,12 @@ public class VipFragment extends BaseFragment {
     }
 
     private void vip() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return;
+        }
         ViewLoading.show(getContext());
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
@@ -238,9 +246,11 @@ public class VipFragment extends BaseFragment {
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
                             Date date = new Date(vipInfoModel.getData().getUserInfo().getVip_expire() * 1000L);
                             tvTime.setText(simpleDateFormat.format(date) + "金豆到期");
+                            ivRight.setVisibility(View.GONE);
                         } else {
                             tvTime.setText("金豆已到期  ");
                             tvRenew.setVisibility(View.VISIBLE);
+                            ivRight.setVisibility(View.VISIBLE);
                         }
                         Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPic);
                     }
@@ -289,9 +299,12 @@ public class VipFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.iv_grey_circle, R.id.open_vip})
+    @OnClick({R.id.iv_grey_circle, R.id.open_vip,R.id.tv_gold_detail})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_gold_detail:
+                startActivity(new Intent(getContext(), GoldenBeanDetailActivity.class));
+                break;
             case R.id.iv_grey_circle:
                 if (isSelect) {
                     ivGreyCircle.setImageResource(R.mipmap.select);

@@ -25,6 +25,8 @@ import butterknife.ButterKnife;
 public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean, OrderDetailAdapter.VH> {
 
 
+    private String state_text;
+
     public OrderDetailAdapter(Context mContext) {
         super(mContext);
     }
@@ -43,15 +45,39 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
         holder.tvNum.setText("x" + mDatas.get(position).getTotal_num());
 //        holder.tv_status.setText(mDatas.get(position).ge);
         holder.itemView.setOnClickListener(v -> {
-            if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemViewClick(v, position);
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
             }
         });
+
+        holder.tv_after_sale.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
+            }
+        });
+
+        switch (state_text) {
+            case "待付款":
+                holder.tv_after_sale.setVisibility(View.GONE);
+                break;
+            case "待发货":
+            case "已取消":
+            case "已完成":
+            case "待收货":
+            case "待评价":
+                holder.tv_after_sale.setVisibility(View.VISIBLE);
+                break;
+
+        }
     }
 
     @Override
     public int getItemCount() {
         return mDatas == null ? 0 : mDatas.size();
+    }
+
+    public void setType(String state_text) {
+        this.state_text = state_text;
     }
 
 
@@ -66,6 +92,8 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
         TextView tvNum;
         @BindView(R.id.tv_status)
         TextView tv_status;
+        @BindView(R.id.tv_after_sale)
+        TextView tv_after_sale;
 
         public VH(@NonNull View itemView) {
             super(itemView);

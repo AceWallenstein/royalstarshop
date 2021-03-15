@@ -1,6 +1,7 @@
 package com.pinnoocle.royalstarshop.home.fragment;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import com.pinnoocle.royalstarshop.bean.BannerModel;
 import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.UserDetailModel;
+import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.home.activity.CommentActivity;
@@ -36,14 +39,16 @@ import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsListActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsVideoDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
 import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
 import com.timmy.tdialog.TDialog;
 import com.timmy.tdialog.base.BindViewHolder;
 import com.timmy.tdialog.listener.OnViewClickListener;
@@ -99,6 +104,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     TextView tvMore;
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.iv_vip_goods)
+    ImageView ivVipGoods;
     private List<String> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
@@ -132,6 +139,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         index();
         banner();
         home();
+        getVipGoods();
     }
 
     private void index() {
@@ -159,6 +167,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
             }
         });
     }
+
 
     private void banner() {
         LoginBean loginBean = new LoginBean();
@@ -205,6 +214,25 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                     tagGoods = homeModel.getData().getTagGoods();
                     titleAdapter.setData(tagGoods);
                     initViewPager();
+                }
+            }
+        });
+    }
+
+    private void getVipGoods() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        dataRepository.getVipGoods(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                VipGoodsModel vipGoodsModel = (VipGoodsModel) data;
+                if (vipGoodsModel.getCode() == 1) {
+                    Glide.with(getContext()).load(vipGoodsModel.getData().getVip_goods().getGoods_image()).into(ivVipGoods);
                 }
             }
         });
@@ -384,6 +412,41 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         });
     }
 
+    private void userInfo() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return;
+        }
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        dataRepository.userDetail(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                refresh.finishRefresh();
+                UserDetailModel userDetailModel = (UserDetailModel) data;
+                if (userDetailModel.getCode() == 1) {
+                    if (userDetailModel.getData().getUserInfo().getIsVip() == 0) {
+                        EventBus.getDefault().post("5");
+                    } else {
+                        if (userDetailModel.getData().getUserInfo().getIs_exprire() == 0) {
+                            EventBus.getDefault().post("5");
+                        } else {
+                            startActivity(new Intent(getContext(), VipRenewActivity.class));
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
     private void setImageViewSize(ImageView imageView, int width) {
         ViewGroup.LayoutParams params = imageView.getLayoutParams();
@@ -391,7 +454,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         imageView.setLayoutParams(params);
     }
 
-    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more})
+    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more, R.id.iv_go})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_comment:
@@ -404,6 +467,9 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 break;
             case R.id.tv_more:
                 EventBus.getDefault().post("3");
+                break;
+            case R.id.iv_go:
+                userInfo();
                 break;
         }
     }

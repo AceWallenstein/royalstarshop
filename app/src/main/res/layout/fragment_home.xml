@@ -171,13 +171,15 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="70dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="16dp"
+                            android:id="@+id/iv_vip_goods"
+                            android:layout_width="60dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="22dp"
                             android:src="@mipmap/product" />
 
                         <ImageView
+                            android:id="@+id/iv_go"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"

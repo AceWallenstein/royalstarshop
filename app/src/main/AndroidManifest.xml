@@ -43,13 +43,15 @@
         <activity android:name=".home.activity.SearchActivity" />
         <activity android:name=".video.VideoDetailActivity" />
         <activity android:name=".login.LoginActivity">
+
+        </activity>
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
         <activity android:name=".home.activity.GoodsDetailActivity" />
         <activity android:name=".home.activity.GoodsCommentActivity" />
         <activity android:name=".mine.activity.AddressActivity" />
@@ -73,6 +75,7 @@
         <activity android:name=".mine.activity.OrderPayActivity" />
         <activity android:name=".mine.activity.PaySuccessActivity" />
         <activity android:name=".mine.activity.MyCommentsActivity" />
+        <activity android:name=".mine.activity.ApplyForAfterSalesActivity" />
 
     </application>
 

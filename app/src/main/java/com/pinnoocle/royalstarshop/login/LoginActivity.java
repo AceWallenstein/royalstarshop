@@ -29,6 +29,8 @@ import com.pinnoocle.royalstarshop.utils.CountDownTimerUtils;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.vip.InvitationCodeActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -140,11 +142,13 @@ public class LoginActivity extends BaseActivity {
                 if (loginModel.getCode() == 1) {
                     FastData.setUserId(loginModel.getData().getUser().getUser_id());
                     FastData.setToken(loginModel.getData().getToken());
-                    if(loginModel.getData().getIs_first() == 1){
+                    if (loginModel.getData().getIs_first() == 1) {
                         startActivity(new Intent(LoginActivity.this, InvitationCodeActivity.class));
-                    }else {
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
+//                    else {
+////                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+////                    }
+                    EventBus.getDefault().post("4");
                     finish();
                 }
             }
@@ -166,13 +170,12 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(LoginActivity.this);
-                ToastUtils.showToast("验证码发送成功");
                 CodeModel data1 = (CodeModel) data;
                 if (data1.getCode() == 1) {
-
-                    ToastUtils.showToast(data1.getData().getCode() + "");
+                    ToastUtils.showToast("验证码发送成功");
+//                    ToastUtils.showToast(data1.getData().getCode() + "");
+                    getCode();
                 }
-                getCode();
             }
         });
     }
@@ -180,5 +183,15 @@ public class LoginActivity extends BaseActivity {
     private void getCode() {
         CountDownTimerUtils countDownTimerUtils = new CountDownTimerUtils(tvGetCode, 60000, 1000);
         countDownTimerUtils.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getIntent().getIntExtra("pos", -1) == 1) {
+            finish();
+        } else {
+            EventBus.getDefault().post("6");
+            finish();
+        }
     }
 }

@@ -86,6 +86,9 @@ public class EditAddressActivity extends BaseActivity {
         edArea.setText(dataBean.getRegion().toString().trim());
         edAddress.setText(dataBean.getDetail().trim());
         address_id = String.valueOf(dataBean.getAddress_id());
+        provinceName = dataBean.getRegion().getProvince();
+        cityName = dataBean.getRegion().getCity();
+        districtName = dataBean.getRegion().getRegion();
 
         if (default_id == 0) {
             switchDisturb.setOpened(false);

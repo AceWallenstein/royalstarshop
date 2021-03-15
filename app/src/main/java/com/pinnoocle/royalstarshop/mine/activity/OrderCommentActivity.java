@@ -99,6 +99,7 @@ public class OrderCommentActivity extends BaseActivity {
     private List<String> images = new ArrayList<>();
     private OrderDetailModel orderDetailModel;
     private String score = "10";
+    private String content;
 
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
@@ -149,7 +150,7 @@ public class OrderCommentActivity extends BaseActivity {
     }
 
 
-    private void comment(String content) {
+    private void comment(String content,String uploaded) {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
@@ -159,9 +160,10 @@ public class OrderCommentActivity extends BaseActivity {
 //            LoginBean.FormData formData = new LoginBean.FormData(score, content, orderDetailModel.getData().getOrder().getGoods().get(i).getOrder_goods_id() + "", orderDetailModel.getData().getOrder().getGoods().get(i).getGoods_id() + "");
 //            formDatas.add(formData);
 //        }
-        LoginBean.FormData formData = new LoginBean.FormData(score, content, "",  "");
+        LoginBean.FormData formData = new LoginBean.FormData(score, content, orderDetailModel.getData().getOrder().getGoods().get(0).getOrder_goods_id() + "", orderDetailModel.getData().getOrder().getGoods().get(0).getGoods_id() + "");
         formDatas.add(formData);
         loginBean.formData = formDatas;
+        loginBean.uploaded = uploaded;
 
         ViewLoading.show(this);
         dataRepository.comment(loginBean, new RemotDataSource.getCallback() {
@@ -200,13 +202,21 @@ public class OrderCommentActivity extends BaseActivity {
                 if (imageModel.getCode() == 1) {
                     String imgPath = imageModel.getData().getFile_path();
                     images.add(imgPath);
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < images.size(); i++) {
+                        if (i == images.size() - 1) {
+                            sb.append(images.get(i));
+                        } else {
+                            sb.append(images.get(i) + ",");
+                        }
+                    }
+                    comment(content, sb.toString());
                 } else {
                     ToastUtils.showToast(imageModel.getMsg());
                 }
             }
         });
     }
-
 
 
     private void grid(ArrayList<String> mList) {
@@ -317,13 +327,18 @@ public class OrderCommentActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_sure:
+                content = edAdvise.getText().toString();
+
                 if (selectList != null && selectList.size() > 0) {
                     for (int i = 0; i < selectList.size(); i++) {
                         image(selectList.get(i).getCompressPath());
                     }
+                }else {
+                    comment(content, "");
                 }
-                String content = edAdvise.getText().toString();
-                comment(content);
+
+
+
                 break;
 
 //            (10好评 20中评 30差评)

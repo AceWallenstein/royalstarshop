@@ -32,6 +32,7 @@ import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
+import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
 import com.pinnoocle.royalstarshop.bean.VipOpenModel;
@@ -252,4 +253,13 @@ public interface RetrofitService {
     //会员中心商品
     @POST("api/vip/index")
     Observable<VipIndexModel> vipIndex(@Body LoginBean loginBean);
+
+    //会员权益商品
+    @POST("api/index/getVipGoods")
+    Observable<VipGoodsModel> getVipGoods(@Body LoginBean loginBean);
+
+    //获取默认地址
+    @POST("api/address/getDefault")
+    Observable<VipGoodsModel> getAddressDefault(@Body LoginBean loginBean);
+
 }

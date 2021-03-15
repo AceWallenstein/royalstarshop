@@ -2,8 +2,10 @@ package com.pinnoocle.royalstarshop.shoppingcart;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,13 +22,13 @@ import com.pinnoocle.royalstarshop.bean.CartListsModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
-import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.event.CanSettlement;
 import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
 import com.pinnoocle.royalstarshop.event.SetCartNums;
 import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
 import com.pinnoocle.royalstarshop.event.UpdateTotalPriceEvent;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.activity.OrderConfirmActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -69,6 +71,14 @@ public class ShoppingCartFragment extends BaseFragment {
     TextView tvSettlement;
     @BindView(R.id.rl_panel)
     RelativeLayout rlPanel;
+    @BindView(R.id.iv_empty)
+    ImageView ivEmpty;
+    @BindView(R.id.tv_empty)
+    TextView tvEmpty;
+    @BindView(R.id.tv_login)
+    TextView tvLogin;
+    @BindView(R.id.rl_empty)
+    RelativeLayout rlEmpty;
     private DataRepository dataRepository;
     private ShoppingCartAdapter adapter;
     private List<String> cartIdList;
@@ -87,6 +97,10 @@ public class ShoppingCartFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        tvEdit.setVisibility(View.VISIBLE);
+        rlEmpty.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        rlPanel.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ShoppingCartAdapter(getContext());
         recyclerView.setAdapter(adapter);
@@ -195,7 +209,7 @@ public class ShoppingCartFragment extends BaseFragment {
                 if (orderCartModel.getCode() == 1) {
                     Intent intent = new Intent(getContext(), OrderConfirmActivity.class);
                     intent.putExtra("sureOrderData", orderCartModel.getData());
-                    intent.putExtra("cart_ids",cart_ids);
+                    intent.putExtra("cart_ids", cart_ids);
                     startActivity(intent);
                 }
 //                ToastUtils.showToast(sureOrderModel.getMsg());
@@ -296,13 +310,26 @@ public class ShoppingCartFragment extends BaseFragment {
         cartLists();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String event) {
+        if (event.equals("4")) {
+            cartLists();
+        }
+        if (event.equals("7")) {
+            tvEdit.setVisibility(View.GONE);
+            rlEmpty.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            rlPanel.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.ll_all_select, R.id.tv_settlement, R.id.tv_edit})
+    @OnClick({R.id.ll_all_select, R.id.tv_settlement, R.id.tv_edit,R.id.tv_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_all_select:
@@ -342,6 +369,11 @@ public class ShoppingCartFragment extends BaseFragment {
                 break;
             case R.id.tv_edit:
                 refreshEditStatus();
+                break;
+            case R.id.tv_login:
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                intent.putExtra("pos",1);
+                startActivity(intent);
                 break;
 
         }

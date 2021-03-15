@@ -422,7 +422,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="4dp"
                         android:layout_toEndOf="@id/tv_evaluation"
-                        android:text="(12)"
+                        android:text="(0)"
                         android:textColor="@color/light_black"
                         android:textSize="12sp" />
 

@@ -23,6 +23,7 @@ import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.activity.AddressActivity;
 import com.pinnoocle.royalstarshop.mine.activity.AfterSalesListActivity;
 import com.pinnoocle.royalstarshop.mine.activity.CollectionActivity;
@@ -240,6 +241,12 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     }
 
     private void userInfo() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return;
+        }
         LoginBean loginBean = new LoginBean();
         loginBean.token = FastData.getToken();
         loginBean.wxapp_id = "10001";

@@ -52,9 +52,12 @@ public class AddressAdapter extends BaseAdapter<AddressListModel.DataBean.ListBe
         }
         holder.checkBox.setChecked(mDatas.get(position).getAddress_id() == default_id);//1表示默认地址
         if (mDatas.get(position).getAddress_id() == default_id) {
-            holder.tvCheck.setText("默认");
+            holder.tvCheck.setText("已设为默认");
+            holder.tvCheck.setTextColor(mContext.getResources().getColor(R.color.light_red));
         }else {
-            holder.tvCheck.setText("选择");
+            holder.tvCheck.setText("设为默认");
+            holder.tvCheck.setTextColor(mContext.getResources().getColor(R.color.grey_3));
+
         }
         holder.tvAddress.setText(mDatas.get(position).getRegion().getProvince() + mDatas.get(position).getRegion().getCity() + mDatas.get(position).getRegion().getRegion());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

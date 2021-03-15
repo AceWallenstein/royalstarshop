@@ -1,20 +1,27 @@
 package com.pinnoocle.royalstarshop;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.adapter.FragmentTabAdapter;
 import com.pinnoocle.royalstarshop.common.AppManager;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.home.fragment.HomeFragment;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.fragment.MineFragment;
 import com.pinnoocle.royalstarshop.shoppingcart.ShoppingCartFragment;
+import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.utils.StatusBarUtil;
 import com.pinnoocle.royalstarshop.utils.StatusBarUtils;
 import com.pinnoocle.royalstarshop.video.VideoFragment;
@@ -106,14 +113,34 @@ public class MainActivity extends BaseActivity {
             case R.id.ll_tab_vip:
                 initTransparent();
                 tabAdapter.setCurrentFragment(2);
+                if (TextUtils.isEmpty(FastData.getToken())) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    return;
+                }
                 break;
             case R.id.ll_tab_shop_car:
                 initWhite();
                 tabAdapter.setCurrentFragment(3);
+                if (TextUtils.isEmpty(FastData.getToken())) {
+                   new Handler().postDelayed(new Runnable() {
+                       @Override
+                       public void run() {
+                           EventBus.getDefault().post("7");
+                       }
+                   }, 100);
+                }
                 break;
             case R.id.ll_tab_mine:
                 initTransparent();
                 tabAdapter.setCurrentFragment(4);
+                if (TextUtils.isEmpty(FastData.getToken())) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    return;
+                }
                 break;
         }
     }
@@ -190,8 +217,27 @@ public class MainActivity extends BaseActivity {
         }else if(event.equals("5")){
             initTransparent();
             tabAdapter.setCurrentFragment(2);
+        }else if(event.equals("6")){
+            initTransparent();
+            tabAdapter.setCurrentFragment(0);
         }
 
     }
 
+
+    /**
+     * 手机返回键监听
+     */
+    long firstTime = 0;
+
+    @Override
+    public void onBackPressed() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 800) { // 两次点击间隔大于800毫秒，不退出
+            ToastUtils.showToast("再按一次退出程序");
+            firstTime = secondTime; // 更新firstTime
+        } else {
+            finish();
+        }
+    }
 }

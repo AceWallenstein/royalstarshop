@@ -2,6 +2,7 @@ package com.pinnoocle.royalstarshop.mine.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -22,6 +23,7 @@ import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -32,6 +34,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,7 +100,7 @@ public class OrderConfirmActivity extends BaseActivity {
                 tvName.setText(sureOrderData.getAddress().getName());
                 tvPhone.setText(sureOrderData.getAddress().getPhone());
                 tvAddress.setText(sureOrderData.getAddress().getRegion().toString());
-            }else {
+            } else {
                 tvName.setText("暂无地址");
                 tvAddress.setText("请选择配送地址");
             }
@@ -109,6 +113,44 @@ public class OrderConfirmActivity extends BaseActivity {
         }
 
     }
+
+    private void sureOrder() {
+        Map<String, String> map = new HashMap<>();
+        map.put("wxapp_id", "10001");
+        map.put("token", FastData.getToken());
+        map.put("goods_id", getIntent().getStringExtra("goods_id"));
+        map.put("goods_sku_id", getIntent().getStringExtra("goods_sku_id"));
+        map.put("goods_num", getIntent().getStringExtra("goods_num"));
+        dataRepository.sureOrder(map, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                SureOrderModel sureOrderModel = (SureOrderModel) data;
+                sureOrderData = sureOrderModel.getData();
+                if (sureOrderModel.getCode() == 1) {
+                    if (sureOrderData.getAddress() != null) {
+                        tvName.setText(sureOrderData.getAddress().getName());
+                        tvPhone.setText(sureOrderData.getAddress().getPhone());
+                        tvAddress.setText(sureOrderData.getAddress().getRegion().toString());
+                    } else {
+                        tvName.setText("暂无地址");
+                        tvAddress.setText("请选择配送地址");
+                    }
+                    tvTotalPrice.setText(sureOrderData.getOrder_total_price());
+                    OrderConfirmAdapter adapter = new OrderConfirmAdapter(OrderConfirmActivity.this);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(OrderConfirmActivity.this));
+                    adapter.setData(sureOrderData.getGoods_list());
+                    recyclerView.setAdapter(adapter);
+//                ToastUtils.showToast(sureOrderModel.getMsg());
+                }
+            }
+        });
+    }
+
 
     /*
      map.put("wxapp_id", "10001");
@@ -124,7 +166,7 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.goods_id = sureOrderData.getGoods_list().get(0).getGoods_id() + "";
         loginBean.goods_sku_id = sureOrderData.getGoods_list().get(0).getGoods_sku().getGoods_sku_id() + "";
         loginBean.goods_num = sureOrderData.getGoods_list().get(0).getTotal_num() + "";
-        loginBean.pay_type  = "20";
+        loginBean.pay_type = "20";
         ViewLoading.show(this);
         dataRepository.buyNow(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -152,10 +194,11 @@ public class OrderConfirmActivity extends BaseActivity {
      * mch_id : 1605495785
      * app_id : wx541630a0717a5007
      * package : Sign=WXPay
+     *
      * @param payment
      */
 
-    private void wxPay(WxPayResultModel.DataBean.PaymentBean payment){
+    private void wxPay(WxPayResultModel.DataBean.PaymentBean payment) {
         PayReq req = new PayReq();
 //        Gson gson = new Gson();
 //        Map<String, String> map = new HashMap<>();
@@ -176,7 +219,7 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
         loginBean.cart_ids = cart_ids;
-        loginBean.pay_type  = "20";
+        loginBean.pay_type = "20";
         ViewLoading.show(this);
         dataRepository.buyNowCart(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -200,18 +243,19 @@ public class OrderConfirmActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (data.getSerializableExtra("result") != null) {
-                Serializable result = data.getSerializableExtra("result");
-                AddressListModel.DataBean.ListBean userShipBean = (AddressListModel.DataBean.ListBean) result;
-                if (userShipBean == null) {
-                    return;
-                }
-                tvName.setText(userShipBean.getName());
-                String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
-                tvPhone.setText(phone);
-                tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
-            }
+        if (requestCode == 9 && resultCode == RESULT_OK) {
+            sureOrder();
+//            if (data.getSerializableExtra("result") != null) {
+//                Serializable result = data.getSerializableExtra("result");
+//                AddressListModel.DataBean.ListBean userShipBean = (AddressListModel.DataBean.ListBean) result;
+//                if (userShipBean == null) {
+//                    return;
+//                }
+//                tvName.setText(userShipBean.getName());
+//                String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+//                tvPhone.setText(phone);
+//                tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
+
         }
     }
 

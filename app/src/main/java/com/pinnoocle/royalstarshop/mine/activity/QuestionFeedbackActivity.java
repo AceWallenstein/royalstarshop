@@ -78,6 +78,7 @@ public class QuestionFeedbackActivity extends BaseActivity {
     private ArrayList<String> mList = new ArrayList<>();
     private List<LocalMedia> selectList = new ArrayList<>();
     private List<String> images = new ArrayList<>();
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,7 @@ public class QuestionFeedbackActivity extends BaseActivity {
         });
     }
 
-    private void feedback(String type, String content, String images, String phone) {
+    private void feedback(String content, String images, String phone) {
         ViewLoading.show(this);
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
@@ -167,6 +168,17 @@ public class QuestionFeedbackActivity extends BaseActivity {
                 if (imageModel.getCode() == 1) {
                     String imgPath = imageModel.getData().getFile_path();
                     images.add(imgPath);
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < images.size(); i++) {
+                        if (i == images.size() - 1) {
+                            sb.append(images.get(i));
+                        } else {
+                            sb.append(images.get(i) + ",");
+                        }
+                    }
+                    feedback(edAdvise.getText().toString(), sb.toString(), edPhone.getText().toString());
+
                 } else {
                     ToastUtils.showToast(imageModel.getMsg());
                 }
@@ -300,7 +312,7 @@ public class QuestionFeedbackActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_sure,R.id.iv_record})
+    @OnClick({R.id.iv_back, R.id.tv_sure, R.id.iv_record})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -315,24 +327,20 @@ public class QuestionFeedbackActivity extends BaseActivity {
                     ToastUtils.showToast("请输入手机号码");
                     return;
                 }
+                BackTypeModel.DataBean.TypeBean typeBean = (BackTypeModel.DataBean.TypeBean) flowlayout.getAdapter().getItem(flowlayout.getSelectedList().iterator().next());
+                type = typeBean.getTitle();
+
                 if (selectList != null && selectList.size() > 0) {
                     for (int i = 0; i < selectList.size(); i++) {
                         image(selectList.get(i).getCompressPath());
                     }
+                } else {
+                    feedback(edAdvise.getText().toString(), "", edPhone.getText().toString());
                 }
-                String type = (String) flowlayout.getAdapter().getItem(flowlayout.getSelectedList().iterator().next());
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < images.size(); i++) {
-                    if (i == images.size() - 1) {
-                        sb.append(images.get(i));
-                    } else {
-                        sb.append(images.get(i) + ",");
-                    }
-                }
-                feedback(type, edAdvise.getText().toString(), sb.toString(), edPhone.getText().toString());
+
                 break;
             case R.id.iv_record:
-                startActivity(new Intent(this,QuestionRecordActivity.class));
+                startActivity(new Intent(this, QuestionRecordActivity.class));
                 break;
         }
     }

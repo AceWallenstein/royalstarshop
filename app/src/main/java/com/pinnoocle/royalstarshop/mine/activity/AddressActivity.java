@@ -2,7 +2,9 @@ package com.pinnoocle.royalstarshop.mine.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -83,7 +85,7 @@ public class AddressActivity extends BaseActivity {
                         intent.putExtra("dataBean", dataBean);
                         if (dataBean.getAddress_id() == addressListModel.getData().getDefault_id()) {
                             intent.putExtra("default_id", 1);
-                        }else {
+                        } else {
                             intent.putExtra("default_id", 0);
                         }
                         startActivity(intent);
@@ -93,18 +95,9 @@ public class AddressActivity extends BaseActivity {
                         break;
 
                     default:
-                        if (getIntent().getStringExtra("from") != null) {
-
-                            if (getIntent().getStringExtra("from").equals("from")) {
-                                //数据是使用Intent返回
-                                Intent intent1 = new Intent();
-                                //把返回数据存入Intent
-                                intent1.putExtra("result", dataBean);
-                                //设置返回数据
-                                AddressActivity.this.setResult(RESULT_OK, intent1);
-                                //关闭Activity
-                                finish();
-                            }
+                        if (!TextUtils.isEmpty(getIntent().getStringExtra("from"))) {
+                            setResult(RESULT_OK);
+                            finish();
                         }
                         break;
                 }

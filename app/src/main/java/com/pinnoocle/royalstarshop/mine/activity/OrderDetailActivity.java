@@ -20,6 +20,7 @@ import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -164,6 +165,7 @@ public class OrderDetailActivity extends BaseActivity {
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
                     List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
                     adapter.setData(goods);
+                    adapter.setType(orderDetailModel.getData().getOrder().getState_text());
                     rl1.setVisibility(View.GONE);
 
                     switch (orderDetailModel.getData().getOrder().getState_text()) {
@@ -186,6 +188,12 @@ public class OrderDetailActivity extends BaseActivity {
                             break;
 
                     }
+                    adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean>() {
+                        @Override
+                        public void onItemViewClick(View view, int position, OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean o) {
+
+                        }
+                    });
 
                 }
             }

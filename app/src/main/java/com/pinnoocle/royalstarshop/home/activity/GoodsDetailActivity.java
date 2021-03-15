@@ -2,6 +2,7 @@ package com.pinnoocle.royalstarshop.home.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.ServiceBean;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -211,6 +213,13 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
     private void goodsCollect() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return;
+        }
+
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
@@ -289,8 +298,8 @@ public class GoodsDetailActivity extends BaseActivity {
             case R.id.ll_customer_service:
                 break;
             case R.id.ll_shop_car:
-                startActivity(new Intent(this, MainActivity.class));
                 EventBus.getDefault().postSticky("to_shop_cart");
+                finish();
                 break;
             case R.id.ll_mark:
                 goodsCollect();

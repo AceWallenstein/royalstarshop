@@ -37,6 +37,7 @@ public class LoginBean {
     public String sortType;
     public String orderType;
     public List<FormData> formData;
+    public String uploaded;
 
 
     public static class FormData{

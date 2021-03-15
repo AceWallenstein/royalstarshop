@@ -2,6 +2,7 @@ package com.pinnoocle.royalstarshop.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,7 @@ import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
 import com.pinnoocle.royalstarshop.event.TagRefleshEvent;
 import com.pinnoocle.royalstarshop.home.activity.TaskBigImgActivity;
+import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.activity.OrderConfirmActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -228,6 +230,13 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
     }
 
     private void sureOrder() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            getContext().startActivity(intent);
+            return;
+        }
+
         Map<String, String> map = new HashMap<>();
         map.put("wxapp_id", "10001");
         map.put("token", FastData.getToken());
@@ -248,6 +257,9 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
                 if (sureOrderModel.getCode() == 1) {
                     Intent intent = new Intent(context, OrderConfirmActivity.class);
                     intent.putExtra("sureOrderData", sureOrderModel.getData());
+                    intent.putExtra("goods_id", dataBean.getDetail().getGoods_id() + "");
+                    intent.putExtra("goods_sku_id", goods_sku_id + "");
+                    intent.putExtra("goods_num", numberButton.getNumber() + "");
                     context.startActivity(intent);
                 }
 //                ToastUtils.showToast(sureOrderModel.getMsg());
@@ -256,6 +268,13 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
     }
 
     private void cartAdd() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            getContext().startActivity(intent);
+            return;
+        }
+
         ViewLoading.show(getContext());
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
