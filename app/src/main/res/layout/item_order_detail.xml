@@ -58,6 +58,7 @@
         android:textSize="15sp"
         tools:text="X1件" />
     <TextView
+        android:visibility="gone"
         android:layout_alignBottom="@id/iv_shop"
         android:gravity="center"
         android:id="@+id/tv_after_sale"

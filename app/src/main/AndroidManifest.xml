@@ -78,7 +78,8 @@
         <activity android:name=".mine.activity.OrderPayActivity" />
         <activity android:name=".mine.activity.PaySuccessActivity" />
         <activity android:name=".mine.activity.MyCommentsActivity" />
-        <activity android:name=".mine.activity.ApplyForAfterSalesActivity" />
+        <activity android:name=".mine.activity.ApplyForAfterSalesActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
+
     </application>
 
 </manifest>

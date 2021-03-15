@@ -95,9 +95,27 @@ public class AddressActivity extends BaseActivity {
                         break;
 
                     default:
-                        if (!TextUtils.isEmpty(getIntent().getStringExtra("from"))) {
-                            setResult(RESULT_OK);
-                            finish();
+//                        if (!TextUtils.isEmpty(getIntent().getStringExtra("from"))) {
+//                            setResult(RESULT_OK);
+//                            finish();
+//                        }
+
+                        if (getIntent().getStringExtra("from") != null) {
+
+                            if (getIntent().getStringExtra("from").equals("from")) {
+                                //数据是使用Intent返回
+                                Intent intent1 = new Intent();
+                                //把返回数据存入Intent
+                                intent1.putExtra("result", dataBean);
+                                //设置返回数据
+                                AddressActivity.this.setResult(RESULT_OK, intent1);
+                                //关闭Activity
+                                finish();
+                            }
+                            if (!TextUtils.isEmpty(getIntent().getStringExtra("from"))) {
+                                setResult(RESULT_OK);
+                                finish();
+                            }
                         }
                         break;
                 }

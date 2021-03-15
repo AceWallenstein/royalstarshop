@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.nets;
 
+import com.pinnoocle.royalstarshop.bean.AddressDefaultModel;
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.BackTypeModel;
 import com.pinnoocle.royalstarshop.bean.BannerModel;
@@ -262,7 +263,7 @@ public interface RetrofitService {
 
     //获取默认地址
     @POST("api/address/getDefault")
-    Observable<VipGoodsModel> getAddressDefault(@Body LoginBean loginBean);
+    Observable<AddressDefaultModel> getAddressDefault(@Body LoginBean loginBean);
 
     //我的邀请
     @POST("api/vip/ercode")

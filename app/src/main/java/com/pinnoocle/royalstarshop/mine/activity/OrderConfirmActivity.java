@@ -17,6 +17,7 @@ import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.OrderConfirmAdapter;
+import com.pinnoocle.royalstarshop.bean.AddressDefaultModel;
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
@@ -111,8 +112,36 @@ public class OrderConfirmActivity extends BaseActivity {
             recyclerView.setAdapter(adapter);
 
         }
+        getAddressDefault();
+
 
     }
+
+    private void getAddressDefault() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        ViewLoading.show(this);
+        dataRepository.getAddressDefault(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                AddressDefaultModel addressDefaultModel = (AddressDefaultModel) data;
+                if (addressDefaultModel.getCode() == 1) {
+                    tvName.setText(addressDefaultModel.getData().getName());
+                    tvPhone.setText(addressDefaultModel.getData().getPhone());
+                    tvAddress.setText(addressDefaultModel.getData().getRegion().toString());
+                }
+//                ToastUtils.showToast(wxPayResultModel.getMsg());
+            }
+        });
+    }
+
 
     private void sureOrder() {
         Map<String, String> map = new HashMap<>();
@@ -244,18 +273,19 @@ public class OrderConfirmActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 9 && resultCode == RESULT_OK) {
-            sureOrder();
-//            if (data.getSerializableExtra("result") != null) {
-//                Serializable result = data.getSerializableExtra("result");
-//                AddressListModel.DataBean.ListBean userShipBean = (AddressListModel.DataBean.ListBean) result;
-//                if (userShipBean == null) {
-//                    return;
-//                }
-//                tvName.setText(userShipBean.getName());
-//                String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
-//                tvPhone.setText(phone);
-//                tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
 
+            if (data.getSerializableExtra("result") != null) {
+                Serializable result = data.getSerializableExtra("result");
+                AddressListModel.DataBean.ListBean userShipBean = (AddressListModel.DataBean.ListBean) result;
+                if (userShipBean == null) {
+                    return;
+                }
+                tvName.setText(userShipBean.getName());
+                String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+                tvPhone.setText(phone);
+                tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
+
+            }
         }
     }
 

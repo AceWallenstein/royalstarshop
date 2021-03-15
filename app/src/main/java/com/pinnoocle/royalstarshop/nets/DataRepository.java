@@ -279,6 +279,11 @@ public class DataRepository implements RemotDataSource {
     }
 
     @Override
+    public void getAddressDefault(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.getAddressDefault(loginBean, callback);
+    }
+
+    @Override
     public void myComments(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.myComments(loginBean, callback);
     }

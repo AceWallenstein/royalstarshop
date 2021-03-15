@@ -164,8 +164,8 @@ public class OrderDetailActivity extends BaseActivity {
                     tvOrderCode.setText(orderDetailModel.getData().getOrder().getOrder_no());
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
                     List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
-                    adapter.setData(goods);
                     adapter.setType(orderDetailModel.getData().getOrder().getState_text());
+                    adapter.setData(goods);
                     rl1.setVisibility(View.GONE);
 
                     switch (orderDetailModel.getData().getOrder().getState_text()) {
@@ -191,7 +191,10 @@ public class OrderDetailActivity extends BaseActivity {
                     adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean>() {
                         @Override
                         public void onItemViewClick(View view, int position, OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean o) {
-
+                            if(view.getId()==R.id.tv_after_sale){
+                                Intent intent = new Intent(OrderDetailActivity.this, ApplyForAfterSalesActivity.class);
+                                startActivity(intent);
+                            }
                         }
                     });
 

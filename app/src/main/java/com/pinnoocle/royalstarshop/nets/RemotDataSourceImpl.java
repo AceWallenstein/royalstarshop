@@ -3,6 +3,7 @@ package com.pinnoocle.royalstarshop.nets;
 
 import android.content.Context;
 
+import com.pinnoocle.royalstarshop.bean.AddressDefaultModel;
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.BackTypeModel;
 import com.pinnoocle.royalstarshop.bean.BannerModel;
@@ -1164,6 +1165,28 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(VipGoodsModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void getAddressDefault(LoginBean loginBean, getCallback callback) {
+        Observable<AddressDefaultModel> observable = RetrofitHelper.getInstance(mContext).getServer().getAddressDefault(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<AddressDefaultModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(AddressDefaultModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

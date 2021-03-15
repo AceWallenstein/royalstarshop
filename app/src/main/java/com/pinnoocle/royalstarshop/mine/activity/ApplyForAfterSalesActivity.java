@@ -10,9 +10,9 @@ import butterknife.ButterKnife;
 public class ApplyForAfterSalesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTransparent();
+        initRed();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_after_sales_list);
+        setContentView(R.layout.activity_apply_for_aftersales);
         ButterKnife.bind(this);
         initView();
         initData();

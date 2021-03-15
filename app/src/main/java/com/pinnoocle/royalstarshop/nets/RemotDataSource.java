@@ -117,6 +117,7 @@ public interface RemotDataSource {
     void vipIndex(LoginBean loginBean, getCallback callback);
 
     void getVipGoods(LoginBean loginBean, getCallback callback);
+    void getAddressDefault(LoginBean loginBean, getCallback callback);
 
     void erCode(LoginBean loginBean, getCallback callback);
 

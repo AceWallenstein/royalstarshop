@@ -1,6 +1,7 @@
 package com.pinnoocle.royalstarshop.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,19 +56,21 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
                 mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
             }
         });
+        if(!TextUtils.isEmpty(state_text)) {
+            switch (state_text) {
+                case "待付款":
+//                    holder.tv_after_sale.setVisibility(View.GONE);
+                    holder.tv_after_sale.setVisibility(View.VISIBLE);
+                    break;
+                case "待发货":
+                case "已取消":
+                case "已完成":
+                case "待收货":
+                case "待评价":
+                    holder.tv_after_sale.setVisibility(View.VISIBLE);
+                    break;
 
-        switch (state_text) {
-            case "待付款":
-                holder.tv_after_sale.setVisibility(View.GONE);
-                break;
-            case "待发货":
-            case "已取消":
-            case "已完成":
-            case "待收货":
-            case "待评价":
-                holder.tv_after_sale.setVisibility(View.VISIBLE);
-                break;
-
+            }
         }
     }
 
