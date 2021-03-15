@@ -1,6 +1,7 @@
 package com.pinnoocle.royalstarshop.video;
 
 import android.content.Intent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
@@ -15,6 +16,7 @@ import com.pinnoocle.royalstarshop.adapter.AdoptAdapter;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -99,11 +101,17 @@ public class VideoFragment extends BaseFragment implements AdoptAdapter.OnItemCl
     }
 
     @Override
-    public void onItemClick(int position) {
-        Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
-        intent.putExtra("dataBeanList", (Serializable) dataBeanList);
-        intent.putExtra("pos", position);
-        startActivity(intent);
+    public void onItemClick(View v, int position) {
+        if(v.getId() == R.id.iv_image){
+            Intent intent = new Intent(getActivity(), VideoDetailActivity.class);
+            intent.putExtra("dataBeanList", (Serializable) dataBeanList);
+            intent.putExtra("pos", position);
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+            intent.putExtra("goods_id", dataBeanList.get(position).getGoods_id() + "");
+            startActivity(intent);
+        }
     }
 
     @Override

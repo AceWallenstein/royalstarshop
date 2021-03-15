@@ -57,7 +57,13 @@ public class AdoptAdapter extends RecyclerView.Adapter<AdoptAdapter.ViewHolder> 
         holder.iv_image.setOnClickListener(v ->
         {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(position);
+                mOnItemClickListener.onItemClick(v, position);
+            }
+        });
+        holder.itemView.setOnClickListener(v ->
+        {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick(v, position);
             }
         });
     }
@@ -74,7 +80,7 @@ public class AdoptAdapter extends RecyclerView.Adapter<AdoptAdapter.ViewHolder> 
 
     //**********************itemClick************************
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(View v, int position);
     }
 
     private OnItemClickListener mOnItemClickListener;
