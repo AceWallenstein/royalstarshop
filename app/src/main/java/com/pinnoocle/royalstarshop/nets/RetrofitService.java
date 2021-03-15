@@ -32,6 +32,7 @@ import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
+import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
 import com.pinnoocle.royalstarshop.bean.VipOpenModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
@@ -247,4 +248,8 @@ public interface RetrofitService {
     @POST("api/user.index/comment")
     Observable<CommentModel> myComments(@Body LoginBean loginBean);
 
+
+    //会员中心商品
+    @POST("api/vip/index")
+    Observable<VipIndexModel> vipIndex(@Body LoginBean loginBean);
 }

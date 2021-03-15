@@ -3,6 +3,7 @@ package com.pinnoocle.royalstarshop.video;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.receiver.NetUtils;
 import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
@@ -101,9 +103,9 @@ public class VideoDetailActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(String event) {
         if (event.equals("1")) {
-            if(videoView.isPlaying()){
+            if (videoView.isPlaying()) {
 
-            }else {
+            } else {
                 if (time == 0) {
                     ivStart.setVisibility(View.GONE);
                     ivThumb.setVisibility(View.GONE);
@@ -266,9 +268,14 @@ public class VideoDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.iv_close, R.id.iv_start, R.id.iv_volume})
+    @OnClick({R.id.iv_close, R.id.iv_start, R.id.iv_volume, R.id.ll_buy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.ll_buy:
+                Intent intent = new Intent(this, GoodsDetailActivity.class);
+                intent.putExtra("goods_id", dataBeanList.get(pos).getGoods_id() + "");
+                startActivity(intent);
+                break;
             case R.id.iv_volume:
                 if (isVolume) {
                     ivVolume.setImageResource(R.mipmap.stop);

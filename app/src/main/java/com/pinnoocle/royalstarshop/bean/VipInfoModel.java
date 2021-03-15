@@ -1371,10 +1371,19 @@ public class VipInfoModel {
             private int vip_expire;
             private int parent_id;
             private int service_id;
+            private int is_exprire;
             private String birth;
             private AddressDefaultBean address_default;
             private Object grade;
             private List<AddressBean> address;
+
+            public int getIs_exprire() {
+                return is_exprire;
+            }
+
+            public void setIs_exprire(int is_exprire) {
+                this.is_exprire = is_exprire;
+            }
 
             public int getUser_id() {
                 return user_id;

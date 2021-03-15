@@ -11,17 +11,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.adapter.GoodsListAdapter;
+import com.pinnoocle.royalstarshop.adapter.HotGoodsAdapter;
+import com.pinnoocle.royalstarshop.adapter.VipGoodsListAdapter;
+import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
 import com.pinnoocle.royalstarshop.bean.VipOpenModel;
-import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -37,15 +46,16 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class VipFragment extends BaseFragment {
-    @BindView(R.id.iv_bg)
-    ImageView ivBg;
     @BindView(R.id.iv_avater)
     RoundImageView ivAvater;
     @BindView(R.id.tv_golden_bean)
@@ -86,11 +96,27 @@ public class VipFragment extends BaseFragment {
     TextView tvDrawLine;
     @BindView(R.id.iv_grey_circle)
     ImageView ivGreyCircle;
+    @BindView(R.id.nestedScrollView1)
+    NestedScrollView nestedScrollView1;
+    @BindView(R.id.nestedScrollView2)
+    NestedScrollView nestedScrollView2;
+    @BindView(R.id.tv_nickname_1)
+    TextView tvNickname1;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
+    @BindView(R.id.tv_money_one)
+    TextView tvMoneyOne;
+    @BindView(R.id.rv_1)
+    RecyclerView rv1;
+    @BindView(R.id.recycleView)
+    RecyclerView recycleView;
     private DataRepository dataRepository;
     private boolean isSelect = true;
     private ImageView iv_ali_mark;
     private ImageView iv_wx_mark;
     private String pay_mode = "wx_pay";
+    private HotGoodsAdapter hotGoodsAdapter;
+    private VipGoodsListAdapter vipGoodsListAdapter;
 
     @Override
     protected int LayoutId() {
@@ -112,7 +138,58 @@ public class VipFragment extends BaseFragment {
     @Override
     protected void initView() {
         dataRepository = Injection.dataRepository(getContext());
+
+        hotGoodsAdapter = new HotGoodsAdapter(getContext());
+        hotGoodsAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<VipIndexModel.DataBean.HotBean>() {
+            @Override
+            public void onItemViewClick(View view, int position, VipIndexModel.DataBean.HotBean o) {
+                Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
+                intent.putExtra("goods_id", o.getGoods_id() + "");
+                startActivity(intent);
+            }
+        });
+        rv1.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        rv1.setAdapter(hotGoodsAdapter);
+
+        recycleView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        vipGoodsListAdapter = new VipGoodsListAdapter(getContext());
+        recycleView.setAdapter(vipGoodsListAdapter);
+        vipGoodsListAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<VipIndexModel.DataBean.GoodBean>() {
+            @Override
+            public void onItemViewClick(View view, int position, VipIndexModel.DataBean.GoodBean o) {
+                Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
+                intent.putExtra("goods_id", o.getGoods_id() + "");
+                startActivity(intent);
+            }
+        });
+
         vip();
+        vipIndex();
+    }
+
+    private void vipIndex() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        dataRepository.vipIndex(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                VipIndexModel vipIndexModel = (VipIndexModel) data;
+                if (vipIndexModel.getCode() == 1) {
+                    List<VipIndexModel.DataBean.HotBean> hotGoods = vipIndexModel.getData().getHot();
+                    if (hotGoods.size() <= 6) {
+                        hotGoodsAdapter.setData(hotGoods);
+                    }
+                    List<VipIndexModel.DataBean.GoodBean> vipGoods = vipIndexModel.getData().getGood();
+                    vipGoodsListAdapter.setData(vipGoods);
+                }
+            }
+        });
     }
 
     private void vip() {
@@ -131,18 +208,42 @@ public class VipFragment extends BaseFragment {
                 ViewLoading.dismiss(getContext());
                 VipInfoModel vipInfoModel = (VipInfoModel) data;
                 if (vipInfoModel.getCode() == 1) {
-                    if (TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getAvatarUrl())) {
-                        ivAvatarOne.setImageResource(R.drawable.default_avatar);
+                    if (vipInfoModel.getData().getUserInfo().getIsVip() == 0) {
+                        nestedScrollView2.setVisibility(View.VISIBLE);
+                        nestedScrollView1.setVisibility(View.GONE);
+                        if (TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getAvatarUrl())) {
+                            ivAvatarOne.setImageResource(R.drawable.default_avatar);
+                        } else {
+                            Glide.with(getActivity()).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvatarOne);
+                        }
+                        tvMoney.setText(vipInfoModel.getData().getMoney() + "");
+                        tvNickname.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                        Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivPhoto);
+                        Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPhoto);
+                        tvTitle.setText(vipInfoModel.getData().getVip_goods().getGoods_name());
+                        tvGold.setText(vipInfoModel.getData().getVip_goods_point() + " 金豆");
+                        tvDrawLine.setText("¥" + vipInfoModel.getData().getVip_goods_money());
                     } else {
-                        Glide.with(getActivity()).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvatarOne);
+                        nestedScrollView1.setVisibility(View.VISIBLE);
+                        nestedScrollView2.setVisibility(View.GONE);
+                        if (TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getAvatarUrl())) {
+                            ivAvater.setImageResource(R.drawable.default_avatar);
+                        } else {
+                            Glide.with(getActivity()).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
+                        }
+                        tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                        tvGoldenBean.setText(vipInfoModel.getData().getPoint() + "");
+                        tvMoneyOne.setText(vipInfoModel.getData().getPoint() + "元");
+                        if (vipInfoModel.getData().getUserInfo().getIs_exprire() == 0) {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+                            Date date = new Date(vipInfoModel.getData().getUserInfo().getVip_expire() * 1000L);
+                            tvTime.setText(simpleDateFormat.format(date) + "金豆到期");
+                        } else {
+                            tvTime.setText("金豆已到期  ");
+                            tvRenew.setVisibility(View.VISIBLE);
+                        }
+                        Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPic);
                     }
-                    tvMoney.setText(vipInfoModel.getData().getMoney() + "");
-                    tvNickname.setText(vipInfoModel.getData().getUserInfo().getNickName());
-                    Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivPhoto);
-                    Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPhoto);
-                    tvTitle.setText(vipInfoModel.getData().getVip_goods().getGoods_name());
-                    tvGold.setText(vipInfoModel.getData().getVip_goods_point() + " 金豆");
-                    tvDrawLine.setText("¥" + vipInfoModel.getData().getVip_goods_money());
                 }
             }
         });
@@ -162,9 +263,9 @@ public class VipFragment extends BaseFragment {
             public void onSuccess(Object data) {
                 VipOpenModel vipOpenModel = (VipOpenModel) data;
                 if (vipOpenModel.getCode() == 1) {
-                    if(pay_mode.equals("wx_pay")) {
+                    if (pay_mode.equals("wx_pay")) {
                         wxPay(vipOpenModel.getData().getPayment());
-                    }else  if(pay_mode.equals("ali_pay")){
+                    } else if (pay_mode.equals("ali_pay")) {
 
                     }
                 }
@@ -172,7 +273,7 @@ public class VipFragment extends BaseFragment {
         });
     }
 
-    private void wxPay(VipOpenModel.DataBean.PaymentBean payment){
+    private void wxPay(VipOpenModel.DataBean.PaymentBean payment) {
         PayReq req = new PayReq();
         Gson gson = new Gson();
         Map<String, String> map = new HashMap<>();
@@ -188,15 +289,14 @@ public class VipFragment extends BaseFragment {
     }
 
 
-
     @OnClick({R.id.iv_grey_circle, R.id.open_vip})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_grey_circle:
-                if(isSelect){
+                if (isSelect) {
                     ivGreyCircle.setImageResource(R.mipmap.select);
                     isSelect = false;
-                }else {
+                } else {
                     ivGreyCircle.setImageResource(R.mipmap.grey_circle);
                     isSelect = true;
                 }
@@ -215,7 +315,7 @@ public class VipFragment extends BaseFragment {
                 .setScreenWidthAspect(getContext(), 1f)
                 .setGravity(Gravity.BOTTOM)
                 .setCancelableOutside(true)
-                .addOnClickListener(R.id.open_vip,R.id.rl_ali,R.id.rl_wechat)
+                .addOnClickListener(R.id.open_vip, R.id.rl_ali, R.id.rl_wechat)
                 .setOnBindViewListener(new OnBindViewListener() {
                     @Override
                     public void bindView(BindViewHolder viewHolder) {
@@ -233,10 +333,10 @@ public class VipFragment extends BaseFragment {
 
                                 break;
                             case R.id.rl_ali:
-                                setPayMode(iv_ali_mark,"ali_pay");
+                                setPayMode(iv_ali_mark, "ali_pay");
                                 break;
                             case R.id.rl_wechat:
-                                setPayMode(iv_wx_mark,"wx_pay");
+                                setPayMode(iv_wx_mark, "wx_pay");
                                 break;
                         }
                     }
@@ -245,7 +345,7 @@ public class VipFragment extends BaseFragment {
                 .show();
     }
 
-    private void setPayMode(ImageView imageView,String pay_mode){
+    private void setPayMode(ImageView imageView, String pay_mode) {
         iv_ali_mark.setImageResource(R.mipmap.grey_circle);
         iv_wx_mark.setImageResource(R.mipmap.grey_circle);
         this.pay_mode = pay_mode;
@@ -257,6 +357,7 @@ public class VipFragment extends BaseFragment {
     public void onEvent(String event) {
         if (event.equals("4")) {
             vip();
+            vipIndex();
         }
     }
 }
