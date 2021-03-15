@@ -113,11 +113,14 @@ public class ProfitDetailActivity extends BaseActivity implements OnRefreshLoadM
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-
+        page++;
+        moneyList(page);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
+        page = 1;
+        data1.clear();
+        moneyList(page);
     }
 }

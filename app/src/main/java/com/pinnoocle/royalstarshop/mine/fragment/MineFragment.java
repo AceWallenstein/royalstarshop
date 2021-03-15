@@ -394,7 +394,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 startActivity(new Intent(getContext(), WithdrawalActivity.class));
                 break;
             case 2: //我的金豆
-                startActivity(new Intent(getContext(), GoldenBeanActivity.class));
+                Intent intent1 = new Intent(getContext(), GoldenBeanActivity.class);
+                intent1.putExtra("golden", userDetailModel.getData().getUserInfo().getPoints() + "");
+                startActivity(intent1);
                 break;
             case 3: //我的收藏
                 startActivity(new Intent(getContext(), CollectionActivity.class));
