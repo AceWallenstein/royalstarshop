@@ -226,6 +226,7 @@ public class AddressActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                setResult(1001);
                 finish();
                 break;
             case R.id.tv_add_address:
@@ -234,6 +235,12 @@ public class AddressActivity extends BaseActivity {
                 break;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(1001);
     }
 
     private void showAddressDeleteDialog(int address_id) {

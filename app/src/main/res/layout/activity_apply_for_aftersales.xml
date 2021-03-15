@@ -71,7 +71,7 @@
                     android:padding="6dp"
                     android:text="换货服务"
                     android:textColor="@color/black_3"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_return_goods"
@@ -85,7 +85,7 @@
                     android:padding="6dp"
                     android:text="退货服务"
                     android:textColor="@color/black_3"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 

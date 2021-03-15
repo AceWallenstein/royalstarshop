@@ -87,7 +87,7 @@ public class MyCommentsFragment extends BaseFragment implements OnRefreshLoadMor
     @Override
     protected void initData() {
         dataRepository = Injection.dataRepository(getContext());
-
+        myComments();
     }
 
     private void myComments() {

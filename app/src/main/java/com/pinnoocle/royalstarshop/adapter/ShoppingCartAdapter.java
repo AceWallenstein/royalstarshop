@@ -80,6 +80,7 @@ public class ShoppingCartAdapter extends BaseAdapter<CartListsModel.DataBean.Goo
                         mDatas.get(position).setIs_select(true);
                         isOnechecked(holder, position);
                         mDatas.get(position).setTotal_num(holder.mGoodsCountBtn.getNumber());
+                        holder.tvFreight.setText("运费：￥"+holder.mGoodsCountBtn.getNumber() * Double.parseDouble(mDatas.get(position).getFreight()));
                         EventBus.getDefault().post(new SetCartNums(mDatas.get(position).getGoods_id()+"",mDatas.get(position).getGoods_sku_id(), holder.mGoodsCountBtn.getNumber()+""));
                     }
                 });

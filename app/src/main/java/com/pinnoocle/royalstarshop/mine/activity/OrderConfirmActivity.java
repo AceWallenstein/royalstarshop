@@ -76,6 +76,8 @@ public class OrderConfirmActivity extends BaseActivity {
     private SureOrderModel.DataBean sureOrderData;
     private DataRepository dataRepository;
 
+    private String address_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initRed();
@@ -133,9 +135,16 @@ public class OrderConfirmActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 AddressDefaultModel addressDefaultModel = (AddressDefaultModel) data;
                 if (addressDefaultModel.getCode() == 1) {
-                    tvName.setText(addressDefaultModel.getData().getName());
-                    tvPhone.setText(addressDefaultModel.getData().getPhone());
-                    tvAddress.setText(addressDefaultModel.getData().getRegion().toString());
+                    if (addressDefaultModel.getData() != null) {
+                        tvName.setText(addressDefaultModel.getData().getName());
+                        tvPhone.setText(addressDefaultModel.getData().getPhone());
+                        tvAddress.setText(addressDefaultModel.getData().getRegion().toString());
+                        address_id = addressDefaultModel.getCode() + "";
+                    }else {
+                        tvName.setText("暂无地址");
+                        tvAddress.setText("请选择配送地址");
+                        tvPhone.setText("");
+                    }
                 }
 //                ToastUtils.showToast(wxPayResultModel.getMsg());
             }
@@ -196,6 +205,7 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.goods_sku_id = sureOrderData.getGoods_list().get(0).getGoods_sku().getGoods_sku_id() + "";
         loginBean.goods_num = sureOrderData.getGoods_list().get(0).getTotal_num() + "";
         loginBean.pay_type = "20";
+        loginBean.address_id = address_id;
         ViewLoading.show(this);
         dataRepository.buyNow(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -249,6 +259,7 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.token = FastData.getToken();
         loginBean.cart_ids = cart_ids;
         loginBean.pay_type = "20";
+        loginBean.address_id = address_id;
         ViewLoading.show(this);
         dataRepository.buyNowCart(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -280,12 +291,16 @@ public class OrderConfirmActivity extends BaseActivity {
                 if (userShipBean == null) {
                     return;
                 }
+                address_id = userShipBean.getAddress_id() + "";
                 tvName.setText(userShipBean.getName());
                 String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
                 tvPhone.setText(phone);
                 tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
 
             }
+        }
+        if (requestCode == 9 && resultCode == 1001) {
+            getAddressDefault();
         }
     }
 
@@ -302,7 +317,7 @@ public class OrderConfirmActivity extends BaseActivity {
 
                 break;
             case R.id.tv_settlement:
-                if (sureOrderData.getAddress() == null) {
+                if (TextUtils.isEmpty(address_id)) {
                     ToastUtils.showToast("请输入收货地址");
                 }
                 if (getIntent().getStringExtra("cart_ids") != null) {

@@ -59,8 +59,8 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
         if(!TextUtils.isEmpty(state_text)) {
             switch (state_text) {
                 case "待付款":
-//                    holder.tv_after_sale.setVisibility(View.GONE);
-                    holder.tv_after_sale.setVisibility(View.VISIBLE);
+                    holder.tv_after_sale.setVisibility(View.GONE);
+//                    holder.tv_after_sale.setVisibility(View.VISIBLE);
                     break;
                 case "待发货":
                 case "已取消":
