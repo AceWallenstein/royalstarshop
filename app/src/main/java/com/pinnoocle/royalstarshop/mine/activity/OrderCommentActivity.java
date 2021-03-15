@@ -3,6 +3,7 @@ package com.pinnoocle.royalstarshop.mine.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,12 +20,15 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.GridViewAdapter;
 import com.pinnoocle.royalstarshop.adapter.OrderDetailAdapter;
+import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
+import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.home.activity.TaskBigImgActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
@@ -35,12 +39,18 @@ import com.pinnoocle.royalstarshop.widget.GlideEngine;
 import com.pinnoocle.royalstarshop.widget.GridViewInScrollView;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class OrderCommentActivity extends BaseActivity {
 
@@ -87,6 +97,8 @@ public class OrderCommentActivity extends BaseActivity {
     private ArrayList<String> mList = new ArrayList<>();
     private List<LocalMedia> selectList = new ArrayList<>();
     private List<String> images = new ArrayList<>();
+    private OrderDetailModel orderDetailModel;
+    private String score = "10";
 
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
@@ -127,7 +139,7 @@ public class OrderCommentActivity extends BaseActivity {
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(mContext);
-                OrderDetailModel orderDetailModel = (OrderDetailModel) data;
+                orderDetailModel = (OrderDetailModel) data;
                 if (orderDetailModel.getCode() == 1) {
                     List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
                     adapter.setData(goods);
@@ -135,6 +147,67 @@ public class OrderCommentActivity extends BaseActivity {
             }
         });
     }
+
+
+    private void comment(String content) {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.order_id = getIntent().getStringExtra("order_id");
+        List<LoginBean.FormData> formDatas = new ArrayList<>();
+//        for (int i = 0; i < orderDetailModel.getData().getOrder().getGoods().size(); i++) {
+//            LoginBean.FormData formData = new LoginBean.FormData(score, content, orderDetailModel.getData().getOrder().getGoods().get(i).getOrder_goods_id() + "", orderDetailModel.getData().getOrder().getGoods().get(i).getGoods_id() + "");
+//            formDatas.add(formData);
+//        }
+        LoginBean.FormData formData = new LoginBean.FormData(score, content, "",  "");
+        formDatas.add(formData);
+        loginBean.formData = formDatas;
+
+        ViewLoading.show(this);
+        dataRepository.comment(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                StatusModel statusModel = (StatusModel) data;
+                if (statusModel.getCode() == 1) {
+                    finish();
+                    EventBus.getDefault().post("order_refresh");
+                }
+                ToastUtils.showToast(statusModel.getMsg());
+            }
+        });
+    }
+
+    private void image(String path) {
+        File file = new File(path);
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("iFile", file.getName(), fileBody);
+        dataRepository.image("10001", FastData.getToken(), body, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ImageModel imageModel = (ImageModel) data;
+                if (imageModel.getCode() == 1) {
+                    String imgPath = imageModel.getData().getFile_path();
+                    images.add(imgPath);
+                } else {
+                    ToastUtils.showToast(imageModel.getMsg());
+                }
+            }
+        });
+    }
+
+
 
     private void grid(ArrayList<String> mList) {
         GridViewAdapter mGridViewAddImgAdapter = new GridViewAdapter(this, mList);
@@ -244,14 +317,27 @@ public class OrderCommentActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_sure:
+                if (selectList != null && selectList.size() > 0) {
+                    for (int i = 0; i < selectList.size(); i++) {
+                        image(selectList.get(i).getCompressPath());
+                    }
+                }
+                String content = edAdvise.getText().toString();
+                comment(content);
                 break;
+
+//            (10好评 20中评 30差评)
             case R.id.ll_comment_good:
+                score = "10";
                 selectCommentType(tvGood, ivGood);
                 break;
             case R.id.ll_comment_m:
+                score = "20";
+
                 selectCommentType(tvM, ivM);
                 break;
             case R.id.ll_comment_bad:
+                score = "30";
                 selectCommentType(tvBad, ivBad);
                 break;
         }

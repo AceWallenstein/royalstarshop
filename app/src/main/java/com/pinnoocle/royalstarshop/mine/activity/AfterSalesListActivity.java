@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -36,8 +37,8 @@ public class AfterSalesListActivity extends BaseActivity implements OnRefreshLoa
     SwipeMenuRecyclerView recycleView;
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
-    @BindView(R.id.rl_empty)
-    RelativeLayout rlEmpty;
+    @BindView(R.id.tv_empty)
+    TextView tvEmpty;
     private DataRepository dataRepository;
     private int page = 1;
 
@@ -80,7 +81,7 @@ public class AfterSalesListActivity extends BaseActivity implements OnRefreshLoa
                 refresh.finishRefresh();
                 ViewLoading.dismiss(AfterSalesListActivity.this);
                 RefundListsModel refundListsModel = (RefundListsModel) data;
-                rlEmpty.setVisibility(View.VISIBLE);
+                tvEmpty.setVisibility(View.VISIBLE);
                 recycleView.setVisibility(View.GONE);
                 refresh.finishRefresh();
 //                if (collectListModel.getCode() == 1) {

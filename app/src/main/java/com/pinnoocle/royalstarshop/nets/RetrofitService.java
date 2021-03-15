@@ -9,6 +9,7 @@ import com.pinnoocle.royalstarshop.bean.CategoryListModel;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.CollectListModel;
 import com.pinnoocle.royalstarshop.bean.CommentListModel;
+import com.pinnoocle.royalstarshop.bean.CommentModel;
 import com.pinnoocle.royalstarshop.bean.FeedbackListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
@@ -242,4 +243,8 @@ public interface RetrofitService {
     //用户金豆明细
     @POST("api/user.index/userPointsLog")
     Observable<PointsModel> userPointsLog(@Body LoginBean loginBean);
+    //我的评价记录
+    @POST("api/user.index/comment")
+    Observable<CommentModel> myComments(@Body LoginBean loginBean);
+
 }

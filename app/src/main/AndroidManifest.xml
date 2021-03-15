@@ -72,6 +72,7 @@
         <activity android:name=".vip.InvitationCodeActivity" />
         <activity android:name=".mine.activity.OrderPayActivity" />
         <activity android:name=".mine.activity.PaySuccessActivity" />
+        <activity android:name=".mine.activity.MyCommentsActivity" />
 
     </application>
 

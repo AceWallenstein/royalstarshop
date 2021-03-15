@@ -164,6 +164,7 @@ public class OrderDetailActivity extends BaseActivity {
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
                     List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
                     adapter.setData(goods);
+                    rl1.setVisibility(View.GONE);
 
                     switch (orderDetailModel.getData().getOrder().getState_text()) {
                         case "待付款":
