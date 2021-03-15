@@ -34,6 +34,7 @@ import com.pinnoocle.royalstarshop.mine.activity.OrderActivity;
 import com.pinnoocle.royalstarshop.mine.activity.PersonalActivity;
 import com.pinnoocle.royalstarshop.mine.activity.QuestionFeedbackActivity;
 import com.pinnoocle.royalstarshop.mine.activity.RecommendedIncomeActivity;
+import com.pinnoocle.royalstarshop.mine.activity.RecommendedPosterActivity;
 import com.pinnoocle.royalstarshop.mine.activity.ScanListActivity;
 import com.pinnoocle.royalstarshop.mine.activity.SettingActivity;
 import com.pinnoocle.royalstarshop.mine.activity.WithdrawalActivity;
@@ -129,6 +130,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     RelativeLayout rlAvatar1;
     @BindView(R.id.iv_vip)
     ImageView ivVip;
+    @BindView(R.id.rl_recommend)
+    RelativeLayout rlRecommend;
 
     private int[] icon = {R.mipmap.order, R.mipmap.to_be_paid, R.mipmap.to_be_delivered, R.mipmap.to_be_evaluated, R.mipmap.after_sells
     };
@@ -428,9 +431,15 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         }
     }
 
-    @OnClick({R.id.rl_avatar, R.id.iv_avater1, R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean, R.id.tv_all_order, R.id.ll_history, R.id.tv_vip_2})
+    @OnClick({R.id.rl_avatar, R.id.rl_recommend, R.id.iv_avater1, R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean, R.id.tv_all_order, R.id.ll_history, R.id.tv_vip_2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.rl_recommend:
+                Intent intent2 = new Intent(getContext(), RecommendedPosterActivity.class);
+                intent2.putExtra("avatar",userDetailModel.getData().getUserInfo().getAvatarUrl());
+                intent2.putExtra("name",userDetailModel.getData().getUserInfo().getNickName());
+                startActivity(intent2);
+                break;
             case R.id.rl_avatar:
             case R.id.iv_avater1:
                 startActivity(new Intent(getContext(), PersonalActivity.class));

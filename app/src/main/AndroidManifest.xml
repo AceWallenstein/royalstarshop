@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mine.activity.CommonProblemDetailActivity"></activity>
+        <activity android:name=".mine.activity.RecommendedPosterActivity"></activity>
+        <activity android:name=".mine.activity.CommonProblemDetailActivity" />
         <activity android:name=".mine.activity.CommonProblemActivity" />
         <activity android:name=".mine.activity.ScanListActivity" />
         <activity android:name=".mine.activity.GoldenBeanDetailActivity" />
@@ -42,10 +43,8 @@
         <activity android:name=".home.activity.CommentActivity" />
         <activity android:name=".home.activity.SearchActivity" />
         <activity android:name=".video.VideoDetailActivity" />
-        <activity android:name=".login.LoginActivity">
-
-        </activity>
-        <activity android:name=".MainActivity" >
+        <activity android:name=".login.LoginActivity"></activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,9 +62,13 @@
         <activity android:name=".home.activity.GoodsVideoDetailActivity" />
         <activity android:name=".mine.activity.OrderActivity" />
         <activity android:name=".mine.activity.OrderDetailActivity" />
-        <activity android:name=".mine.activity.OrderCommentActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".mine.activity.OrderCommentActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".mine.activity.AfterSalesListActivity" />
-        <activity android:name=".mine.activity.QuestionFeedbackActivity" android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".mine.activity.QuestionFeedbackActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -76,7 +79,6 @@
         <activity android:name=".mine.activity.PaySuccessActivity" />
         <activity android:name=".mine.activity.MyCommentsActivity" />
         <activity android:name=".mine.activity.ApplyForAfterSalesActivity" />
-
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.CollectListModel;
 import com.pinnoocle.royalstarshop.bean.CommentListModel;
 import com.pinnoocle.royalstarshop.bean.CommentModel;
+import com.pinnoocle.royalstarshop.bean.ErCodeModel;
 import com.pinnoocle.royalstarshop.bean.FeedbackListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
@@ -24,6 +25,7 @@ import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.PointsModel;
+import com.pinnoocle.royalstarshop.bean.PosterModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
@@ -261,5 +263,13 @@ public interface RetrofitService {
     //获取默认地址
     @POST("api/address/getDefault")
     Observable<VipGoodsModel> getAddressDefault(@Body LoginBean loginBean);
+
+    //我的邀请
+    @POST("api/vip/ercode")
+    Observable<ErCodeModel> erCode(@Body LoginBean loginBean);
+
+    //海报
+    @POST("api/vip/poster")
+    Observable<PosterModel> poster(@Body LoginBean loginBean);
 
 }

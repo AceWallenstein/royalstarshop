@@ -111,10 +111,16 @@ public interface RemotDataSource {
     void moneyList(LoginBean loginBean, getCallback callback);
 
     void userPointsLog(LoginBean loginBean, getCallback callback);
+
     void myComments(LoginBean loginBean, getCallback callback);
 
     void vipIndex(LoginBean loginBean, getCallback callback);
+
     void getVipGoods(LoginBean loginBean, getCallback callback);
+
+    void erCode(LoginBean loginBean, getCallback callback);
+
+    void poster(LoginBean loginBean, getCallback callback);
 
     void image(String wxappid, String token, MultipartBody.Part file, getCallback callback);
 

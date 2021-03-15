@@ -13,6 +13,7 @@ import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.CollectListModel;
 import com.pinnoocle.royalstarshop.bean.CommentListModel;
 import com.pinnoocle.royalstarshop.bean.CommentModel;
+import com.pinnoocle.royalstarshop.bean.ErCodeModel;
 import com.pinnoocle.royalstarshop.bean.FeedbackListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
@@ -27,6 +28,7 @@ import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.PointsModel;
+import com.pinnoocle.royalstarshop.bean.PosterModel;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
@@ -1184,6 +1186,50 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(CommentModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void erCode(LoginBean loginBean, getCallback callback) {
+        Observable<ErCodeModel> observable = RetrofitHelper.getInstance(mContext).getServer().erCode(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ErCodeModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ErCodeModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void poster(LoginBean loginBean, getCallback callback) {
+        Observable<PosterModel> observable = RetrofitHelper.getInstance(mContext).getServer().poster(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PosterModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(PosterModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });
