@@ -60,6 +60,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 case 0://支付成功后的界面
                     ToastUtils.showToast("支付成功");
                     EventBus.getDefault().post("pay_success");
+                    EventBus.getDefault().post("4");
+
 //                    EventBus.getDefault().post(new EventCenter(EventCode.FAHUO_PAY_SUCCESS));
                     //返回主页面 然后在跳转至订单页面
                     finish();
