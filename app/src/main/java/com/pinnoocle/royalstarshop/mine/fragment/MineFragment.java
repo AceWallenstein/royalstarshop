@@ -402,7 +402,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 }
                 break;
             case 1: //提现
-                startActivity(new Intent(getContext(), WithdrawalActivity.class));
+//                startActivity(new Intent(getContext(), WithdrawalActivity.class));
+                ToastUtils.showToast("暂未开放");
                 break;
             case 2: //我的金豆
                 Intent intent1 = new Intent(getContext(), GoldenBeanActivity.class);
@@ -416,6 +417,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 startActivity(new Intent(getContext(), AddressActivity.class));
                 break;
             case 5: //我的客服
+                ToastUtils.showToast("暂未开放");
                 break;
             case 6: //评价
                 startActivity(new Intent(getContext(), MyCommentsActivity.class));
@@ -435,10 +437,15 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_recommend:
-                Intent intent2 = new Intent(getContext(), RecommendedPosterActivity.class);
-                intent2.putExtra("avatar",userDetailModel.getData().getUserInfo().getAvatarUrl());
-                intent2.putExtra("name",userDetailModel.getData().getUserInfo().getNickName());
-                startActivity(intent2);
+                if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
+                    Intent intent2 = new Intent(getContext(), RecommendedPosterActivity.class);
+                    intent2.putExtra("avatar",userDetailModel.getData().getUserInfo().getAvatarUrl());
+                    intent2.putExtra("name",userDetailModel.getData().getUserInfo().getNickName());
+                    startActivity(intent2);
+                } else {
+                    ToastUtils.showToast("会员可查看");
+                }
+
                 break;
             case R.id.rl_avatar:
             case R.id.iv_avater1:

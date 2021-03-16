@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,13 +25,13 @@ import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
-import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -73,10 +74,23 @@ public class OrderConfirmActivity extends BaseActivity {
     TextView tvSettlement;
     @BindView(R.id.rl_panel)
     RelativeLayout rlPanel;
+    @BindView(R.id.iv_money)
+    ImageView ivMoney;
+    @BindView(R.id.tv_points_money)
+    TextView tvPointsMoney;
+    @BindView(R.id.rl_money)
+    RelativeLayout rlMoney;
+    @BindView(R.id.scrollView)
+    NestedScrollView scrollView;
+    @BindView(R.id.iv_use_points)
+    ImageView ivUsePoints;
     private SureOrderModel.DataBean sureOrderData;
     private DataRepository dataRepository;
 
     private String address_id;
+    private String pay_type = "20";
+    private boolean flag = false;
+    private String is_use_points = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +121,8 @@ public class OrderConfirmActivity extends BaseActivity {
                 tvName.setText("暂无地址");
                 tvAddress.setText("请选择配送地址");
             }
-            tvTotalPrice.setText(sureOrderData.getOrder_total_price());
+            tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
+            tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getPoints_money() + "元");
             OrderConfirmAdapter adapter = new OrderConfirmAdapter(this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter.setData(sureOrderData.getGoods_list());
@@ -139,8 +154,8 @@ public class OrderConfirmActivity extends BaseActivity {
                         tvName.setText(addressDefaultModel.getData().getName());
                         tvPhone.setText(addressDefaultModel.getData().getPhone());
                         tvAddress.setText(addressDefaultModel.getData().getRegion().toString());
-                        address_id = addressDefaultModel.getCode() + "";
-                    }else {
+                        address_id = addressDefaultModel.getData().getAddress_id() + "";
+                    } else {
                         tvName.setText("暂无地址");
                         tvAddress.setText("请选择配送地址");
                         tvPhone.setText("");
@@ -159,6 +174,7 @@ public class OrderConfirmActivity extends BaseActivity {
         map.put("goods_id", getIntent().getStringExtra("goods_id"));
         map.put("goods_sku_id", getIntent().getStringExtra("goods_sku_id"));
         map.put("goods_num", getIntent().getStringExtra("goods_num"));
+        map.put("is_use_points", is_use_points);
         dataRepository.sureOrder(map, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
@@ -170,21 +186,47 @@ public class OrderConfirmActivity extends BaseActivity {
                 SureOrderModel sureOrderModel = (SureOrderModel) data;
                 sureOrderData = sureOrderModel.getData();
                 if (sureOrderModel.getCode() == 1) {
-                    if (sureOrderData.getAddress() != null) {
-                        tvName.setText(sureOrderData.getAddress().getName());
-                        tvPhone.setText(sureOrderData.getAddress().getPhone());
-                        tvAddress.setText(sureOrderData.getAddress().getRegion().toString());
-                    } else {
-                        tvName.setText("暂无地址");
-                        tvAddress.setText("请选择配送地址");
-                    }
-                    tvTotalPrice.setText(sureOrderData.getOrder_total_price());
-                    OrderConfirmAdapter adapter = new OrderConfirmAdapter(OrderConfirmActivity.this);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(OrderConfirmActivity.this));
+
+                    tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
+                    tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getPoints_money() + "元");
+                    OrderConfirmAdapter adapter = new OrderConfirmAdapter(mContext);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                     adapter.setData(sureOrderData.getGoods_list());
                     recyclerView.setAdapter(adapter);
 //                ToastUtils.showToast(sureOrderModel.getMsg());
                 }
+            }
+        });
+    }
+
+    private void orderCart() {
+        Map<String, String> map = new HashMap<>();
+        map.put("wxapp_id", "10001");
+        map.put("token", FastData.getToken());
+        map.put("cart_ids", getIntent().getStringExtra("cart_ids"));
+        map.put("is_use_points", is_use_points);
+        ViewLoading.show(mContext);
+        dataRepository.orderCart(map, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                OrderCartModel orderCartModel = (OrderCartModel) data;
+                sureOrderData = orderCartModel.getData();
+                if (orderCartModel.getCode() == 1) {
+
+                    tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
+                    tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getPoints_money() + "元");
+                    OrderConfirmAdapter adapter = new OrderConfirmAdapter(mContext);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                    adapter.setData(sureOrderData.getGoods_list());
+                    recyclerView.setAdapter(adapter);
+                }
+//                ToastUtils.showToast(sureOrderModel.getMsg());
             }
         });
     }
@@ -204,8 +246,9 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.goods_id = sureOrderData.getGoods_list().get(0).getGoods_id() + "";
         loginBean.goods_sku_id = sureOrderData.getGoods_list().get(0).getGoods_sku().getGoods_sku_id() + "";
         loginBean.goods_num = sureOrderData.getGoods_list().get(0).getTotal_num() + "";
-        loginBean.pay_type = "20";
+        loginBean.pay_type = pay_type;              //微信支付 20 支付宝 10
         loginBean.address_id = address_id;
+        loginBean.is_use_points = is_use_points;
         ViewLoading.show(this);
         dataRepository.buyNow(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -218,6 +261,9 @@ public class OrderConfirmActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 WxPayResultModel wxPayResultModel = (WxPayResultModel) data;
                 if (wxPayResultModel.getCode() == 1) {
+                    if (Double.parseDouble(sureOrderData.getOrder_total_price()) <= 0) {
+                        EventBus.getDefault().post("pay_success");
+                    }
                     wxPay(wxPayResultModel.getData().getPayment());
                 }
 //                ToastUtils.showToast(wxPayResultModel.getMsg());
@@ -258,8 +304,9 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
         loginBean.cart_ids = cart_ids;
-        loginBean.pay_type = "20";
+        loginBean.pay_type = pay_type;
         loginBean.address_id = address_id;
+        loginBean.is_use_points = is_use_points;
         ViewLoading.show(this);
         dataRepository.buyNowCart(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -304,7 +351,7 @@ public class OrderConfirmActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.iv_back, R.id.rl_address, R.id.tv_settlement})
+    @OnClick({R.id.iv_back, R.id.rl_address, R.id.tv_settlement, R.id.rl_money})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -320,12 +367,39 @@ public class OrderConfirmActivity extends BaseActivity {
                 if (TextUtils.isEmpty(address_id)) {
                     ToastUtils.showToast("请输入收货地址");
                 }
+                if (Double.parseDouble(sureOrderData.getOrder_total_price()) <= 0) {
+                    pay_type = "10";                    //0元支付
+                }
                 if (getIntent().getStringExtra("cart_ids") != null) {
                     buyNowCart(getIntent().getStringExtra("cart_ids"));
                 } else {
                     buyNow();
                 }
                 break;
+            case R.id.rl_money:
+                flag = !flag;
+                if (flag) {
+                    ivUsePoints.setImageResource(R.mipmap.juice_circle);
+                    tvDiscount.setVisibility(View.VISIBLE);
+                    is_use_points = "1";
+
+                } else {
+                    tvDiscount.setVisibility(View.GONE);
+                    ivUsePoints.setImageResource(R.mipmap.grey_circle);
+                    is_use_points = "0";
+
+                }
+                is_use_points();
+                break;
+        }
+    }
+
+    private void is_use_points() {
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("goods_id"))) {
+            sureOrder();
+        }else  if(!TextUtils.isEmpty(getIntent().getStringExtra("cart_ids")))
+        {
+            orderCart();
         }
     }
 
@@ -335,6 +409,7 @@ public class OrderConfirmActivity extends BaseActivity {
             Intent intent = new Intent(this, PaySuccessActivity.class);
             intent.putExtra("type", "1");
             startActivity(intent);
+            finish();
         }
         if (event.equals("pay_cancel")) {
 //            Intent intent = new Intent(mContext, OrderDetailActivity.class);

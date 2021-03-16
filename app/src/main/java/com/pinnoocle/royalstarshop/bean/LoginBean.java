@@ -36,8 +36,11 @@ public class LoginBean {
     public String images;
     public String sortType;
     public String orderType;
-    public List<FormData> formData;
-    public String uploaded;
+    public String formData;
+    public String scoreType;
+    public String payType;
+    public String order_goods_id;
+    public String is_use_points;
 
 
     public static class FormData{
@@ -46,6 +49,7 @@ public class LoginBean {
             this._$Content2 = _$Content2;
             this._$Order_goods_id83 = _$Order_goods_id83;
             this._$Goods_id241 = _$Goods_id241;
+
         }
 
         @SerializedName("score")
@@ -56,8 +60,7 @@ public class LoginBean {
         private String _$Order_goods_id83; // FIXME check this code
         @SerializedName("goods_id")
         private String _$Goods_id241; // FIXME check this code
-        @SerializedName("uploaded")
-        private List<Integer> _$Uploaded222; // FIXME check this code
+        public List<String> uploaded; // FIXME check this code
 
         public String get_$Score45() {
             return _$Score45;
@@ -91,12 +94,6 @@ public class LoginBean {
             this._$Goods_id241 = _$Goods_id241;
         }
 
-        public List<Integer> get_$Uploaded222() {
-            return _$Uploaded222;
-        }
 
-        public void set_$Uploaded222(List<Integer> _$Uploaded222) {
-            this._$Uploaded222 = _$Uploaded222;
-        }
     }
 }

@@ -40,7 +40,7 @@ public class OrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.Goo
         holder.tvNums.setText("x"+mDatas.get(position).getTotal_num());
         holder.tvPoints.setText(mDatas.get(position).getPoints_num()+"金豆");
         holder.tvFreight.setText(mDatas.get(position).getFreight());
-//        holder.tvRemarks.setText(mDatas.get(position).getPoints()+"金豆");
+//        holder.tvRemarks.setText(mDatas.get(position).get);
 
     }
 

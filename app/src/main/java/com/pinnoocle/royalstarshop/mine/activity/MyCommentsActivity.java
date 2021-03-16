@@ -37,7 +37,7 @@ public class MyCommentsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTransparent();
+        initWhite();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_comments);
         ButterKnife.bind(this);
@@ -66,8 +66,6 @@ public class MyCommentsActivity extends BaseActivity {
         viewPager.setAdapter(adatper);
         viewPager.setOffscreenPageLimit(titles.size());
         xTablayout.setupWithViewPager(viewPager);
-        int type = getIntent().getIntExtra("type", 0);
-        viewPager.setCurrentItem(type);
     }
 
 

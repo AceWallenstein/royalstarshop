@@ -25,6 +25,7 @@ import com.pinnoocle.royalstarshop.bean.MoneyModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
+import com.pinnoocle.royalstarshop.bean.OrderPayModel;
 import com.pinnoocle.royalstarshop.bean.PointsModel;
 import com.pinnoocle.royalstarshop.bean.PosterModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
@@ -61,7 +62,7 @@ import rx.Observable;
 public interface RetrofitService {
     // 登录注册
     @POST("api/user/reg")
-    Observable<LoginModel> reg(@Body LoginBean loginBean);
+    Observable<StatusModel> reg(@Body LoginBean loginBean);
 
     // 发送验证码
     @POST("api/user/getCode")
@@ -272,5 +273,13 @@ public interface RetrofitService {
     //海报
     @POST("api/vip/poster")
     Observable<PosterModel> poster(@Body LoginBean loginBean);
+
+    //订单支付
+    @POST("api/user.order/pay")
+    Observable<OrderPayModel> orderPay(@Body LoginBean loginBean);
+    //申请售后
+    @POST("api/user.refund/apply")
+    Observable<ResultModel> applyRefund(@Body LoginBean loginBean);
+
 
 }

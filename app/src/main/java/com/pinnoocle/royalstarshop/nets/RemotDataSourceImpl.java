@@ -28,6 +28,7 @@ import com.pinnoocle.royalstarshop.bean.MoneyModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
+import com.pinnoocle.royalstarshop.bean.OrderPayModel;
 import com.pinnoocle.royalstarshop.bean.PointsModel;
 import com.pinnoocle.royalstarshop.bean.PosterModel;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
@@ -72,9 +73,9 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
     @Override
     public void reg(LoginBean loginBean, final getCallback callback) {
-        Observable<LoginModel> observable = RetrofitHelper.getInstance(mContext).getServer().reg(loginBean);
+        Observable<StatusModel> observable = RetrofitHelper.getInstance(mContext).getServer().reg(loginBean);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<LoginModel>() {
+                .subscribe(new Observer<StatusModel>() {
                     @Override
                     public void onCompleted() { // 完成请求后
 
@@ -86,7 +87,7 @@ public class RemotDataSourceImpl implements RemotDataSource {
                     }
 
                     @Override
-                    public void onNext(LoginModel s) { // 请求成功
+                    public void onNext(StatusModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });
@@ -1253,6 +1254,50 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(PosterModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void orderPay(LoginBean loginBean, getCallback callback) {
+        Observable<OrderPayModel> observable = RetrofitHelper.getInstance(mContext).getServer().orderPay(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<OrderPayModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(OrderPayModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void applyRefund(LoginBean loginBean, getCallback callback) {
+        Observable<ResultModel> observable = RetrofitHelper.getInstance(mContext).getServer().applyRefund(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ResultModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

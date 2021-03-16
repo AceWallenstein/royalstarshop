@@ -1,6 +1,7 @@
 package com.pinnoocle.royalstarshop.mine.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,7 +44,7 @@ public class MyCommentsFragment extends BaseFragment implements OnRefreshLoadMor
     private String type;
     private DataRepository dataRepository;
     private MyCommentAdapter adapter;
-    private List<OrderListModel.DataBeanX.ListBean.DataBean> dataBeanList = new ArrayList<>();
+    private List<CommentModel.DataBeanX.DataBean> dataBeanList = new ArrayList<>();
     private int page = 1;
 
     public MyCommentsFragment(String type) {
@@ -58,23 +59,23 @@ public class MyCommentsFragment extends BaseFragment implements OnRefreshLoadMor
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
-    public void onEvent(String event) {
-        if(event.equals("comment_refresh")){
-            page = 1;
-            dataBeanList.clear();
-            myComments();
-        }
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+//    public void onEvent(String event) {
+//        if (event.equals("comment_refresh")) {
+//            page = 1;
+//            dataBeanList.clear();
+//            myComments();
+//        }
+//    }
 
     @Override
     protected void initView() {
@@ -95,6 +96,7 @@ public class MyCommentsFragment extends BaseFragment implements OnRefreshLoadMor
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
         loginBean.page = page + "";
+        loginBean.scoreType = type;
         ViewLoading.show(getContext());
         dataRepository.myComments(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -107,23 +109,23 @@ public class MyCommentsFragment extends BaseFragment implements OnRefreshLoadMor
                 ViewLoading.dismiss(getContext());
                 CommentModel commentModel = (CommentModel) data;
                 refresh.finishRefresh();
-//                if (orderListModel.getCode() == 1) {
-//                    if (orderListModel.getData().getList().getCurrent_page() == orderListModel.getData().getList().getLast_page()) {
-//                        refresh.finishLoadMoreWithNoMoreData();
-//                    } else {
-//                        refresh.finishLoadMore();
-//                    }
-//                    if (dataBeanList.size() == 0 && orderListModel.getData().getList().getData().size() == 0) {
-//                        tvEmpty.setVisibility(View.VISIBLE);
-//                        recycleView.setVisibility(View.GONE);
-//                    } else {
-//                        tvEmpty.setVisibility(View.GONE);
-//                        recycleView.setVisibility(View.VISIBLE);
-//                        dataBeanList.addAll(orderListModel.getData().getList().getData());
-//                        commentAdapter.setData(dataBeanList);
-//                    }
-//
-//                }
+                if (commentModel.getCode() == 1) {
+                    if (commentModel.getData().getCurrent_page() == commentModel.getData().getLast_page()) {
+                        refresh.finishLoadMoreWithNoMoreData();
+                    } else {
+                        refresh.finishLoadMore();
+                    }
+                    if (commentModel.getData().getData().size() == 0) {
+                        tvEmpty.setVisibility(View.VISIBLE);
+                        recycleView.setVisibility(View.GONE);
+                    } else {
+                        tvEmpty.setVisibility(View.GONE);
+                        recycleView.setVisibility(View.VISIBLE);
+                        dataBeanList.addAll(commentModel.getData().getData());
+                        adapter.setData(dataBeanList);
+                    }
+
+                }
             }
         });
     }

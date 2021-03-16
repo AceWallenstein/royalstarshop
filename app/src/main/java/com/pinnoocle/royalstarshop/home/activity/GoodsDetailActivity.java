@@ -4,36 +4,43 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
-import com.pinnoocle.royalstarshop.MainActivity;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.adapter.FragmentTabAdapter;
+import com.pinnoocle.royalstarshop.bean.CommentListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.ServiceBean;
+import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.home.fragment.GoodsTabCommentFragment;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
 import com.pinnoocle.royalstarshop.widget.DialogPledge;
 import com.pinnoocle.royalstarshop.widget.DialogShopCar;
-import com.pinnoocle.royalstarshop.widget.NoScrollViewPager;
 import com.pinnoocle.royalstarshop.widget.VerticalMarqueeLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
-import com.zhy.view.flowlayout.TagFlowLayout;
 import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
 
@@ -58,14 +65,14 @@ public class GoodsDetailActivity extends BaseActivity {
     ImageView ivCustomerService;
     @BindView(R.id.ll_customer_service)
     LinearLayout llCustomerService;
-    @BindView(R.id.iv_shop_car)
-    ImageView ivShopCar;
-    @BindView(R.id.ll_shop_car)
-    LinearLayout llShopCar;
     @BindView(R.id.iv_mark)
     ImageView ivMark;
     @BindView(R.id.ll_mark)
     LinearLayout llMark;
+    @BindView(R.id.iv_shop_car)
+    ImageView ivShopCar;
+    @BindView(R.id.ll_shop_car)
+    LinearLayout llShopCar;
     @BindView(R.id.tv_normal_price)
     TextView tvNormalPrice;
     @BindView(R.id.tv_normal_buy)
@@ -82,12 +89,16 @@ public class GoodsDetailActivity extends BaseActivity {
     LinearLayout llBuy;
     @BindView(R.id.goods_banner)
     Banner goodsBanner;
+    @BindView(R.id.banner_indicator)
+    TextView bannerIndicator;
     @BindView(R.id.marquee_root)
     VerticalMarqueeLayout marqueeRoot;
     @BindView(R.id.tv_price)
     TextView tvPrice;
     @BindView(R.id.tv_vip_price)
     TextView tvVipPrice;
+    @BindView(R.id.ll_add_shop_cart)
+    LinearLayout llAddShopCart;
     @BindView(R.id.ll_price)
     RelativeLayout llPrice;
     @BindView(R.id.tv_active)
@@ -102,20 +113,30 @@ public class GoodsDetailActivity extends BaseActivity {
     TextView tvRetreat;
     @BindView(R.id.tv_free)
     TextView tvFree;
+    @BindView(R.id.rl_pledge)
+    RelativeLayout rlPledge;
     @BindView(R.id.tv_evaluation)
     TextView tvEvaluation;
     @BindView(R.id.tv_more)
     TextView tvMore;
     @BindView(R.id.rl_appraise)
     RelativeLayout rlAppraise;
-    @BindView(R.id.flowlayout)
-    TagFlowLayout flowlayout;
-    @BindView(R.id.viewPager)
-    NoScrollViewPager viewPager;
+    @BindView(R.id.rb_all)
+    RadioButton rbAll;
+    @BindView(R.id.rb_good)
+    RadioButton rbGood;
+    @BindView(R.id.rb_m)
+    RadioButton rbM;
+    @BindView(R.id.rb_bad)
+    RadioButton rbBad;
+    @BindView(R.id.radiogroup)
+    RadioGroup radiogroup;
+    @BindView(R.id.fl_layout)
+    FrameLayout flLayout;
     @BindView(R.id.tv_content)
     TextView tvContent;
-    @BindView(R.id.banner_indicator)
-    TextView bannerIndicator;
+    @BindView(R.id.tv_comment_num)
+    TextView tvCommentNum;
     private DataRepository dataRepository;
     private List<String> bannerList;
     private GoodsDetailModel.DataBean dataBean;
@@ -123,6 +144,8 @@ public class GoodsDetailActivity extends BaseActivity {
     private GoodsDetailModel goodsDetailModel;
     private BasePopupView dialogPledge;
     private BasePopupView pledgePopupView;
+    private List<Fragment> fragments = new ArrayList<>();
+    private FragmentTabAdapter tabAdapter;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,13 +159,38 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        String goods_id = getIntent().getStringExtra("goods_id");
+        fragments.add(new GoodsTabCommentFragment(goods_id, ""));
+        fragments.add(new GoodsTabCommentFragment(goods_id, "10"));
+        fragments.add(new GoodsTabCommentFragment(goods_id, "20"));
+        fragments.add(new GoodsTabCommentFragment(goods_id, "30"));
+        tabAdapter = new FragmentTabAdapter(this, fragments, R.id.fl_layout);
+        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_all:
+                        tabAdapter.setCurrentFragment(0);
+                        break;
+                    case R.id.rb_good:
+                        tabAdapter.setCurrentFragment(1);
+                        break;
+                    case R.id.rb_m:
+                        tabAdapter.setCurrentFragment(2);
+                        break;
+                    case R.id.rb_bad:
+                        tabAdapter.setCurrentFragment(3);
+                        break;
+                }
+            }
+        });
     }
 
     private void initData() {
         dataRepository = Injection.dataRepository(this);
         goodsDetail();
         addGoodsLog();
+        commentList();
     }
 
     private void addGoodsLog() {
@@ -244,6 +292,82 @@ public class GoodsDetailActivity extends BaseActivity {
         });
     }
 
+    private void commentList() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.goods_id = getIntent().getStringExtra("goods_id");
+        ViewLoading.show(this);
+        dataRepository.commentList(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                CommentListModel commentListModel = (CommentListModel) data;
+                if (commentListModel.getCode() == 1) {
+                    int all = commentListModel.getData().getTotal().getAll();
+                    int goods = commentListModel.getData().getTotal().getPraise();
+                    int review = commentListModel.getData().getTotal().getReview();
+                    int bad = commentListModel.getData().getTotal().getNegative();
+                    String all_ = dealNum(all);
+                    String goods_ = dealNum(goods);
+                    String review_ = dealNum(review);
+                    String bad_ = dealNum(bad);
+                    tvCommentNum.setText("("+all_+")");
+                    rbAll.setText("全部(" + all_ + ")");
+                    rbGood.setText("好评(" + goods_ + ")");
+                    rbM.setText("中评(" + review_ + ")");
+                    rbBad.setText("差评(" + bad_ + ")");
+                }
+
+            }
+        });
+    }
+
+    private void userInfo() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return;
+        }
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        dataRepository.userDetail(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+
+                UserDetailModel userDetailModel = (UserDetailModel) data;
+                if (userDetailModel.getCode() == 1) {
+                    if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
+                        showSelectDialog("vip");
+                    } else {
+                        EventBus.getDefault().post("5");
+                        finish();
+                    }
+                }
+            }
+        });
+    }
+
+
+    private String dealNum(int all) {
+        if (all > 99) {
+            return "99+";
+        }
+        return all + "";
+    }
+
 
     private void initBanner(List<String> album) {
         bannerList = new ArrayList<>();
@@ -305,7 +429,8 @@ public class GoodsDetailActivity extends BaseActivity {
                 goodsCollect();
                 break;
             case R.id.ll_vip_buy:
-                showSelectDialog("vip");
+                userInfo();
+
                 break;
             case R.id.ll_normal_buy:
                 showSelectDialog("normal");

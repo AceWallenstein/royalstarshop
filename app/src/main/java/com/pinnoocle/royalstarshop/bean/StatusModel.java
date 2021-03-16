@@ -1,8 +1,14 @@
 package com.pinnoocle.royalstarshop.bean;
 
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.pinnoocle.royalstarshop.adapter.RawStringJsonAdapter;
+
 public class StatusModel {
     private int code;
     private String msg;
+    @SerializedName("data")
+    @JsonAdapter(RawStringJsonAdapter.class)
     private String data;
 
     public int getCode() {

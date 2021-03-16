@@ -34,7 +34,9 @@
             android:textSize="18sp" />
     </RelativeLayout>
     <androidx.core.widget.NestedScrollView
+        android:overScrollMode="never"
         android:layout_below="@id/rl_title"
+        android:layout_above="@id/tv_sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -88,15 +90,61 @@
                     android:textSize="12sp" />
 
             </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/bg_white_8"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_order_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black_3"
+                    android:textSize="12sp"
+                    tools:text="2021-01-23 10:22:34" />
+
+                <TextView
+                    android:id="@+id/tv_order_code_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="订单号："
+                    android:textColor="@color/light_black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_order_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_order_code_1"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/light_black"
+                    android:textSize="12sp"
+                    tools:text="26868898" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_address"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp" />
+                android:overScrollMode="never"
+                android:padding="10dp" />
+        </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_tips"
@@ -149,12 +197,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ll_tips"
-                android:text="退货原因"
+                android:text="换货原因"
                 android:textColor="@color/black_1"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <RelativeLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_reason"
@@ -167,13 +216,14 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/bg_white1_8"
                     android:gravity="top"
-                    android:hint="请输入反馈意见"
+                    android:hint="请在此描述换货原因及待换商品类型"
                     android:minLines="8"
                     android:padding="10dp"
                     android:textColorHint="#CCCCCC"
                     android:textSize="14sp" />
 
                 <com.pinnoocle.royalstarshop.widget.GridViewInScrollView
+                    android:overScrollMode="never"
                     android:id="@+id/gridView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -202,41 +252,62 @@
             </RelativeLayout>
             </LinearLayout>
             <RelativeLayout
-                android:background="@drawable/bg_white_6"
-                android:padding="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:id="@+id/rl_2"
+                android:id="@+id/rl_1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_white_8"
+                android:padding="10dp">
 
-                <ImageView
-                    android:id="@+id/iv_no_question"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/no_question" />
+                <RelativeLayout
+                    android:id="@+id/rl_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_no_question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/no_question" />
+
+                    <TextView
+                        android:id="@+id/tv_no_question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@id/iv_no_question"
+                        android:text="售后无忧"
+                        android:textColor="@color/black_3"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_no_question"
+                        android:layout_marginStart="5dp"
+                        android:layout_toEndOf="@id/iv_no_question"
+                        android:text="如遇到商品信息相关问题，请联系客服"
+                        android:textColor="@color/grey_3"
+                        android:textSize="11sp" />
+
+                </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/tv_no_question"
+                    android:id="@+id/tv_contact_after_sales"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@id/iv_no_question"
-                    android:text="售后无忧"
-                    android:textColor="@color/black_3"
-                    android:textSize="15sp" />
+                    android:layout_below="@id/rl_2"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@mipmap/bg_rect_after_sales"
+                    android:gravity="center"
+                    android:text="联系售后"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_no_question"
-                    android:layout_marginStart="5dp"
-                    android:layout_toEndOf="@id/iv_no_question"
-                    android:text="如遇到商品信息相关问题，请联系客服"
-                    android:textColor="@color/grey_3"
-                    android:textSize="11sp" />
 
             </RelativeLayout>
 

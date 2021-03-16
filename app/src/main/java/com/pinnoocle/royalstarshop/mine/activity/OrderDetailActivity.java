@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -103,6 +104,12 @@ public class OrderDetailActivity extends BaseActivity {
     TextView tvOrderTime;
     @BindView(R.id.tv_order_code)
     TextView tvOrderCode;
+    @BindView(R.id.tv_order_code_1)
+    TextView tvOrderCode1;
+    @BindView(R.id.rl_2)
+    RelativeLayout rl2;
+    @BindView(R.id.ll_after_sales)
+    LinearLayout llAfterSales;
     private DataRepository dataRepository;
     private OrderDetailAdapter adapter;
     private OrderDetailModel orderDetailModel;
@@ -167,6 +174,7 @@ public class OrderDetailActivity extends BaseActivity {
                     adapter.setType(orderDetailModel.getData().getOrder().getState_text());
                     adapter.setData(goods);
                     rl1.setVisibility(View.GONE);
+                    llAfterSales.setVisibility(View.GONE);
 
                     switch (orderDetailModel.getData().getOrder().getState_text()) {
                         case "待付款":
@@ -186,13 +194,19 @@ public class OrderDetailActivity extends BaseActivity {
                             tvCancel.setText("删除订单");
                             tvPay.setText("去评价");
                             break;
+                        case "等待审核中":
+                            llAfterSales.setVisibility(View.VISIBLE);
+                            break;
 
                     }
                     adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean>() {
                         @Override
                         public void onItemViewClick(View view, int position, OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean o) {
-                            if(view.getId()==R.id.tv_after_sale){
+                            if (view.getId() == R.id.tv_after_sale) {
                                 Intent intent = new Intent(OrderDetailActivity.this, ApplyForAfterSalesActivity.class);
+                                intent.putExtra("order_id", getIntent().getIntExtra("order_id", 0) + "");
+                                intent.putExtra("order_goods_id", o.getOrder_goods_id() + "");
+
                                 startActivity(intent);
                             }
                         }
@@ -366,7 +380,7 @@ public class OrderDetailActivity extends BaseActivity {
                     showOrderConfirmDialog(orderDetailModel.getData().getOrder().getOrder_id() + "", orderDetailModel.getData().getOrder().getOrder_no());
                 } else if (tvPay.getText().toString().equals("去评价")) {
                     Intent intent = new Intent(OrderDetailActivity.this, OrderCommentActivity.class);
-                    intent.putExtra("order_id", orderDetailModel.getData().getOrder().getOrder_id()+"");
+                    intent.putExtra("order_id", orderDetailModel.getData().getOrder().getOrder_id() + "");
                     startActivity(intent);
                 } else if (tvPay.getText().toString().equals("去付款")) {
                     Intent intent = new Intent(this, OrderPayActivity.class);

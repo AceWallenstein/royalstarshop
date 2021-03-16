@@ -150,10 +150,11 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="15dp"
-                        android:src="@mipmap/grey_circle" />
+                        android:src="@mipmap/juice_circle" />
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:visibility="gone"
                     android:id="@+id/rl_ali"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -183,7 +184,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="15dp"
-                        android:src="@mipmap/juice_circle" />
+                        android:src="@mipmap/grey_circle" />
                 </RelativeLayout>
             </LinearLayout>
 

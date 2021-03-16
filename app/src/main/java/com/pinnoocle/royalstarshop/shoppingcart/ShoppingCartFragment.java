@@ -163,7 +163,7 @@ public class ShoppingCartFragment extends BaseFragment {
                 if (resultModel.getCode() == 1) {
 
                 }
-                ToastUtils.showToast(resultModel.getMsg());
+//                ToastUtils.showToast(resultModel.getMsg());
             }
         });
     }

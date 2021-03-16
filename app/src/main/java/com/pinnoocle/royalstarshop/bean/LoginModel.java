@@ -1,5 +1,9 @@
 package com.pinnoocle.royalstarshop.bean;
 
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+import com.pinnoocle.royalstarshop.adapter.RawStringJsonAdapter;
+
 import java.util.List;
 
 public class LoginModel {

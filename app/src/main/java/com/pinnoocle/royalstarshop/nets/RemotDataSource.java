@@ -122,6 +122,8 @@ public interface RemotDataSource {
     void erCode(LoginBean loginBean, getCallback callback);
 
     void poster(LoginBean loginBean, getCallback callback);
+    void orderPay(LoginBean loginBean, getCallback callback);
+    void applyRefund(LoginBean loginBean, getCallback callback);
 
     void image(String wxappid, String token, MultipartBody.Part file, getCallback callback);
 

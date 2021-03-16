@@ -126,4 +126,6 @@ dependencies {
 
     implementation  'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.4'//微信官方SDK依赖库
 
+    implementation 'com.zaaach:tabradiobutton:1.0.2'
+
 }

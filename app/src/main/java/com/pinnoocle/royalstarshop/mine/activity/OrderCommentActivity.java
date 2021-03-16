@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -150,7 +151,7 @@ public class OrderCommentActivity extends BaseActivity {
     }
 
 
-    private void comment(String content,String uploaded) {
+    private void comment(String content, List<String> uploaded) {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
@@ -161,9 +162,12 @@ public class OrderCommentActivity extends BaseActivity {
 //            formDatas.add(formData);
 //        }
         LoginBean.FormData formData = new LoginBean.FormData(score, content, orderDetailModel.getData().getOrder().getGoods().get(0).getOrder_goods_id() + "", orderDetailModel.getData().getOrder().getGoods().get(0).getGoods_id() + "");
+        if (uploaded!=null&&uploaded.size()>0)
+            formData.uploaded = uploaded;
         formDatas.add(formData);
-        loginBean.formData = formDatas;
-        loginBean.uploaded = uploaded;
+        String s = new Gson().toJson(formDatas);
+        loginBean.formData = s;
+
 
         ViewLoading.show(this);
         dataRepository.comment(loginBean, new RemotDataSource.getCallback() {
@@ -201,7 +205,7 @@ public class OrderCommentActivity extends BaseActivity {
                 ImageModel imageModel = (ImageModel) data;
                 if (imageModel.getCode() == 1) {
                     String imgPath = imageModel.getData().getFile_path();
-                    images.add(imgPath);
+                    images.add(imageModel.getData().getFile_id());
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < images.size(); i++) {
                         if (i == images.size() - 1) {
@@ -210,7 +214,7 @@ public class OrderCommentActivity extends BaseActivity {
                             sb.append(images.get(i) + ",");
                         }
                     }
-                    comment(content, sb.toString());
+                    comment(content, images);
                 } else {
                     ToastUtils.showToast(imageModel.getMsg());
                 }
@@ -333,10 +337,9 @@ public class OrderCommentActivity extends BaseActivity {
                     for (int i = 0; i < selectList.size(); i++) {
                         image(selectList.get(i).getCompressPath());
                     }
-                }else {
-                    comment(content, "");
+                } else {
+                    comment(content, null);
                 }
-
 
 
                 break;

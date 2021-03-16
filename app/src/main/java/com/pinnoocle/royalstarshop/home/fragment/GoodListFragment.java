@@ -118,7 +118,7 @@ public class GoodListFragment extends BaseFragment implements OnRefreshLoadMoreL
     protected void initData() {
         dataRepository = Injection.dataRepository(getContext());
         switchPage(0);
-        goodsLists();
+//        goodsLists();
     }
 
     private void goodsLists() {

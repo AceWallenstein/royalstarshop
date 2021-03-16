@@ -47,7 +47,8 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
         InnerOrderAdapter adapter = new InnerOrderAdapter(mContext);
         adapter.setData(goods);
         holder.recyclerView.setAdapter(adapter);
-        holder.tvCancel.setVisibility(View.VISIBLE);;
+        holder.tvCancel.setVisibility(View.VISIBLE);
+        ;
         switch (mDatas.get(position).getState_text()) {
             case "待付款":
                 holder.rl_panel.setVisibility(View.VISIBLE);
@@ -66,10 +67,15 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
                 holder.tvPay.setText("确认收货");
                 break;
             case "已完成":
-                holder.rl_panel.setVisibility(View.VISIBLE);
-                holder.tvStatus.setTextColor(0xff666666);
-                holder.tvCancel.setVisibility(View.GONE);
-                holder.tvPay.setText("去评价");
+                if (mDatas.get(position).getIs_comment() == 0) {
+                    holder.rl_panel.setVisibility(View.VISIBLE);
+                    holder.tvStatus.setTextColor(0xff666666);
+                    holder.tvCancel.setVisibility(View.GONE);
+                    holder.tvPay.setText("去评价");
+                }else {
+                    holder.rl_panel.setVisibility(View.GONE);
+                    holder.tvStatus.setTextColor(0xff666666);
+                }
 
                 break;
             case "已评价":
@@ -81,24 +87,24 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
         }
         holder.tvPay.setOnClickListener(v -> {
             if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
         holder.tvCancel.setOnClickListener(v -> {
             if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
 
         holder.itemView.setOnClickListener(v ->
         {
             Intent intent = new Intent(mContext, OrderDetailActivity.class);
-            intent.putExtra("order_id",mDatas.get(position).getOrder_id());
+            intent.putExtra("order_id", mDatas.get(position).getOrder_id());
             mContext.startActivity(intent);
         });
-        adapter.setOnItemClickListener((v,pos)->{
+        adapter.setOnItemClickListener((v, pos) -> {
             Intent intent = new Intent(mContext, OrderDetailActivity.class);
-            intent.putExtra("order_id",mDatas.get(position).getOrder_id());
+            intent.putExtra("order_id", mDatas.get(position).getOrder_id());
             mContext.startActivity(intent);
 
         });

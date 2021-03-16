@@ -240,8 +240,8 @@ public class VipFragment extends BaseFragment {
                             Glide.with(getActivity()).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
                         }
                         tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
-                        tvGoldenBean.setText(vipInfoModel.getData().getPoint() + "");
-                        tvMoneyOne.setText(vipInfoModel.getData().getPoint() + "元");
+                        tvGoldenBean.setText(vipInfoModel.getData().getUserInfo().getPoints() + "");
+                        tvMoneyOne.setText(vipInfoModel.getData().getUserInfo().getPoints() + "元");
                         if (vipInfoModel.getData().getUserInfo().getIs_exprire() == 0) {
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
                             Date date = new Date(vipInfoModel.getData().getUserInfo().getVip_expire() * 1000L);

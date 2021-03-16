@@ -8,9 +8,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.OrderPayModel;
+import com.pinnoocle.royalstarshop.bean.StatusModel;
+import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.nets.DataRepository;
+import com.pinnoocle.royalstarshop.nets.Injection;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
+import com.pinnoocle.royalstarshop.utils.FastData;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -50,6 +62,8 @@ public class OrderPayActivity extends BaseActivity {
     LinearLayout rlPayMode;
 
     private String pay_mode = "wx_pay";
+    private DataRepository dataRepository;
+    private String payType = "20";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +84,51 @@ public class OrderPayActivity extends BaseActivity {
     }
 
     private void initData() {
-
+        dataRepository = Injection.dataRepository(this);
     }
+
+    private void orderPay(String order_id) {
+        ViewLoading.show(OrderPayActivity.this);
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.order_id = order_id;
+        loginBean.payType = payType;          // 微信支付 20 支付宝 10
+        dataRepository.orderPay(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(OrderPayActivity.this);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(OrderPayActivity.this);
+                OrderPayModel orderPayModel = (OrderPayModel) data;
+                if (orderPayModel.getCode() == 1) {
+                    wxPay(orderPayModel.getData().getPayment());
+                }
+            }
+
+        });
+    }
+
+    private void wxPay(OrderPayModel.DataBean.PaymentBean payment) {
+        PayReq req = new PayReq();
+//        Gson gson = new Gson();
+//        Map<String, String> map = new HashMap<>();
+//        map = gson.fromJson(alipayRecord.getData(), map.getClass());
+        req.appId = payment.getApp_id();
+        req.nonceStr = payment.getNonceStr();
+        req.packageValue = payment.getPackageX();
+//        req.packageValue = "Sign=WXPay";
+        req.partnerId = payment.getMch_id();
+        req.prepayId = payment.getPrepay_id();
+        req.sign = payment.getPaySign();
+        req.timeStamp = payment.getTimeStamp();
+        MyApp.mWxApi.sendReq(req);
+    }
+
+
 
     @OnClick({R.id.iv_back, R.id.tv_buy, R.id.rl_ali, R.id.rl_wechat})
     public void onViewClicked(View view) {
@@ -80,11 +137,14 @@ public class OrderPayActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_buy:
+                orderPay(getIntent().getStringExtra("order_id"));
                 break;
             case R.id.rl_ali:
                 setPayMode(ivAliMark,"ali_pay");
+                payType = "10";
                 break;
             case R.id.rl_wechat:
+                payType = "20";
                 setPayMode(ivWxMark,"wx_pay");
                 break;
         }

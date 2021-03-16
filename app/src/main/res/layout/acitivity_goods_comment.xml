@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:zhy="http://schemas.android.com/tools"
     android:background="@color/white1"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -16,11 +17,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:paddingTop="10dp"
+            android:layout_centerHorizontal="true"
             android:paddingBottom="10dp"
             android:text="商品评价"
-            android:textColor="@color/light_black"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <ImageView
@@ -29,27 +30,86 @@
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:src="@mipmap/go_back" />
+        <RadioGroup
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/iv_back"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/radiogroup">
+            <RadioButton
+                android:textSize="12sp"
+                android:checked="true"
+                android:gravity="center"
+                android:textColor="@color/radiobutton_textcolor"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/selector_radio"
+                android:button="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rb_all"
+                android:text="全部(0)"/>
+            <RadioButton
+                android:textSize="12sp"
+                android:checked="false"
+                android:gravity="center"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/radiobutton_textcolor"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/selector_radio"
+                android:button="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rb_good"
+                android:text="好评(0)"/>
+            <RadioButton
+                android:checked="false"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/radiobutton_textcolor"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/selector_radio"
+                android:button="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rb_m"
+                android:text="中评(0)"/>
+            <RadioButton
+                android:checked="false"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/radiobutton_textcolor"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/selector_radio"
+                android:button="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rb_bad"
+                android:text="差评(0)"/>
+        </RadioGroup>
+
     </RelativeLayout>
 
-    <com.androidkun.xtablayout.XTabLayout
-        android:id="@+id/xTablayout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"
-        android:overScrollMode="never"
-        app:xTabDisplayNum="4"
-        app:xTabIndicatorColor="@color/light_red_2"
-        app:xTabIndicatorHeight="2dp"
-        app:xTabIndicatorWidth="36dp"
-        app:xTabMode="scrollable"
-        app:xTabSelectedTextColor="@color/light_red_2"
-        app:xTabSelectedTextSize="13sp"
-        app:xTabTextSelectedBold="true"
-        app:xTabTextColor="@color/black_3"
-        app:xTabTextSize="13sp" />
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+    <FrameLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/fl_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never" />
+     />
 </LinearLayout>

@@ -130,16 +130,18 @@
                     android:src="@mipmap/ic_money" />
 
                 <TextView
+                    android:id="@+id/tv_points_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/iv_money"
-                    android:text="剩余可用平台货币122元"
+                    tools:text="剩余可用平台货币122元"
                     android:textColor="#111111"
                     android:textSize="13sp" />
 
                 <ImageView
+                    android:id="@+id/iv_use_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -272,7 +274,7 @@
             android:layout_below="@id/tv_total_price"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:text="抵扣平台货币58元"
+            tools:text="抵扣平台货币58元"
             android:textColor="@color/grey_3"
             android:textSize="12sp" />
 

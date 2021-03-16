@@ -34,7 +34,7 @@ import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
-import com.pinnoocle.royalstarshop.home.activity.CommentActivity;
+import com.pinnoocle.royalstarshop.home.activity.MessageActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsListActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsVideoDetailActivity;
@@ -458,7 +458,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_comment:
-                Intent intent1 = new Intent(getContext(), CommentActivity.class);
+                Intent intent1 = new Intent(getContext(), MessageActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.tv_search:

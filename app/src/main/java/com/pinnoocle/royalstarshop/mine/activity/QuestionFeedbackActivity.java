@@ -29,6 +29,7 @@ import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.common.Type;
 import com.pinnoocle.royalstarshop.event.TagRefleshEvent;
 import com.pinnoocle.royalstarshop.home.activity.TaskBigImgActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
@@ -325,6 +326,10 @@ public class QuestionFeedbackActivity extends BaseActivity {
                 }
                 if (TextUtils.isEmpty(edPhone.getText().toString())) {
                     ToastUtils.showToast("请输入手机号码");
+                    return;
+                }
+                if (flowlayout.getSelectedList().size()==0) {
+                    ToastUtils.showToast("请选中反馈问题类型");
                     return;
                 }
                 BackTypeModel.DataBean.TypeBean typeBean = (BackTypeModel.DataBean.TypeBean) flowlayout.getAdapter().getItem(flowlayout.getSelectedList().iterator().next());

@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.MoneyModel;
@@ -100,8 +101,9 @@ public class RecommendedIncomeActivity extends BaseActivity {
                 startActivity(intent1);
                 break;
             case R.id.tv_withdrawal:
-                Intent intent2 = new Intent(this, WithdrawalActivity.class);
-                startActivity(intent2);
+//                Intent intent2 = new Intent(this, WithdrawalActivity.class);
+//                startActivity(intent2);
+                ToastUtils.showToast("暂未开放");
                 break;
         }
     }

@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.library.AutoFlowLayout;
@@ -176,14 +178,27 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
                             .hideSoftInputFromWindow(
                                     getWindow().getDecorView().getWindowToken(),
                                     InputMethodManager.HIDE_NOT_ALWAYS);
-                    search();
+                    if (etHomeSearch.getText().toString().equals("")) {
+                        ToastUtils.showToast("搜索内容不能为空");
+                    } else {
+                        ((InputMethodManager) etHomeSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                                .hideSoftInputFromWindow(
+                                        getWindow().getDecorView().getWindowToken(),
+                                        InputMethodManager.HIDE_NOT_ALWAYS);
+                        MyApp.getInstance().getDaoSession().getHistoryBeanDao().queryBuilder().where(HistoryBeanDao.Properties.Name.eq(etHomeSearch.getText().toString())).buildDelete().executeDeleteWithoutDetachingEntities();
+                        HistoryBean history = new HistoryBean();
+                        history.setName(etHomeSearch.getText().toString());
+                        MyApp.getInstance().getDaoSession().getHistoryBeanDao().insert(history);
+                        llHistory.setVisibility(View.GONE);
+                        llContent.setVisibility(View.VISIBLE);
+                        search();}
                     return true;
                 }
                 return false;
             }
         });
 
-
+        recycleView.setLayoutManager(new GridLayoutManager(this,2));
         goodsAdapter = new GoodsAdapter(this);
         recycleView.setAdapter(goodsAdapter);
         refresh.setOnRefreshLoadMoreListener(this);
@@ -237,12 +252,11 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
                     }
                     if (dataBeanList.size() == 0 && goodsListsModel.getData().getList().getData().size() == 0) {
                         rlEmpty.setVisibility(View.VISIBLE);
-                        recycleView.setVisibility(View.GONE);
                     } else {
                         rlEmpty.setVisibility(View.GONE);
-                        recycleView.setVisibility(View.VISIBLE);
                         dataBeanList.addAll(goodsListsModel.getData().getList().getData());
                         goodsAdapter.setData(dataBeanList);
+                        goodsAdapter.notifyDataSetChanged();
                     }
 
                 }

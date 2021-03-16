@@ -11,6 +11,9 @@
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
+    <queries>
+        <package android:name="com.tencent.mm" />
+    </queries>
 
     <application
         android:name=".MyApp"
@@ -40,7 +43,7 @@
         <activity android:name=".mine.activity.PersonalActivity" />
         <activity android:name=".mine.activity.SettingActivity" />
         <activity android:name=".vip.VipRenewActivity" />
-        <activity android:name=".home.activity.CommentActivity" />
+        <activity android:name=".home.activity.MessageActivity" />
         <activity android:name=".home.activity.SearchActivity" />
         <activity android:name=".video.VideoDetailActivity" />
         <activity android:name=".login.LoginActivity"></activity>

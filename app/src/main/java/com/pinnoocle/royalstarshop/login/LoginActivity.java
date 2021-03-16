@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MainActivity;
@@ -21,6 +22,7 @@ import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.CodeModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.LoginModel;
+import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -138,11 +140,12 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(LoginActivity.this);
-                LoginModel loginModel = (LoginModel) data;
-                if (loginModel.getCode() == 1) {
-                    FastData.setUserId(loginModel.getData().getUser().getUser_id());
-                    FastData.setToken(loginModel.getData().getToken());
-                    if (loginModel.getData().getIs_first() == 1) {
+                StatusModel statusModel = (StatusModel) data;
+                if (statusModel.getCode() == 1) {
+                    LoginModel.DataBean dataBean = new Gson().fromJson(statusModel.getData(), LoginModel.DataBean.class);
+                    FastData.setUserId(dataBean.getUser().getUser_id());
+                    FastData.setToken(dataBean.getToken());
+                    if (dataBean.getIs_first() == 1) {
                         startActivity(new Intent(LoginActivity.this, InvitationCodeActivity.class));
                     }
 //                    else {
@@ -150,7 +153,10 @@ public class LoginActivity extends BaseActivity {
 ////                    }
                     EventBus.getDefault().post("4");
                     finish();
+
                 }
+                ToastUtils.showToast(statusModel.getMsg());
+
             }
         });
     }
@@ -175,6 +181,9 @@ public class LoginActivity extends BaseActivity {
                     ToastUtils.showToast("验证码发送成功");
 //                    ToastUtils.showToast(data1.getData().getCode() + "");
                     getCode();
+                } else {
+                    ToastUtils.showToast(data1.getMsg() + "");
+
                 }
             }
         });

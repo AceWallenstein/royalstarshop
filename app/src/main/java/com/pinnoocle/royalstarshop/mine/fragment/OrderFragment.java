@@ -200,9 +200,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                 StatusModel statusModel = (StatusModel) data;
                 refresh.finishRefresh();
                 if (statusModel.getCode() == 1) {
-                    page = 1;
-                    dataBeanList.clear();
-                    orderList();
+                   EventBus.getDefault().post("order_refresh");
                 }
             }
 
@@ -227,10 +225,8 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                 StatusModel statusModel = (StatusModel) data;
                 refresh.finishRefresh();
                 if (statusModel.getCode() == 1) {
-                    page = 1;
-                    dataBeanList.clear();
-                    orderList();
-                    showOrderCommentDialog(order_ids,order_no);
+                    EventBus.getDefault().post("order_refresh");
+//                    showOrderCommentDialog(order_ids,order_no);
                 }
             }
 
