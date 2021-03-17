@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.OrderDetailAdapter;
@@ -21,6 +21,7 @@ import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
 import org.angmarch.views.NiceSpinner;
 
@@ -32,6 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+
 public class AfterSalesDetailActivity extends BaseActivity {
 
     @BindView(R.id.iv_back)
@@ -40,8 +43,12 @@ public class AfterSalesDetailActivity extends BaseActivity {
     RelativeLayout rlTitle;
     @BindView(R.id.iv_bg)
     ImageView ivBg;
+    @BindView(R.id.iv_mark)
+    ImageView ivMark;
     @BindView(R.id.tv_status)
     TextView tvStatus;
+    @BindView(R.id.ll_status)
+    LinearLayout llStatus;
     @BindView(R.id.tv_time)
     TextView tvTime;
     @BindView(R.id.iv_gps)
@@ -60,40 +67,41 @@ public class AfterSalesDetailActivity extends BaseActivity {
     TextView tvOrderCode1;
     @BindView(R.id.tv_order_code)
     TextView tvOrderCode;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
+    @BindView(R.id.iv_shop)
+    ImageView ivShop;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_goods_pattern)
+    TextView tvGoodsPattern;
+    @BindView(R.id.tv_num)
+    TextView tvNum;
     @BindView(R.id.tv_goods_money)
     TextView tvGoodsMoney;
     @BindView(R.id.tv_goods_freight)
     TextView tvGoodsFreight;
     @BindView(R.id.tv_goods_points)
     TextView tvGoodsPoints;
+    @BindView(R.id.rl_beans)
+    RelativeLayout rlBeans;
     @BindView(R.id.tv_pay_money)
     TextView tvPayMoney;
     @BindView(R.id.after_sales_type)
     TextView afterSalesType;
     @BindView(R.id.after_sales_reason)
     TextView afterSalesReason;
-    @BindView(R.id.ll_after_sales)
-    LinearLayout llAfterSales;
-    @BindView(R.id.nice_spinner)
-    NiceSpinner niceSpinner;
     @BindView(R.id.iv_money)
     ImageView ivMoney;
     @BindView(R.id.rl_money)
     RelativeLayout rlMoney;
-    @BindView(R.id.scrollView)
-    NestedScrollView scrollView;
-    @BindView(R.id.iv_mark)
-    ImageView ivMark;
-    @BindView(R.id.ll_status)
-    LinearLayout llStatus;
+    @BindView(R.id.nice_spinner)
+    NiceSpinner niceSpinner;
     @BindView(R.id.tv_sure)
     TextView tvSure;
-    @BindView(R.id.rl_beans)
-    RelativeLayout rlBeans;
+    @BindView(R.id.ll_after_sales)
+    LinearLayout llAfterSales;
+    @BindView(R.id.scrollView)
+    NestedScrollView scrollView;
     private DataRepository dataRepository;
-    private OrderDetailAdapter adapter;
 
 
     @Override
@@ -112,9 +120,6 @@ public class AfterSalesDetailActivity extends BaseActivity {
         niceSpinner.setTextSize(14);
         List<String> dataset = new LinkedList<>(Arrays.asList("中通快递", "申通快递", "韵达快递"));
         niceSpinner.attachDataSource(dataset);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new OrderDetailAdapter(this);
-        recyclerView.setAdapter(adapter);
 
     }
 
@@ -143,11 +148,11 @@ public class AfterSalesDetailActivity extends BaseActivity {
                 RefundDetailModel refundDetailModel = (RefundDetailModel) data;
                 if (refundDetailModel.getCode() == 1) {
                     tvStatus.setText(refundDetailModel.getData().getDetail().getState_text());
-                    if (refundDetailModel.getData().getDetail().getAddress() != null) {
-                        tvName.setText(refundDetailModel.getData().getDetail().getAddress().getName());
-                        tvPhone.setText(refundDetailModel.getData().getDetail().getAddress().getPhone());
-                        tvAddress.setText(refundDetailModel.getData().getDetail().getAddress().getRegion().toString() + refundDetailModel.getData().getDetail().getAddress().getDetail());
-                    }
+//                    if (refundDetailModel.getData().getDetail().getAddress() != null) {
+//                        tvName.setText(refundDetailModel.getData().getDetail().getAddress().getName());
+//                        tvPhone.setText(refundDetailModel.getData().getDetail().getAddress().getPhone());
+//                        tvAddress.setText(refundDetailModel.getData().getDetail().getAddress().getRegion().toString() + refundDetailModel.getData().getDetail().getAddress().getDetail());
+//                    }
                     tvGoodsMoney.setText("￥" + refundDetailModel.getData().getDetail().getOrder_goods().getTotal_price());
 //                    tvGoodsFreight.setText("￥"+refundDetailModel.getData().getDetail().get());
                     tvPayMoney.setText("￥" + refundDetailModel.getData().getDetail().getRefund_money());
@@ -156,11 +161,17 @@ public class AfterSalesDetailActivity extends BaseActivity {
                     tvOrderTime.setText(refundDetailModel.getData().getDetail().getOrder_master().getCreate_time());
                     afterSalesType.setText(refundDetailModel.getData().getDetail().getType().getText());
                     afterSalesReason.setText(refundDetailModel.getData().getDetail().getApply_desc());
+                    RefundDetailModel.DataBean.DetailBean.OrderGoodsBean order_goods = refundDetailModel.getData().getDetail().getOrder_goods();
+                    Glide.with(mContext).load(order_goods.getImage().getFile_path()).apply(bitmapTransform(new GlideRoundTransform(mContext))).into(ivShop);
+                    tvTitle.setText(order_goods.getGoods_name());
+                    tvGoodsPattern.setText(order_goods.getGoods_attr());
+                    tvNum.setText("x" + order_goods.getTotal_num());
 
                     if (refundDetailModel.getData().getDetail().getState_text().equals("等待审核中")) {
                         llAfterSales.setVisibility(View.GONE);
                         rlBeans.setVisibility(View.GONE);
                     }
+
 
                     //                    switch (refundDetailModel.getData().getDetail().getStatus().getValue()) {
 //                        case 0:     //进行中
