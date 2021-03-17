@@ -8,15 +8,19 @@ import com.ihsanbal.logging.Level;
 import com.ihsanbal.logging.LoggingInterceptor;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.BuildConfig;
+import com.pinnoocle.royalstarshop.utils.FastData;
 
 import java.io.IOException;
+import java.net.Proxy;
 import java.util.concurrent.TimeUnit;
 
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.internal.platform.Platform;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -62,29 +66,48 @@ public class RetrofitHelper {
 
         mRetrofit = new Retrofit.Builder()
                 .baseUrl("http://gsyp.vtui365.com/")
-                .client(getClient().build())
+                .client(client().build())
                 //.addConverterFactory(SimpleXmlConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }
 
-    private OkHttpClient.Builder getClient() {
+//    private OkHttpClient.Builder getClient() {
+//        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+//        httpClientBuilder.connectTimeout(15, TimeUnit.SECONDS);
+//        //add log record
+//        if (BuildConfig.DEBUG) {
+//            //打印网络请求日志
+//            LoggingInterceptor httpLoggingInterceptor = new LoggingInterceptor.Builder()
+//                    .loggable(BuildConfig.DEBUG)
+//                    .setLevel(Level.BASIC)
+//                    .log(Platform.INFO)
+//                    .request("请求")
+//                    .response("响应")
+//                    .build();
+//            httpClientBuilder.addInterceptor(httpLoggingInterceptor);
+////            httpClientBuilder.addInterceptor(new TokenInterceptor(mContext));
+//        }
+//        return httpClientBuilder;
+//    }
+
+    public static OkHttpClient.Builder client() {
+
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
-        httpClientBuilder.connectTimeout(15, TimeUnit.SECONDS);
-        //add log record
-        if (BuildConfig.DEBUG) {
-            //打印网络请求日志
-            LoggingInterceptor httpLoggingInterceptor = new LoggingInterceptor.Builder()
-                    .loggable(BuildConfig.DEBUG)
-                    .setLevel(Level.BASIC)
-                    .log(Platform.INFO)
-                    .request("请求")
-                    .response("响应")
-                    .build();
-            httpClientBuilder.addInterceptor(httpLoggingInterceptor);
-//            httpClientBuilder.addInterceptor(new TokenInterceptor(mContext));
-        }
+
+        httpClientBuilder.connectTimeout(30, TimeUnit.SECONDS);
+        httpClientBuilder.writeTimeout(30, TimeUnit.SECONDS);
+        httpClientBuilder.readTimeout(30, TimeUnit.SECONDS);
+        httpClientBuilder.proxy(Proxy.NO_PROXY);
+
+
+        httpClientBuilder.addInterceptor(
+                new HttpLoggingInterceptor().setLevel(
+                        HttpLoggingInterceptor.Level.BODY
+                )
+        );
+
         return httpClientBuilder;
     }
 

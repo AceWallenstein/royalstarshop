@@ -112,6 +112,8 @@ public class VipFragment extends BaseFragment {
     RecyclerView recycleView;
     @BindView(R.id.tv_gold_detail)
     TextView tvGoldDetail;
+    @BindView(R.id.tv_vip_title)
+    TextView tvVipTitle;
     private DataRepository dataRepository;
     private boolean isSelect = true;
     private ImageView iv_ali_mark;
@@ -231,7 +233,10 @@ public class VipFragment extends BaseFragment {
                         tvTitle.setText(vipInfoModel.getData().getVip_goods().getGoods_name());
                         tvGold.setText(vipInfoModel.getData().getVip_goods_point() + " 金豆");
                         tvDrawLine.setText("¥" + vipInfoModel.getData().getVip_goods_money());
+
+                        tvVipTitle.setText("开通会员");
                     } else {
+                        tvVipTitle.setText("会员中心");
                         nestedScrollView1.setVisibility(View.VISIBLE);
                         nestedScrollView2.setVisibility(View.GONE);
                         if (TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getAvatarUrl())) {
@@ -299,7 +304,7 @@ public class VipFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.iv_grey_circle, R.id.open_vip,R.id.tv_gold_detail})
+    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_gold_detail:

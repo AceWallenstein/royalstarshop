@@ -56,6 +56,16 @@ public class VipInfoModel {
         private VipGoodsBean vip_goods;
         private int vip_goods_money;
         private int vip_goods_point;
+        private String next_time;
+
+        public String getNext_time() {
+            return next_time;
+        }
+
+        public void setNext_time(String next_time) {
+            this.next_time = next_time;
+        }
+
         private UserInfoBean userInfo;
 
         public int getTime() {

@@ -57,6 +57,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
+                        android:id="@+id/iv_crown"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/crown" />
@@ -67,7 +68,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="8dp"
-                        android:src="@mipmap/del_1" />
+                  />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -76,25 +77,28 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:text="纯白的猪"
+                        tools:text="纯白的猪"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/tv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:text="还有7天到期"
+                        tools:text="还有7天到期"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_vip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -132,12 +136,13 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_product"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="广视优品尊享会员1个月"
                         android:textColor="#A5A5A5"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="广视优品尊享会员1个月" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -162,21 +167,22 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/tv_drawLine"
-                        android:text="99元("
+                        android:layout_toLeftOf="@id/tv_price_drawLine"
+                        tools:text="99元("
                         android:textColor="#A5A5A5"
                         android:textSize="14sp" />
 
                     <com.pinnoocle.royalstarshop.widget.DrawLineTextView
-                        android:id="@+id/tv_drawLine"
+                        android:id="@+id/tv_price_drawLine"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@id/tv_right"
-                        android:text="原价199元"
                         android:textColor="#A5A5A5"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        tools:text="原价199元" />
 
                     <TextView
                         android:id="@+id/tv_right"
@@ -210,10 +216,11 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_renew_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="2021-03-01"
+                        tools:text="2021-03-01"
                         android:textColor="#A5A5A5"
                         android:textSize="14sp" />
                 </RelativeLayout>
@@ -360,6 +367,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rl_wechat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -382,15 +390,18 @@
                         android:textSize="13sp" />
 
                     <ImageView
+                        android:id="@+id/iv_wx_mark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="15dp"
-                        android:src="@mipmap/grey_circle" />
+                        android:src="@mipmap/juice_circle" />
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/rl_ali"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -413,16 +424,18 @@
                         android:textSize="13sp" />
 
                     <ImageView
+                        android:id="@+id/iv_ali_mark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:padding="15dp"
-                        android:src="@mipmap/juice_circle" />
+                        android:src="@mipmap/grey_circle" />
                 </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center">

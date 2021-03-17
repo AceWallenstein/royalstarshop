@@ -42,6 +42,7 @@ import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
 import com.pinnoocle.royalstarshop.widget.TagsGridView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -291,12 +292,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                         ivCrown.setVisibility(View.VISIBLE);
                         tvVip3.setText("尊享会员");
                         tvVip4.setText("专属特权 超值返豆");
-                        if (userDetailModel.getData().getUserInfo().getIs_exprire() == 1) {
-                            tvVip2.setText("立即续费");
-                            tvVip2.setVisibility(View.VISIBLE);
-                        } else {
-                            tvVip2.setVisibility(View.GONE);
-                        }
+                        tvVip2.setText("立即续费");
                         ivVip.setVisibility(View.VISIBLE);
                     } else {
                         ivVip.setVisibility(View.GONE);
@@ -439,8 +435,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             case R.id.rl_recommend:
                 if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
                     Intent intent2 = new Intent(getContext(), RecommendedPosterActivity.class);
-                    intent2.putExtra("avatar",userDetailModel.getData().getUserInfo().getAvatarUrl());
-                    intent2.putExtra("name",userDetailModel.getData().getUserInfo().getNickName());
+                    intent2.putExtra("avatar", userDetailModel.getData().getUserInfo().getAvatarUrl());
+                    intent2.putExtra("name", userDetailModel.getData().getUserInfo().getNickName());
                     startActivity(intent2);
                 } else {
                     ToastUtils.showToast("会员可查看");
@@ -478,7 +474,11 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 startActivity(new Intent(getContext(), ScanListActivity.class));
                 break;
             case R.id.tv_vip_2:
-                EventBus.getDefault().post("5");
+                if (tvVip2.getText().toString().equals("立即续费")) {
+                    startActivity(new Intent(getContext(), VipRenewActivity.class));
+                } else {
+                    EventBus.getDefault().post("5");
+                }
                 break;
         }
     }

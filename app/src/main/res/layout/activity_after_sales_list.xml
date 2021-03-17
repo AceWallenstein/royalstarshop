@@ -40,10 +40,11 @@
 
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_below="@id/rl_title"
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp">
+       >
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"

@@ -141,7 +141,7 @@ public class OrderPayActivity extends BaseActivity {
                 break;
             case R.id.rl_ali:
                 setPayMode(ivAliMark,"ali_pay");
-                payType = "10";
+//                payType = "10";
                 break;
             case R.id.rl_wechat:
                 payType = "20";
@@ -163,6 +163,7 @@ public class OrderPayActivity extends BaseActivity {
             Intent intent = new Intent(this, PaySuccessActivity.class);
             intent.putExtra("type", "1");
             startActivity(intent);
+            finish();
         }
         if (event.equals("pay_cancel")) {
 //            Intent intent = new Intent(mContext, OrderDetailActivity.class);
