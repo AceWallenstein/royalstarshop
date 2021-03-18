@@ -146,7 +146,7 @@ public class BaseActivity extends AppCompatActivity {
         mLayoutParams.y = 0;
     }
 
-    public void initWhite() {
+    public void initWhite1() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -170,6 +170,9 @@ public class BaseActivity extends AppCompatActivity {
 
     public void initRed() {
         StatusBarUtils.setColor(this.getWindow(), getResources().getColor(R.color.light_red));
+    }
+    public void initWhite() {
+        StatusBarUtils.setColor(this.getWindow(), getResources().getColor(R.color.white));
     }
 
     public void initGrey() {

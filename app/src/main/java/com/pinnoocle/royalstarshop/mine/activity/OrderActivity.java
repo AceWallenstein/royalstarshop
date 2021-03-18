@@ -14,6 +14,7 @@ import com.pinnoocle.royalstarshop.adapter.FragmentAdapter;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.common.Type;
 import com.pinnoocle.royalstarshop.mine.fragment.OrderFragment;
+import com.pinnoocle.royalstarshop.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;

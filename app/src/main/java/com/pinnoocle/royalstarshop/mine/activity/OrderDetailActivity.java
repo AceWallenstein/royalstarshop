@@ -165,7 +165,7 @@ public class OrderDetailActivity extends BaseActivity {
                     tvPhone.setText(orderDetailModel.getData().getOrder().getAddress().getPhone());
                     tvAddress.setText(orderDetailModel.getData().getOrder().getAddress().getRegion().toString() + orderDetailModel.getData().getOrder().getAddress().getDetail());
                     tvGoodsMoney.setText("￥" + orderDetailModel.getData().getOrder().getTotal_price());
-//                    tvGoodsFreight.setText("￥"+orderDetailModel.getData().getOrder().getf());
+                    tvGoodsFreight.setText("￥"+orderDetailModel.getData().getOrder().getExpress_price());
                     tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price());
                     tvGoodsPoints.setText("￥" + orderDetailModel.getData().getOrder().getPoints_money());
                     tvOrderCode.setText(orderDetailModel.getData().getOrder().getOrder_no());

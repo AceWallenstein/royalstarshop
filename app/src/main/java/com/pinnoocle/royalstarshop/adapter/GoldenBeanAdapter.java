@@ -41,7 +41,7 @@ public class GoldenBeanAdapter extends BaseAdapter<PointsModel.DataBeanX.ListBea
             holder.tvMoney.setText("+" + mDatas.get(position).getValue());
             holder.tvMoney.setTextColor(0xff111111);
         } else {
-            holder.tvMoney.setText("-" + mDatas.get(position).getValue());
+            holder.tvMoney.setText(mDatas.get(position).getValue());
             holder.tvMoney.setTextColor(0xffFF2329);
         }
         holder.tvTime.setText(mDatas.get(position).getCreate_time());
