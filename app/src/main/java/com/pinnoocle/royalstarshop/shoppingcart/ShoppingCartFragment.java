@@ -207,6 +207,7 @@ public class ShoppingCartFragment extends BaseFragment {
                 ViewLoading.dismiss(getContext());
                 OrderCartModel orderCartModel = (OrderCartModel) data;
                 if (orderCartModel.getCode() == 1) {
+                    EventBus.getDefault().post(new ShopCartRefreshEvent());
                     Intent intent = new Intent(getContext(), OrderConfirmActivity.class);
                     intent.putExtra("sureOrderData", orderCartModel.getData());
                     intent.putExtra("cart_ids", cart_ids);

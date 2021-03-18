@@ -29,6 +29,7 @@ import com.pinnoocle.royalstarshop.bean.OrderPayModel;
 import com.pinnoocle.royalstarshop.bean.PointsModel;
 import com.pinnoocle.royalstarshop.bean.PosterModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
+import com.pinnoocle.royalstarshop.bean.RecommendSearchModel;
 import com.pinnoocle.royalstarshop.bean.RefundDetailModel;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
@@ -284,6 +285,9 @@ public interface RetrofitService {
     //售后详情
     @POST("api/user.refund/detail")
     Observable<RefundDetailModel> refundDetail(@Body LoginBean loginBean);
+    //推荐搜索
+    @POST("api/index/recommendSearch")
+    Observable<RecommendSearchModel> recommendSearch(@Body LoginBean loginBean);
 
 
 }

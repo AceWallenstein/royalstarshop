@@ -85,7 +85,17 @@ public class SureOrderModel {
         private boolean intra_region;
         private boolean is_allow_points;
         private int is_use_points;
-        private int points_money;
+        private double points_money;
+        private double user_points;
+
+        public double getUser_points() {
+            return user_points;
+        }
+
+        public void setUser_points(double user_points) {
+            this.user_points = user_points;
+        }
+
         private int points_bonus;
         private int pay_type;
         private SettingBean setting;
@@ -187,11 +197,11 @@ public class SureOrderModel {
             this.is_use_points = is_use_points;
         }
 
-        public int getPoints_money() {
+        public double getPoints_money() {
             return points_money;
         }
 
-        public void setPoints_money(int points_money) {
+        public void setPoints_money(double points_money) {
             this.points_money = points_money;
         }
 

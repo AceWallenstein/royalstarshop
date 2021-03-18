@@ -135,7 +135,7 @@ public class VipRenewActivity extends BaseActivity {
                         Glide.with(mContext).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
                     }
                     tvTime.setText("还有"+vipInfoModel.getData().getTime()+"天到期");
-                    tvRenewTime.setText(vipInfoModel.getData().getNext_time());
+                    tvRenewTime.setText(vipInfoModel.getData().getUserInfo().getNext_time());
                     tvProduct.setText(vipInfoModel.getData().getTitle());
                     tvPriceDrawLine.setText("原价" + vipInfoModel.getData().getMoney() + "元");
                     if (vipInfoModel.getData().getUserInfo().getIsVip() == 0) {

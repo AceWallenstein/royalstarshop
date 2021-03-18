@@ -255,12 +255,14 @@ public class DialogShopCar extends BottomPopupView implements View.OnClickListen
                 ViewLoading.dismiss(context);
                 SureOrderModel sureOrderModel = (SureOrderModel) data;
                 if (sureOrderModel.getCode() == 1) {
+                    EventBus.getDefault().post(new ShopCartRefreshEvent());
                     Intent intent = new Intent(context, OrderConfirmActivity.class);
                     intent.putExtra("sureOrderData", sureOrderModel.getData());
                     intent.putExtra("goods_id", dataBean.getDetail().getGoods_id() + "");
                     intent.putExtra("goods_sku_id", goods_sku_id + "");
                     intent.putExtra("goods_num", numberButton.getNumber() + "");
                     context.startActivity(intent);
+
                 }
 //                ToastUtils.showToast(sureOrderModel.getMsg());
             }

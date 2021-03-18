@@ -56,15 +56,9 @@ public class VipInfoModel {
         private VipGoodsBean vip_goods;
         private int vip_goods_money;
         private int vip_goods_point;
-        private String next_time;
 
-        public String getNext_time() {
-            return next_time;
-        }
 
-        public void setNext_time(String next_time) {
-            this.next_time = next_time;
-        }
+
 
         private UserInfoBean userInfo;
 
@@ -1361,7 +1355,17 @@ public class VipInfoModel {
              * birth : 2011-03-10
              * address_default : {"address_id":13971,"name":"喝喜酒","phone":"13828465588","province_id":1168,"city_id":1209,"region_id":1210,"district":"","detail":"图图","longitude":"","latitude":"","user_id":19535,"region":{"province":"福建省","city":"泉州市","region":"鲤城区"}}
              * grade : null
+             *
              */
+            private String next_time;
+
+            public String getNext_time() {
+                return next_time;
+            }
+
+            public void setNext_time(String next_time) {
+                this.next_time = next_time;
+            }
 
             private int user_id;
             private String nickName;

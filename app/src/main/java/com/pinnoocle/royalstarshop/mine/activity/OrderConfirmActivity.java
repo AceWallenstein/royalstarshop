@@ -25,6 +25,7 @@ import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -36,6 +37,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,8 +123,9 @@ public class OrderConfirmActivity extends BaseActivity {
                 tvName.setText("暂无地址");
                 tvAddress.setText("请选择配送地址");
             }
+            tvDiscount.setText("抵扣平台货币"+sureOrderData.getPoints_money()+"元");
             tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
-            tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getPoints_money() + "元");
+            tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getUser_points() + "元");
             OrderConfirmAdapter adapter = new OrderConfirmAdapter(this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter.setData(sureOrderData.getGoods_list());
@@ -186,13 +189,14 @@ public class OrderConfirmActivity extends BaseActivity {
                 SureOrderModel sureOrderModel = (SureOrderModel) data;
                 sureOrderData = sureOrderModel.getData();
                 if (sureOrderModel.getCode() == 1) {
-
+                    tvDiscount.setText("抵扣平台货币"+sureOrderData.getPoints_money()+"元");
                     tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
                     tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getPoints_money() + "元");
                     OrderConfirmAdapter adapter = new OrderConfirmAdapter(mContext);
                     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                     adapter.setData(sureOrderData.getGoods_list());
                     recyclerView.setAdapter(adapter);
+                    EventBus.getDefault().post(new ShopCartRefreshEvent());
 //                ToastUtils.showToast(sureOrderModel.getMsg());
                 }
             }
@@ -218,17 +222,24 @@ public class OrderConfirmActivity extends BaseActivity {
                 OrderCartModel orderCartModel = (OrderCartModel) data;
                 sureOrderData = orderCartModel.getData();
                 if (orderCartModel.getCode() == 1) {
-
+                    tvDiscount.setText("抵扣平台货币" + format(sureOrderData.getPoints_money() + "元"));
                     tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
-                    tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getPoints_money() + "元");
+                    tvPointsMoney.setText("剩余可用平台货币" + format(sureOrderData.getUser_points() + "元"));
                     OrderConfirmAdapter adapter = new OrderConfirmAdapter(mContext);
                     recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
                     adapter.setData(sureOrderData.getGoods_list());
                     recyclerView.setAdapter(adapter);
+                    EventBus.getDefault().post(new ShopCartRefreshEvent());
                 }
 //                ToastUtils.showToast(sureOrderModel.getMsg());
             }
         });
+    }
+
+    private String format(String result){
+        DecimalFormat r=new DecimalFormat();
+        r.applyPattern("#0.00");//保留小数位数，不足会补零
+        return r.format(result);
     }
 
 

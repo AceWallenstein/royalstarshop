@@ -101,6 +101,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick({R.id.ll_tab_home, R.id.ll_tab_video, R.id.ll_tab_vip, R.id.ll_tab_shop_car, R.id.ll_tab_mine})
     public void onViewClicked(View view) {
+        StatusBarUtils.setColor(this.getWindow(), getResources().getColor(R.color.transparent));
         switch (view.getId()) {
             case R.id.ll_tab_home:
                 initTransparent();
@@ -122,6 +123,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.ll_tab_shop_car:
                 initWhite();
+                StatusBarUtils.setColor(this.getWindow(), getResources().getColor(R.color.white));
                 tabAdapter.setCurrentFragment(3);
                 if (TextUtils.isEmpty(FastData.getToken())) {
                    new Handler().postDelayed(new Runnable() {

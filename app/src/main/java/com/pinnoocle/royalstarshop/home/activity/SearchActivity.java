@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.library.AutoFlowLayout;
@@ -32,6 +31,7 @@ import com.pinnoocle.royalstarshop.bean.CartAddModel;
 import com.pinnoocle.royalstarshop.bean.GoodsListsModel;
 import com.pinnoocle.royalstarshop.bean.HistoryBean;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.RecommendSearchModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
@@ -104,6 +104,14 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
     LinearLayout llContent;
     @BindView(R.id.rl_empty)
     RelativeLayout rlEmpty;
+    @BindView(R.id.rl_recommend)
+    RelativeLayout rlRecommend;
+    @BindView(R.id.flow_layout_1)
+    AutoFlowLayout flowLayout1;
+    @BindView(R.id.ll_recommend)
+    LinearLayout llRecommend;
+    @BindView(R.id.iv_empty)
+    ImageView ivEmpty;
     private List<HistoryBean> historyList = new ArrayList<>();
     private boolean countFlag = false;
     private boolean priceFlag = false;
@@ -117,6 +125,7 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
     private int page = 1;
     private String sortType = "all";
     private String orderType = "asc ";
+    private List<RecommendSearchModel.DataBean.TypeBean> type;
 
 
     @Override
@@ -191,14 +200,16 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
                         MyApp.getInstance().getDaoSession().getHistoryBeanDao().insert(history);
                         llHistory.setVisibility(View.GONE);
                         llContent.setVisibility(View.VISIBLE);
-                        search();}
+                        llRecommend.setVisibility(View.GONE);
+                        search();
+                    }
                     return true;
                 }
                 return false;
             }
         });
 
-        recycleView.setLayoutManager(new GridLayoutManager(this,2));
+        recycleView.setLayoutManager(new GridLayoutManager(this, 2));
         goodsAdapter = new GoodsAdapter(this);
         recycleView.setAdapter(goodsAdapter);
         refresh.setOnRefreshLoadMoreListener(this);
@@ -223,6 +234,7 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
         dataRepository = Injection.dataRepository(this);
         switchPage(0);
         goodsLists();
+        recommendSearch();
     }
 
     private void goodsLists() {
@@ -263,6 +275,49 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
             }
         });
     }
+
+    private void recommendSearch() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        dataRepository.recommendSearch(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                RecommendSearchModel recommendSearchModel = (RecommendSearchModel) data;
+                if (recommendSearchModel.getCode() == 1) {
+                    type = recommendSearchModel.getData().getType();
+                    flowLayout1.setAdapter(new FlowAdapter(type) {
+                        @Override
+                        public View getView(int position) {
+                            View item = LayoutInflater.from(SearchActivity.this).inflate(R.layout.recommend_item, null);
+                            TextView tvAttrTag = (TextView) item.findViewById(R.id.tv_attr_tag);
+                            ImageView iv_fire = item.findViewById(R.id.iv_fire);
+                            if (position == 0) {
+                                iv_fire.setVisibility(View.VISIBLE);
+                            }else {
+                                iv_fire.setVisibility(View.GONE);
+                            }
+                            tvAttrTag.setText(type.get(position).getTitle());
+                            return item;
+                        }
+                    });
+                }
+                flowLayout1.setOnItemClickListener(new AutoFlowLayout.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int i, View view) {
+                        etHomeSearch.setText(type.get(i).getTitle());
+                    }
+                });
+
+
+            }
+        });
+    }
+
 
     private void cartAdd(int goods_id, int goods_sku_id, int goods_num) {
         ViewLoading.show(this);
@@ -369,6 +424,7 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
                     history.setName(etHomeSearch.getText().toString());
                     MyApp.getInstance().getDaoSession().getHistoryBeanDao().insert(history);
                     llHistory.setVisibility(View.GONE);
+                    llRecommend.setVisibility(View.GONE);
                     llContent.setVisibility(View.VISIBLE);
                     search();
                 }
@@ -410,6 +466,7 @@ public class SearchActivity extends BaseActivity implements AutoFlowLayout.OnIte
         history.setName(etHomeSearch.getText().toString());
         MyApp.getInstance().getDaoSession().getHistoryBeanDao().insert(history);
         llHistory.setVisibility(View.GONE);
+        rlRecommend.setVisibility(View.GONE);
     }
 
     @Override

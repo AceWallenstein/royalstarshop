@@ -122,6 +122,34 @@
             android:textSize="14sp" />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="推荐搜索"
+                android:textColor="#111111"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <com.example.library.AutoFlowLayout
+            android:id="@+id/flow_layout_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <LinearLayout
         android:visibility="gone"
         android:orientation="vertical"
         android:layout_width="match_parent"
