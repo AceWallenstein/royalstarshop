@@ -114,6 +114,8 @@ public class VipFragment extends BaseFragment {
     TextView tvGoldDetail;
     @BindView(R.id.tv_vip_title)
     TextView tvVipTitle;
+    @BindView(R.id.tv_vip_text)
+    TextView tvVipText;
     private DataRepository dataRepository;
     private boolean isSelect = true;
     private ImageView iv_ali_mark;
@@ -233,6 +235,7 @@ public class VipFragment extends BaseFragment {
                         tvTitle.setText(vipInfoModel.getData().getVip_goods().getGoods_name());
                         tvGold.setText(vipInfoModel.getData().getVip_goods_point() + " 金豆");
                         tvDrawLine.setText("¥" + vipInfoModel.getData().getVip_goods_money());
+                        tvVipText.setText(vipInfoModel.getData().getVip_goods_text());
 
                         tvVipTitle.setText("开通会员");
                     } else {

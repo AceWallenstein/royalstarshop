@@ -197,6 +197,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 }
             }
         });
+
     }
 
     private void initData() {

@@ -137,7 +137,14 @@ public class VipRenewActivity extends BaseActivity {
                     tvTime.setText("还有"+vipInfoModel.getData().getTime()+"天到期");
                     tvRenewTime.setText(vipInfoModel.getData().getUserInfo().getNext_time());
                     tvProduct.setText(vipInfoModel.getData().getTitle());
-                    tvPriceDrawLine.setText("原价" + vipInfoModel.getData().getMoney() + "元");
+                    if(vipInfoModel.getData().getDiscount_money().equals("0")){
+                        tvRight.setText(vipInfoModel.getData().getMoney() + "元");
+                        tvPriceDrawLine.setVisibility(View.GONE);
+                        tvPrice.setVisibility(View.GONE);
+                    }else {
+                        tvPrice.setText(vipInfoModel.getData().getMoney() + "元(");
+                        tvPriceDrawLine.setText("原价" + vipInfoModel.getData().getMoney() + "元");
+                    }
                     if (vipInfoModel.getData().getUserInfo().getIsVip() == 0) {
                         ivCrown.setVisibility(View.GONE);
                         ivVip.setVisibility(View.GONE);

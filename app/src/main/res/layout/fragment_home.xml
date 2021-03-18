@@ -111,6 +111,7 @@
                         android:layout_height="150dp" />
 
                     <LinearLayout
+                        android:id="@+id/ll_one"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
@@ -136,8 +137,33 @@
                                 android:background="@drawable/bg_red_2" />
                         </RelativeLayout>
                     </LinearLayout>
+                    <RelativeLayout
+                        android:id="@+id/rl_banner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv_banner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                        <ImageView
+                            android:id="@+id/iv_vip_goods"
+                            android:layout_width="60dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@mipmap/product" />
+
+
+                    </RelativeLayout>
+
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
 
@@ -145,15 +171,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_1"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="-10dp"
-                            android:background="@mipmap/go_background">
-
-                        </RelativeLayout>
 
                         <TextView
                             android:id="@+id/tv_1"
@@ -171,7 +188,7 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:id="@+id/iv_vip_goods"
+                            android:id="@+id/iv_vip_goods_1"
                             android:layout_width="60dp"
                             android:layout_height="50dp"
                             android:layout_marginStart="15dp"
@@ -213,6 +230,7 @@
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_marginStart="10dp"
@@ -297,4 +315,29 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <com.dd.ShadowLayout
+        android:visibility="gone"
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="500dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginBottom="14dp"
+        app:sl_cornerRadius="68dp"
+        app:sl_dx="0dp"
+        app:sl_dy="0dp"
+        app:sl_shadowColor="#40125831"
+        app:sl_shadowRadius="0dp">
+
+        <ImageView
+            android:id="@+id/upload_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/fab"
+            android:gravity="center"
+            tools:ignore="ContentDescription" />
+
+    </com.dd.ShadowLayout>
+
 </RelativeLayout>

@@ -82,6 +82,7 @@ public class SettingActivity extends BaseActivity {
             case R.id.tv_quit:
                 FastData.clear();
                 EventBus.getDefault().post("6");
+                EventBus.getDefault().post("4");
                 finish();
 //                Intent intent4 = new Intent(SettingActivity.this, LoginActivity.class);
 //                intent4.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

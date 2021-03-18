@@ -344,13 +344,13 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_vip_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_name"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/iv_goods_pic"
-                    android:text="这是会员商品文案"
                     android:textColor="#CB9764"
                     android:textSize="12sp" />
 

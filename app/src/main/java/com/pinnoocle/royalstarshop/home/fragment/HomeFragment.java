@@ -1,6 +1,8 @@
 package com.pinnoocle.royalstarshop.home.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.dd.ShadowLayout;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.FragmentAdapter;
@@ -34,10 +38,10 @@ import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
-import com.pinnoocle.royalstarshop.home.activity.MessageActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsListActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsVideoDetailActivity;
+import com.pinnoocle.royalstarshop.home.activity.MessageActivity;
 import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
@@ -57,6 +61,8 @@ import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -106,6 +112,18 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     SmartRefreshLayout refresh;
     @BindView(R.id.iv_vip_goods)
     ImageView ivVipGoods;
+    @BindView(R.id.iv_go)
+    ImageView ivGo;
+    @BindView(R.id.upload_event)
+    ImageView uploadEvent;
+    @BindView(R.id.fab)
+    ShadowLayout fab;
+    @BindView(R.id.rl_banner)
+    RelativeLayout rlBanner;
+    @BindView(R.id.iv_vip_goods_1)
+    ImageView ivVipGoods1;
+    @BindView(R.id.iv_banner)
+    ImageView ivBanner;
     private List<String> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
@@ -123,19 +141,33 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     }
 
     @Override
-    protected void initView() {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void initView() {
+        dataRepository = Injection.dataRepository(getContext());
         initGoodMenus();
         initRv1();
         initRv2();
         initRv3();
         refresh.setOnRefreshListener(this);
+        vipInfo();
     }
 
 
     @Override
     protected void initData() {
-        dataRepository = Injection.dataRepository(getContext());
+
         index();
         banner();
         home();
@@ -233,6 +265,9 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 VipGoodsModel vipGoodsModel = (VipGoodsModel) data;
                 if (vipGoodsModel.getCode() == 1) {
                     Glide.with(getContext()).load(vipGoodsModel.getData().getVip_goods().getGoods_image()).into(ivVipGoods);
+                    Glide.with(getContext()).load(vipGoodsModel.getData().getVip_banner().getFile_path()).into(ivBanner);
+
+
                 }
             }
         });
@@ -242,7 +277,6 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     @Override
     public void onResume() {
         super.onResume();
-//        showDialog();
     }
 
     private void showDialog() {
@@ -253,13 +287,22 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 .setScreenWidthAspect(getContext(), 0.7f)
                 .setDimAmount(0.6f)     //设置弹窗背景透明度(0-1f)
                 .setCancelableOutside(false)     //弹窗在界面外是否可以点击取消
-                .addOnClickListener(R.id.iv_close)   //添加进行点击控件的id
+                .addOnClickListener(R.id.iv_close, R.id.go_vip)   //添加进行点击控件的id
                 .setOnViewClickListener(new OnViewClickListener() {
                     @Override
                     public void onViewClick(BindViewHolder viewHolder, View view, TDialog tDialog) {
                         switch (view.getId()) {
                             case R.id.iv_close:
                                 tDialog.dismiss();
+                                fab.setVisibility(View.VISIBLE);
+
+                                break;
+                            case R.id.go_vip:
+                                EventBus.getDefault().post("5");
+                                EventBus.getDefault().post("4");
+                                tDialog.dismiss();
+                                fab.setVisibility(View.VISIBLE);
+
                                 break;
                         }
                     }
@@ -412,6 +455,44 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         });
     }
 
+    private void vipInfo() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            showDialog();
+            return;
+        }
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        dataRepository.userDetail(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                refresh.finishRefresh();
+                UserDetailModel userDetailModel = (UserDetailModel) data;
+                if (userDetailModel.getCode() == 1) {
+                    if (userDetailModel.getData().getUserInfo().getIsVip() == 0) {
+                        showDialog();
+                    } else {
+                        fab.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String event) {
+        if (event.equals("4")) {
+            vipInfo();
+
+        }
+    }
+
+
     private void userInfo() {
         if (TextUtils.isEmpty(FastData.getToken())) {
             Intent intent = new Intent(getContext(), LoginActivity.class);
@@ -433,6 +514,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 refresh.finishRefresh();
                 UserDetailModel userDetailModel = (UserDetailModel) data;
                 if (userDetailModel.getCode() == 1) {
+
                     if (userDetailModel.getData().getUserInfo().getIsVip() == 0) {
                         EventBus.getDefault().post("5");
                     } else {
@@ -454,7 +536,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         imageView.setLayoutParams(params);
     }
 
-    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more, R.id.iv_go})
+    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more, R.id.iv_go, R.id.fab, R.id.iv_banner})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_comment:
@@ -469,7 +551,12 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 EventBus.getDefault().post("3");
                 break;
             case R.id.iv_go:
+            case R.id.iv_banner:
                 userInfo();
+                break;
+            case R.id.fab:
+                showDialog();
+                fab.setVisibility(View.GONE);
                 break;
         }
     }

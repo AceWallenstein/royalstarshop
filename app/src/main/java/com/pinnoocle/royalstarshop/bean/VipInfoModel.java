@@ -52,13 +52,28 @@ public class VipInfoModel {
         private int time;
         private int point;
         private int money;
+        private String discount_money;
         private String title;
         private VipGoodsBean vip_goods;
         private int vip_goods_money;
         private int vip_goods_point;
+        private String vip_goods_text;
 
+        public String getDiscount_money() {
+            return discount_money;
+        }
 
+        public void setDiscount_money(String discount_money) {
+            this.discount_money = discount_money;
+        }
 
+        public String getVip_goods_text() {
+            return vip_goods_text;
+        }
+
+        public void setVip_goods_text(String vip_goods_text) {
+            this.vip_goods_text = vip_goods_text;
+        }
 
         private UserInfoBean userInfo;
 

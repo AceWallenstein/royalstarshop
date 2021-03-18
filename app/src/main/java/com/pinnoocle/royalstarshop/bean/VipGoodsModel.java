@@ -4,10 +4,11 @@ import java.util.List;
 
 public class VipGoodsModel {
 
+
     /**
      * code : 1
      * msg : success
-     * data : {"vip_goods":{"goods_id":12931,"goods_name":"小米电视 Redmi A55 55英寸4K超高清大屏智能平板电视","selling_point":"","category_id":10581,"spec_type":10,"deduct_stock_type":10,"content":"<p><img src=\"http://gsyp.vtui365.com/uploads/20210315140059f07b30062.jpg\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103151400568c3707102.jpg\"/><\/p><p><br/><\/p>","goods_sort":1,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":3,"text":"会员商品"},"freight":"20.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":329,"recommend_type":0,"goods_stock":75,"goods_image":"http://gsyp.vtui365.com/uploads/2021031514330671e924313.jpg","goods_sku":{"goods_sku_id":39274,"goods_id":12931,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"2199.00","goods_price":"3199.00","line_price":"0.00","stock_num":75,"goods_sales":0,"goods_weight":1000,"goods_attr":"","image":null},"goods_multi_spec":null,"category":{"category_id":10581,"name":"电视","parent_id":0,"image_id":26087,"sort":100,"create_time":"2021-02-25 22:28:55"},"image":[{"id":34569,"goods_id":12931,"image_id":26122,"file_path":"http://gsyp.vtui365.com/uploads/2021031514330671e924313.jpg","file_name":"2021031514330671e924313.jpg","file_url":""},{"id":34570,"goods_id":12931,"image_id":26119,"file_path":"http://gsyp.vtui365.com/uploads/202103151400568c3707102.jpg","file_name":"202103151400568c3707102.jpg","file_url":""}],"sku":[{"goods_sku_id":39274,"goods_id":12931,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"2199.00","goods_price":"3199.00","line_price":"0.00","stock_num":75,"goods_sales":0,"goods_weight":1000,"goods_attr":"","image":null}],"video":null,"goods_sales":100},"vip_goods_money":10,"vip_goods_point":10}
+     * data : {"vip_goods":{"goods_id":12941,"goods_name":"荣事达纯铁锅仅需9金豆","selling_point":"","category_id":10585,"spec_type":10,"deduct_stock_type":10,"content":"<p><img src=\"http://gsyp.vtui365.com/uploads/20210318141808dd8740239.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103181418086449a4290.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103181418082a1f09683.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/20210318141807dfe101386.gif\"/><\/p><p><br/><\/p>","goods_sort":100,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":1,"text":"普通商品"},"freight":"20.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":0,"recommend_type":0,"goods_stock":1000,"goods_image":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","goods_sku":{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":1000,"goods_sales":0,"goods_weight":3,"goods_attr":"","image":null},"goods_multi_spec":null,"category":{"category_id":10585,"name":"小家电馆","parent_id":0,"image_id":26088,"sort":100,"create_time":"2021-03-03 15:16:59"},"image":[{"id":34602,"goods_id":12941,"image_id":26186,"file_path":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","file_name":"202103181414403c0815937.jpg","file_url":""}],"sku":[{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":1000,"goods_sales":0,"goods_weight":3,"goods_attr":"","image":null}],"video":null,"goods_sales":100},"vip_goods_money":0,"vip_goods_point":"9","vip_goods_text":"荣事达纯铁锅仅需9金豆","vip_banner":{"file_id":26191,"storage":"local","group_id":0,"file_url":"","file_name":"20210318152717018c26728.png","file_size":90521,"file_type":"image","extension":"png","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/20210318152717018c26728.png"}}
      */
 
     private int code;
@@ -40,14 +41,18 @@ public class VipGoodsModel {
 
     public static class DataBean {
         /**
-         * vip_goods : {"goods_id":12931,"goods_name":"小米电视 Redmi A55 55英寸4K超高清大屏智能平板电视","selling_point":"","category_id":10581,"spec_type":10,"deduct_stock_type":10,"content":"<p><img src=\"http://gsyp.vtui365.com/uploads/20210315140059f07b30062.jpg\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103151400568c3707102.jpg\"/><\/p><p><br/><\/p>","goods_sort":1,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":3,"text":"会员商品"},"freight":"20.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":329,"recommend_type":0,"goods_stock":75,"goods_image":"http://gsyp.vtui365.com/uploads/2021031514330671e924313.jpg","goods_sku":{"goods_sku_id":39274,"goods_id":12931,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"2199.00","goods_price":"3199.00","line_price":"0.00","stock_num":75,"goods_sales":0,"goods_weight":1000,"goods_attr":"","image":null},"goods_multi_spec":null,"category":{"category_id":10581,"name":"电视","parent_id":0,"image_id":26087,"sort":100,"create_time":"2021-02-25 22:28:55"},"image":[{"id":34569,"goods_id":12931,"image_id":26122,"file_path":"http://gsyp.vtui365.com/uploads/2021031514330671e924313.jpg","file_name":"2021031514330671e924313.jpg","file_url":""},{"id":34570,"goods_id":12931,"image_id":26119,"file_path":"http://gsyp.vtui365.com/uploads/202103151400568c3707102.jpg","file_name":"202103151400568c3707102.jpg","file_url":""}],"sku":[{"goods_sku_id":39274,"goods_id":12931,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"2199.00","goods_price":"3199.00","line_price":"0.00","stock_num":75,"goods_sales":0,"goods_weight":1000,"goods_attr":"","image":null}],"video":null,"goods_sales":100}
-         * vip_goods_money : 10
-         * vip_goods_point : 10
+         * vip_goods : {"goods_id":12941,"goods_name":"荣事达纯铁锅仅需9金豆","selling_point":"","category_id":10585,"spec_type":10,"deduct_stock_type":10,"content":"<p><img src=\"http://gsyp.vtui365.com/uploads/20210318141808dd8740239.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103181418086449a4290.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103181418082a1f09683.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/20210318141807dfe101386.gif\"/><\/p><p><br/><\/p>","goods_sort":100,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":1,"text":"普通商品"},"freight":"20.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":0,"recommend_type":0,"goods_stock":1000,"goods_image":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","goods_sku":{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":1000,"goods_sales":0,"goods_weight":3,"goods_attr":"","image":null},"goods_multi_spec":null,"category":{"category_id":10585,"name":"小家电馆","parent_id":0,"image_id":26088,"sort":100,"create_time":"2021-03-03 15:16:59"},"image":[{"id":34602,"goods_id":12941,"image_id":26186,"file_path":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","file_name":"202103181414403c0815937.jpg","file_url":""}],"sku":[{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":1000,"goods_sales":0,"goods_weight":3,"goods_attr":"","image":null}],"video":null,"goods_sales":100}
+         * vip_goods_money : 0
+         * vip_goods_point : 9
+         * vip_goods_text : 荣事达纯铁锅仅需9金豆
+         * vip_banner : {"file_id":26191,"storage":"local","group_id":0,"file_url":"","file_name":"20210318152717018c26728.png","file_size":90521,"file_type":"image","extension":"png","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/20210318152717018c26728.png"}
          */
 
         private VipGoodsBean vip_goods;
         private int vip_goods_money;
-        private int vip_goods_point;
+        private String vip_goods_point;
+        private String vip_goods_text;
+        private VipBannerBean vip_banner;
 
         public VipGoodsBean getVip_goods() {
             return vip_goods;
@@ -65,40 +70,56 @@ public class VipGoodsModel {
             this.vip_goods_money = vip_goods_money;
         }
 
-        public int getVip_goods_point() {
+        public String getVip_goods_point() {
             return vip_goods_point;
         }
 
-        public void setVip_goods_point(int vip_goods_point) {
+        public void setVip_goods_point(String vip_goods_point) {
             this.vip_goods_point = vip_goods_point;
+        }
+
+        public String getVip_goods_text() {
+            return vip_goods_text;
+        }
+
+        public void setVip_goods_text(String vip_goods_text) {
+            this.vip_goods_text = vip_goods_text;
+        }
+
+        public VipBannerBean getVip_banner() {
+            return vip_banner;
+        }
+
+        public void setVip_banner(VipBannerBean vip_banner) {
+            this.vip_banner = vip_banner;
         }
 
         public static class VipGoodsBean {
             /**
-             * goods_id : 12931
-             * goods_name : 小米电视 Redmi A55 55英寸4K超高清大屏智能平板电视
+             * goods_id : 12941
+             * goods_name : 荣事达纯铁锅仅需9金豆
              * selling_point :
-             * category_id : 10581
+             * category_id : 10585
              * spec_type : 10
              * deduct_stock_type : 10
-             * content : <p><img src="http://gsyp.vtui365.com/uploads/20210315140059f07b30062.jpg"/></p><p><img src="http://gsyp.vtui365.com/uploads/202103151400568c3707102.jpg"/></p><p><br/></p>
-             * goods_sort : 1
+             * content : <p><img src="http://gsyp.vtui365.com/uploads/20210318141808dd8740239.gif"/></p><p><img src="http://gsyp.vtui365.com/uploads/202103181418086449a4290.gif"/></p><p><img src="http://gsyp.vtui365.com/uploads/202103181418082a1f09683.gif"/></p><p><img src="http://gsyp.vtui365.com/uploads/20210318141807dfe101386.gif"/></p><p><br/></p>
+             * goods_sort : 100
              * buy_limit : 0
              * goods_status : {"text":"上架","value":10}
-             * type : {"value":3,"text":"会员商品"}
+             * type : {"value":1,"text":"普通商品"}
              * freight : 20.00
              * video_id : 0
              * points : 0
              * tag : {"value":1,"text":"精选"}
-             * scan_num : 329
+             * scan_num : 0
              * recommend_type : 0
-             * goods_stock : 75
-             * goods_image : http://gsyp.vtui365.com/uploads/2021031514330671e924313.jpg
-             * goods_sku : {"goods_sku_id":39274,"goods_id":12931,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"2199.00","goods_price":"3199.00","line_price":"0.00","stock_num":75,"goods_sales":0,"goods_weight":1000,"goods_attr":"","image":null}
+             * goods_stock : 1000
+             * goods_image : http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg
+             * goods_sku : {"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":1000,"goods_sales":0,"goods_weight":3,"goods_attr":"","image":null}
              * goods_multi_spec : null
-             * category : {"category_id":10581,"name":"电视","parent_id":0,"image_id":26087,"sort":100,"create_time":"2021-02-25 22:28:55"}
-             * image : [{"id":34569,"goods_id":12931,"image_id":26122,"file_path":"http://gsyp.vtui365.com/uploads/2021031514330671e924313.jpg","file_name":"2021031514330671e924313.jpg","file_url":""},{"id":34570,"goods_id":12931,"image_id":26119,"file_path":"http://gsyp.vtui365.com/uploads/202103151400568c3707102.jpg","file_name":"202103151400568c3707102.jpg","file_url":""}]
-             * sku : [{"goods_sku_id":39274,"goods_id":12931,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"2199.00","goods_price":"3199.00","line_price":"0.00","stock_num":75,"goods_sales":0,"goods_weight":1000,"goods_attr":"","image":null}]
+             * category : {"category_id":10585,"name":"小家电馆","parent_id":0,"image_id":26088,"sort":100,"create_time":"2021-03-03 15:16:59"}
+             * image : [{"id":34602,"goods_id":12941,"image_id":26186,"file_path":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","file_name":"202103181414403c0815937.jpg","file_url":""}]
+             * sku : [{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":1000,"goods_sales":0,"goods_weight":3,"goods_attr":"","image":null}]
              * video : null
              * goods_sales : 100
              */
@@ -366,8 +387,8 @@ public class VipGoodsModel {
 
             public static class TypeBean {
                 /**
-                 * value : 3
-                 * text : 会员商品
+                 * value : 1
+                 * text : 普通商品
                  */
 
                 private int value;
@@ -418,17 +439,17 @@ public class VipGoodsModel {
 
             public static class GoodsSkuBean {
                 /**
-                 * goods_sku_id : 39274
-                 * goods_id : 12931
+                 * goods_sku_id : 39307
+                 * goods_id : 12941
                  * spec_sku_id : 0
                  * image_id : 0
                  * goods_no :
-                 * balance_price : 2199.00
-                 * goods_price : 3199.00
+                 * balance_price : 99.00
+                 * goods_price : 99.00
                  * line_price : 0.00
-                 * stock_num : 75
+                 * stock_num : 1000
                  * goods_sales : 0
-                 * goods_weight : 1000
+                 * goods_weight : 3
                  * goods_attr :
                  * image : null
                  */
@@ -554,12 +575,12 @@ public class VipGoodsModel {
 
             public static class CategoryBean {
                 /**
-                 * category_id : 10581
-                 * name : 电视
+                 * category_id : 10585
+                 * name : 小家电馆
                  * parent_id : 0
-                 * image_id : 26087
+                 * image_id : 26088
                  * sort : 100
-                 * create_time : 2021-02-25 22:28:55
+                 * create_time : 2021-03-03 15:16:59
                  */
 
                 private int category_id;
@@ -620,11 +641,11 @@ public class VipGoodsModel {
 
             public static class ImageBean {
                 /**
-                 * id : 34569
-                 * goods_id : 12931
-                 * image_id : 26122
-                 * file_path : http://gsyp.vtui365.com/uploads/2021031514330671e924313.jpg
-                 * file_name : 2021031514330671e924313.jpg
+                 * id : 34602
+                 * goods_id : 12941
+                 * image_id : 26186
+                 * file_path : http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg
+                 * file_name : 202103181414403c0815937.jpg
                  * file_url :
                  */
 
@@ -686,17 +707,17 @@ public class VipGoodsModel {
 
             public static class SkuBean {
                 /**
-                 * goods_sku_id : 39274
-                 * goods_id : 12931
+                 * goods_sku_id : 39307
+                 * goods_id : 12941
                  * spec_sku_id : 0
                  * image_id : 0
                  * goods_no :
-                 * balance_price : 2199.00
-                 * goods_price : 3199.00
+                 * balance_price : 99.00
+                 * goods_price : 99.00
                  * line_price : 0.00
-                 * stock_num : 75
+                 * stock_num : 1000
                  * goods_sales : 0
-                 * goods_weight : 1000
+                 * goods_weight : 3
                  * goods_attr :
                  * image : null
                  */
@@ -818,6 +839,132 @@ public class VipGoodsModel {
                 public void setImage(Object image) {
                     this.image = image;
                 }
+            }
+        }
+
+        public static class VipBannerBean {
+            /**
+             * file_id : 26191
+             * storage : local
+             * group_id : 0
+             * file_url :
+             * file_name : 20210318152717018c26728.png
+             * file_size : 90521
+             * file_type : image
+             * extension : png
+             * is_user : 0
+             * is_recycle : 0
+             * is_delete : 0
+             * file_path : http://gsyp.vtui365.com/uploads/20210318152717018c26728.png
+             */
+
+            private int file_id;
+            private String storage;
+            private int group_id;
+            private String file_url;
+            private String file_name;
+            private int file_size;
+            private String file_type;
+            private String extension;
+            private int is_user;
+            private int is_recycle;
+            private int is_delete;
+            private String file_path;
+
+            public int getFile_id() {
+                return file_id;
+            }
+
+            public void setFile_id(int file_id) {
+                this.file_id = file_id;
+            }
+
+            public String getStorage() {
+                return storage;
+            }
+
+            public void setStorage(String storage) {
+                this.storage = storage;
+            }
+
+            public int getGroup_id() {
+                return group_id;
+            }
+
+            public void setGroup_id(int group_id) {
+                this.group_id = group_id;
+            }
+
+            public String getFile_url() {
+                return file_url;
+            }
+
+            public void setFile_url(String file_url) {
+                this.file_url = file_url;
+            }
+
+            public String getFile_name() {
+                return file_name;
+            }
+
+            public void setFile_name(String file_name) {
+                this.file_name = file_name;
+            }
+
+            public int getFile_size() {
+                return file_size;
+            }
+
+            public void setFile_size(int file_size) {
+                this.file_size = file_size;
+            }
+
+            public String getFile_type() {
+                return file_type;
+            }
+
+            public void setFile_type(String file_type) {
+                this.file_type = file_type;
+            }
+
+            public String getExtension() {
+                return extension;
+            }
+
+            public void setExtension(String extension) {
+                this.extension = extension;
+            }
+
+            public int getIs_user() {
+                return is_user;
+            }
+
+            public void setIs_user(int is_user) {
+                this.is_user = is_user;
+            }
+
+            public int getIs_recycle() {
+                return is_recycle;
+            }
+
+            public void setIs_recycle(int is_recycle) {
+                this.is_recycle = is_recycle;
+            }
+
+            public int getIs_delete() {
+                return is_delete;
+            }
+
+            public void setIs_delete(int is_delete) {
+                this.is_delete = is_delete;
+            }
+
+            public String getFile_path() {
+                return file_path;
+            }
+
+            public void setFile_path(String file_path) {
+                this.file_path = file_path;
             }
         }
     }
