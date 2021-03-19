@@ -1397,7 +1397,7 @@ public class VipInfoModel {
             private Object invite_code;
             private int isVip;
             private int vip_time;
-            private int vip_expire;
+            private String vip_expire;
             private int parent_id;
             private int service_id;
             private int is_exprire;
@@ -1534,11 +1534,11 @@ public class VipInfoModel {
                 this.vip_time = vip_time;
             }
 
-            public int getVip_expire() {
+            public String getVip_expire() {
                 return vip_expire;
             }
 
-            public void setVip_expire(int vip_expire) {
+            public void setVip_expire(String vip_expire) {
                 this.vip_expire = vip_expire;
             }
 

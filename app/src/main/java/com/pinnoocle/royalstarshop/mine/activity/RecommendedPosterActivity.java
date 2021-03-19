@@ -2,7 +2,9 @@ package com.pinnoocle.royalstarshop.mine.activity;
 
 import android.Manifest;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +35,7 @@ import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,7 +159,11 @@ public class RecommendedPosterActivity extends BaseActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        SaveImageUtils.saveImageToGallerys(RecommendedPosterActivity.this, myBitmap);
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) { //android 11
+                                            SaveImageUtils.saveImageToGallery2(RecommendedPosterActivity.this, myBitmap);
+                                        }else {
+                                            SaveImageUtils.saveImageToGallerys(RecommendedPosterActivity.this, myBitmap);
+                                        }
                                     }
                                 });
 

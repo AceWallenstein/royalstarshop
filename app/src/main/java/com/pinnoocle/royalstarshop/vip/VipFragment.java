@@ -251,9 +251,7 @@ public class VipFragment extends BaseFragment {
                         tvGoldenBean.setText(vipInfoModel.getData().getUserInfo().getPoints() + "");
                         tvMoneyOne.setText(vipInfoModel.getData().getUserInfo().getPoints() + "元");
                         if (vipInfoModel.getData().getUserInfo().getIs_exprire() == 0) {
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-                            Date date = new Date(vipInfoModel.getData().getUserInfo().getVip_expire() * 1000L);
-                            tvTime.setText(simpleDateFormat.format(date) + "金豆到期");
+                            tvTime.setText(vipInfoModel.getData().getUserInfo().getVip_expire() + "金豆到期");
                             ivRight.setVisibility(View.GONE);
                         } else {
                             tvTime.setText("金豆已到期  ");
