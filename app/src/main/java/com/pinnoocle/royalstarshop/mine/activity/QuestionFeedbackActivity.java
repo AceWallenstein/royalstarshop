@@ -292,6 +292,7 @@ public class QuestionFeedbackActivity extends BaseActivity {
                                                 .openGallery(PictureMimeType.ofImage())
                                                 .selectionMode(PictureConfig.MULTIPLE)
                                                 .compress(true)
+                                                .maxSelectNum(3)
                                                 .loadImageEngine(GlideEngine.createGlideEngine())
                                                 .enableCrop(false)
                                                 .forResult(PictureConfig.CHOOSE_REQUEST);

@@ -1,21 +1,25 @@
 package com.pinnoocle.royalstarshop.mine.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
-import com.pinnoocle.royalstarshop.adapter.OrderDetailAdapter;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.RefundDeliveryModel;
 import com.pinnoocle.royalstarshop.bean.RefundDetailModel;
+import com.pinnoocle.royalstarshop.bean.ReturnAddressModel;
+import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -24,8 +28,9 @@ import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
 import org.angmarch.views.NiceSpinner;
+import org.greenrobot.eventbus.EventBus;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -101,7 +106,12 @@ public class AfterSalesDetailActivity extends BaseActivity {
     LinearLayout llAfterSales;
     @BindView(R.id.scrollView)
     NestedScrollView scrollView;
+    @BindView(R.id.ed_express_code)
+    EditText edExpressCode;
     private DataRepository dataRepository;
+
+    private RefundDetailModel refundDetailModel;
+    private List<ReturnAddressModel.DataBean.ListBean> expressList;
 
 
     @Override
@@ -118,14 +128,14 @@ public class AfterSalesDetailActivity extends BaseActivity {
         NiceSpinner niceSpinner = findViewById(R.id.nice_spinner);
         niceSpinner.setBackgroundResource(R.drawable.bg_stroke_3);
         niceSpinner.setTextSize(14);
-        List<String> dataset = new LinkedList<>(Arrays.asList("中通快递", "申通快递", "韵达快递"));
-        niceSpinner.attachDataSource(dataset);
+
 
     }
 
     private void initData() {
         dataRepository = Injection.dataRepository(this);
         refundDetail();
+        returnAddress();
     }
 
 
@@ -145,7 +155,7 @@ public class AfterSalesDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(mContext);
-                RefundDetailModel refundDetailModel = (RefundDetailModel) data;
+                refundDetailModel = (RefundDetailModel) data;
                 if (refundDetailModel.getCode() == 1) {
                     tvStatus.setText(refundDetailModel.getData().getDetail().getState_text());
 //                    if (refundDetailModel.getData().getDetail().getAddress() != null) {
@@ -173,31 +183,93 @@ public class AfterSalesDetailActivity extends BaseActivity {
                     }
 
 
-                    //                    switch (refundDetailModel.getData().getDetail().getStatus().getValue()) {
-//                        case 0:     //进行中
-//                                llAfterSales.setVisibility(View.GONE);
-//                                rlBeans.setVisibility(View.GONE);
-//                            break;
-//                        case 10:    //拒绝
-//                            break;
-//                        case 20:        //已完成
-//                            break;
-//                        case 30:        //取消
-//                            break;
-//
-//                    }
+                    switch (refundDetailModel.getData().getDetail().getState_text()) {
+                        case "等待审核中":     //进行中
+                        case "已发货，待平台确认":
+                            llAfterSales.setVisibility(View.GONE);
+                            rlBeans.setVisibility(View.GONE);
+                            break;
+
+
+                    }
 
                 }
             }
         });
     }
 
+    private void returnAddress() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
 
-    @OnClick({R.id.iv_back})
+        dataRepository.returnAddress(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ReturnAddressModel returnAddressModel = (ReturnAddressModel) data;
+                if (returnAddressModel.getCode() == 1) {
+                    expressList = returnAddressModel.getData().getList();
+                    List<String> details = new ArrayList<>();
+                    for (int i = 0; i < expressList.size(); i++) {
+                        details.add(expressList.get(i).getDetail());
+                    }
+                    List<String> dataset = new LinkedList<>(details);
+                    niceSpinner.attachDataSource(dataset);
+                }
+
+            }
+        });
+    }
+
+    private void refundDelivery() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.order_refund_id = refundDetailModel.getData().getDetail().getOrder_refund_id() + "";
+        loginBean.express_id = expressList.get(niceSpinner.getSelectedIndex()).getAddress_id() + "";
+        ;
+        loginBean.express_no = edExpressCode.getText().toString();
+        ;
+        ViewLoading.show(mContext);
+
+        dataRepository.refundDelivery(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                StatusModel statusModel = (StatusModel) data;
+                if (statusModel.getCode() == 1) {
+                    finish();
+                    EventBus.getDefault().post("6");
+                }
+                ToastUtils.showToast(statusModel.getMsg());
+
+            }
+        });
+    }
+
+
+    @OnClick({R.id.iv_back, R.id.tv_sure})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.tv_sure:
+                if (TextUtils.isEmpty(edExpressCode.getText().toString())) {
+                    ToastUtils.showToast("请输入物流单号");
+                    return;
+                }
+                refundDelivery();
+
                 break;
 
         }

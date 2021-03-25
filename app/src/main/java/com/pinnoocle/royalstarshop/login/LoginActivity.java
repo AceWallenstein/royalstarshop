@@ -8,9 +8,11 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,7 +38,6 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class LoginActivity extends BaseActivity {
 
@@ -60,6 +61,10 @@ public class LoginActivity extends BaseActivity {
     TextView tvAdoptionAgreement;
     @BindView(R.id.rl_logo)
     RelativeLayout rlLogo;
+    @BindView(R.id.checkbox)
+    CheckBox checkbox;
+    @BindView(R.id.ll_adoption_agreement)
+    LinearLayout llAdoptionAgreement;
     private DataRepository dataRepository;
 
     @Override
@@ -94,6 +99,16 @@ public class LoginActivity extends BaseActivity {
         tvAdoptionAgreement.setText(spannableStringBuilder);
         tvAdoptionAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         tvAdoptionAgreement.setHighlightColor(getResources().getColor(R.color.transparent));
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    tvLogin.setEnabled(true);
+                }else {
+                    tvLogin.setEnabled(false);
+                }
+            }
+        });
     }
 
     @OnClick({R.id.tv_get_code, R.id.tv_login})
@@ -148,9 +163,9 @@ public class LoginActivity extends BaseActivity {
                     if (dataBean.getIs_first() == 1) {
                         startActivity(new Intent(LoginActivity.this, InvitationCodeActivity.class));
                     }
-//                    else {
-////                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-////                    }
+                    else {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    }
                     EventBus.getDefault().post("4");
                     finish();
 

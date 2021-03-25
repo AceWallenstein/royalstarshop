@@ -144,6 +144,11 @@ public class DataRepository implements RemotDataSource {
     }
 
     @Override
+    public void vipGoods(Map<String, String> queryMap, getCallback callback) {
+        mRemoteDataSource.vipGoods(queryMap, callback);
+    }
+
+    @Override
     public void buyNow(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.buyNow(loginBean, callback);
     }
@@ -316,6 +321,56 @@ public class DataRepository implements RemotDataSource {
     @Override
     public void recommendSearch(LoginBean loginBean, getCallback callback) {
         mRemoteDataSource.recommendSearch(loginBean, callback);
+    }
+
+    @Override
+    public void buyVipGoods(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.buyVipGoods(loginBean, callback);
+    }
+
+    @Override
+    public void withdraw(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.withdraw(loginBean, callback);
+    }
+
+    @Override
+    public void returnAddress(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.returnAddress(loginBean, callback);
+    }
+
+    @Override
+    public void refundDelivery(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.refundDelivery(loginBean, callback);
+    }
+
+    @Override
+    public void isBind(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.isBind(loginBean, callback);
+    }
+
+    @Override
+    public void bindWx(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.bindWx(loginBean, callback);
+    }
+
+    @Override
+    public void withdrawSetting(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.withdrawSetting(loginBean, callback);
+    }
+
+    @Override
+    public void messageCount(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.messageCount(loginBean, callback);
+    }
+
+    @Override
+    public void messageList(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.messageList(loginBean, callback);
+    }
+
+    @Override
+    public void messageDetail(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.messageDetail(loginBean, callback);
     }
 
     @Override

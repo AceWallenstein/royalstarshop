@@ -3,10 +3,11 @@ package com.pinnoocle.royalstarshop.bean;
 import java.util.List;
 
 public class VipInfoModel {
+
     /**
      * code : 1
      * msg : success
-     * data : {"time":365,"point":365,"money":365,"title":"广视优品尊享会员一年","vip_goods":{"goods_id":12931,"goods_name":"电视","selling_point":"","category_id":10581,"spec_type":20,"deduct_stock_type":10,"content":"","goods_sort":1,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":3,"text":"会员商品"},"freight":"0.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":248,"goods_stock":245,"goods_image":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg","goods_sku":{"goods_sku_id":39262,"goods_id":12931,"spec_sku_id":"12185_12186","image_id":26092,"goods_no":"","balance_price":"0.00","goods_price":"220.00","line_price":"0.00","stock_num":80,"goods_sales":0,"goods_weight":1000,"goods_attr":"颜色:黄色; 尺寸:22寸; ","image":{"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"}},"goods_multi_spec":{"spec_attr":[{"group_id":10403,"group_name":"颜色","spec_items":[{"item_id":12185,"spec_value":"黄色"},{"item_id":12180,"spec_value":"黑色"}]},{"group_id":10404,"group_name":"尺寸","spec_items":[{"item_id":12186,"spec_value":"22寸"},{"item_id":12187,"spec_value":"21寸"}]}],"spec_list":[{"goods_sku_id":39262,"spec_sku_id":"12185_12186","rows":[],"form":{"image_id":26092,"image_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg","goods_no":"","balance_price":"0.00","goods_price":"220.00","goods_weight":1000,"line_price":"0.00","stock_num":80}},{"goods_sku_id":39263,"spec_sku_id":"12185_12187","rows":[],"form":{"image_id":26091,"image_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg","goods_no":"","balance_price":"0.00","goods_price":"222.00","goods_weight":999,"line_price":"0.00","stock_num":99}},{"goods_sku_id":39264,"spec_sku_id":"12180_12186","rows":[],"form":{"image_id":26090,"image_path":"http://gsyp.vtui365.com/uploads/202103051002278c6566507.jpg","goods_no":"","balance_price":"0.00","goods_price":"218.00","goods_weight":998,"line_price":"0.00","stock_num":66}},{"goods_sku_id":39265,"spec_sku_id":"12180_12187","rows":[],"form":{"image_id":26088,"image_path":"http://gsyp.vtui365.com/uploads/20210305095413e69454970.png","goods_no":"","balance_price":"0.00","goods_price":"214.00","goods_weight":899,"line_price":"0.00","stock_num":0}}]},"category":{"category_id":10581,"name":"电视","parent_id":0,"image_id":26087,"sort":100,"create_time":"2021-02-25 22:28:55"},"image":[{"id":34560,"goods_id":12931,"image_id":26091,"file_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg","file_name":"20210305100227b997a3950.jpg","file_url":""}],"sku":[{"goods_sku_id":39262,"goods_id":12931,"spec_sku_id":"12185_12186","image_id":26092,"goods_no":"","balance_price":"0.00","goods_price":"220.00","line_price":"0.00","stock_num":80,"goods_sales":0,"goods_weight":1000,"goods_attr":"颜色:黄色; 尺寸:22寸; ","image":{"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"}},{"goods_sku_id":39263,"goods_id":12931,"spec_sku_id":"12185_12187","image_id":26091,"goods_no":"","balance_price":"0.00","goods_price":"222.00","line_price":"0.00","stock_num":99,"goods_sales":0,"goods_weight":999,"image":{"file_id":26091,"storage":"local","group_id":0,"file_url":"","file_name":"20210305100227b997a3950.jpg","file_size":22572,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg"}},{"goods_sku_id":39264,"goods_id":12931,"spec_sku_id":"12180_12186","image_id":26090,"goods_no":"","balance_price":"0.00","goods_price":"218.00","line_price":"0.00","stock_num":66,"goods_sales":0,"goods_weight":998,"image":{"file_id":26090,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002278c6566507.jpg","file_size":14646,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002278c6566507.jpg"}},{"goods_sku_id":39265,"goods_id":12931,"spec_sku_id":"12180_12187","image_id":26088,"goods_no":"","balance_price":"0.00","goods_price":"214.00","line_price":"0.00","stock_num":0,"goods_sales":0,"goods_weight":899,"image":{"file_id":26088,"storage":"local","group_id":0,"file_url":"","file_name":"20210305095413e69454970.png","file_size":376823,"file_type":"image","extension":"png","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/20210305095413e69454970.png"}}],"video":null,"goods_sales":0},"vip_goods_money":10,"vip_goods_point":10,"userInfo":{"user_id":19535,"nickName":"哈哈哈","avatarUrl":"http://gsyp.vtui365.com/uploads/20210310155250503bc3100.jpeg","gender":"未知","address_id":13971,"balance":"0.00","points":0,"pay_money":"0.00","expend_money":"0.00","phone":"13211111111","lasttime":null,"address":[{"address_id":13971,"name":"喝喜酒","phone":"13828465588","province_id":1168,"city_id":1209,"region_id":1210,"district":"","detail":"图图","longitude":"","latitude":"","user_id":19535,"region":{"province":"福建省","city":"泉州市","region":"鲤城区"}}],"username":null,"invite_code":null,"isVip":0,"vip_time":0,"vip_expire":0,"parent_id":0,"service_id":0,"birth":"2011-03-10","address_default":{"address_id":13971,"name":"喝喜酒","phone":"13828465588","province_id":1168,"city_id":1209,"region_id":1210,"district":"","detail":"图图","longitude":"","latitude":"","user_id":19535,"region":{"province":"福建省","city":"泉州市","region":"鲤城区"}},"grade":null}}
+     * data : {"time":"365","point":"99","money":"99","discount_money":"0","title":"广视优品尊享会员一年","vip_goods":{"goods_id":12941,"goods_name":"荣事达纯铁锅仅需9金豆","selling_point":"","category_id":10585,"spec_type":10,"deduct_stock_type":10,"content":"<p><img src=\"http://gsyp.vtui365.com/uploads/20210318141808dd8740239.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103181418086449a4290.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103181418082a1f09683.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/20210318141807dfe101386.gif\"/><\/p><p><br/><\/p>","goods_sort":100,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":1,"text":"普通商品"},"freight":"20.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":0,"recommend_type":0,"goods_stock":957,"goods_image":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","goods_sku":{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":957,"goods_sales":14,"goods_weight":3,"goods_attr":"","image":null},"goods_multi_spec":null,"category":{"category_id":10585,"name":"小家电馆","parent_id":0,"image_id":26088,"sort":100,"create_time":"2021-03-03 15:16:59"},"image":[{"id":34602,"goods_id":12941,"image_id":26186,"file_path":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","file_name":"202103181414403c0815937.jpg","file_url":""}],"sku":[{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":957,"goods_sales":14,"goods_weight":3,"goods_attr":"","image":null}],"video":null,"goods_sales":114},"vip_goods_money":0,"vip_goods_point":"9","vip_text":"成为会员立送99金豆","vip_goods_text":"荣事达纯铁锅仅需9金豆","userInfo":{"user_id":19533,"nickName":"厉害了","avatarUrl":"http://gsyp.vtui365.com/uploads/20210319141411b7abf7346.jpeg","gender":"未知","address_id":13991,"balance":"0.00","points":602,"pay_money":"12.00","expend_money":"0.00","phone":"15212790160","lasttime":null,"address":[{"address_id":13990,"name":"ttttt","phone":"13612121369","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"ttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}},{"address_id":13991,"name":"ABC","phone":"13332153636","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"tttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}}],"username":null,"invite_code":"2RdqGW","isVip":1,"vip_time":1615532201,"vip_expire":"2022-03-12","parent_id":19529,"service_id":0,"birth":null,"ercode":"/tmp/qrcode/qrcode_19533.png","poster":"/tmp/poster/poster_19533.png","login_num":13,"vip_order":0,"is_expire":0,"next_time":"2023-03-12","address_default":{"address_id":13991,"name":"ABC","phone":"13332153636","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"tttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}},"grade":null}}
      */
 
     private int code;
@@ -40,24 +41,53 @@ public class VipInfoModel {
     public static class DataBean {
         /**
          * time : 365
-         * point : 365
-         * money : 365
+         * point : 99
+         * money : 99
+         * discount_money : 0
          * title : 广视优品尊享会员一年
-         * vip_goods : {"goods_id":12931,"goods_name":"电视","selling_point":"","category_id":10581,"spec_type":20,"deduct_stock_type":10,"content":"","goods_sort":1,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":3,"text":"会员商品"},"freight":"0.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":248,"goods_stock":245,"goods_image":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg","goods_sku":{"goods_sku_id":39262,"goods_id":12931,"spec_sku_id":"12185_12186","image_id":26092,"goods_no":"","balance_price":"0.00","goods_price":"220.00","line_price":"0.00","stock_num":80,"goods_sales":0,"goods_weight":1000,"goods_attr":"颜色:黄色; 尺寸:22寸; ","image":{"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"}},"goods_multi_spec":{"spec_attr":[{"group_id":10403,"group_name":"颜色","spec_items":[{"item_id":12185,"spec_value":"黄色"},{"item_id":12180,"spec_value":"黑色"}]},{"group_id":10404,"group_name":"尺寸","spec_items":[{"item_id":12186,"spec_value":"22寸"},{"item_id":12187,"spec_value":"21寸"}]}],"spec_list":[{"goods_sku_id":39262,"spec_sku_id":"12185_12186","rows":[],"form":{"image_id":26092,"image_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg","goods_no":"","balance_price":"0.00","goods_price":"220.00","goods_weight":1000,"line_price":"0.00","stock_num":80}},{"goods_sku_id":39263,"spec_sku_id":"12185_12187","rows":[],"form":{"image_id":26091,"image_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg","goods_no":"","balance_price":"0.00","goods_price":"222.00","goods_weight":999,"line_price":"0.00","stock_num":99}},{"goods_sku_id":39264,"spec_sku_id":"12180_12186","rows":[],"form":{"image_id":26090,"image_path":"http://gsyp.vtui365.com/uploads/202103051002278c6566507.jpg","goods_no":"","balance_price":"0.00","goods_price":"218.00","goods_weight":998,"line_price":"0.00","stock_num":66}},{"goods_sku_id":39265,"spec_sku_id":"12180_12187","rows":[],"form":{"image_id":26088,"image_path":"http://gsyp.vtui365.com/uploads/20210305095413e69454970.png","goods_no":"","balance_price":"0.00","goods_price":"214.00","goods_weight":899,"line_price":"0.00","stock_num":0}}]},"category":{"category_id":10581,"name":"电视","parent_id":0,"image_id":26087,"sort":100,"create_time":"2021-02-25 22:28:55"},"image":[{"id":34560,"goods_id":12931,"image_id":26091,"file_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg","file_name":"20210305100227b997a3950.jpg","file_url":""}],"sku":[{"goods_sku_id":39262,"goods_id":12931,"spec_sku_id":"12185_12186","image_id":26092,"goods_no":"","balance_price":"0.00","goods_price":"220.00","line_price":"0.00","stock_num":80,"goods_sales":0,"goods_weight":1000,"goods_attr":"颜色:黄色; 尺寸:22寸; ","image":{"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"}},{"goods_sku_id":39263,"goods_id":12931,"spec_sku_id":"12185_12187","image_id":26091,"goods_no":"","balance_price":"0.00","goods_price":"222.00","line_price":"0.00","stock_num":99,"goods_sales":0,"goods_weight":999,"image":{"file_id":26091,"storage":"local","group_id":0,"file_url":"","file_name":"20210305100227b997a3950.jpg","file_size":22572,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg"}},{"goods_sku_id":39264,"goods_id":12931,"spec_sku_id":"12180_12186","image_id":26090,"goods_no":"","balance_price":"0.00","goods_price":"218.00","line_price":"0.00","stock_num":66,"goods_sales":0,"goods_weight":998,"image":{"file_id":26090,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002278c6566507.jpg","file_size":14646,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002278c6566507.jpg"}},{"goods_sku_id":39265,"goods_id":12931,"spec_sku_id":"12180_12187","image_id":26088,"goods_no":"","balance_price":"0.00","goods_price":"214.00","line_price":"0.00","stock_num":0,"goods_sales":0,"goods_weight":899,"image":{"file_id":26088,"storage":"local","group_id":0,"file_url":"","file_name":"20210305095413e69454970.png","file_size":376823,"file_type":"image","extension":"png","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/20210305095413e69454970.png"}}],"video":null,"goods_sales":0}
-         * vip_goods_money : 10
-         * vip_goods_point : 10
-         * userInfo : {"user_id":19535,"nickName":"哈哈哈","avatarUrl":"http://gsyp.vtui365.com/uploads/20210310155250503bc3100.jpeg","gender":"未知","address_id":13971,"balance":"0.00","points":0,"pay_money":"0.00","expend_money":"0.00","phone":"13211111111","lasttime":null,"address":[{"address_id":13971,"name":"喝喜酒","phone":"13828465588","province_id":1168,"city_id":1209,"region_id":1210,"district":"","detail":"图图","longitude":"","latitude":"","user_id":19535,"region":{"province":"福建省","city":"泉州市","region":"鲤城区"}}],"username":null,"invite_code":null,"isVip":0,"vip_time":0,"vip_expire":0,"parent_id":0,"service_id":0,"birth":"2011-03-10","address_default":{"address_id":13971,"name":"喝喜酒","phone":"13828465588","province_id":1168,"city_id":1209,"region_id":1210,"district":"","detail":"图图","longitude":"","latitude":"","user_id":19535,"region":{"province":"福建省","city":"泉州市","region":"鲤城区"}},"grade":null}
+         * vip_goods : {"goods_id":12941,"goods_name":"荣事达纯铁锅仅需9金豆","selling_point":"","category_id":10585,"spec_type":10,"deduct_stock_type":10,"content":"<p><img src=\"http://gsyp.vtui365.com/uploads/20210318141808dd8740239.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103181418086449a4290.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/202103181418082a1f09683.gif\"/><\/p><p><img src=\"http://gsyp.vtui365.com/uploads/20210318141807dfe101386.gif\"/><\/p><p><br/><\/p>","goods_sort":100,"buy_limit":0,"goods_status":{"text":"上架","value":10},"type":{"value":1,"text":"普通商品"},"freight":"20.00","video_id":0,"points":0,"tag":{"value":1,"text":"精选"},"scan_num":0,"recommend_type":0,"goods_stock":957,"goods_image":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","goods_sku":{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":957,"goods_sales":14,"goods_weight":3,"goods_attr":"","image":null},"goods_multi_spec":null,"category":{"category_id":10585,"name":"小家电馆","parent_id":0,"image_id":26088,"sort":100,"create_time":"2021-03-03 15:16:59"},"image":[{"id":34602,"goods_id":12941,"image_id":26186,"file_path":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","file_name":"202103181414403c0815937.jpg","file_url":""}],"sku":[{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":957,"goods_sales":14,"goods_weight":3,"goods_attr":"","image":null}],"video":null,"goods_sales":114}
+         * vip_goods_money : 0
+         * vip_goods_point : 9
+         * vip_text : 成为会员立送99金豆
+         * vip_goods_text : 荣事达纯铁锅仅需9金豆
+         * userInfo : {"user_id":19533,"nickName":"厉害了","avatarUrl":"http://gsyp.vtui365.com/uploads/20210319141411b7abf7346.jpeg","gender":"未知","address_id":13991,"balance":"0.00","points":602,"pay_money":"12.00","expend_money":"0.00","phone":"15212790160","lasttime":null,"address":[{"address_id":13990,"name":"ttttt","phone":"13612121369","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"ttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}},{"address_id":13991,"name":"ABC","phone":"13332153636","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"tttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}}],"username":null,"invite_code":"2RdqGW","isVip":1,"vip_time":1615532201,"vip_expire":"2022-03-12","parent_id":19529,"service_id":0,"birth":null,"ercode":"/tmp/qrcode/qrcode_19533.png","poster":"/tmp/poster/poster_19533.png","login_num":13,"vip_order":0,"is_expire":0,"next_time":"2023-03-12","address_default":{"address_id":13991,"name":"ABC","phone":"13332153636","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"tttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}},"grade":null}
          */
 
-        private int time;
-        private int point;
-        private int money;
+        private String time;
+        private String point;
+        private String money;
         private String discount_money;
         private String title;
         private VipGoodsBean vip_goods;
         private int vip_goods_money;
-        private int vip_goods_point;
+        private String vip_goods_point;
+        private String vip_text;
         private String vip_goods_text;
+        private UserInfoBean userInfo;
+
+        public String getTime() {
+            return time;
+        }
+
+        public void setTime(String time) {
+            this.time = time;
+        }
+
+        public String getPoint() {
+            return point;
+        }
+
+        public void setPoint(String point) {
+            this.point = point;
+        }
+
+        public String getMoney() {
+            return money;
+        }
+
+        public void setMoney(String money) {
+            this.money = money;
+        }
 
         public String getDiscount_money() {
             return discount_money;
@@ -65,40 +95,6 @@ public class VipInfoModel {
 
         public void setDiscount_money(String discount_money) {
             this.discount_money = discount_money;
-        }
-
-        public String getVip_goods_text() {
-            return vip_goods_text;
-        }
-
-        public void setVip_goods_text(String vip_goods_text) {
-            this.vip_goods_text = vip_goods_text;
-        }
-
-        private UserInfoBean userInfo;
-
-        public int getTime() {
-            return time;
-        }
-
-        public void setTime(int time) {
-            this.time = time;
-        }
-
-        public int getPoint() {
-            return point;
-        }
-
-        public void setPoint(int point) {
-            this.point = point;
-        }
-
-        public int getMoney() {
-            return money;
-        }
-
-        public void setMoney(int money) {
-            this.money = money;
         }
 
         public String getTitle() {
@@ -125,12 +121,28 @@ public class VipInfoModel {
             this.vip_goods_money = vip_goods_money;
         }
 
-        public int getVip_goods_point() {
+        public String getVip_goods_point() {
             return vip_goods_point;
         }
 
-        public void setVip_goods_point(int vip_goods_point) {
+        public void setVip_goods_point(String vip_goods_point) {
             this.vip_goods_point = vip_goods_point;
+        }
+
+        public String getVip_text() {
+            return vip_text;
+        }
+
+        public void setVip_text(String vip_text) {
+            this.vip_text = vip_text;
+        }
+
+        public String getVip_goods_text() {
+            return vip_goods_text;
+        }
+
+        public void setVip_goods_text(String vip_goods_text) {
+            this.vip_goods_text = vip_goods_text;
         }
 
         public UserInfoBean getUserInfo() {
@@ -143,31 +155,32 @@ public class VipInfoModel {
 
         public static class VipGoodsBean {
             /**
-             * goods_id : 12931
-             * goods_name : 电视
+             * goods_id : 12941
+             * goods_name : 荣事达纯铁锅仅需9金豆
              * selling_point :
-             * category_id : 10581
-             * spec_type : 20
+             * category_id : 10585
+             * spec_type : 10
              * deduct_stock_type : 10
-             * content :
-             * goods_sort : 1
+             * content : <p><img src="http://gsyp.vtui365.com/uploads/20210318141808dd8740239.gif"/></p><p><img src="http://gsyp.vtui365.com/uploads/202103181418086449a4290.gif"/></p><p><img src="http://gsyp.vtui365.com/uploads/202103181418082a1f09683.gif"/></p><p><img src="http://gsyp.vtui365.com/uploads/20210318141807dfe101386.gif"/></p><p><br/></p>
+             * goods_sort : 100
              * buy_limit : 0
              * goods_status : {"text":"上架","value":10}
-             * type : {"value":3,"text":"会员商品"}
-             * freight : 0.00
+             * type : {"value":1,"text":"普通商品"}
+             * freight : 20.00
              * video_id : 0
              * points : 0
              * tag : {"value":1,"text":"精选"}
-             * scan_num : 248
-             * goods_stock : 245
-             * goods_image : http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg
-             * goods_sku : {"goods_sku_id":39262,"goods_id":12931,"spec_sku_id":"12185_12186","image_id":26092,"goods_no":"","balance_price":"0.00","goods_price":"220.00","line_price":"0.00","stock_num":80,"goods_sales":0,"goods_weight":1000,"goods_attr":"颜色:黄色; 尺寸:22寸; ","image":{"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"}}
-             * goods_multi_spec : {"spec_attr":[{"group_id":10403,"group_name":"颜色","spec_items":[{"item_id":12185,"spec_value":"黄色"},{"item_id":12180,"spec_value":"黑色"}]},{"group_id":10404,"group_name":"尺寸","spec_items":[{"item_id":12186,"spec_value":"22寸"},{"item_id":12187,"spec_value":"21寸"}]}],"spec_list":[{"goods_sku_id":39262,"spec_sku_id":"12185_12186","rows":[],"form":{"image_id":26092,"image_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg","goods_no":"","balance_price":"0.00","goods_price":"220.00","goods_weight":1000,"line_price":"0.00","stock_num":80}},{"goods_sku_id":39263,"spec_sku_id":"12185_12187","rows":[],"form":{"image_id":26091,"image_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg","goods_no":"","balance_price":"0.00","goods_price":"222.00","goods_weight":999,"line_price":"0.00","stock_num":99}},{"goods_sku_id":39264,"spec_sku_id":"12180_12186","rows":[],"form":{"image_id":26090,"image_path":"http://gsyp.vtui365.com/uploads/202103051002278c6566507.jpg","goods_no":"","balance_price":"0.00","goods_price":"218.00","goods_weight":998,"line_price":"0.00","stock_num":66}},{"goods_sku_id":39265,"spec_sku_id":"12180_12187","rows":[],"form":{"image_id":26088,"image_path":"http://gsyp.vtui365.com/uploads/20210305095413e69454970.png","goods_no":"","balance_price":"0.00","goods_price":"214.00","goods_weight":899,"line_price":"0.00","stock_num":0}}]}
-             * category : {"category_id":10581,"name":"电视","parent_id":0,"image_id":26087,"sort":100,"create_time":"2021-02-25 22:28:55"}
-             * image : [{"id":34560,"goods_id":12931,"image_id":26091,"file_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg","file_name":"20210305100227b997a3950.jpg","file_url":""}]
-             * sku : [{"goods_sku_id":39262,"goods_id":12931,"spec_sku_id":"12185_12186","image_id":26092,"goods_no":"","balance_price":"0.00","goods_price":"220.00","line_price":"0.00","stock_num":80,"goods_sales":0,"goods_weight":1000,"goods_attr":"颜色:黄色; 尺寸:22寸; ","image":{"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"}},{"goods_sku_id":39263,"goods_id":12931,"spec_sku_id":"12185_12187","image_id":26091,"goods_no":"","balance_price":"0.00","goods_price":"222.00","line_price":"0.00","stock_num":99,"goods_sales":0,"goods_weight":999,"image":{"file_id":26091,"storage":"local","group_id":0,"file_url":"","file_name":"20210305100227b997a3950.jpg","file_size":22572,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg"}},{"goods_sku_id":39264,"goods_id":12931,"spec_sku_id":"12180_12186","image_id":26090,"goods_no":"","balance_price":"0.00","goods_price":"218.00","line_price":"0.00","stock_num":66,"goods_sales":0,"goods_weight":998,"image":{"file_id":26090,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002278c6566507.jpg","file_size":14646,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002278c6566507.jpg"}},{"goods_sku_id":39265,"goods_id":12931,"spec_sku_id":"12180_12187","image_id":26088,"goods_no":"","balance_price":"0.00","goods_price":"214.00","line_price":"0.00","stock_num":0,"goods_sales":0,"goods_weight":899,"image":{"file_id":26088,"storage":"local","group_id":0,"file_url":"","file_name":"20210305095413e69454970.png","file_size":376823,"file_type":"image","extension":"png","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/20210305095413e69454970.png"}}]
+             * scan_num : 0
+             * recommend_type : 0
+             * goods_stock : 957
+             * goods_image : http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg
+             * goods_sku : {"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":957,"goods_sales":14,"goods_weight":3,"goods_attr":"","image":null}
+             * goods_multi_spec : null
+             * category : {"category_id":10585,"name":"小家电馆","parent_id":0,"image_id":26088,"sort":100,"create_time":"2021-03-03 15:16:59"}
+             * image : [{"id":34602,"goods_id":12941,"image_id":26186,"file_path":"http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg","file_name":"202103181414403c0815937.jpg","file_url":""}]
+             * sku : [{"goods_sku_id":39307,"goods_id":12941,"spec_sku_id":"0","image_id":0,"goods_no":"","balance_price":"99.00","goods_price":"99.00","line_price":"0.00","stock_num":957,"goods_sales":14,"goods_weight":3,"goods_attr":"","image":null}]
              * video : null
-             * goods_sales : 0
+             * goods_sales : 114
              */
 
             private int goods_id;
@@ -186,14 +199,15 @@ public class VipInfoModel {
             private int points;
             private TagBean tag;
             private int scan_num;
+            private int recommend_type;
             private int goods_stock;
             private String goods_image;
             private GoodsSkuBean goods_sku;
-            private GoodsMultiSpecBean goods_multi_spec;
+            private Object goods_multi_spec;
             private CategoryBean category;
             private Object video;
             private int goods_sales;
-            private List<ImageBeanX> image;
+            private List<ImageBean> image;
             private List<SkuBean> sku;
 
             public int getGoods_id() {
@@ -324,6 +338,14 @@ public class VipInfoModel {
                 this.scan_num = scan_num;
             }
 
+            public int getRecommend_type() {
+                return recommend_type;
+            }
+
+            public void setRecommend_type(int recommend_type) {
+                this.recommend_type = recommend_type;
+            }
+
             public int getGoods_stock() {
                 return goods_stock;
             }
@@ -348,11 +370,11 @@ public class VipInfoModel {
                 this.goods_sku = goods_sku;
             }
 
-            public GoodsMultiSpecBean getGoods_multi_spec() {
+            public Object getGoods_multi_spec() {
                 return goods_multi_spec;
             }
 
-            public void setGoods_multi_spec(GoodsMultiSpecBean goods_multi_spec) {
+            public void setGoods_multi_spec(Object goods_multi_spec) {
                 this.goods_multi_spec = goods_multi_spec;
             }
 
@@ -380,11 +402,11 @@ public class VipInfoModel {
                 this.goods_sales = goods_sales;
             }
 
-            public List<ImageBeanX> getImage() {
+            public List<ImageBean> getImage() {
                 return image;
             }
 
-            public void setImage(List<ImageBeanX> image) {
+            public void setImage(List<ImageBean> image) {
                 this.image = image;
             }
 
@@ -424,8 +446,8 @@ public class VipInfoModel {
 
             public static class TypeBean {
                 /**
-                 * value : 3
-                 * text : 会员商品
+                 * value : 1
+                 * text : 普通商品
                  */
 
                 private int value;
@@ -476,19 +498,19 @@ public class VipInfoModel {
 
             public static class GoodsSkuBean {
                 /**
-                 * goods_sku_id : 39262
-                 * goods_id : 12931
-                 * spec_sku_id : 12185_12186
-                 * image_id : 26092
+                 * goods_sku_id : 39307
+                 * goods_id : 12941
+                 * spec_sku_id : 0
+                 * image_id : 0
                  * goods_no :
-                 * balance_price : 0.00
-                 * goods_price : 220.00
+                 * balance_price : 99.00
+                 * goods_price : 99.00
                  * line_price : 0.00
-                 * stock_num : 80
-                 * goods_sales : 0
-                 * goods_weight : 1000
-                 * goods_attr : 颜色:黄色; 尺寸:22寸;
-                 * image : {"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"}
+                 * stock_num : 957
+                 * goods_sales : 14
+                 * goods_weight : 3
+                 * goods_attr :
+                 * image : null
                  */
 
                 private int goods_sku_id;
@@ -503,7 +525,7 @@ public class VipInfoModel {
                 private int goods_sales;
                 private int goods_weight;
                 private String goods_attr;
-                private ImageBean image;
+                private Object image;
 
                 public int getGoods_sku_id() {
                     return goods_sku_id;
@@ -601,364 +623,23 @@ public class VipInfoModel {
                     this.goods_attr = goods_attr;
                 }
 
-                public ImageBean getImage() {
+                public Object getImage() {
                     return image;
                 }
 
-                public void setImage(ImageBean image) {
+                public void setImage(Object image) {
                     this.image = image;
-                }
-
-                public static class ImageBean {
-                    /**
-                     * file_id : 26092
-                     * storage : local
-                     * group_id : 0
-                     * file_url :
-                     * file_name : 202103051002271d00e4277.jpg
-                     * file_size : 41903
-                     * file_type : image
-                     * extension : jpg
-                     * is_user : 0
-                     * is_recycle : 0
-                     * is_delete : 0
-                     * file_path : http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg
-                     */
-
-                    private int file_id;
-                    private String storage;
-                    private int group_id;
-                    private String file_url;
-                    private String file_name;
-                    private int file_size;
-                    private String file_type;
-                    private String extension;
-                    private int is_user;
-                    private int is_recycle;
-                    private int is_delete;
-                    private String file_path;
-
-                    public int getFile_id() {
-                        return file_id;
-                    }
-
-                    public void setFile_id(int file_id) {
-                        this.file_id = file_id;
-                    }
-
-                    public String getStorage() {
-                        return storage;
-                    }
-
-                    public void setStorage(String storage) {
-                        this.storage = storage;
-                    }
-
-                    public int getGroup_id() {
-                        return group_id;
-                    }
-
-                    public void setGroup_id(int group_id) {
-                        this.group_id = group_id;
-                    }
-
-                    public String getFile_url() {
-                        return file_url;
-                    }
-
-                    public void setFile_url(String file_url) {
-                        this.file_url = file_url;
-                    }
-
-                    public String getFile_name() {
-                        return file_name;
-                    }
-
-                    public void setFile_name(String file_name) {
-                        this.file_name = file_name;
-                    }
-
-                    public int getFile_size() {
-                        return file_size;
-                    }
-
-                    public void setFile_size(int file_size) {
-                        this.file_size = file_size;
-                    }
-
-                    public String getFile_type() {
-                        return file_type;
-                    }
-
-                    public void setFile_type(String file_type) {
-                        this.file_type = file_type;
-                    }
-
-                    public String getExtension() {
-                        return extension;
-                    }
-
-                    public void setExtension(String extension) {
-                        this.extension = extension;
-                    }
-
-                    public int getIs_user() {
-                        return is_user;
-                    }
-
-                    public void setIs_user(int is_user) {
-                        this.is_user = is_user;
-                    }
-
-                    public int getIs_recycle() {
-                        return is_recycle;
-                    }
-
-                    public void setIs_recycle(int is_recycle) {
-                        this.is_recycle = is_recycle;
-                    }
-
-                    public int getIs_delete() {
-                        return is_delete;
-                    }
-
-                    public void setIs_delete(int is_delete) {
-                        this.is_delete = is_delete;
-                    }
-
-                    public String getFile_path() {
-                        return file_path;
-                    }
-
-                    public void setFile_path(String file_path) {
-                        this.file_path = file_path;
-                    }
-                }
-            }
-
-            public static class GoodsMultiSpecBean {
-                private List<SpecAttrBean> spec_attr;
-                private List<SpecListBean> spec_list;
-
-                public List<SpecAttrBean> getSpec_attr() {
-                    return spec_attr;
-                }
-
-                public void setSpec_attr(List<SpecAttrBean> spec_attr) {
-                    this.spec_attr = spec_attr;
-                }
-
-                public List<SpecListBean> getSpec_list() {
-                    return spec_list;
-                }
-
-                public void setSpec_list(List<SpecListBean> spec_list) {
-                    this.spec_list = spec_list;
-                }
-
-                public static class SpecAttrBean {
-                    /**
-                     * group_id : 10403
-                     * group_name : 颜色
-                     * spec_items : [{"item_id":12185,"spec_value":"黄色"},{"item_id":12180,"spec_value":"黑色"}]
-                     */
-
-                    private int group_id;
-                    private String group_name;
-                    private List<SpecItemsBean> spec_items;
-
-                    public int getGroup_id() {
-                        return group_id;
-                    }
-
-                    public void setGroup_id(int group_id) {
-                        this.group_id = group_id;
-                    }
-
-                    public String getGroup_name() {
-                        return group_name;
-                    }
-
-                    public void setGroup_name(String group_name) {
-                        this.group_name = group_name;
-                    }
-
-                    public List<SpecItemsBean> getSpec_items() {
-                        return spec_items;
-                    }
-
-                    public void setSpec_items(List<SpecItemsBean> spec_items) {
-                        this.spec_items = spec_items;
-                    }
-
-                    public static class SpecItemsBean {
-                        /**
-                         * item_id : 12185
-                         * spec_value : 黄色
-                         */
-
-                        private int item_id;
-                        private String spec_value;
-
-                        public int getItem_id() {
-                            return item_id;
-                        }
-
-                        public void setItem_id(int item_id) {
-                            this.item_id = item_id;
-                        }
-
-                        public String getSpec_value() {
-                            return spec_value;
-                        }
-
-                        public void setSpec_value(String spec_value) {
-                            this.spec_value = spec_value;
-                        }
-                    }
-                }
-
-                public static class SpecListBean {
-                    /**
-                     * goods_sku_id : 39262
-                     * spec_sku_id : 12185_12186
-                     * rows : []
-                     * form : {"image_id":26092,"image_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg","goods_no":"","balance_price":"0.00","goods_price":"220.00","goods_weight":1000,"line_price":"0.00","stock_num":80}
-                     */
-
-                    private int goods_sku_id;
-                    private String spec_sku_id;
-                    private FormBean form;
-                    private List<?> rows;
-
-                    public int getGoods_sku_id() {
-                        return goods_sku_id;
-                    }
-
-                    public void setGoods_sku_id(int goods_sku_id) {
-                        this.goods_sku_id = goods_sku_id;
-                    }
-
-                    public String getSpec_sku_id() {
-                        return spec_sku_id;
-                    }
-
-                    public void setSpec_sku_id(String spec_sku_id) {
-                        this.spec_sku_id = spec_sku_id;
-                    }
-
-                    public FormBean getForm() {
-                        return form;
-                    }
-
-                    public void setForm(FormBean form) {
-                        this.form = form;
-                    }
-
-                    public List<?> getRows() {
-                        return rows;
-                    }
-
-                    public void setRows(List<?> rows) {
-                        this.rows = rows;
-                    }
-
-                    public static class FormBean {
-                        /**
-                         * image_id : 26092
-                         * image_path : http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg
-                         * goods_no :
-                         * balance_price : 0.00
-                         * goods_price : 220.00
-                         * goods_weight : 1000
-                         * line_price : 0.00
-                         * stock_num : 80
-                         */
-
-                        private int image_id;
-                        private String image_path;
-                        private String goods_no;
-                        private String balance_price;
-                        private String goods_price;
-                        private int goods_weight;
-                        private String line_price;
-                        private int stock_num;
-
-                        public int getImage_id() {
-                            return image_id;
-                        }
-
-                        public void setImage_id(int image_id) {
-                            this.image_id = image_id;
-                        }
-
-                        public String getImage_path() {
-                            return image_path;
-                        }
-
-                        public void setImage_path(String image_path) {
-                            this.image_path = image_path;
-                        }
-
-                        public String getGoods_no() {
-                            return goods_no;
-                        }
-
-                        public void setGoods_no(String goods_no) {
-                            this.goods_no = goods_no;
-                        }
-
-                        public String getBalance_price() {
-                            return balance_price;
-                        }
-
-                        public void setBalance_price(String balance_price) {
-                            this.balance_price = balance_price;
-                        }
-
-                        public String getGoods_price() {
-                            return goods_price;
-                        }
-
-                        public void setGoods_price(String goods_price) {
-                            this.goods_price = goods_price;
-                        }
-
-                        public int getGoods_weight() {
-                            return goods_weight;
-                        }
-
-                        public void setGoods_weight(int goods_weight) {
-                            this.goods_weight = goods_weight;
-                        }
-
-                        public String getLine_price() {
-                            return line_price;
-                        }
-
-                        public void setLine_price(String line_price) {
-                            this.line_price = line_price;
-                        }
-
-                        public int getStock_num() {
-                            return stock_num;
-                        }
-
-                        public void setStock_num(int stock_num) {
-                            this.stock_num = stock_num;
-                        }
-                    }
                 }
             }
 
             public static class CategoryBean {
                 /**
-                 * category_id : 10581
-                 * name : 电视
+                 * category_id : 10585
+                 * name : 小家电馆
                  * parent_id : 0
-                 * image_id : 26087
+                 * image_id : 26088
                  * sort : 100
-                 * create_time : 2021-02-25 22:28:55
+                 * create_time : 2021-03-03 15:16:59
                  */
 
                 private int category_id;
@@ -1017,13 +698,13 @@ public class VipInfoModel {
                 }
             }
 
-            public static class ImageBeanX {
+            public static class ImageBean {
                 /**
-                 * id : 34560
-                 * goods_id : 12931
-                 * image_id : 26091
-                 * file_path : http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg
-                 * file_name : 20210305100227b997a3950.jpg
+                 * id : 34602
+                 * goods_id : 12941
+                 * image_id : 26186
+                 * file_path : http://gsyp.vtui365.com/uploads/202103181414403c0815937.jpg
+                 * file_name : 202103181414403c0815937.jpg
                  * file_url :
                  */
 
@@ -1085,19 +766,19 @@ public class VipInfoModel {
 
             public static class SkuBean {
                 /**
-                 * goods_sku_id : 39262
-                 * goods_id : 12931
-                 * spec_sku_id : 12185_12186
-                 * image_id : 26092
+                 * goods_sku_id : 39307
+                 * goods_id : 12941
+                 * spec_sku_id : 0
+                 * image_id : 0
                  * goods_no :
-                 * balance_price : 0.00
-                 * goods_price : 220.00
+                 * balance_price : 99.00
+                 * goods_price : 99.00
                  * line_price : 0.00
-                 * stock_num : 80
-                 * goods_sales : 0
-                 * goods_weight : 1000
-                 * goods_attr : 颜色:黄色; 尺寸:22寸;
-                 * image : {"file_id":26092,"storage":"local","group_id":0,"file_url":"","file_name":"202103051002271d00e4277.jpg","file_size":41903,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"file_path":"http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg"}
+                 * stock_num : 957
+                 * goods_sales : 14
+                 * goods_weight : 3
+                 * goods_attr :
+                 * image : null
                  */
 
                 private int goods_sku_id;
@@ -1112,7 +793,7 @@ public class VipInfoModel {
                 private int goods_sales;
                 private int goods_weight;
                 private String goods_attr;
-                private ImageBeanXX image;
+                private Object image;
 
                 public int getGoods_sku_id() {
                     return goods_sku_id;
@@ -1210,177 +891,47 @@ public class VipInfoModel {
                     this.goods_attr = goods_attr;
                 }
 
-                public ImageBeanXX getImage() {
+                public Object getImage() {
                     return image;
                 }
 
-                public void setImage(ImageBeanXX image) {
+                public void setImage(Object image) {
                     this.image = image;
-                }
-
-                public static class ImageBeanXX {
-                    /**
-                     * file_id : 26092
-                     * storage : local
-                     * group_id : 0
-                     * file_url :
-                     * file_name : 202103051002271d00e4277.jpg
-                     * file_size : 41903
-                     * file_type : image
-                     * extension : jpg
-                     * is_user : 0
-                     * is_recycle : 0
-                     * is_delete : 0
-                     * file_path : http://gsyp.vtui365.com/uploads/202103051002271d00e4277.jpg
-                     */
-
-                    private int file_id;
-                    private String storage;
-                    private int group_id;
-                    private String file_url;
-                    private String file_name;
-                    private int file_size;
-                    private String file_type;
-                    private String extension;
-                    private int is_user;
-                    private int is_recycle;
-                    private int is_delete;
-                    private String file_path;
-
-                    public int getFile_id() {
-                        return file_id;
-                    }
-
-                    public void setFile_id(int file_id) {
-                        this.file_id = file_id;
-                    }
-
-                    public String getStorage() {
-                        return storage;
-                    }
-
-                    public void setStorage(String storage) {
-                        this.storage = storage;
-                    }
-
-                    public int getGroup_id() {
-                        return group_id;
-                    }
-
-                    public void setGroup_id(int group_id) {
-                        this.group_id = group_id;
-                    }
-
-                    public String getFile_url() {
-                        return file_url;
-                    }
-
-                    public void setFile_url(String file_url) {
-                        this.file_url = file_url;
-                    }
-
-                    public String getFile_name() {
-                        return file_name;
-                    }
-
-                    public void setFile_name(String file_name) {
-                        this.file_name = file_name;
-                    }
-
-                    public int getFile_size() {
-                        return file_size;
-                    }
-
-                    public void setFile_size(int file_size) {
-                        this.file_size = file_size;
-                    }
-
-                    public String getFile_type() {
-                        return file_type;
-                    }
-
-                    public void setFile_type(String file_type) {
-                        this.file_type = file_type;
-                    }
-
-                    public String getExtension() {
-                        return extension;
-                    }
-
-                    public void setExtension(String extension) {
-                        this.extension = extension;
-                    }
-
-                    public int getIs_user() {
-                        return is_user;
-                    }
-
-                    public void setIs_user(int is_user) {
-                        this.is_user = is_user;
-                    }
-
-                    public int getIs_recycle() {
-                        return is_recycle;
-                    }
-
-                    public void setIs_recycle(int is_recycle) {
-                        this.is_recycle = is_recycle;
-                    }
-
-                    public int getIs_delete() {
-                        return is_delete;
-                    }
-
-                    public void setIs_delete(int is_delete) {
-                        this.is_delete = is_delete;
-                    }
-
-                    public String getFile_path() {
-                        return file_path;
-                    }
-
-                    public void setFile_path(String file_path) {
-                        this.file_path = file_path;
-                    }
                 }
             }
         }
 
         public static class UserInfoBean {
             /**
-             * user_id : 19535
-             * nickName : 哈哈哈
-             * avatarUrl : http://gsyp.vtui365.com/uploads/20210310155250503bc3100.jpeg
+             * user_id : 19533
+             * nickName : 厉害了
+             * avatarUrl : http://gsyp.vtui365.com/uploads/20210319141411b7abf7346.jpeg
              * gender : 未知
-             * address_id : 13971
+             * address_id : 13991
              * balance : 0.00
-             * points : 0
-             * pay_money : 0.00
+             * points : 602
+             * pay_money : 12.00
              * expend_money : 0.00
-             * phone : 13211111111
+             * phone : 15212790160
              * lasttime : null
-             * address : [{"address_id":13971,"name":"喝喜酒","phone":"13828465588","province_id":1168,"city_id":1209,"region_id":1210,"district":"","detail":"图图","longitude":"","latitude":"","user_id":19535,"region":{"province":"福建省","city":"泉州市","region":"鲤城区"}}]
+             * address : [{"address_id":13990,"name":"ttttt","phone":"13612121369","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"ttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}},{"address_id":13991,"name":"ABC","phone":"13332153636","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"tttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}}]
              * username : null
-             * invite_code : null
-             * isVip : 0
-             * vip_time : 0
-             * vip_expire : 0
-             * parent_id : 0
+             * invite_code : 2RdqGW
+             * isVip : 1
+             * vip_time : 1615532201
+             * vip_expire : 2022-03-12
+             * parent_id : 19529
              * service_id : 0
-             * birth : 2011-03-10
-             * address_default : {"address_id":13971,"name":"喝喜酒","phone":"13828465588","province_id":1168,"city_id":1209,"region_id":1210,"district":"","detail":"图图","longitude":"","latitude":"","user_id":19535,"region":{"province":"福建省","city":"泉州市","region":"鲤城区"}}
+             * birth : null
+             * ercode : /tmp/qrcode/qrcode_19533.png
+             * poster : /tmp/poster/poster_19533.png
+             * login_num : 13
+             * vip_order : 0
+             * is_expire : 0
+             * next_time : 2023-03-12
+             * address_default : {"address_id":13991,"name":"ABC","phone":"13332153636","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"tttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}}
              * grade : null
-             *
              */
-            private String next_time;
-
-            public String getNext_time() {
-                return next_time;
-            }
-
-            public void setNext_time(String next_time) {
-                this.next_time = next_time;
-            }
 
             private int user_id;
             private String nickName;
@@ -1394,25 +945,22 @@ public class VipInfoModel {
             private String phone;
             private Object lasttime;
             private Object username;
-            private Object invite_code;
+            private String invite_code;
             private int isVip;
             private int vip_time;
             private String vip_expire;
             private int parent_id;
             private int service_id;
-            private int is_exprire;
-            private String birth;
+            private Object birth;
+            private String ercode;
+            private String poster;
+            private int login_num;
+            private int vip_order;
+            private int is_expire;
+            private String next_time;
             private AddressDefaultBean address_default;
             private Object grade;
             private List<AddressBean> address;
-
-            public int getIs_exprire() {
-                return is_exprire;
-            }
-
-            public void setIs_exprire(int is_exprire) {
-                this.is_exprire = is_exprire;
-            }
 
             public int getUser_id() {
                 return user_id;
@@ -1510,11 +1058,11 @@ public class VipInfoModel {
                 this.username = username;
             }
 
-            public Object getInvite_code() {
+            public String getInvite_code() {
                 return invite_code;
             }
 
-            public void setInvite_code(Object invite_code) {
+            public void setInvite_code(String invite_code) {
                 this.invite_code = invite_code;
             }
 
@@ -1558,12 +1106,60 @@ public class VipInfoModel {
                 this.service_id = service_id;
             }
 
-            public String getBirth() {
+            public Object getBirth() {
                 return birth;
             }
 
-            public void setBirth(String birth) {
+            public void setBirth(Object birth) {
                 this.birth = birth;
+            }
+
+            public String getErcode() {
+                return ercode;
+            }
+
+            public void setErcode(String ercode) {
+                this.ercode = ercode;
+            }
+
+            public String getPoster() {
+                return poster;
+            }
+
+            public void setPoster(String poster) {
+                this.poster = poster;
+            }
+
+            public int getLogin_num() {
+                return login_num;
+            }
+
+            public void setLogin_num(int login_num) {
+                this.login_num = login_num;
+            }
+
+            public int getVip_order() {
+                return vip_order;
+            }
+
+            public void setVip_order(int vip_order) {
+                this.vip_order = vip_order;
+            }
+
+            public int getIs_expire() {
+                return is_expire;
+            }
+
+            public void setIs_expire(int is_expire) {
+                this.is_expire = is_expire;
+            }
+
+            public String getNext_time() {
+                return next_time;
+            }
+
+            public void setNext_time(String next_time) {
+                this.next_time = next_time;
             }
 
             public AddressDefaultBean getAddress_default() {
@@ -1592,18 +1188,18 @@ public class VipInfoModel {
 
             public static class AddressDefaultBean {
                 /**
-                 * address_id : 13971
-                 * name : 喝喜酒
-                 * phone : 13828465588
-                 * province_id : 1168
-                 * city_id : 1209
-                 * region_id : 1210
+                 * address_id : 13991
+                 * name : ABC
+                 * phone : 13332153636
+                 * province_id : 1
+                 * city_id : 2
+                 * region_id : 3
                  * district :
-                 * detail : 图图
+                 * detail : tttt
                  * longitude :
                  * latitude :
-                 * user_id : 19535
-                 * region : {"province":"福建省","city":"泉州市","region":"鲤城区"}
+                 * user_id : 19533
+                 * region : {"province":"北京市","city":"北京市","region":"东城区"}
                  */
 
                 private int address_id;
@@ -1717,9 +1313,9 @@ public class VipInfoModel {
 
                 public static class RegionBean {
                     /**
-                     * province : 福建省
-                     * city : 泉州市
-                     * region : 鲤城区
+                     * province : 北京市
+                     * city : 北京市
+                     * region : 东城区
                      */
 
                     private String province;
@@ -1754,18 +1350,18 @@ public class VipInfoModel {
 
             public static class AddressBean {
                 /**
-                 * address_id : 13971
-                 * name : 喝喜酒
-                 * phone : 13828465588
-                 * province_id : 1168
-                 * city_id : 1209
-                 * region_id : 1210
+                 * address_id : 13990
+                 * name : ttttt
+                 * phone : 13612121369
+                 * province_id : 1
+                 * city_id : 2
+                 * region_id : 3
                  * district :
-                 * detail : 图图
+                 * detail : ttt
                  * longitude :
                  * latitude :
-                 * user_id : 19535
-                 * region : {"province":"福建省","city":"泉州市","region":"鲤城区"}
+                 * user_id : 19533
+                 * region : {"province":"北京市","city":"北京市","region":"东城区"}
                  */
 
                 private int address_id;
@@ -1879,9 +1475,9 @@ public class VipInfoModel {
 
                 public static class RegionBeanX {
                     /**
-                     * province : 福建省
-                     * city : 泉州市
-                     * region : 鲤城区
+                     * province : 北京市
+                     * city : 北京市
+                     * region : 东城区
                      */
 
                     private String province;

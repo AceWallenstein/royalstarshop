@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="消息中心"
+            android:textColor="@color/light_black"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/rl_title"
+        android:background="@color/white"
+        android:id="@+id/rv_system_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_sys_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/system_message" />
+
+        <TextView
+            android:id="@+id/tv_sys_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/iv_sys_message"
+            android:text="系统消息"
+            android:textColor="@color/black_1"
+            android:textSize="15sp" />
+
+        <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/tv_sys_message_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_sys_message"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/iv_sys_message"
+            android:text="0条未读消息"
+            android:textColor="@color/grey"
+            android:textSize="13sp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_dot_sys"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_red_dot" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/rv_system_message"
+        android:background="@color/white"
+        android:id="@+id/rv_express_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_shop_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/transaction_logistics" />
+
+        <TextView
+            android:id="@+id/tv_express_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/iv_shop_message"
+            android:text="交易物流"
+            android:textColor="@color/black_1"
+            android:textSize="15sp" />
+
+        <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:id="@+id/tv_express_message_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_shop_message"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/iv_shop_message"
+            android:text="0条未读消息"
+            android:textColor="@color/grey"
+            android:textSize="13sp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_dot_express"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:textSize="8sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_red_dot" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -127,11 +127,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/ll_buy"
             android:layout_toRightOf="@id/iv_image"
-            android:ellipsize="end"
+            android:maxEms="6"
             android:singleLine="true"
+            android:ellipsize="end"
             android:text="荣事达集整体橱柜、衣柜整体橱柜"
             android:textColor="@color/black"
             android:textSize="15sp" />
@@ -171,8 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/ll_money"
+                android:layout_below="@id/ll_money"
                 android:background="@mipmap/red_rect1"
                 android:gravity="center"
                 android:text="会员￥185"
@@ -182,6 +180,8 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:id="@+id/ll_buy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:text="499件已售"
                 android:textColor="@color/white"
-                android:textSize="9sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"

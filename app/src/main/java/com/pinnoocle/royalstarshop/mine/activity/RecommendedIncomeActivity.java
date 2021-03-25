@@ -101,9 +101,9 @@ public class RecommendedIncomeActivity extends BaseActivity {
                 startActivity(intent1);
                 break;
             case R.id.tv_withdrawal:
-//                Intent intent2 = new Intent(this, WithdrawalActivity.class);
-//                startActivity(intent2);
-                ToastUtils.showToast("暂未开放");
+                Intent intent2 = new Intent(this, WithdrawalActivity.class);
+                startActivity(intent2);
+//                ToastUtils.showToast("暂未开放");
                 break;
         }
     }

@@ -19,13 +19,16 @@ import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
-import com.pinnoocle.royalstarshop.bean.LoginModel;
+import com.pinnoocle.royalstarshop.bean.MessageCountModel;
+import com.pinnoocle.royalstarshop.bean.MessageDetailModel;
+import com.pinnoocle.royalstarshop.bean.MessageListModel;
 import com.pinnoocle.royalstarshop.bean.MoneyListModel;
 import com.pinnoocle.royalstarshop.bean.MoneyModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.OrderPayModel;
+import com.pinnoocle.royalstarshop.bean.PayStatusModel;
 import com.pinnoocle.royalstarshop.bean.PointsModel;
 import com.pinnoocle.royalstarshop.bean.PosterModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
@@ -33,6 +36,7 @@ import com.pinnoocle.royalstarshop.bean.RecommendSearchModel;
 import com.pinnoocle.royalstarshop.bean.RefundDetailModel;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
+import com.pinnoocle.royalstarshop.bean.ReturnAddressModel;
 import com.pinnoocle.royalstarshop.bean.ScanListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
@@ -42,6 +46,7 @@ import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
 import com.pinnoocle.royalstarshop.bean.VipOpenModel;
+import com.pinnoocle.royalstarshop.bean.WithdrawSettingModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 
 import java.util.Map;
@@ -156,7 +161,7 @@ public interface RetrofitService {
 
     //购物车购买
     @POST("api/order/cart")
-    Observable<OrderCartModel> buyNowCart(@Body LoginBean loginBean);
+    Observable<WxPayResultModel> buyNowCart(@Body LoginBean loginBean);
 
     //商品评价列表
     @POST("api/comment/lists")
@@ -288,6 +293,41 @@ public interface RetrofitService {
     //推荐搜索
     @POST("api/index/recommendSearch")
     Observable<RecommendSearchModel> recommendSearch(@Body LoginBean loginBean);
+    //获取会员权益商品
+    @GET("api/order/vipGoods")
+    Observable<SureOrderModel> vipGoods(@QueryMap Map<String, String> queryMap);
+    //购买会员权益商品
+    @POST("api/order/vipGoods")
+    Observable<PayStatusModel> buyVipGoods(@Body LoginBean loginBean);
+    //提现申请
+    @POST("api/user.dealer.withdraw/submit")
+    Observable<StatusModel> withdraw(@Body LoginBean loginBean);
+    //退货收货地址
+    @POST("api/return_address/lists")
+    Observable<ReturnAddressModel> returnAddress(@Body LoginBean loginBean);
+    //用户发货
+    @POST("api/user.refund/delivery")
+    Observable<StatusModel> refundDelivery(@Body LoginBean loginBean);
+    //是否绑定
+    @POST("api/user/isBind")
+    Observable<StatusModel> isBind(@Body LoginBean loginBean);
+    //绑定微信
+    @POST("api/user/bindWx")
+    Observable<StatusModel> bindWx(@Body LoginBean loginBean);
+    //提现规则
+    @POST("api/withdraw/setting")
+    Observable<WithdrawSettingModel> withdrawSetting(@Body LoginBean loginBean);
+    //消息统计
+    @POST("api/message/count")
+    Observable<MessageCountModel> messageCount(@Body LoginBean loginBean);
+    //消息列表
+    @POST("api/message/lists")
+    Observable<MessageListModel> messageList(@Body LoginBean loginBean);
+    //消息详情
+    @POST("api/message/detail")
+    Observable<MessageDetailModel> messageDetail(@Body LoginBean loginBean);
+
+
 
 
 }

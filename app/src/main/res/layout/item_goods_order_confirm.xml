@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="15dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="15dp"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -20,30 +22,31 @@
             android:layout_marginStart="5dp"
             android:textColor="@color/black_1"
             android:textSize="15sp"
-            android:text="节能环保便携式高级净水过滤器"
+            tools:text="节能环保便携式高级净水过滤器"
             android:id="@+id/tv_goods_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:layout_toStartOf="@id/tv_price"
             android:layout_toEndOf="@id/iv_goods_pic"
             android:ellipsize="end"
-            android:maxLines="2" />
+            android:maxLines="1" />
 
         <TextView
-
-            android:text="￥188.32"
+            android:layout_toEndOf="@id/iv_goods_pic"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_below="@id/tv_spec"
+            tools:text="￥188.32"
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:textColor="#FF303F"
             android:textSize="16sp" />
 
         <TextView
             android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
-            android:text="颜色：米色"
+            tools:text="颜色：米色"
             android:id="@+id/tv_spec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,6 +57,7 @@
 
         <TextView
             android:id="@+id/tv_nums"
+            tools:text="x2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_goods_title"
@@ -63,27 +67,6 @@
             android:textSize="15sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="返豆"
-            android:textColor="@color/black_1"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/tv_points"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="60金豆"
-            android:textColor="#FF2A28"
-            android:textSize="13sp" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -92,22 +75,14 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="留言"
-            android:textColor="@color/black_1"
-            android:textSize="13sp" />
-
-        <TextView
             android:id="@+id/tv_remarks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="60金豆"
+            tools:text="60金豆"
             android:textColor="@color/grey_3"
             android:textSize="13sp" />
     </RelativeLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -129,6 +104,32 @@
             android:textColor="@color/grey_3"
             android:textSize="13sp" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/return_gold_bean"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返豆"
+            android:textColor="@color/black_1"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            tools:text="60金豆"
+            android:textColor="#FF2A28"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+
 
 
 </LinearLayout>

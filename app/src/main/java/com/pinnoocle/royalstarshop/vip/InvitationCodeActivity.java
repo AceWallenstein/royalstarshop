@@ -88,7 +88,7 @@ public class InvitationCodeActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_skip:
-//                startActivity(new Intent(InvitationCodeActivity.this, MainActivity.class));
+                startActivity(new Intent(InvitationCodeActivity.this, VipActivity.class));
                 finish();
                 break;
         }

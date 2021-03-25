@@ -32,6 +32,23 @@
 
     </RelativeLayout>
 
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_below="@id/rl_title"
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/rl_panel"
+            android:layout_below="@id/rl_title"
+            android:overScrollMode="never" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <RelativeLayout
         android:visibility="gone"
         android:id="@+id/rl_empty"
@@ -72,13 +89,7 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/rl_panel"
-        android:layout_below="@id/rl_title"
-        android:overScrollMode="never" />
+
 
     <RelativeLayout
         android:id="@+id/rl_panel"

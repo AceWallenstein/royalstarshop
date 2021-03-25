@@ -149,7 +149,14 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
                     tvOrderCode.setText(orderDetailModel.getData().getOrder().getOrder_no());
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
                     List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
-                    adapter.setData(goods);
+                    List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> select = new ArrayList<>();
+                    for (int i = 0; i < goods.size(); i++) {
+                        if(goods.get(i).getOrder_goods_id()==getIntent().getIntExtra("order_goods_id",0)){
+                            select.add(goods.get(i));
+                        }
+
+                    }
+                    adapter.setData(select);
                 }
             }
         });
@@ -159,7 +166,7 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
-        loginBean.order_goods_id = getIntent().getStringExtra("order_goods_id");
+        loginBean.order_goods_id = getIntent().getIntExtra("order_goods_id",0)+"";
         loginBean.type = type;
         loginBean.content = content;
         loginBean.images = images;
@@ -297,6 +304,7 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
                                                 .openGallery(PictureMimeType.ofImage())
                                                 .selectionMode(PictureConfig.MULTIPLE)
                                                 .compress(true)
+                                                .maxSelectNum(3)
                                                 .loadImageEngine(GlideEngine.createGlideEngine())
                                                 .enableCrop(false)
                                                 .forResult(PictureConfig.CHOOSE_REQUEST);

@@ -62,6 +62,8 @@ public interface RemotDataSource {
 
     void orderCart(Map<String, String> queryMap, getCallback callback);
 
+    void vipGoods(Map<String, String> queryMap, getCallback callback);
+
     void buyNow(LoginBean loginBean, getCallback callback);
 
     void buyNowCart(LoginBean loginBean, getCallback callback);
@@ -126,6 +128,16 @@ public interface RemotDataSource {
     void applyRefund(LoginBean loginBean, getCallback callback);
     void refundDetail(LoginBean loginBean, getCallback callback);
     void recommendSearch(LoginBean loginBean, getCallback callback);
+    void buyVipGoods(LoginBean loginBean, getCallback callback);
+    void withdraw(LoginBean loginBean, getCallback callback);
+    void returnAddress(LoginBean loginBean, getCallback callback);
+    void refundDelivery(LoginBean loginBean, getCallback callback);
+    void isBind(LoginBean loginBean, getCallback callback);
+    void bindWx(LoginBean loginBean, getCallback callback);
+    void withdrawSetting(LoginBean loginBean, getCallback callback);
+    void messageCount(LoginBean loginBean, getCallback callback);
+    void messageList(LoginBean loginBean, getCallback callback);
+    void messageDetail(LoginBean loginBean, getCallback callback);
 
     void image(String wxappid, String token, MultipartBody.Part file, getCallback callback);
 

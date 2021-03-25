@@ -6,12 +6,14 @@ import android.graphics.PixelFormat;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.receiver.NetUtils;
@@ -34,6 +36,7 @@ public class BaseActivity extends AppCompatActivity {
     WindowManager mWindowManager;
     WindowManager.LayoutParams mLayoutParams;
     private NetworkConnectChangedReceiver netBroadcastReceiver;
+    private long lastClickTime;
 
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -48,6 +51,13 @@ public class BaseActivity extends AppCompatActivity {
             netBroadcastReceiver = new NetworkConnectChangedReceiver();
             //注册广播接收
             registerReceiver(netBroadcastReceiver, filter);
+        }
+        ViewGroup mContentView = (ViewGroup) this.findViewById(Window.ID_ANDROID_CONTENT);
+        View mChildView = mContentView.getChildAt(0);
+
+        if (mChildView != null) {
+            //注意不是设置 ContentView 的 FitsSystemWindows, 而是设置 ContentView 的第一个子 View . 使其不为系统 View 预留空间.
+            ViewCompat.setFitsSystemWindows(mChildView, false);
         }
     }
 
@@ -185,5 +195,24 @@ public class BaseActivity extends AppCompatActivity {
 
     public void initBlack() {
         StatusBarUtils.setColor(this.getWindow(), 0xff000000);
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (isFastDoubleClick()) {
+                return true;
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+
+    public boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        lastClickTime = time;
+        return timeD <= 300;
     }
 }

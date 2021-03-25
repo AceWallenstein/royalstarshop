@@ -6,19 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,29 +42,29 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
         holder.tvGoodsPattern.setText(mDatas.get(position).getGoods_attr());
         holder.tvNum.setText("x" + mDatas.get(position).getTotal_num());
 //        holder.tv_status.setText(mDatas.get(position).ge);
-        holder.itemView.setOnClickListener(v -> {
+        holder.rlGoods.setOnClickListener(v -> {
             if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
-
-        holder.tv_after_sale.setOnClickListener(v -> {
+        holder.tvPoints.setText("￥" + mDatas.get(position).getPoints_bonus());
+        holder.tvFreight.setText("￥" + mDatas.get(position).getTotal_freight());
+        holder.tvAfterSale.setOnClickListener(v -> {
             if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v, position,mDatas.get(position));
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
-        if(!TextUtils.isEmpty(state_text)) {
+        if (!TextUtils.isEmpty(state_text)) {
             switch (state_text) {
                 case "待付款":
-                    holder.tv_after_sale.setVisibility(View.GONE);
+                    holder.tvAfterSale.setVisibility(View.GONE);
 //                    holder.tv_after_sale.setVisibility(View.VISIBLE);
                     break;
                 case "待发货":
-                case "已取消":
                 case "已完成":
                 case "待收货":
                 case "待评价":
-                    holder.tv_after_sale.setVisibility(View.VISIBLE);
+                    holder.tvAfterSale.setVisibility(View.VISIBLE);
                     break;
 
             }
@@ -85,18 +82,31 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
 
 
     public static class VH extends RecyclerView.ViewHolder {
+
         @BindView(R.id.iv_shop)
         ImageView ivShop;
         @BindView(R.id.tv_title)
         TextView tvTitle;
         @BindView(R.id.tv_goods_pattern)
         TextView tvGoodsPattern;
+        @BindView(R.id.tv_status)
+        TextView tvStatus;
         @BindView(R.id.tv_num)
         TextView tvNum;
-        @BindView(R.id.tv_status)
-        TextView tv_status;
+        @BindView(R.id.rl_goods)
+        RelativeLayout rlGoods;
+        @BindView(R.id.tv_points)
+        TextView tvPoints;
+        @BindView(R.id.rl_jin_dou)
+        RelativeLayout rlJinDou;
+        @BindView(R.id.tv_freight)
+        TextView tvFreight;
+        @BindView(R.id.rl_freight)
+        RelativeLayout rlFreight;
         @BindView(R.id.tv_after_sale)
-        TextView tv_after_sale;
+        TextView tvAfterSale;
+        @BindView(R.id.rl_after_sale)
+        RelativeLayout rlAfterSale;
 
         public VH(@NonNull View itemView) {
             super(itemView);

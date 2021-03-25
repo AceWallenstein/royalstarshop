@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 public class OrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.GoodsListBean, OrderConfirmAdapter.VH> {
 
 
+
     public OrderConfirmAdapter(Context mContext) {
         super(mContext);
     }
@@ -35,12 +37,23 @@ public class OrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.Goo
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Glide.with(mContext).load(mDatas.get(position).getGoods_image()).fitCenter().into(holder.ivGoodsPic);
         holder.tvGoodsTitle.setText(mDatas.get(position).getGoods_name());
-        holder.tvPrice.setText(mDatas.get(position).getGoods_price());
+        holder.tvPrice.setText("￥" + mDatas.get(position).getGoods_price());
         holder.tvSpec.setText(mDatas.get(position).getGoods_sku().getGoods_attr());
-        holder.tvNums.setText("x"+mDatas.get(position).getTotal_num());
-        holder.tvPoints.setText(mDatas.get(position).getPoints_bonus()+"金豆");
+        holder.tvNums.setText("x" + mDatas.get(position).getTotal_num());
+        holder.tvPoints.setText(mDatas.get(position).getPoints_bonus() + "金豆");
         holder.tvFreight.setText(mDatas.get(position).getTotal_freight());
 //        holder.tvRemarks.setText(mDatas.get(position).get);
+        if(mDatas.get(position).getType().getValue()==3){
+            holder.returnGoldBean.setVisibility(View.VISIBLE);
+        }else {
+            holder.returnGoldBean.setVisibility(View.GONE);
+        }
+
+        holder.rlItem.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
+            }
+        });
 
     }
 
@@ -50,6 +63,7 @@ public class OrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.Goo
     }
 
     static class VH extends RecyclerView.ViewHolder {
+
         @BindView(R.id.iv_goods_pic)
         ImageView ivGoodsPic;
         @BindView(R.id.tv_goods_title)
@@ -60,12 +74,16 @@ public class OrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.Goo
         TextView tvSpec;
         @BindView(R.id.tv_nums)
         TextView tvNums;
-        @BindView(R.id.tv_points)
-        TextView tvPoints;
+        @BindView(R.id.rl_item)
+        RelativeLayout rlItem;
         @BindView(R.id.tv_remarks)
         TextView tvRemarks;
         @BindView(R.id.tv_freight)
         TextView tvFreight;
+        @BindView(R.id.tv_points)
+        TextView tvPoints;
+        @BindView(R.id.return_gold_bean)
+        RelativeLayout returnGoldBean;
 
         public VH(@NonNull View itemView) {
             super(itemView);

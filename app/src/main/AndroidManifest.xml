@@ -83,6 +83,19 @@
         <activity android:name=".mine.activity.MyCommentsActivity" />
         <activity android:name=".mine.activity.ApplyForAfterSalesActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".mine.activity.AfterSalesDetailActivity" />
+        <activity android:name=".mine.activity.VipOrderConfirmActivity" />
+        <activity android:name=".mine.activity.VipPaySuccessActivity" />
+        <activity android:name=".vip.VipActivity" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="com.pinnoocle.royalstarshop" />
+        <activity android:name=".home.activity.MessageNewActivity" />
+        <activity android:name=".home.activity.MessageListActivity" />
+        <activity android:name=".home.activity.MessageDetailActivity" />
+        <activity android:name=".home.activity.VipGoodsDetailActivity" />
+
 
     </application>
 

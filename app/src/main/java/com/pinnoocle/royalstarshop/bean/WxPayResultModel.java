@@ -1,6 +1,8 @@
 package com.pinnoocle.royalstarshop.bean;
 
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.pinnoocle.royalstarshop.adapter.RawStringJsonAdapter;
 
 public class WxPayResultModel {
 
@@ -75,7 +77,18 @@ public class WxPayResultModel {
         private String order_id;
         private String pay_type;
         private boolean wx_payment;
-        private PaymentBean payment;
+
+        public String getPayment() {
+            return payment;
+        }
+
+        public void setPayment(String payment) {
+            this.payment = payment;
+        }
+
+        @SerializedName("payment")
+        @JsonAdapter(RawStringJsonAdapter.class)
+        private String payment;
 
         public String getOrder_id() {
             return order_id;
@@ -101,13 +114,7 @@ public class WxPayResultModel {
             this.wx_payment = wx_payment;
         }
 
-        public PaymentBean getPayment() {
-            return payment;
-        }
 
-        public void setPayment(PaymentBean payment) {
-            this.payment = payment;
-        }
 
         public static class PaymentBean {
             /**

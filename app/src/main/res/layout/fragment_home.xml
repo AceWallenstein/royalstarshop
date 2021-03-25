@@ -17,7 +17,7 @@
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -315,29 +315,29 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-    <com.dd.ShadowLayout
-        android:visibility="gone"
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="500dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginBottom="14dp"
-        app:sl_cornerRadius="68dp"
-        app:sl_dx="0dp"
-        app:sl_dy="0dp"
-        app:sl_shadowColor="#40125831"
-        app:sl_shadowRadius="0dp">
+<!--    <com.pinnoocle.royalstarshop.widget.DragShaowLayout-->
+<!--        android:visibility="gone"-->
+<!--        android:id="@+id/fab"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_marginTop="500dp"-->
+<!--        android:layout_marginRight="6dp"-->
+<!--        android:layout_marginBottom="14dp"-->
+<!--        app:sl_cornerRadius="68dp"-->
+<!--        app:sl_dx="0dp"-->
+<!--        app:sl_dy="0dp"-->
+<!--        app:sl_shadowColor="#40125831"-->
+<!--        app:sl_shadowRadius="0dp">-->
 
-        <ImageView
-            android:id="@+id/upload_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/fab"
-            android:gravity="center"
-            tools:ignore="ContentDescription" />
+<!--        <ImageView-->
+<!--            android:id="@+id/upload_event"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@mipmap/fab"-->
+<!--            android:gravity="center"-->
+<!--            tools:ignore="ContentDescription" />-->
 
-    </com.dd.ShadowLayout>
+<!--    </com.pinnoocle.royalstarshop.widget.DragShaowLayout>-->
 
 </RelativeLayout>

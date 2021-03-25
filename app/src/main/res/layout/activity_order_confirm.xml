@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white1">
 
     <ImageView
@@ -50,10 +50,10 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="贾凯丽"
             android:textColor="@color/black_1"
             android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="贾凯丽" />
 
         <TextView
             android:id="@+id/tv_phone"
@@ -61,10 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/tv_name"
-            tools:text="18857489300"
             android:textColor="@color/black_1"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="18857489300" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -72,16 +72,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_name"
             android:layout_marginTop="10dp"
-            tools:text="合肥市蜀山区南七街道西湖国际广场A座1608"
             android:textColor="@color/black_1"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="合肥市蜀山区南七街道西湖国际广场A座1608" />
 
         <ImageView
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/arrow_right"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/arrow_right" />
 
 
     </RelativeLayout>
@@ -109,46 +109,209 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/bg_white_8"
                 android:overScrollMode="never"
-                android:padding="10dp" />
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
 
-            <RelativeLayout
-                android:id="@+id/rl_money"
+
+                />
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_white_8"
+                android:background="@drawable/bg_white_8_1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="留言"
+                    android:textColor="@color/black_1" />
+
+                <EditText
+                    android:gravity="end|center_vertical"
+                    android:background="@color/white"
+                    android:layout_marginStart="5dp"
+                    android:id="@+id/ed_remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="和商家协商一致后留言"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_3"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:orientation="vertical">
+                android:background="@drawable/bg_white_8">
+                <RelativeLayout
+                    android:padding="10dp"
+                    android:id="@+id/rl_total_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/iv_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/ic_money" />
+                    <TextView
+                        android:text="商品金额"
+                        android:textColor="@color/black_1"
+                        android:id="@+id/tv_total_money_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                         />
 
-                <TextView
-                    android:id="@+id/tv_points_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/iv_money"
-                    tools:text="剩余可用平台货币122元"
-                    android:textColor="#111111"
-                    android:textSize="13sp" />
+                    <TextView
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/tv_total_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        tools:text="11元"
+                        android:textColor="@color/light_red"
+                        android:textSize="13sp" />
 
-                <ImageView
-                    android:id="@+id/iv_use_points"
-                    android:layout_width="wrap_content"
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_below="@id/rl_total_money"
+                    android:padding="10dp"
+                    android:id="@+id/rl_total_freight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="总运费"
+                        android:textColor="@color/black_1"
+                        android:id="@+id/tv_total_freight_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <TextView
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/tv_total_freight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        tools:text="11元"
+                        android:textColor="@color/grey_3"
+                        android:textSize="13sp" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_below="@id/rl_total_freight"
+                    android:id="@+id/rl_money"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="15dp"
-                    android:src="@mipmap/grey_circle" />
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/ic_money" />
+
+                    <TextView
+                        android:id="@+id/tv_points_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/iv_money"
+                        android:textColor="#111111"
+                        android:textSize="13sp"
+                        tools:text="剩余金豆(122)个" />
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#111111"
+                        android:textSize="13sp"
+                        android:layout_toStartOf="@id/iv_use_points"
+                        android:text="抵扣"/>
+
+
+                    <ImageView
+                        android:id="@+id/iv_use_points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="15dp"
+                        android:src="@mipmap/grey_circle" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_below="@id/rl_money"
+                    android:padding="10dp"
+                    android:id="@+id/rl_total_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="总抵扣"
+                        android:textColor="@color/black_1"
+                        android:id="@+id/tv_total_discount_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <TextView
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/tv_total_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        tools:text="11元"
+                        android:textColor="@color/light_red"
+                        android:textSize="13sp" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_below="@id/rl_total_discount"
+                    android:padding="10dp"
+                    android:id="@+id/rl_total_settlement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="合计："
+                        android:layout_marginEnd="5dp"
+                        android:layout_toStartOf="@id/tv_total_settlement"
+                        android:textColor="@color/black_1"
+                        android:id="@+id/tv_total_settlement_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <TextView
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/tv_total_settlement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        tools:text="11元"
+                        android:textColor="@color/light_red"
+                        android:textSize="13sp" />
+
+                </RelativeLayout>
+
+
+
             </RelativeLayout>
+
 
 
             <LinearLayout
@@ -201,9 +364,9 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_alipay"
@@ -232,6 +395,8 @@
                         android:src="@mipmap/grey_circle" />
                 </RelativeLayout>
             </LinearLayout>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -274,9 +439,9 @@
             android:layout_below="@id/tv_total_price"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            tools:text="抵扣平台货币58元"
             android:textColor="@color/grey_3"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="抵扣平台货币58元" />
 
 
         <TextView

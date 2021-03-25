@@ -641,15 +641,18 @@ public class UserDetailModel {
         }
 
         public static class OrderCountBean {
+
             /**
              * payment : 0
              * received : 0
-             * comment : 1
+             * comment : 0
+             * delivered : 0
              */
 
             private int payment;
             private int received;
             private int comment;
+            private int delivered;
 
             public int getPayment() {
                 return payment;
@@ -673,6 +676,14 @@ public class UserDetailModel {
 
             public void setComment(int comment) {
                 this.comment = comment;
+            }
+
+            public int getDelivered() {
+                return delivered;
+            }
+
+            public void setDelivered(int delivered) {
+                this.delivered = delivered;
             }
         }
     }

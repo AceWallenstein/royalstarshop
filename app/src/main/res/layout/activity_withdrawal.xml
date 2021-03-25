@@ -58,10 +58,11 @@
                 android:textSize="30sp" />
 
             <EditText
+                android:inputType="numberDecimal"
+                android:id="@+id/ed_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:hint="最低1元起提"
                 android:padding="10dp"
                 android:textColorHint="#CCCCCC"
                 android:textSize="17sp" />
@@ -85,9 +86,10 @@
                 android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/tv_withdrawal_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¥50.00"
+                tools:text="¥50.00"
                 android:textColor="#FF2329"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -108,6 +110,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/tv_service_charge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -131,6 +134,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -140,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/wechat_1" />
+                android:src="@mipmap/alipay_1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -171,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:src="@mipmap/alipay_1" />
+                android:src="@mipmap/wechat_1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -194,6 +198,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"

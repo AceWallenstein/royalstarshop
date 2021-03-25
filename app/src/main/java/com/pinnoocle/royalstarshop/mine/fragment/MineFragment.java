@@ -20,6 +20,7 @@ import androidx.core.widget.NestedScrollView;
 import com.bumptech.glide.Glide;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
+import com.pinnoocle.royalstarshop.adapter.GridOrderAdapter;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
@@ -42,6 +43,7 @@ import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.vip.VipActivity;
 import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
 import com.pinnoocle.royalstarshop.widget.TagsGridView;
@@ -145,7 +147,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     private String[] serviceIconName = {"推荐收益", "提现", "我的金豆", "我的收藏", "收货地址", "我的客服", "评价", "常见问题", "意见反馈"};
 
     private SimpleAdapter sim_adapter;
-    private List<Map<String, Object>> data_list;
+    private ArrayList<Map<String, Object>> data_list;
     private List<Map<String, Object>> serviceDataList;
     private float mOffset;
     private float mScrollY;
@@ -153,6 +155,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     private UserDetailModel userDetailModel;
     private ImageView iv_ali_mark, iv_wx_mark;
     private String pay_mode = "";
+    private GridOrderAdapter gridOrderAdapter;
+    private List<Integer> orderNums  = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -302,6 +306,15 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                         tvVip4.setText("超值权益 等你来享");
                         tvVip2.setText("立即开通");
                     }
+                    UserDetailModel.DataBean.OrderCountBean orderCount = userDetailModel.getData().getOrderCount();
+                    orderNums.clear();
+                    orderNums.add(0);
+                    orderNums.add(orderCount.getPayment());
+                    orderNums.add(orderCount.getDelivered());
+                    orderNums.add(orderCount.getComment());
+
+//                    orderStatusNums.add(saveUserShipBean.getData().getIsAfterSale()); //售后
+                    gridOrderAdapter.setOrderStatusNums(orderNums);
                 }
             }
         });
@@ -312,11 +325,12 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
         //获取数据
         getData();
         //新建适配器
-        String[] from = {"image", "text"};
-        int[] to = {R.id.image, R.id.text};
-        sim_adapter = new SimpleAdapter(getContext(), data_list, R.layout.grid_item_order, from, to);
+//        String[] from = {"image", "text"};
+//        int[] to = {R.id.image, R.id.text};
+//        sim_adapter = new SimpleAdapter(getContext(), data_list, R.layout.grid_item_order, from, to);
         //配置适配器
-        gridView.setAdapter(sim_adapter);
+        gridOrderAdapter = new GridOrderAdapter(getActivity(), data_list);
+        gridView.setAdapter(gridOrderAdapter);
         gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -398,8 +412,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 }
                 break;
             case 1: //提现
-//                startActivity(new Intent(getContext(), WithdrawalActivity.class));
-                ToastUtils.showToast("暂未开放");
+                startActivity(new Intent(getContext(), WithdrawalActivity.class));
+//                ToastUtils.showToast("暂未开放");
                 break;
             case 2: //我的金豆
                 Intent intent1 = new Intent(getContext(), GoldenBeanActivity.class);
@@ -431,6 +445,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
 
     @OnClick({R.id.rl_avatar, R.id.rl_recommend, R.id.iv_avater1, R.id.iv_setting, R.id.iv_sign_in, R.id.ll_recommended_revenue, R.id.ll_golden_bean, R.id.tv_all_order, R.id.ll_history, R.id.tv_vip_2})
     public void onViewClicked(View view) {
+        Intent intent3 = new Intent(mContext, VipActivity.class);
+        intent3.putExtra("pos","4");
         switch (view.getId()) {
             case R.id.rl_recommend:
                 if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
@@ -439,7 +455,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                     intent2.putExtra("name", userDetailModel.getData().getUserInfo().getNickName());
                     startActivity(intent2);
                 } else {
-                    ToastUtils.showToast("会员可查看");
+                    startActivity(intent3);
                 }
 
                 break;
@@ -459,7 +475,8 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                     Intent intent1 = new Intent(getContext(), RecommendedIncomeActivity.class);
                     startActivity(intent1);
                 } else {
-                    ToastUtils.showToast("会员可查看");
+
+                    startActivity(intent3);
                 }
                 break;
             case R.id.ll_golden_bean:
@@ -477,7 +494,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                 if (tvVip2.getText().toString().equals("立即续费")) {
                     startActivity(new Intent(getContext(), VipRenewActivity.class));
                 } else {
-                    EventBus.getDefault().post("5");
+                    startActivity(intent3);
                 }
                 break;
         }

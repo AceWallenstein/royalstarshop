@@ -144,6 +144,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
     }
 
     private void orderList() {
+
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
@@ -154,6 +155,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
             @Override
             public void onFailure(String info) {
                 ViewLoading.dismiss(getContext());
+                refresh.finishRefresh();
             }
 
             @Override

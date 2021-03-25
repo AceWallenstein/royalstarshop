@@ -401,4 +401,10 @@ public class VideoDetailActivity extends BaseActivity {
         videoViewContainer.removeAllViews();
         videoView = null;
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        videoView.pause();
+    }
 }

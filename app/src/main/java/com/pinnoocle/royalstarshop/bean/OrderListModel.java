@@ -823,6 +823,16 @@ public class OrderListModel {
                     private int user_id;
                     private ImageBean image;
 
+                    public String getTotal_freight() {
+                        return total_freight;
+                    }
+
+                    public void setTotal_freight(String total_freight) {
+                        this.total_freight = total_freight;
+                    }
+
+                    private String total_freight;
+
                     public int getOrder_goods_id() {
                         return order_goods_id;
                     }

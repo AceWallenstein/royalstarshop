@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.home.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -38,8 +39,7 @@ import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.utils.StatusBarUtil;
-import com.pinnoocle.royalstarshop.utils.StatusBarUtils;
-import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
+import com.pinnoocle.royalstarshop.vip.VipActivity;
 import com.pinnoocle.royalstarshop.widget.DialogPledge;
 import com.pinnoocle.royalstarshop.widget.DialogShopCar;
 import com.pinnoocle.royalstarshop.widget.VerticalMarqueeLayout;
@@ -142,6 +142,10 @@ public class GoodsDetailActivity extends BaseActivity {
     TextView tvContent;
     @BindView(R.id.tv_comment_num)
     TextView tvCommentNum;
+    @BindView(R.id.tv_points)
+    TextView tvPoints;
+    @BindView(R.id.rl_one)
+    LinearLayout rlOne;
     private DataRepository dataRepository;
     private List<String> bannerList;
     private GoodsDetailModel.DataBean dataBean;
@@ -157,8 +161,8 @@ public class GoodsDetailActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.getDecorView().setSystemUiVisibility(android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.white));
         }
@@ -246,6 +250,14 @@ public class GoodsDetailActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 goodsDetailModel = (GoodsDetailModel) data;
                 if (goodsDetailModel.getCode() == 1) {
+                    if (goodsDetailModel.getData().getDetail().getType().getValue() == 3) {
+                        llNormalBuy.setVisibility(View.GONE);
+                        rlOne.setVisibility(View.VISIBLE);
+                        tvPoints.setText(goodsDetailModel.getData().getDetail().getPoints()+"金豆");
+                    } else {
+                        rlOne.setVisibility(View.GONE);
+                        llVipBuy.setVisibility(View.VISIBLE);
+                    }
                     tvPrice.setText("￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_price());
                     tvVipPrice.setText("会员价￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getBalance_price());
                     tvNormalPrice.setText("￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_price());
@@ -331,7 +343,7 @@ public class GoodsDetailActivity extends BaseActivity {
                     String goods_ = dealNum(goods);
                     String review_ = dealNum(review);
                     String bad_ = dealNum(bad);
-                    tvCommentNum.setText("("+all_+")");
+                    tvCommentNum.setText("(" + all_ + ")");
                     rbAll.setText("全部(" + all_ + ")");
                     rbGood.setText("好评(" + goods_ + ")");
                     rbM.setText("中评(" + review_ + ")");
@@ -366,8 +378,8 @@ public class GoodsDetailActivity extends BaseActivity {
                     if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
                         showSelectDialog("vip");
                     } else {
-                        EventBus.getDefault().post("5");
-                        finish();
+                        startActivity(new Intent(mContext, VipActivity.class));
+
                     }
                 }
             }

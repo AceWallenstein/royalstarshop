@@ -128,20 +128,24 @@ public class VipRenewActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 VipInfoModel vipInfoModel = (VipInfoModel) data;
                 if (vipInfoModel.getCode() == 1) {
-                    tvName.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                    if (!TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getNickName())) {
+                        tvName.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                    } else {
+                        tvName.setText("用户" + vipInfoModel.getData().getUserInfo().getUser_id());
+                    }
                     if (TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getAvatarUrl())) {
                         ivAvater.setImageResource(R.drawable.default_avatar);
                     } else {
                         Glide.with(mContext).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
                     }
-                    tvTime.setText("还有"+vipInfoModel.getData().getTime()+"天到期");
+                    tvTime.setText("还有" + vipInfoModel.getData().getTime() + "天到期");
                     tvRenewTime.setText(vipInfoModel.getData().getUserInfo().getNext_time());
                     tvProduct.setText(vipInfoModel.getData().getTitle());
-                    if(vipInfoModel.getData().getDiscount_money().equals("0")){
+                    if (vipInfoModel.getData().getDiscount_money().equals("0")) {
                         tvRight.setText(vipInfoModel.getData().getMoney() + "元");
                         tvPriceDrawLine.setVisibility(View.GONE);
                         tvPrice.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         tvPrice.setText(vipInfoModel.getData().getMoney() + "元(");
                         tvPriceDrawLine.setText("原价" + vipInfoModel.getData().getMoney() + "元");
                     }

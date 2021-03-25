@@ -22,13 +22,16 @@ import com.pinnoocle.royalstarshop.bean.HomeModel;
 import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.IndexModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
-import com.pinnoocle.royalstarshop.bean.LoginModel;
+import com.pinnoocle.royalstarshop.bean.MessageCountModel;
+import com.pinnoocle.royalstarshop.bean.MessageDetailModel;
+import com.pinnoocle.royalstarshop.bean.MessageListModel;
 import com.pinnoocle.royalstarshop.bean.MoneyListModel;
 import com.pinnoocle.royalstarshop.bean.MoneyModel;
 import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.OrderPayModel;
+import com.pinnoocle.royalstarshop.bean.PayStatusModel;
 import com.pinnoocle.royalstarshop.bean.PointsModel;
 import com.pinnoocle.royalstarshop.bean.PosterModel;
 import com.pinnoocle.royalstarshop.bean.RecommendSearchModel;
@@ -36,6 +39,7 @@ import com.pinnoocle.royalstarshop.bean.RefundDetailModel;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
+import com.pinnoocle.royalstarshop.bean.ReturnAddressModel;
 import com.pinnoocle.royalstarshop.bean.ScanListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.SubCategoryModel;
@@ -45,6 +49,7 @@ import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
 import com.pinnoocle.royalstarshop.bean.VipOpenModel;
+import com.pinnoocle.royalstarshop.bean.WithdrawSettingModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 
 import java.util.Map;
@@ -558,6 +563,28 @@ public class RemotDataSourceImpl implements RemotDataSource {
     }
 
     @Override
+    public void vipGoods(Map<String, String> queryMap, getCallback callback) {
+        Observable<SureOrderModel> observable = RetrofitHelper.getInstance(mContext).getServer().vipGoods(queryMap);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SureOrderModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(SureOrderModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
     public void buyNow(LoginBean loginBean, getCallback callback) {
         Observable<WxPayResultModel> observable = RetrofitHelper.getInstance(mContext).getServer().buyNow(loginBean);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -581,9 +608,9 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
     @Override
     public void buyNowCart(LoginBean loginBean, getCallback callback) {
-        Observable<OrderCartModel> observable = RetrofitHelper.getInstance(mContext).getServer().buyNowCart(loginBean);
+        Observable<WxPayResultModel> observable = RetrofitHelper.getInstance(mContext).getServer().buyNowCart(loginBean);
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<OrderCartModel>() {
+                .subscribe(new Observer<WxPayResultModel>() {
                     @Override
                     public void onCompleted() { // 完成请求后
 
@@ -595,7 +622,7 @@ public class RemotDataSourceImpl implements RemotDataSource {
                     }
 
                     @Override
-                    public void onNext(OrderCartModel s) { // 请求成功
+                    public void onNext(WxPayResultModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });
@@ -1344,6 +1371,226 @@ public class RemotDataSourceImpl implements RemotDataSource {
 
                     @Override
                     public void onNext(RecommendSearchModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void buyVipGoods(LoginBean loginBean, getCallback callback) {
+        Observable<PayStatusModel> observable = RetrofitHelper.getInstance(mContext).getServer().buyVipGoods(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PayStatusModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(PayStatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void withdraw(LoginBean loginBean, getCallback callback) {
+        Observable<StatusModel> observable = RetrofitHelper.getInstance(mContext).getServer().withdraw(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StatusModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(StatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void returnAddress(LoginBean loginBean, getCallback callback) {
+        Observable<ReturnAddressModel> observable = RetrofitHelper.getInstance(mContext).getServer().returnAddress(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ReturnAddressModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ReturnAddressModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void refundDelivery(LoginBean loginBean, getCallback callback) {
+        Observable<StatusModel> observable = RetrofitHelper.getInstance(mContext).getServer().refundDelivery(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StatusModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(StatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void isBind(LoginBean loginBean, getCallback callback) {
+        Observable<StatusModel> observable = RetrofitHelper.getInstance(mContext).getServer().isBind(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StatusModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(StatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void bindWx(LoginBean loginBean, getCallback callback) {
+        Observable<StatusModel> observable = RetrofitHelper.getInstance(mContext).getServer().bindWx(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<StatusModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(StatusModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void withdrawSetting(LoginBean loginBean, getCallback callback) {
+        Observable<WithdrawSettingModel> observable = RetrofitHelper.getInstance(mContext).getServer().withdrawSetting(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<WithdrawSettingModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(WithdrawSettingModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void messageCount(LoginBean loginBean, getCallback callback) {
+        Observable<MessageCountModel> observable = RetrofitHelper.getInstance(mContext).getServer().messageCount(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MessageCountModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(MessageCountModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void messageList(LoginBean loginBean, getCallback callback) {
+        Observable<MessageListModel> observable = RetrofitHelper.getInstance(mContext).getServer().messageList(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MessageListModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(MessageListModel s) { // 请求成功
+                        callback.onSuccess(s);
+                    }
+                });
+    }
+
+    @Override
+    public void messageDetail(LoginBean loginBean, getCallback callback) {
+        Observable<MessageDetailModel> observable = RetrofitHelper.getInstance(mContext).getServer().messageDetail(loginBean);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MessageDetailModel>() {
+                    @Override
+                    public void onCompleted() { // 完成请求后
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) { // 异常处理
+                        callback.onFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(MessageDetailModel s) { // 请求成功
                         callback.onSuccess(s);
                     }
                 });

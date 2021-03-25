@@ -1,13 +1,13 @@
 package com.pinnoocle.royalstarshop.home.fragment;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.dd.ShadowLayout;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.FragmentAdapter;
@@ -42,14 +41,18 @@ import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsListActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsVideoDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.MessageActivity;
+import com.pinnoocle.royalstarshop.home.activity.MessageNewActivity;
 import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.vip.VipActivity;
 import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
+import com.pinnoocle.royalstarshop.widget.ChatView;
 import com.pinnoocle.royalstarshop.widget.CommItemDecoration;
+import com.pinnoocle.royalstarshop.widget.MyViewPager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -72,6 +75,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HomeFragment extends BaseFragment implements OnRefreshListener {
+
+    @BindView(R.id.iv_bg)
+    ImageView ivBg;
     @BindView(R.id.iv_comment)
     ImageView ivComment;
     @BindView(R.id.iv_kefu)
@@ -82,48 +88,44 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     TextView tvSearch;
     @BindView(R.id.banner)
     Banner banner;
-    @BindView(R.id.scrollView)
-    NestedScrollView scrollView;
-    @BindView(R.id.tv_1)
-    TextView tv1;
-    @BindView(R.id.tv_vip_1)
-    TextView tvVip1;
-    @BindView(R.id.rv_1)
-    RecyclerView rv1;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-    @BindView(R.id.rv_2)
-    RecyclerView rv2;
-    @BindView(R.id.rv_3)
-    RecyclerView rv3;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.v_progress)
     View vProgress;
     @BindView(R.id.layout)
     RelativeLayout layoutProgress;
-    @BindView(R.id.vp_goods_list)
-    ViewPager vpGoodsList;
-    @BindView(R.id.iv_bg)
-    ImageView ivBg;
-    @BindView(R.id.tv_more)
-    TextView tvMore;
-    @BindView(R.id.refresh)
-    SmartRefreshLayout refresh;
-    @BindView(R.id.iv_vip_goods)
-    ImageView ivVipGoods;
-    @BindView(R.id.iv_go)
-    ImageView ivGo;
-    @BindView(R.id.upload_event)
-    ImageView uploadEvent;
-    @BindView(R.id.fab)
-    ShadowLayout fab;
-    @BindView(R.id.rl_banner)
-    RelativeLayout rlBanner;
-    @BindView(R.id.iv_vip_goods_1)
-    ImageView ivVipGoods1;
+    @BindView(R.id.ll_one)
+    LinearLayout llOne;
     @BindView(R.id.iv_banner)
     ImageView ivBanner;
+    @BindView(R.id.iv_vip_goods)
+    ImageView ivVipGoods;
+    @BindView(R.id.rl_banner)
+    RelativeLayout rlBanner;
+    @BindView(R.id.tv_1)
+    TextView tv1;
+    @BindView(R.id.iv_vip_goods_1)
+    ImageView ivVipGoods1;
+    @BindView(R.id.iv_go)
+    ImageView ivGo;
+    @BindView(R.id.tv_vip_1)
+    TextView tvVip1;
+    @BindView(R.id.rv_1)
+    RecyclerView rv1;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_more)
+    TextView tvMore;
+    @BindView(R.id.rv_2)
+    RecyclerView rv2;
+    @BindView(R.id.rv_3)
+    RecyclerView rv3;
+    @BindView(R.id.vp_goods_list)
+    MyViewPager vpGoodsList;
+    @BindView(R.id.scrollView)
+    NestedScrollView scrollView;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout refresh;
     private List<String> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
@@ -134,6 +136,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     private GoodsFragment goodListFragment;
     private int lastValue;
     private boolean moveRight;
+    private boolean loaded = false;
+    private ChatView fab;
 
     @Override
     protected int LayoutId() {
@@ -162,6 +166,12 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         initRv3();
         refresh.setOnRefreshListener(this);
         vipInfo();
+        //传入上下文Activity
+        fab = new ChatView(getActivity());
+        fab.setOnClickListener(v -> {
+            showDialog();
+            fab.setVisibility(View.GONE);
+        });
     }
 
 
@@ -298,8 +308,9 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
 
                                 break;
                             case R.id.go_vip:
-                                EventBus.getDefault().post("5");
-                                EventBus.getDefault().post("4");
+//                                EventBus.getDefault().post("5");
+//                                EventBus.getDefault().post("4");
+                                startActivity(new Intent(mContext, VipActivity.class));
                                 tDialog.dismiss();
                                 fab.setVisibility(View.VISIBLE);
 
@@ -309,6 +320,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 })
                 .create()   //创建TDialog
                 .show();//展示
+        loaded = true;
 
     }
 
@@ -371,9 +383,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         oneAdapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<HomeModel.DataBean.VipGoodsBean>() {
             @Override
             public void onItemViewClick(View view, int position, HomeModel.DataBean.VipGoodsBean o) {
-                Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
-                intent.putExtra("goods_id", o.getGoods_id() + "");
-                startActivity(intent);
+                isVip(o.getGoods_id() + "");
+
             }
         });
         rv1.setLayoutManager(new GridLayoutManager(getContext(), 3));
@@ -475,7 +486,9 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 UserDetailModel userDetailModel = (UserDetailModel) data;
                 if (userDetailModel.getCode() == 1) {
                     if (userDetailModel.getData().getUserInfo().getIsVip() == 0) {
-                        showDialog();
+                        if (!loaded) {
+                            showDialog();
+                        }
                     } else {
                         fab.setVisibility(View.GONE);
                     }
@@ -490,6 +503,45 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
             vipInfo();
 
         }
+    }
+
+    private void isVip(String goods_id) {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return;
+        }
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        dataRepository.userDetail(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                refresh.finishRefresh();
+                UserDetailModel userDetailModel = (UserDetailModel) data;
+                if (userDetailModel.getCode() == 1) {
+
+                    if (userDetailModel.getData().getUserInfo().getIsVip() == 0) {
+                        startActivity(new Intent(mContext, VipActivity.class));
+                    } else {
+                        if (userDetailModel.getData().getUserInfo().getIs_exprire() == 0) {
+                            Intent intent = new Intent(getContext(), GoodsDetailActivity.class);
+                            intent.putExtra("goods_id", goods_id);
+                            startActivity(intent);
+                        } else {
+                            startActivity(new Intent(mContext, VipActivity.class));
+
+                        }
+                    }
+                }
+            }
+        });
     }
 
 
@@ -516,12 +568,13 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                 if (userDetailModel.getCode() == 1) {
 
                     if (userDetailModel.getData().getUserInfo().getIsVip() == 0) {
-                        EventBus.getDefault().post("5");
+                        startActivity(new Intent(mContext, VipActivity.class));
                     } else {
                         if (userDetailModel.getData().getUserInfo().getIs_exprire() == 0) {
                             EventBus.getDefault().post("5");
                         } else {
                             startActivity(new Intent(getContext(), VipRenewActivity.class));
+
                         }
                     }
                 }
@@ -536,11 +589,11 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         imageView.setLayoutParams(params);
     }
 
-    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more, R.id.iv_go, R.id.fab, R.id.iv_banner})
+    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more, R.id.iv_go, R.id.iv_banner})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_comment:
-                Intent intent1 = new Intent(getContext(), MessageActivity.class);
+                Intent intent1 = new Intent(getContext(), MessageNewActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.tv_search:
@@ -553,10 +606,6 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
             case R.id.iv_go:
             case R.id.iv_banner:
                 userInfo();
-                break;
-            case R.id.fab:
-                showDialog();
-                fab.setVisibility(View.GONE);
                 break;
         }
     }

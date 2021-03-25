@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MyApp;
@@ -25,7 +27,9 @@ import com.pinnoocle.royalstarshop.bean.OrderCartModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -37,7 +41,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -86,6 +89,32 @@ public class OrderConfirmActivity extends BaseActivity {
     NestedScrollView scrollView;
     @BindView(R.id.iv_use_points)
     ImageView ivUsePoints;
+    @BindView(R.id.ed_remark)
+    EditText edRemark;
+    @BindView(R.id.tv_total_money_1)
+    TextView tvTotalMoney1;
+    @BindView(R.id.tv_total_money)
+    TextView tvTotalMoney;
+    @BindView(R.id.rl_total_money)
+    RelativeLayout rlTotalMoney;
+    @BindView(R.id.tv_total_freight_1)
+    TextView tvTotalFreight1;
+    @BindView(R.id.tv_total_freight)
+    TextView tvTotalFreight;
+    @BindView(R.id.rl_total_freight)
+    RelativeLayout rlTotalFreight;
+    @BindView(R.id.tv_total_discount_1)
+    TextView tvTotalDiscount1;
+    @BindView(R.id.tv_total_discount)
+    TextView tvTotalDiscount;
+    @BindView(R.id.rl_total_discount)
+    RelativeLayout rlTotalDiscount;
+    @BindView(R.id.tv_total_settlement_1)
+    TextView tvTotalSettlement1;
+    @BindView(R.id.tv_total_settlement)
+    TextView tvTotalSettlement;
+    @BindView(R.id.rl_total_settlement)
+    RelativeLayout rlTotalSettlement;
     private SureOrderModel.DataBean sureOrderData;
     private DataRepository dataRepository;
 
@@ -93,6 +122,7 @@ public class OrderConfirmActivity extends BaseActivity {
     private String pay_type = "20";
     private boolean flag = false;
     private String is_use_points = "0";
+    private OrderConfirmAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +136,17 @@ public class OrderConfirmActivity extends BaseActivity {
 
 
     private void initView() {
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        adapter = new OrderConfirmAdapter(mContext);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<SureOrderModel.DataBean.GoodsListBean>() {
+            @Override
+            public void onItemViewClick(View view, int position, SureOrderModel.DataBean.GoodsListBean o) {
+                Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                intent.putExtra("goods_id", o.getGoods_id() + "");
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData() {
@@ -123,13 +163,21 @@ public class OrderConfirmActivity extends BaseActivity {
                 tvName.setText("暂无地址");
                 tvAddress.setText("请选择配送地址");
             }
-            tvDiscount.setText("抵扣平台货币"+sureOrderData.getPoints_money()+"元");
-            tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
-            tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getUser_points() + "元");
-            OrderConfirmAdapter adapter = new OrderConfirmAdapter(this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            if(sureOrderData.getOrder_can_discount_money()<=0){
+                rlMoney.setVisibility(View.GONE);
+                rlTotalDiscount.setVisibility(View.GONE);
+            }else {
+                rlMoney.setVisibility(View.VISIBLE);
+                rlTotalDiscount.setVisibility(View.VISIBLE);
+            }
+            tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
+            tvDiscount.setText("抵扣平台货币" + sureOrderData.getPoints_num() + "元");
+            tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
+            tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
+            tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
+            tvTotalFreight.setText("￥" + sureOrderData.getFreight_price());
+            tvTotalDiscount.setText("￥" + sureOrderData.getPoints_money());
             adapter.setData(sureOrderData.getGoods_list());
-            recyclerView.setAdapter(adapter);
 
         }
         getAddressDefault();
@@ -189,13 +237,15 @@ public class OrderConfirmActivity extends BaseActivity {
                 SureOrderModel sureOrderModel = (SureOrderModel) data;
                 sureOrderData = sureOrderModel.getData();
                 if (sureOrderModel.getCode() == 1) {
-                    tvDiscount.setText("抵扣平台货币"+sureOrderData.getPoints_money()+"元");
-                    tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
-                    tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getUser_points() + "元");
-                    OrderConfirmAdapter adapter = new OrderConfirmAdapter(mContext);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                    tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
+                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_num() + "元");
+                    tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
+                    tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
+                    tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
+                    if (adapter == null) {
+                        adapter = new OrderConfirmAdapter(mContext);
+                    }
                     adapter.setData(sureOrderData.getGoods_list());
-                    recyclerView.setAdapter(adapter);
                     EventBus.getDefault().post(new ShopCartRefreshEvent());
 //                ToastUtils.showToast(sureOrderModel.getMsg());
                 }
@@ -222,20 +272,18 @@ public class OrderConfirmActivity extends BaseActivity {
                 OrderCartModel orderCartModel = (OrderCartModel) data;
                 sureOrderData = orderCartModel.getData();
                 if (orderCartModel.getCode() == 1) {
-                    tvDiscount.setText("抵扣平台货币" + sureOrderData.getPoints_money() + "元");
-                    tvTotalPrice.setText(sureOrderData.getOrder_pay_price());
-                    tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getUser_points() + "元");
-                    OrderConfirmAdapter adapter = new OrderConfirmAdapter(mContext);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+                    tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
+                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_num() + "元");
+                    tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
+                    tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
+                    tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
                     adapter.setData(sureOrderData.getGoods_list());
-                    recyclerView.setAdapter(adapter);
                     EventBus.getDefault().post(new ShopCartRefreshEvent());
                 }
 //                ToastUtils.showToast(sureOrderModel.getMsg());
             }
         });
     }
-
 
 
     /*
@@ -252,9 +300,12 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.goods_id = sureOrderData.getGoods_list().get(0).getGoods_id() + "";
         loginBean.goods_sku_id = sureOrderData.getGoods_list().get(0).getGoods_sku().getGoods_sku_id() + "";
         loginBean.goods_num = sureOrderData.getGoods_list().get(0).getTotal_num() + "";
-        loginBean.pay_type = pay_type;              //微信支付 20 支付宝 10
+        loginBean.pay_type = pay_type;              //微信支付 20 0元 10
         loginBean.address_id = address_id;
         loginBean.is_use_points = is_use_points;
+        if (!TextUtils.isEmpty(edRemark.getText().toString())) {
+            loginBean.buyer_remark = edRemark.getText().toString();
+        }
         ViewLoading.show(this);
         dataRepository.buyNow(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -267,10 +318,12 @@ public class OrderConfirmActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 WxPayResultModel wxPayResultModel = (WxPayResultModel) data;
                 if (wxPayResultModel.getCode() == 1) {
-                    if (Double.parseDouble(sureOrderData.getOrder_total_price()) <= 0) {
+                    if (Double.parseDouble(sureOrderData.getOrder_pay_price()) <= 0) {
                         EventBus.getDefault().post("pay_success");
                     }
-                    wxPay(wxPayResultModel.getData().getPayment());
+                    String payment = wxPayResultModel.getData().getPayment();
+                    WxPayResultModel.DataBean.PaymentBean paymentBean = new Gson().fromJson(payment, WxPayResultModel.DataBean.PaymentBean.class);
+                    wxPay(paymentBean);
                 }
 //                ToastUtils.showToast(wxPayResultModel.getMsg());
             }
@@ -313,6 +366,9 @@ public class OrderConfirmActivity extends BaseActivity {
         loginBean.pay_type = pay_type;
         loginBean.address_id = address_id;
         loginBean.is_use_points = is_use_points;
+        if (!TextUtils.isEmpty(edRemark.getText().toString())) {
+            loginBean.buyer_remark = edRemark.getText().toString();
+        }
         ViewLoading.show(this);
         dataRepository.buyNowCart(loginBean, new RemotDataSource.getCallback() {
             @Override
@@ -323,11 +379,16 @@ public class OrderConfirmActivity extends BaseActivity {
             @Override
             public void onSuccess(Object data) {
                 ViewLoading.dismiss(mContext);
-                OrderCartModel orderCartModel = (OrderCartModel) data;
+                WxPayResultModel orderCartModel = (WxPayResultModel) data;
                 if (orderCartModel.getCode() == 1) {
-
+                    if (Double.parseDouble(sureOrderData.getOrder_pay_price()) <= 0) {
+                        EventBus.getDefault().post("pay_success");
+                    }
+                    String payment = orderCartModel.getData().getPayment();
+                    WxPayResultModel.DataBean.PaymentBean paymentBean = new Gson().fromJson(payment, WxPayResultModel.DataBean.PaymentBean.class);
+                    wxPay(paymentBean);
                 }
-                ToastUtils.showToast(orderCartModel.getMsg());
+
             }
         });
     }
@@ -372,8 +433,9 @@ public class OrderConfirmActivity extends BaseActivity {
             case R.id.tv_settlement:
                 if (TextUtils.isEmpty(address_id)) {
                     ToastUtils.showToast("请输入收货地址");
+                    return;
                 }
-                if (Double.parseDouble(sureOrderData.getOrder_total_price()) <= 0) {
+                if (Double.parseDouble(sureOrderData.getOrder_pay_price()) <= 0) {
                     pay_type = "10";                    //0元支付
                 }
                 if (getIntent().getStringExtra("cart_ids") != null) {
@@ -403,8 +465,7 @@ public class OrderConfirmActivity extends BaseActivity {
     private void is_use_points() {
         if (!TextUtils.isEmpty(getIntent().getStringExtra("goods_id"))) {
             sureOrder();
-        }else  if(!TextUtils.isEmpty(getIntent().getStringExtra("cart_ids")))
-        {
+        } else if (!TextUtils.isEmpty(getIntent().getStringExtra("cart_ids"))) {
             orderCart();
         }
     }

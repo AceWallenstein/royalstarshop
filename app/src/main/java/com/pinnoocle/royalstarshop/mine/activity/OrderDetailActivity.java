@@ -22,6 +22,7 @@ import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -44,6 +45,7 @@ import butterknife.OnClick;
 
 public class OrderDetailActivity extends BaseActivity {
 
+
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.rl_title)
@@ -64,28 +66,36 @@ public class OrderDetailActivity extends BaseActivity {
     TextView tvAddress;
     @BindView(R.id.rl_address)
     RelativeLayout rlAddress;
+    @BindView(R.id.tv_order_time)
+    TextView tvOrderTime;
+    @BindView(R.id.tv_order_code_1)
+    TextView tvOrderCode1;
+    @BindView(R.id.tv_order_code)
+    TextView tvOrderCode;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.tv_goods_money)
     TextView tvGoodsMoney;
-    @BindView(R.id.tv_goods_freight)
-    TextView tvGoodsFreight;
-    @BindView(R.id.tv_goods_points)
-    TextView tvGoodsPoints;
+    @BindView(R.id.tv_golden_bean_deduction)
+    TextView tvGoldenBeanDeduction;
     @BindView(R.id.tv_pay_money)
     TextView tvPayMoney;
     @BindView(R.id.iv_no_question)
     ImageView ivNoQuestion;
     @BindView(R.id.tv_no_question)
     TextView tvNoQuestion;
-    @BindView(R.id.rl_1)
-    RelativeLayout rl1;
+    @BindView(R.id.rl_2)
+    RelativeLayout rl2;
     @BindView(R.id.tv_contact_after_sales)
     TextView tvContactAfterSales;
+    @BindView(R.id.rl_1)
+    RelativeLayout rl1;
     @BindView(R.id.after_sales_type)
     TextView afterSalesType;
     @BindView(R.id.after_sales_reason)
     TextView afterSalesReason;
+    @BindView(R.id.ll_after_sales)
+    LinearLayout llAfterSales;
     @BindView(R.id.nice_spinner)
     NiceSpinner niceSpinner;
     @BindView(R.id.iv_money)
@@ -100,16 +110,6 @@ public class OrderDetailActivity extends BaseActivity {
     TextView tvPay;
     @BindView(R.id.rl_panel)
     RelativeLayout rlPanel;
-    @BindView(R.id.tv_order_time)
-    TextView tvOrderTime;
-    @BindView(R.id.tv_order_code)
-    TextView tvOrderCode;
-    @BindView(R.id.tv_order_code_1)
-    TextView tvOrderCode1;
-    @BindView(R.id.rl_2)
-    RelativeLayout rl2;
-    @BindView(R.id.ll_after_sales)
-    LinearLayout llAfterSales;
     private DataRepository dataRepository;
     private OrderDetailAdapter adapter;
     private OrderDetailModel orderDetailModel;
@@ -160,14 +160,13 @@ public class OrderDetailActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 orderDetailModel = (OrderDetailModel) data;
                 if (orderDetailModel.getCode() == 1) {
+                    tvGoldenBeanDeduction.setText("￥" + orderDetailModel.getData().getOrder().getPoints_money());
                     tvStatus.setText(orderDetailModel.getData().getOrder().getState_text());
                     tvName.setText(orderDetailModel.getData().getOrder().getAddress().getName());
                     tvPhone.setText(orderDetailModel.getData().getOrder().getAddress().getPhone());
                     tvAddress.setText(orderDetailModel.getData().getOrder().getAddress().getRegion().toString() + orderDetailModel.getData().getOrder().getAddress().getDetail());
                     tvGoodsMoney.setText("￥" + orderDetailModel.getData().getOrder().getTotal_price());
-                    tvGoodsFreight.setText("￥"+orderDetailModel.getData().getOrder().getExpress_price());
                     tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price());
-                    tvGoodsPoints.setText("￥" + orderDetailModel.getData().getOrder().getPoints_money());
                     tvOrderCode.setText(orderDetailModel.getData().getOrder().getOrder_no());
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
                     List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
@@ -205,8 +204,12 @@ public class OrderDetailActivity extends BaseActivity {
                             if (view.getId() == R.id.tv_after_sale) {
                                 Intent intent = new Intent(OrderDetailActivity.this, ApplyForAfterSalesActivity.class);
                                 intent.putExtra("order_id", getIntent().getIntExtra("order_id", 0) + "");
-                                intent.putExtra("order_goods_id", o.getOrder_goods_id() + "");
+                                intent.putExtra("order_goods_id", o.getOrder_goods_id());
 
+                                startActivity(intent);
+                            }else if(view.getId()==R.id.rl_goods){
+                                Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                                intent.putExtra("goods_id",o.getGoods_id()+"");
                                 startActivity(intent);
                             }
                         }

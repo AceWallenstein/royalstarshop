@@ -42,6 +42,12 @@ public class LoginBean {
     public String order_goods_id;
     public String is_use_points;
     public String order_refund_id;
+    public String express_id;
+    public String express_no;
+    public String buyer_remark;
+    public String openid;
+    public String data;
+    public String id;
 
 
     public static class FormData{

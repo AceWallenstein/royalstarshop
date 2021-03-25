@@ -1,6 +1,7 @@
 package com.pinnoocle.royalstarshop.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.pinnoocle.royalstarshop.event.CanSettlement;
 import com.pinnoocle.royalstarshop.event.CartAllCheckedEvent;
 import com.pinnoocle.royalstarshop.event.SetCartNums;
 import com.pinnoocle.royalstarshop.event.UpdateTotalPriceEvent;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.widget.NumberButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -97,10 +99,10 @@ public class ShoppingCartAdapter extends BaseAdapter<CartListsModel.DataBean.Goo
 //                        ToastUtils.showToast("超过最大购买数:" + buyMax);
 //                    }
 //                });
-        holder.mGoodsIconIv.setOnClickListener(v -> {
-            if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+            intent.putExtra("goods_id", mDatas.get(position).getGoods_id() + "");
+            mContext.startActivity(intent);
         });
 
 

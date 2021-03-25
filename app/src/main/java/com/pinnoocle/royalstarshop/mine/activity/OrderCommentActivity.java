@@ -289,6 +289,7 @@ public class OrderCommentActivity extends BaseActivity {
                                         PictureSelector.create(OrderCommentActivity.this)
                                                 .openGallery(PictureMimeType.ofImage())
                                                 .selectionMode(PictureConfig.MULTIPLE)
+                                                .maxSelectNum(3)
                                                 .compress(true)
                                                 .loadImageEngine(GlideEngine.createGlideEngine())
                                                 .enableCrop(false)

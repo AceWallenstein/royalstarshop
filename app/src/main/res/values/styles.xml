@@ -8,10 +8,20 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/activityAnim</item>
     </style>
 
     <style name="transparentFrameWindowStyle" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/photo_choose_bg</item>
+    </style>
+
+
+    <!-- 使用style方式定义activity切换动画 -->
+    <style name="activityAnim">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_exit</item>
+                <item name="android:activityCloseEnterAnimation">@anim/back_enter</item>
+                <item name="android:activityCloseExitAnimation">@anim/back_exit</item>
     </style>
 
 </resources>

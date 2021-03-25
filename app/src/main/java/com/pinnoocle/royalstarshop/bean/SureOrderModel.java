@@ -86,6 +86,25 @@ public class SureOrderModel {
         private boolean is_allow_points;
         private int is_use_points;
         private double points_money;
+        private int points_num;
+        private double order_can_discount_money;
+
+        public double getOrder_can_discount_money() {
+            return order_can_discount_money;
+        }
+
+        public void setOrder_can_discount_money(double order_can_discount_money) {
+            this.order_can_discount_money = order_can_discount_money;
+        }
+
+        public int getPoints_num() {
+            return points_num;
+        }
+
+        public void setPoints_num(int points_num) {
+            this.points_num = points_num;
+        }
+
         private double user_points;
 
         public double getUser_points() {

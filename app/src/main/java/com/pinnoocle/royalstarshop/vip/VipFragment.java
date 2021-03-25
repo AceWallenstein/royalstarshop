@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.HotGoodsAdapter;
@@ -31,11 +33,15 @@ import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanDetailActivity;
+import com.pinnoocle.royalstarshop.mine.activity.VipOrderConfirmActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.timmy.tdialog.TDialog;
 import com.timmy.tdialog.base.BindViewHolder;
@@ -46,8 +52,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +59,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class VipFragment extends BaseFragment {
+public class VipFragment extends BaseFragment implements OnRefreshListener {
     @BindView(R.id.iv_avater)
     RoundImageView ivAvater;
     @BindView(R.id.tv_golden_bean)
@@ -116,6 +120,10 @@ public class VipFragment extends BaseFragment {
     TextView tvVipTitle;
     @BindView(R.id.tv_vip_text)
     TextView tvVipText;
+    @BindView(R.id.tv_vip_get_goods)
+    TextView tvVipGetGoods;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout refresh;
     private DataRepository dataRepository;
     private boolean isSelect = true;
     private ImageView iv_ali_mark;
@@ -123,6 +131,7 @@ public class VipFragment extends BaseFragment {
     private String pay_mode = "wx_pay";
     private HotGoodsAdapter hotGoodsAdapter;
     private VipGoodsListAdapter vipGoodsListAdapter;
+    private int vip_order;
 
     @Override
     protected int LayoutId() {
@@ -168,7 +177,7 @@ public class VipFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-
+        refresh.setOnRefreshListener(this);
         vip();
         vipIndex();
     }
@@ -213,10 +222,12 @@ public class VipFragment extends BaseFragment {
             @Override
             public void onFailure(String info) {
                 ViewLoading.dismiss(getContext());
+                refresh.finishRefresh();
             }
 
             @Override
             public void onSuccess(Object data) {
+                refresh.finishRefresh();
                 ViewLoading.dismiss(getContext());
                 VipInfoModel vipInfoModel = (VipInfoModel) data;
                 if (vipInfoModel.getCode() == 1) {
@@ -229,13 +240,17 @@ public class VipFragment extends BaseFragment {
                             Glide.with(getActivity()).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvatarOne);
                         }
                         tvMoney.setText(vipInfoModel.getData().getMoney() + "");
-                        tvNickname.setText(vipInfoModel.getData().getUserInfo().getNickName());
-                        Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivPhoto);
+                        if (!TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getNickName())) {
+                            tvNickname.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                        } else {
+                            tvNickname.setText("用户" + vipInfoModel.getData().getUserInfo().getUser_id());
+                        }                        Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivPhoto);
                         Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPhoto);
                         tvTitle.setText(vipInfoModel.getData().getVip_goods().getGoods_name());
                         tvGold.setText(vipInfoModel.getData().getVip_goods_point() + " 金豆");
                         tvDrawLine.setText("¥" + vipInfoModel.getData().getVip_goods_money());
                         tvVipText.setText(vipInfoModel.getData().getVip_goods_text());
+
 
                         tvVipTitle.setText("开通会员");
                     } else {
@@ -247,10 +262,18 @@ public class VipFragment extends BaseFragment {
                         } else {
                             Glide.with(getActivity()).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
                         }
+                        vip_order = vipInfoModel.getData().getUserInfo().getVip_order();
+                        if (vipInfoModel.getData().getUserInfo().getVip_order() == 1) {
+                            tvVipGetGoods.setText("已领取");
+                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_black_14);
+                        } else {
+                            tvVipGetGoods.setText("立即领取");
+                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_red_14);
+                        }
                         tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
                         tvGoldenBean.setText(vipInfoModel.getData().getUserInfo().getPoints() + "");
                         tvMoneyOne.setText(vipInfoModel.getData().getUserInfo().getPoints() + "元");
-                        if (vipInfoModel.getData().getUserInfo().getIs_exprire() == 0) {
+                        if (vipInfoModel.getData().getUserInfo().getIs_expire() == 0) {
                             tvTime.setText(vipInfoModel.getData().getUserInfo().getVip_expire() + "金豆到期");
                             ivRight.setVisibility(View.GONE);
                         } else {
@@ -305,7 +328,7 @@ public class VipFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail})
+    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail, R.id.tv_vip_get_goods})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_gold_detail:
@@ -324,6 +347,14 @@ public class VipFragment extends BaseFragment {
                 showVipOpenDialog();
 //                Intent intent = new Intent(getContext(), VipRenewActivity.class);
 //                startActivity(intent);
+                break;
+            case R.id.tv_vip_get_goods:
+                if (vip_order == 1) {
+                    ToastUtils.showToast("您已领取过权益商品");
+                } else {
+                    Intent intent = new Intent(getContext(), VipOrderConfirmActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }
@@ -378,5 +409,11 @@ public class VipFragment extends BaseFragment {
             vip();
             vipIndex();
         }
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        vip();
+        vipIndex();
     }
 }

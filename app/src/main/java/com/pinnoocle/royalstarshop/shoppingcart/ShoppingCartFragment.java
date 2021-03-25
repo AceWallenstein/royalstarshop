@@ -2,7 +2,6 @@ package com.pinnoocle.royalstarshop.shoppingcart;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -10,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +34,9 @@ import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,7 +51,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ShoppingCartFragment extends BaseFragment {
+public class ShoppingCartFragment extends BaseFragment implements OnRefreshListener {
     @BindView(R.id.tv_edit)
     TextView tvEdit;
     @BindView(R.id.rl_title)
@@ -75,10 +78,10 @@ public class ShoppingCartFragment extends BaseFragment {
     ImageView ivEmpty;
     @BindView(R.id.tv_empty)
     TextView tvEmpty;
-    @BindView(R.id.tv_login)
-    TextView tvLogin;
     @BindView(R.id.rl_empty)
     RelativeLayout rlEmpty;
+    @BindView(R.id.refresh)
+    SmartRefreshLayout refresh;
     private DataRepository dataRepository;
     private ShoppingCartAdapter adapter;
     private List<String> cartIdList;
@@ -104,7 +107,10 @@ public class ShoppingCartFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ShoppingCartAdapter(getContext());
         recyclerView.setAdapter(adapter);
+        refresh.setOnRefreshListener(this);
+
     }
+
 
     @Override
     protected void initData() {
@@ -122,10 +128,12 @@ public class ShoppingCartFragment extends BaseFragment {
             @Override
             public void onFailure(String info) {
                 ViewLoading.dismiss(getContext());
+                refresh.finishRefresh();
             }
 
             @Override
             public void onSuccess(Object data) {
+                refresh.finishRefresh();
                 ViewLoading.dismiss(getContext());
                 CartListsModel cartListsModel = (CartListsModel) data;
                 if (cartListsModel.getCode() == 1) {
@@ -330,7 +338,7 @@ public class ShoppingCartFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick({R.id.ll_all_select, R.id.tv_settlement, R.id.tv_edit,R.id.tv_login})
+    @OnClick({R.id.ll_all_select, R.id.tv_settlement, R.id.tv_edit,  R.id.tv_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_all_select:
@@ -372,11 +380,18 @@ public class ShoppingCartFragment extends BaseFragment {
                 refreshEditStatus();
                 break;
             case R.id.tv_login:
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                intent.putExtra("pos",1);
-                startActivity(intent);
+
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    intent.putExtra("pos",1);
+                    startActivity(intent);
+
                 break;
 
         }
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        cartLists();
     }
 }

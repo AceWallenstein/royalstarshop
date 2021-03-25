@@ -15,17 +15,24 @@ import androidx.fragment.app.Fragment;
 
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.adapter.FragmentTabAdapter;
+import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.common.AppManager;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.home.fragment.HomeFragment;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.fragment.MineFragment;
+import com.pinnoocle.royalstarshop.nets.DataRepository;
+import com.pinnoocle.royalstarshop.nets.Injection;
+import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.shoppingcart.ShoppingCartFragment;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.pinnoocle.royalstarshop.utils.StatusBarUtil;
 import com.pinnoocle.royalstarshop.utils.StatusBarUtils;
 import com.pinnoocle.royalstarshop.video.VideoFragment;
+import com.pinnoocle.royalstarshop.vip.VipActivity;
 import com.pinnoocle.royalstarshop.vip.VipFragment;
+import com.pinnoocle.royalstarshop.vip.VipRenewActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -76,6 +83,7 @@ public class MainActivity extends BaseActivity {
     LinearLayout lin;
     private List<Fragment> fragments = new ArrayList<>();
     private FragmentTabAdapter tabAdapter;
+    private DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,12 +122,8 @@ public class MainActivity extends BaseActivity {
             case R.id.ll_tab_vip:
                 initTransparent();
                 tabAdapter.setCurrentFragment(2);
-                if (TextUtils.isEmpty(FastData.getToken())) {
-                    Intent intent = new Intent(this, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
-                    return;
-                }
+                userInfo();
+
                 break;
             case R.id.ll_tab_shop_car:
                 initWhite();
@@ -146,6 +150,44 @@ public class MainActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void  userInfo() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return;
+        }
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        dataRepository.userDetail(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+
+                UserDetailModel userDetailModel = (UserDetailModel) data;
+                if (userDetailModel.getCode() == 1) {
+
+                    if (userDetailModel.getData().getUserInfo().getIsVip() == 0) {
+                        startActivity(new Intent(mContext, VipActivity.class));
+                    } else {
+                        if (userDetailModel.getData().getUserInfo().getIs_exprire() == 0) {
+                            EventBus.getDefault().post("5");
+                        } else {
+                            startActivity(new Intent(mContext, VipRenewActivity.class));
+
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
     protected void initListener() {
         tabAdapter.setOnTabChangeListener(new FragmentTabAdapter.OnTabChangeListener() {
@@ -199,7 +241,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void initData() {
-
+        dataRepository = Injection.dataRepository(mContext);
     }
 
     @Override
@@ -218,10 +260,14 @@ public class MainActivity extends BaseActivity {
             tabAdapter.setCurrentFragment(1);
         }else if(event.equals("5")){
             initTransparent();
+            EventBus.getDefault().post("4");
             tabAdapter.setCurrentFragment(2);
         }else if(event.equals("6")){
             initTransparent();
             tabAdapter.setCurrentFragment(0);
+        }else if(event.equals("8")){
+            initTransparent();
+            tabAdapter.setCurrentFragment(4);
         }
 
     }
