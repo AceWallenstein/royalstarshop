@@ -3,6 +3,7 @@ package com.pinnoocle.royalstarshop.mine.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,6 +19,7 @@ import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.OrderConfirmAdapter;
+import com.pinnoocle.royalstarshop.adapter.VipOrderConfirmAdapter;
 import com.pinnoocle.royalstarshop.bean.AddressDefaultModel;
 import com.pinnoocle.royalstarshop.bean.AddressListModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
@@ -26,12 +28,15 @@ import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.timmy.tdialog.TDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -95,6 +100,7 @@ public class VipOrderConfirmActivity extends BaseActivity {
     private boolean flag = false;
     private String is_use_points = "1";
     private SureOrderModel.DataBean sureOrderData;
+    private VipOrderConfirmAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +114,35 @@ public class VipOrderConfirmActivity extends BaseActivity {
 
 
     private void initView() {
+        adapter = new VipOrderConfirmAdapter(mContext);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<SureOrderModel.DataBean.GoodsListBean>() {
+            @Override
+            public void onItemViewClick(View view, int position, SureOrderModel.DataBean.GoodsListBean o) {
+                if(view.getId()==R.id.rl_item) {
+                    Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                    intent.putExtra("goods_id", o.getGoods_id() + "");
+                    startActivity(intent);
+                }else if(view.getId()==R.id.iv_question){
+                    showTipDialog();
+                }
+            }
+        });
 
     }
+    private void showTipDialog() {
+        TDialog tDialog = new TDialog.Builder(getSupportFragmentManager())
+                .setLayoutRes(R.layout.dialog_tip)
+                //设置弹窗展示的xml布局
+                .setCancelableOutside(true)
+                .setScreenWidthAspect(this, 0.7f)
+                .setGravity(Gravity.CENTER)     //设置弹窗展示位置
+                .create()   //创建TDialog
+                .show();//展示
+
+    }
+
 
     private void initData() {
         dataRepository = Injection.dataRepository(this);
@@ -168,13 +201,11 @@ public class VipOrderConfirmActivity extends BaseActivity {
                 SureOrderModel sureOrderModel = (SureOrderModel) data;
                 sureOrderData = sureOrderModel.getData();
                 if (sureOrderModel.getCode() == 1) {
-                    tvDiscount.setText("抵扣平台货币" + sureOrderData.getPoints_money() + "元");
+                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_money() + "元");
                     tvTotalPrice.setText(sureOrderData.getPoints_num()+"金豆");
                     tvPointsMoney.setText("剩余可用平台货币" + sureOrderData.getUser_points() + "元");
-                    OrderConfirmAdapter adapter = new OrderConfirmAdapter(mContext);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+
                     adapter.setData(sureOrderData.getGoods_list());
-                    recyclerView.setAdapter(adapter);
                     EventBus.getDefault().post(new ShopCartRefreshEvent());
 //                ToastUtils.showToast(sureOrderModel.getMsg());
                 }
@@ -203,6 +234,7 @@ public class VipOrderConfirmActivity extends BaseActivity {
                 PayStatusModel statusModel = (PayStatusModel) data;
                 if (statusModel.getCode() == 1) {
                     startActivity(new Intent(mContext,VipPaySuccessActivity.class));
+                    finish();
                     EventBus.getDefault().post("order_refresh");
                     EventBus.getDefault().post("4");
                 }else {
@@ -250,13 +282,15 @@ public class VipOrderConfirmActivity extends BaseActivity {
                 Serializable result = data.getSerializableExtra("result");
                 AddressListModel.DataBean.ListBean userShipBean = (AddressListModel.DataBean.ListBean) result;
                 if (userShipBean == null) {
-                    return;
+                    getAddressDefault();
+
+                }else {
+                    address_id = userShipBean.getAddress_id() + "";
+                    tvName.setText(userShipBean.getName());
+                    String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+                    tvPhone.setText(phone);
+                    tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
                 }
-                address_id = userShipBean.getAddress_id() + "";
-                tvName.setText(userShipBean.getName());
-                String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
-                tvPhone.setText(phone);
-                tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
 
             }
         }
@@ -280,6 +314,7 @@ public class VipOrderConfirmActivity extends BaseActivity {
             case R.id.tv_settlement:
                 if (TextUtils.isEmpty(address_id)) {
                     ToastUtils.showToast("请输入收货地址");
+                    return;
                 }
 
                 buyVipGoods();

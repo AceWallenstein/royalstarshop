@@ -111,25 +111,25 @@
                             android:textSize="12sp" />
 
                         <TextView
+                            android:layout_toStartOf="@id/tv_renew"
                             android:id="@+id/tv_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_alignParentRight="true"
                             android:textColor="#111111"
                             android:textSize="12sp" />
 
                         <TextView
+                            android:layout_alignParentRight="true"
                             android:id="@+id/tv_renew"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@id/iv_right"
                             android:padding="10dp"
                             android:text="续费"
                             android:textColor="#FF2129"
                             android:textSize="12sp"
-                            android:visibility="gone" />
+                    />
 
                         <ImageView
                             android:id="@+id/iv_right"

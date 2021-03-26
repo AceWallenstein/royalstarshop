@@ -69,10 +69,10 @@ public class BaseActivity extends AppCompatActivity {
         hasWifi(NetUtils.isWifi(mContext));
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//    }
 
     @Override
     protected void onDestroy() {

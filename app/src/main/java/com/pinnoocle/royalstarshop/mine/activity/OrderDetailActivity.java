@@ -160,13 +160,20 @@ public class OrderDetailActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 orderDetailModel = (OrderDetailModel) data;
                 if (orderDetailModel.getCode() == 1) {
-                    tvGoldenBeanDeduction.setText("￥" + orderDetailModel.getData().getOrder().getPoints_money());
+                    if (orderDetailModel.getData().getOrder().getIs_vip_order() == 1) {
+                        tvGoodsMoney.setText( orderDetailModel.getData().getOrder().getTotal_price()+"金豆");
+                        tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price()+"金豆");
+                        tvGoldenBeanDeduction.setText("￥" + orderDetailModel.getData().getOrder().getPoints_money()+"金豆");
+
+                    } else {
+                        tvGoodsMoney.setText("￥" + orderDetailModel.getData().getOrder().getTotal_price());
+                        tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price());
+                        tvGoldenBeanDeduction.setText("￥" + orderDetailModel.getData().getOrder().getPoints_money());
+                    }
                     tvStatus.setText(orderDetailModel.getData().getOrder().getState_text());
                     tvName.setText(orderDetailModel.getData().getOrder().getAddress().getName());
                     tvPhone.setText(orderDetailModel.getData().getOrder().getAddress().getPhone());
                     tvAddress.setText(orderDetailModel.getData().getOrder().getAddress().getRegion().toString() + orderDetailModel.getData().getOrder().getAddress().getDetail());
-                    tvGoodsMoney.setText("￥" + orderDetailModel.getData().getOrder().getTotal_price());
-                    tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price());
                     tvOrderCode.setText(orderDetailModel.getData().getOrder().getOrder_no());
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
                     List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
@@ -207,10 +214,12 @@ public class OrderDetailActivity extends BaseActivity {
                                 intent.putExtra("order_goods_id", o.getOrder_goods_id());
 
                                 startActivity(intent);
-                            }else if(view.getId()==R.id.rl_goods){
+                            } else if (view.getId() == R.id.rl_goods) {
                                 Intent intent = new Intent(mContext, GoodsDetailActivity.class);
-                                intent.putExtra("goods_id",o.getGoods_id()+"");
+                                intent.putExtra("goods_id", o.getGoods_id() + "");
                                 startActivity(intent);
+                            } else if (view.getId() == R.id.iv_question) {
+                                showTipDialog();
                             }
                         }
                     });
@@ -219,6 +228,19 @@ public class OrderDetailActivity extends BaseActivity {
             }
         });
     }
+
+    private void showTipDialog() {
+        TDialog tDialog = new TDialog.Builder(getSupportFragmentManager())
+                .setLayoutRes(R.layout.dialog_tip)
+                //设置弹窗展示的xml布局
+                .setCancelableOutside(true)
+                .setScreenWidthAspect(this, 0.7f)
+                .setGravity(Gravity.CENTER)     //设置弹窗展示位置
+                .create()   //创建TDialog
+                .show();//展示
+
+    }
+
 
     private void orderReceipt(String order_ids, String order_no) {
         LoginBean loginBean = new LoginBean();

@@ -25,12 +25,14 @@ import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.HotGoodsAdapter;
 import com.pinnoocle.royalstarshop.adapter.VipGoodsListAdapter;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
 import com.pinnoocle.royalstarshop.bean.VipOpenModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
+import com.pinnoocle.royalstarshop.home.activity.VipGoodsDetailActivity;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanDetailActivity;
 import com.pinnoocle.royalstarshop.mine.activity.VipOrderConfirmActivity;
@@ -263,13 +265,13 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
                             Glide.with(getActivity()).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
                         }
                         vip_order = vipInfoModel.getData().getUserInfo().getVip_order();
-                        if (vipInfoModel.getData().getUserInfo().getVip_order() == 1) {
-                            tvVipGetGoods.setText("已领取");
-                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_black_14);
-                        } else {
-                            tvVipGetGoods.setText("立即领取");
-                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_red_14);
-                        }
+//                        if (vipInfoModel.getData().getUserInfo().getVip_order() == 1) {
+//                            tvVipGetGoods.setText("已领取");
+//                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_black_14);
+//                        } else {
+//                            tvVipGetGoods.setText("立即领取");
+//                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_red_14);
+//                        }
                         tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
                         tvGoldenBean.setText(vipInfoModel.getData().getUserInfo().getPoints() + "");
                         tvMoneyOne.setText(vipInfoModel.getData().getUserInfo().getPoints() + "元");
@@ -328,7 +330,7 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
     }
 
 
-    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail, R.id.tv_vip_get_goods})
+    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail, R.id.tv_vip_get_goods,R.id.tv_renew})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_gold_detail:
@@ -349,15 +351,44 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
 //                startActivity(intent);
                 break;
             case R.id.tv_vip_get_goods:
-                if (vip_order == 1) {
-                    ToastUtils.showToast("您已领取过权益商品");
-                } else {
-                    Intent intent = new Intent(getContext(), VipOrderConfirmActivity.class);
-                    startActivity(intent);
-                }
+//                if (vip_order == 1) {
+//                    ToastUtils.showToast("您已领取过权益商品");
+//                } else {
+//                    Intent intent = new Intent(getContext(), VipOrderConfirmActivity.class);
+//                    startActivity(intent);
+//                }
+                getVipGoods();
+
+                break;
+            case R.id.tv_renew:
+                startActivity(new Intent(getContext(), VipRenewActivity.class));
                 break;
         }
     }
+
+    private void getVipGoods() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        dataRepository.getVipGoods(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                VipGoodsModel vipGoodsModel = (VipGoodsModel) data;
+                if (vipGoodsModel.getCode() == 1) {
+
+                    Intent intent = new Intent(mContext, VipGoodsDetailActivity.class);
+                    intent.putExtra("goods_id",vipGoodsModel.getData().getVip_goods().getGoods_id()+"");
+                    startActivity(intent);
+
+                }
+            }
+        });
+    }
+
 
     private void showVipOpenDialog() {
         new TDialog.Builder(getActivity().getSupportFragmentManager())

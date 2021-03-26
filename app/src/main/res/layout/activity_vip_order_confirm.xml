@@ -112,6 +112,7 @@
                 android:padding="10dp" />
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_money"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

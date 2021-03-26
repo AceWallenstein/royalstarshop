@@ -3,6 +3,7 @@ package com.pinnoocle.royalstarshop.mine.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +36,7 @@ import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
 import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.timmy.tdialog.TDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -142,11 +144,27 @@ public class OrderConfirmActivity extends BaseActivity {
         adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<SureOrderModel.DataBean.GoodsListBean>() {
             @Override
             public void onItemViewClick(View view, int position, SureOrderModel.DataBean.GoodsListBean o) {
-                Intent intent = new Intent(mContext, GoodsDetailActivity.class);
-                intent.putExtra("goods_id", o.getGoods_id() + "");
-                startActivity(intent);
+                if(view.getId()==R.id.rl_item) {
+                    Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                    intent.putExtra("goods_id", o.getGoods_id() + "");
+                    startActivity(intent);
+                }else if(view.getId()==R.id.iv_question){
+                    showTipDialog();
+                }
             }
         });
+    }
+
+    private void showTipDialog() {
+        TDialog tDialog = new TDialog.Builder(getSupportFragmentManager())
+                .setLayoutRes(R.layout.dialog_tip)
+                //设置弹窗展示的xml布局
+                .setCancelableOutside(true)
+                .setScreenWidthAspect(this, 0.7f)
+                .setGravity(Gravity.CENTER)     //设置弹窗展示位置
+                .create()   //创建TDialog
+                .show();//展示
+
     }
 
     private void initData() {
@@ -171,7 +189,7 @@ public class OrderConfirmActivity extends BaseActivity {
                 rlTotalDiscount.setVisibility(View.VISIBLE);
             }
             tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
-            tvDiscount.setText("抵扣平台货币" + sureOrderData.getPoints_num() + "元");
+            tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_num() + "元");
             tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
             tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
             tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
@@ -194,6 +212,7 @@ public class OrderConfirmActivity extends BaseActivity {
             @Override
             public void onFailure(String info) {
                 ViewLoading.dismiss(mContext);
+                address_id = "";
             }
 
             @Override
@@ -238,10 +257,11 @@ public class OrderConfirmActivity extends BaseActivity {
                 sureOrderData = sureOrderModel.getData();
                 if (sureOrderModel.getCode() == 1) {
                     tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
-                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_num() + "元");
+                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_money() + "元");
                     tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
                     tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
                     tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
+                    tvTotalDiscount.setText("￥" + sureOrderData.getPoints_money());
                     if (adapter == null) {
                         adapter = new OrderConfirmAdapter(mContext);
                     }
@@ -273,10 +293,11 @@ public class OrderConfirmActivity extends BaseActivity {
                 sureOrderData = orderCartModel.getData();
                 if (orderCartModel.getCode() == 1) {
                     tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
-                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_num() + "元");
+                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_money() + "元");
                     tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
                     tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
                     tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
+                    tvTotalDiscount.setText("￥" + sureOrderData.getPoints_money());
                     adapter.setData(sureOrderData.getGoods_list());
                     EventBus.getDefault().post(new ShopCartRefreshEvent());
                 }
@@ -403,13 +424,14 @@ public class OrderConfirmActivity extends BaseActivity {
                 Serializable result = data.getSerializableExtra("result");
                 AddressListModel.DataBean.ListBean userShipBean = (AddressListModel.DataBean.ListBean) result;
                 if (userShipBean == null) {
-                    return;
+                    getAddressDefault();
+                }else {
+                    address_id = userShipBean.getAddress_id() + "";
+                    tvName.setText(userShipBean.getName());
+                    String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+                    tvPhone.setText(phone);
+                    tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
                 }
-                address_id = userShipBean.getAddress_id() + "";
-                tvName.setText(userShipBean.getName());
-                String phone = userShipBean.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
-                tvPhone.setText(phone);
-                tvAddress.setText(userShipBean.getRegion().getProvince() + userShipBean.getRegion().getCity() + userShipBean.getRegion().getRegion());
 
             }
         }

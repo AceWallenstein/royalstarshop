@@ -41,7 +41,7 @@ public class OrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.Goo
         holder.tvSpec.setText(mDatas.get(position).getGoods_sku().getGoods_attr());
         holder.tvNums.setText("x" + mDatas.get(position).getTotal_num());
         holder.tvPoints.setText(mDatas.get(position).getPoints_bonus() + "金豆");
-        holder.tvFreight.setText(mDatas.get(position).getTotal_freight());
+        holder.tvFreight.setText("￥"+mDatas.get(position).getTotal_freight());
 //        holder.tvRemarks.setText(mDatas.get(position).get);
         if(mDatas.get(position).getType().getValue()==3){
             holder.returnGoldBean.setVisibility(View.VISIBLE);
@@ -50,6 +50,12 @@ public class OrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.Goo
         }
 
         holder.rlItem.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
+            }
+        });
+
+        holder.ivQuestion.setOnClickListener(v -> {
             if (mOnItemDataClickListener != null) {
                 mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
@@ -84,6 +90,9 @@ public class OrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.Goo
         TextView tvPoints;
         @BindView(R.id.return_gold_bean)
         RelativeLayout returnGoldBean;
+        @BindView(R.id.iv_question)
+        ImageView ivQuestion;
+
 
         public VH(@NonNull View itemView) {
             super(itemView);

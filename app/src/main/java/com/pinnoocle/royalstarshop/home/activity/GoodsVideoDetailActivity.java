@@ -95,56 +95,59 @@ public class GoodsVideoDetailActivity extends BaseActivity {
     private AudioManager mAudioManager;
     private HomeModel.DataBean.VideoGoodsBean dataBeanList = new HomeModel.DataBean.VideoGoodsBean();
     private int time;
+    private int pos;
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(String event) {
         if (event.equals("1")) {
-            if(videoView.isPlaying()){
+            if (videoView.isPlaying()) {
 
-            }else {
-                if (time == 0) {
-                    ivStart.setVisibility(View.GONE);
-                    ivThumb.setVisibility(View.GONE);
-                    ivLoading.setVisibility(View.VISIBLE);
-                    startBufferAnimation();
-                    String videoUrl2 = dataBeanList.getVideo().getFile_path();
-                    //设置视频控制器
+            } else {
+                if (pos == 0) {
+                    if (time == 0) {
+                        ivStart.setVisibility(View.GONE);
+                        ivThumb.setVisibility(View.GONE);
+                        ivLoading.setVisibility(View.VISIBLE);
+                        startBufferAnimation();
+                        String videoUrl2 = dataBeanList.getVideo().getFile_path();
+                        //设置视频控制器
 //                videoView.setMediaController(new MediaController(this));
-                    //播放完成回调
-                    videoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
-                    //设置视频路径
-                    videoView.setVideoPath(videoUrl2);
-                    videoView.requestFocus();
-                    videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            ivLoading.setVisibility(View.GONE);
-                            stopBufferAnimation();
-                            mp.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
-                            seek.setVisibility(View.VISIBLE);
-                            startTime.setVisibility(View.VISIBLE);
-                            tvTime.setVisibility(View.VISIBLE);
-                            ivVolume.setVisibility(View.VISIBLE);
-                            tvTime.setText(stringForTime(videoView.getDuration()));
-                            mHandler.post(mRunnable);
-                            mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-                                @Override
-                                public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                                    if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                        //播放完成回调
+                        videoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
+                        //设置视频路径
+                        videoView.setVideoPath(videoUrl2);
+                        videoView.requestFocus();
+                        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                ivLoading.setVisibility(View.GONE);
+                                stopBufferAnimation();
+                                mp.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+                                seek.setVisibility(View.VISIBLE);
+                                startTime.setVisibility(View.VISIBLE);
+                                tvTime.setVisibility(View.VISIBLE);
+                                ivVolume.setVisibility(View.VISIBLE);
+                                tvTime.setText(stringForTime(videoView.getDuration()));
+                                mHandler.post(mRunnable);
+                                mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                                    @Override
+                                    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                                        if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
 //                                    // video 视屏播放的时候把背景设置为透明
-                                        videoView.setBackgroundColor(Color.TRANSPARENT);
-                                        return true;
+                                            videoView.setBackgroundColor(Color.TRANSPARENT);
+                                            return true;
+                                        }
+                                        return false;
                                     }
-                                    return false;
-                                }
-                            });
-                        }
-                    });
-                    //开始播放视频
-                    videoView.start();
-                } else {
-                    ivStart.setVisibility(View.GONE);
-                    videoView.start();
+                                });
+                            }
+                        });
+                        //开始播放视频
+                        videoView.start();
+                    } else {
+                        ivStart.setVisibility(View.GONE);
+                        videoView.start();
+                    }
                 }
             }
         } else if (event.equals("2")) {
@@ -385,6 +388,19 @@ public class GoodsVideoDetailActivity extends BaseActivity {
             ivVolume.setVisibility(View.GONE);
             time = 0;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        videoView.pause();
+        pos = 1;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        videoView.start();
     }
 
     @Override

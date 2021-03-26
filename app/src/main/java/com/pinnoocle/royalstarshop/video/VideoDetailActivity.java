@@ -2,7 +2,6 @@ package com.pinnoocle.royalstarshop.video;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,8 +9,6 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -99,6 +96,7 @@ public class VideoDetailActivity extends BaseActivity {
     private List<GoodsListsModel.DataBeanX.ListBean.DataBean> dataBeanList = new ArrayList<>();
     private int pos;
     private int time;
+    private int pos1;
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(String event) {
@@ -106,49 +104,51 @@ public class VideoDetailActivity extends BaseActivity {
             if (videoView.isPlaying()) {
 
             } else {
-                if (time == 0) {
-                    ivStart.setVisibility(View.GONE);
-                    ivThumb.setVisibility(View.GONE);
-                    ivLoading.setVisibility(View.VISIBLE);
-                    startBufferAnimation();
-                    String videoUrl2 = dataBeanList.get(pos).getVideo().getFile_path();
-                    //设置视频控制器
+                if(pos1 == 0){
+                    if (time == 0) {
+                        ivStart.setVisibility(View.GONE);
+                        ivThumb.setVisibility(View.GONE);
+                        ivLoading.setVisibility(View.VISIBLE);
+                        startBufferAnimation();
+                        String videoUrl2 = dataBeanList.get(pos).getVideo().getFile_path();
+                        //设置视频控制器
 //                videoView.setMediaController(new MediaController(this));
-                    //播放完成回调
-                    videoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
-                    //设置视频路径
-                    videoView.setVideoPath(videoUrl2);
-                    videoView.requestFocus();
-                    videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            ivLoading.setVisibility(View.GONE);
-                            stopBufferAnimation();
-                            mp.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
-                            seek.setVisibility(View.VISIBLE);
-                            startTime.setVisibility(View.VISIBLE);
-                            tvTime.setVisibility(View.VISIBLE);
-                            ivVolume.setVisibility(View.VISIBLE);
-                            tvTime.setText(stringForTime(videoView.getDuration()));
-                            mHandler.post(mRunnable);
-                            mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-                                @Override
-                                public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                                    if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                        //播放完成回调
+                        videoView.setOnCompletionListener(new MyPlayerOnCompletionListener());
+                        //设置视频路径
+                        videoView.setVideoPath(videoUrl2);
+                        videoView.requestFocus();
+                        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                ivLoading.setVisibility(View.GONE);
+                                stopBufferAnimation();
+                                mp.setVideoScalingMode(MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+                                seek.setVisibility(View.VISIBLE);
+                                startTime.setVisibility(View.VISIBLE);
+                                tvTime.setVisibility(View.VISIBLE);
+                                ivVolume.setVisibility(View.VISIBLE);
+                                tvTime.setText(stringForTime(videoView.getDuration()));
+                                mHandler.post(mRunnable);
+                                mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                                    @Override
+                                    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                                        if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
 //                                    // video 视屏播放的时候把背景设置为透明
-                                        videoView.setBackgroundColor(Color.TRANSPARENT);
-                                        return true;
+                                            videoView.setBackgroundColor(Color.TRANSPARENT);
+                                            return true;
+                                        }
+                                        return false;
                                     }
-                                    return false;
-                                }
-                            });
-                        }
-                    });
-                    //开始播放视频
-                    videoView.start();
-                } else {
-                    ivStart.setVisibility(View.GONE);
-                    videoView.start();
+                                });
+                            }
+                        });
+                        //开始播放视频
+                        videoView.start();
+                    } else {
+                        ivStart.setVisibility(View.GONE);
+                        videoView.start();
+                    }
                 }
             }
         } else if (event.equals("2")) {
@@ -406,5 +406,12 @@ public class VideoDetailActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         videoView.pause();
+        pos1 = 1;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        videoView.start();
     }
 }

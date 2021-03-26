@@ -5,7 +5,7 @@
      <!-- android:duration="@android:integer/config_mediumAnimTime"  == 400 -->
        
     <translate
-        android:duration="@android:integer/config_mediumAnimTime"
+        android:duration="@android:integer/config_shortAnimTime"
         android:fromXDelta="100%p"
         android:toXDelta="0%p" />
 </set>

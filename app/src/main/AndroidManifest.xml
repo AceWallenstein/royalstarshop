@@ -95,6 +95,7 @@
         <activity android:name=".home.activity.MessageListActivity" />
         <activity android:name=".home.activity.MessageDetailActivity" />
         <activity android:name=".home.activity.VipGoodsDetailActivity" />
+        <activity android:name=".mine.activity.VipOrderDetailActivity" />
 
 
     </application>

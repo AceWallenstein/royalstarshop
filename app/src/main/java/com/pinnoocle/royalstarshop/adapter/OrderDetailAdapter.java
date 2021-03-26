@@ -47,8 +47,14 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
                 mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
-        holder.tvPoints.setText("￥" + mDatas.get(position).getPoints_bonus());
-        holder.tvFreight.setText("￥" + mDatas.get(position).getTotal_freight());
+        if (mDatas.get(position).getIs_vip_order() == 1) {
+            holder.tvPoints.setText(mDatas.get(position).getPoints_bonus() + "金豆");
+            holder.tvFreight.setText("￥" + mDatas.get(position).getTotal_freight() + "金豆");
+
+        } else {
+            holder.tvPoints.setText("￥" + mDatas.get(position).getPoints_bonus());
+            holder.tvFreight.setText("￥" + mDatas.get(position).getTotal_freight());
+        }
         holder.tvAfterSale.setOnClickListener(v -> {
             if (mOnItemDataClickListener != null) {
                 mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
@@ -69,6 +75,12 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
 
             }
         }
+        holder.ivQuestion.setOnClickListener(v -> {
+            if (mOnItemDataClickListener != null) {
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
+            }
+        });
+
     }
 
     @Override
@@ -107,6 +119,8 @@ public class OrderDetailAdapter extends BaseAdapter<OrderListModel.DataBeanX.Lis
         TextView tvAfterSale;
         @BindView(R.id.rl_after_sale)
         RelativeLayout rlAfterSale;
+        @BindView(R.id.iv_question)
+        ImageView ivQuestion;
 
         public VH(@NonNull View itemView) {
             super(itemView);

@@ -115,6 +115,15 @@ public class OrderDetailModel implements Serializable {
              * extract_shop : null
              * state_text : 待付款
              */
+            private int is_vip_order;
+
+            public int getIs_vip_order() {
+                return is_vip_order;
+            }
+
+            public void setIs_vip_order(int is_vip_order) {
+                this.is_vip_order = is_vip_order;
+            }
 
             private int order_id;
             private String order_no;

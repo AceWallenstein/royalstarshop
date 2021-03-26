@@ -166,6 +166,15 @@ public class OrderListModel {
                  * goods : [{"order_goods_id":31460,"goods_id":12931,"goods_name":"电视","image_id":26091,"deduct_stock_type":10,"spec_type":20,"spec_sku_id":"12185_12186","goods_sku_id":39258,"goods_attr":"颜色:黄色; 尺寸:22寸; ","goods_no":"","goods_price":"220.00","line_price":"0.00","goods_weight":1000,"is_user_grade":0,"grade_ratio":0,"grade_goods_price":"0.00","grade_total_money":"0.00","coupon_money":"0.00","points_money":"0.00","points_num":0,"points_bonus":0,"virtual_code_money":"0.00","exchange_points_num":0,"exchange_points_money":"0.00","total_num":1,"total_price":"220.00","total_pay_price":"220.00","is_ind_dealer":0,"dealer_money_type":10,"first_money":"0.00","second_money":"0.00","third_money":"0.00","is_comment":0,"order_id":26182,"user_id":19533,"image":{"file_id":26091,"storage":"local","group_id":0,"file_url":"","file_name":"20210305100227b997a3950.jpg","file_size":22572,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"wxapp_id":10001,"create_time":"2021-03-05 10:02:27","file_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg"}}]
                  * state_text : 待付款
                  */
+                private int is_vip_order;
+
+                public int getIs_vip_order() {
+                    return is_vip_order;
+                }
+
+                public void setIs_vip_order(int is_vip_order) {
+                    this.is_vip_order = is_vip_order;
+                }
 
                 private int order_id;
                 private String order_no;
@@ -785,6 +794,15 @@ public class OrderListModel {
                      * user_id : 19533
                      * image : {"file_id":26091,"storage":"local","group_id":0,"file_url":"","file_name":"20210305100227b997a3950.jpg","file_size":22572,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"wxapp_id":10001,"create_time":"2021-03-05 10:02:27","file_path":"http://gsyp.vtui365.com/uploads/20210305100227b997a3950.jpg"}
                      */
+                    private int is_vip_order;
+
+                    public int getIs_vip_order() {
+                        return is_vip_order;
+                    }
+
+                    public void setIs_vip_order(int is_vip_order) {
+                        this.is_vip_order = is_vip_order;
+                    }
 
                     private int order_goods_id;
                     private int goods_id;

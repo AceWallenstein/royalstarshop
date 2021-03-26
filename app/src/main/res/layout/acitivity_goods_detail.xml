@@ -207,7 +207,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="376dp">
 
-                <com.youth.banner.Banner
+                <com.pinnoocle.royalstarshop.common.ChangeBanner
                     android:id="@+id/goods_banner"
                     android:layout_width="match_parent"
                     android:layout_height="375dp" />
@@ -340,31 +340,31 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
-            <LinearLayout
-                android:id="@+id/rl_one"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rl_goods_title"
-                android:layout_marginTop="4dp"
-                android:padding="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/rl_one"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="返豆"
-                    android:textColor="@color/black_1"
-                    android:textSize="13sp" />
+                    android:layout_below="@id/rl_goods_title"
+                    android:layout_marginTop="4dp"
+                    android:padding="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="返豆"
+                        android:textColor="@color/black_1"
+                        android:textSize="13sp" />
 
-                <TextView
-                    android:layout_marginStart="6dp"
-                    android:id="@+id/tv_points"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    tools:text="60金豆"
-                    android:textColor="#FF2A28"
-                    android:textSize="13sp" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_marginStart="6dp"
+                        android:id="@+id/tv_points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        tools:text="60金豆"
+                        android:textColor="#FF2A28"
+                        android:textSize="13sp" />
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_pledge"

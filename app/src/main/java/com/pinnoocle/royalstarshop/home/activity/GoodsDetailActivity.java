@@ -25,13 +25,18 @@ import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.FragmentTabAdapter;
+import com.pinnoocle.royalstarshop.adapter.MediaVideoBannerAdapter;
 import com.pinnoocle.royalstarshop.bean.CommentListModel;
 import com.pinnoocle.royalstarshop.bean.GoodsDetailModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.ResourceBean;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
 import com.pinnoocle.royalstarshop.bean.ServiceBean;
 import com.pinnoocle.royalstarshop.bean.UserDetailModel;
+import com.pinnoocle.royalstarshop.common.BannerVideoManager;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.common.ChangeBanner;
 import com.pinnoocle.royalstarshop.home.fragment.GoodsTabCommentFragment;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
@@ -45,7 +50,10 @@ import com.pinnoocle.royalstarshop.widget.DialogShopCar;
 import com.pinnoocle.royalstarshop.widget.VerticalMarqueeLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.indicator.CircleIndicator;
+import com.youth.banner.listener.OnPageChangeListener;
 import com.zzhoujay.richtext.ImageHolder;
 import com.zzhoujay.richtext.RichText;
 
@@ -93,7 +101,7 @@ public class GoodsDetailActivity extends BaseActivity {
     @BindView(R.id.ll_buy)
     LinearLayout llBuy;
     @BindView(R.id.goods_banner)
-    Banner goodsBanner;
+    ChangeBanner goodsBanner;
     @BindView(R.id.banner_indicator)
     TextView bannerIndicator;
     @BindView(R.id.marquee_root)
@@ -147,7 +155,7 @@ public class GoodsDetailActivity extends BaseActivity {
     @BindView(R.id.rl_one)
     LinearLayout rlOne;
     private DataRepository dataRepository;
-    private List<String> bannerList;
+    private List<ResourceBean> bannerList;
     private GoodsDetailModel.DataBean dataBean;
     private BasePopupView selectDialog;
     private GoodsDetailModel goodsDetailModel;
@@ -155,6 +163,8 @@ public class GoodsDetailActivity extends BaseActivity {
     private BasePopupView pledgePopupView;
     private List<Fragment> fragments = new ArrayList<>();
     private FragmentTabAdapter tabAdapter;
+    private MediaVideoBannerAdapter mAdapter;
+    private BannerVideoManager mBannerVideoManager;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +211,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 }
             }
         });
+        mAdapter = new MediaVideoBannerAdapter(this, bannerList);
 
     }
 
@@ -234,6 +245,8 @@ public class GoodsDetailActivity extends BaseActivity {
         });
     }
 
+
+
     private void goodsDetail() {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
@@ -263,10 +276,15 @@ public class GoodsDetailActivity extends BaseActivity {
                     tvNormalPrice.setText("￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_price());
                     tvVipPrice1.setText("￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getBalance_price());
                     tvGoodsTitle.setText(goodsDetailModel.getData().getDetail().getGoods_name());
-                    List<String> images = new ArrayList<>();
+                    List<ResourceBean> images = new ArrayList<>();
                     List<GoodsDetailModel.DataBean.DetailBean.ImageBean> image = goodsDetailModel.getData().getDetail().getImage();
+//                    goodsDetailModel.getData().getDetail().getVideo().getFile_path()
+                    if (goodsDetailModel.getData().getDetail().getVideo() != null) {
+                        ResourceBean resourceBean = new ResourceBean(2, goodsDetailModel.getData().getDetail().getVideo().getFile_path());
+                        images.add(resourceBean);
+                    }
                     for (int i = 0; i < image.size(); i++) {
-                        images.add(image.get(i).getFile_path());
+                        images.add(new ResourceBean(1, image.get(i).getFile_path()));
                     }
                     if (goodsDetailModel.getData().getDetail().getIs_collect() == 0) {
                         ivMark.setImageResource(R.mipmap.mark);
@@ -274,7 +292,8 @@ public class GoodsDetailActivity extends BaseActivity {
                         ivMark.setImageResource(R.mipmap.mark_1);
                     }
                     dataBean = goodsDetailModel.getData();
-                    initBanner(images);
+                    String goods_image = dataBean.getDetail().getGoods_image();
+                    initBanner(images,goods_image);
                     RichText.from(goodsDetailModel.getData().getDetail().getContent()).bind(this)
                             .showBorder(false)
                             .autoPlay(false)
@@ -395,23 +414,36 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
 
-    private void initBanner(List<String> album) {
+    private void initBanner(List<ResourceBean> album, String goods_image) {
         bannerList = new ArrayList<>();
         bannerList = album;
-        goodsBanner.isAutoLoop(false)
-                .setAdapter(new BannerImageAdapter<String>(bannerList) {
-                    @Override
-                    public void onBindView(BannerImageHolder holder, String data, int position, int size) {
-                        holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                        //图片加载自己实现
-                        Glide.with(holder.itemView)
-                                .load(data)
-                                .fitCenter()
-                                .into(holder.imageView);
-                    }
-                })
-                .isAutoLoop(false);
+        mAdapter.setDatas(bannerList);
+        mAdapter.notifyDataSetChanged();
+        mAdapter.setImage(goods_image);
+        goodsBanner.isAutoLoop(false);
+        goodsBanner.setAdapter(mAdapter).
+                setIndicator(new CircleIndicator(this))
+                .setIndicatorGravity(IndicatorConfig.Direction.CENTER);
         bannerIndicator.setText("1/" + bannerList.size());
+        mBannerVideoManager = new BannerVideoManager(this, goodsBanner, mAdapter, bannerList);
+        mBannerVideoManager.setPageChangeMillis(5000);
+        mBannerVideoManager.setVideoPlayLoadWait(500);
+        goodsBanner.addOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                bannerIndicator.setText((position+1)+"/" + bannerList.size());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 
@@ -477,6 +509,33 @@ public class GoodsDetailActivity extends BaseActivity {
                 break;
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mBannerVideoManager != null) {
+        mBannerVideoManager.onResume();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mAdapter.stopVideo();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
 
 
+        mAdapter.stopVideo();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+    }
 }

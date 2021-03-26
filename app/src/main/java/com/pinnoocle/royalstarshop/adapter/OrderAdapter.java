@@ -41,7 +41,11 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
         holder.tvOrderCode.setText("订单号：" + mDatas.get(position).getOrder_no());
         holder.tvStatus.setText(mDatas.get(position).getState_text());
         holder.tvTotalNums.setText("共" + mDatas.get(position).getGoods().size() + "件商品，实付款");
-        holder.tvPrice.setText("￥" + mDatas.get(position).getPay_price());
+//        if(mDatas.get(position).getIs_vip_order()==1){
+//            holder.tvPrice.setText( mDatas.get(position).getPay_price()+"金豆");
+//        }else {
+            holder.tvPrice.setText("￥" + mDatas.get(position).getPay_price());
+//        }
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = mDatas.get(position).getGoods();
         InnerOrderAdapter adapter = new InnerOrderAdapter(mContext);
