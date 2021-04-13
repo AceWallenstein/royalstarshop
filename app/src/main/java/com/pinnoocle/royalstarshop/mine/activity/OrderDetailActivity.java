@@ -1,7 +1,10 @@
 package com.pinnoocle.royalstarshop.mine.activity;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,19 +17,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.OrderDetailAdapter;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
-import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
+import com.pinnoocle.royalstarshop.home.activity.VipGoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.utils.NumberUtil;
 import com.timmy.tdialog.TDialog;
 import com.timmy.tdialog.base.BindViewHolder;
 import com.timmy.tdialog.listener.OnBindViewListener;
@@ -34,6 +39,8 @@ import com.timmy.tdialog.listener.OnViewClickListener;
 
 import org.angmarch.views.NiceSpinner;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -110,9 +117,36 @@ public class OrderDetailActivity extends BaseActivity {
     TextView tvPay;
     @BindView(R.id.rl_panel)
     RelativeLayout rlPanel;
+    @BindView(R.id.tv_total_freight)
+    TextView tvTotalFreight;
+    @BindView(R.id.tv_logistics_code)
+    TextView tvLogisticsCode;
+    @BindView(R.id.tv_logistics)
+    TextView tvLogistics;
+    @BindView(R.id.rl_logistics)
+    RelativeLayout rlLogistics;
+    @BindView(R.id.tv_express_code)
+    TextView tvExpressCode;
+    @BindView(R.id.tv_express)
+    TextView tvExpress;
+    @BindView(R.id.rl_express)
+    RelativeLayout rlExpress;
+    @BindView(R.id.ll_express)
+    LinearLayout llExpress;
+    @BindView(R.id.rl_pay_money)
+    RelativeLayout rlPayMoney;
+    @BindView(R.id.tv_copy)
+    TextView tvCopy;
+    @BindView(R.id.tv_goods_money_1)
+    TextView tvGoodsMoney1;
+    @BindView(R.id.tv_total_freight_1)
+    TextView tvTotalFreight1;
+    @BindView(R.id.tv_golden_bean_deduction_1)
+    TextView tvGoldenBeanDeduction1;
     private DataRepository dataRepository;
     private OrderDetailAdapter adapter;
     private OrderDetailModel orderDetailModel;
+    private int is_vip_order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +175,14 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetail();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
+    public void onEvent(String event) {
+        if (event.equals("1001")) {
+            orderDetail();
+        }
+
+    }
+
 
     private void orderDetail() {
         LoginBean loginBean = new LoginBean();
@@ -160,27 +202,65 @@ public class OrderDetailActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 orderDetailModel = (OrderDetailModel) data;
                 if (orderDetailModel.getCode() == 1) {
-                    if (orderDetailModel.getData().getOrder().getIs_vip_order() == 1) {
-                        tvGoodsMoney.setText( orderDetailModel.getData().getOrder().getTotal_price()+"金豆");
-                        tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price()+"金豆");
-                        tvGoldenBeanDeduction.setText("￥" + orderDetailModel.getData().getOrder().getPoints_money()+"金豆");
+//                    if (orderDetailModel.getData().getOrder().getIs_vip_order() == 1) {
+//                        tvGoodsMoney.setText( orderDetailModel.getData().getOrder().getTotal_price()+"金豆");
+//                        tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price()+"金豆");
+//                        tvGoldenBeanDeduction.setText("-￥" + orderDetailModel.getData().getOrder().getPoints_money()+"金豆");
+//
+//                    } else {
 
-                    } else {
-                        tvGoodsMoney.setText("￥" + orderDetailModel.getData().getOrder().getTotal_price());
-                        tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price());
-                        tvGoldenBeanDeduction.setText("￥" + orderDetailModel.getData().getOrder().getPoints_money());
-                    }
+//                    }
                     tvStatus.setText(orderDetailModel.getData().getOrder().getState_text());
                     tvName.setText(orderDetailModel.getData().getOrder().getAddress().getName());
                     tvPhone.setText(orderDetailModel.getData().getOrder().getAddress().getPhone());
                     tvAddress.setText(orderDetailModel.getData().getOrder().getAddress().getRegion().toString() + orderDetailModel.getData().getOrder().getAddress().getDetail());
                     tvOrderCode.setText(orderDetailModel.getData().getOrder().getOrder_no());
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
-                    List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
+                    List<OrderDetailModel.DataBean.OrderBean.GoodsBeanX> goods = orderDetailModel.getData().getOrder().getGoods();
                     adapter.setType(orderDetailModel.getData().getOrder().getState_text());
                     adapter.setData(goods);
                     rl1.setVisibility(View.GONE);
+                    is_vip_order = orderDetailModel.getData().getOrder().getIs_vip_order();
+                    if (orderDetailModel.getData().getOrder().getIs_vip_order() == 1) {
+                        adapter.setIsVipGoods(true);
+                        tvGoodsMoney1.setText("实付");
+                        tvTotalFreight1.setText("运费");
+                        tvGoldenBeanDeduction1.setText("合计");
+                        tvGoodsMoney.setText(NumberUtil.String2Int(orderDetailModel.getData().getOrder().getTotal_price()) + "金豆");
+                        tvPayMoney.setText(NumberUtil.String2Int(orderDetailModel.getData().getOrder().getPay_price()) + "金豆");
+                        tvGoldenBeanDeduction.setText(NumberUtil.String2Int(orderDetailModel.getData().getOrder().getPoints_money()) + "金豆");
+                        tvTotalFreight.setText(NumberUtil.String2Int(orderDetailModel.getData().getOrder().getExpress_price()) + "金豆");
+                        rlPayMoney.setVisibility(View.GONE);
+                    } else {
+                        rlPayMoney.setVisibility(View.VISIBLE);
+                        adapter.setIsVipGoods(false);
+                        tvGoodsMoney.setText("￥" + orderDetailModel.getData().getOrder().getTotal_price());
+                        tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price());
+                        tvGoldenBeanDeduction.setText("-￥" + orderDetailModel.getData().getOrder().getPoints_money());
+                        tvTotalFreight.setText("￥" + orderDetailModel.getData().getOrder().getExpress_price());
+
+                    }
                     llAfterSales.setVisibility(View.GONE);
+
+                    if (!TextUtils.isEmpty(orderDetailModel.getData().getOrder().getExpress_company())) {
+                        rlExpress.setVisibility(View.VISIBLE);
+                        tvExpressCode.setText(orderDetailModel.getData().getOrder().getExpress_company());
+                    }
+                    if (!TextUtils.isEmpty(orderDetailModel.getData().getOrder().getExpress_no())) {
+                        rlLogistics.setVisibility(View.VISIBLE);
+                        tvLogisticsCode.setText(orderDetailModel.getData().getOrder().getExpress_no());
+                    }
+                    if (TextUtils.isEmpty(orderDetailModel.getData().getOrder().getExpress_company())) {
+                        rlExpress.setVisibility(View.GONE);
+                    }
+                    if (TextUtils.isEmpty(orderDetailModel.getData().getOrder().getExpress_no())) {
+                        rlLogistics.setVisibility(View.GONE);
+                    }
+                    if (TextUtils.isEmpty(orderDetailModel.getData().getOrder().getExpress_company()) && TextUtils.isEmpty(orderDetailModel.getData().getOrder().getExpress_no())) {
+                        llExpress.setVisibility(View.GONE);
+                    } else {
+                        llExpress.setVisibility(View.VISIBLE);
+                    }
 
                     switch (orderDetailModel.getData().getOrder().getState_text()) {
                         case "待付款":
@@ -205,9 +285,9 @@ public class OrderDetailActivity extends BaseActivity {
                             break;
 
                     }
-                    adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean>() {
+                    adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderDetailModel.DataBean.OrderBean.GoodsBeanX>() {
                         @Override
-                        public void onItemViewClick(View view, int position, OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean o) {
+                        public void onItemViewClick(View view, int position, OrderDetailModel.DataBean.OrderBean.GoodsBeanX o) {
                             if (view.getId() == R.id.tv_after_sale) {
                                 Intent intent = new Intent(OrderDetailActivity.this, ApplyForAfterSalesActivity.class);
                                 intent.putExtra("order_id", getIntent().getIntExtra("order_id", 0) + "");
@@ -215,9 +295,17 @@ public class OrderDetailActivity extends BaseActivity {
 
                                 startActivity(intent);
                             } else if (view.getId() == R.id.rl_goods) {
-                                Intent intent = new Intent(mContext, GoodsDetailActivity.class);
-                                intent.putExtra("goods_id", o.getGoods_id() + "");
-                                startActivity(intent);
+                                if (view.getId() == R.id.rl_goods) {
+                                    if (is_vip_order == 0) {
+                                        Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                                        intent.putExtra("goods_id", o.getGoods_id() + "");
+                                        startActivity(intent);
+                                    } else {
+                                        Intent intent = new Intent(mContext, VipGoodsDetailActivity.class);
+                                        intent.putExtra("goods_id", o.getGoods_id() + "");
+                                        startActivity(intent);
+                                    }
+                                }
                             } else if (view.getId() == R.id.iv_question) {
                                 showTipDialog();
                             }
@@ -394,7 +482,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_back, R.id.tv_pay, R.id.tv_cancel})
+    @OnClick({R.id.iv_back, R.id.tv_pay, R.id.tv_cancel, R.id.rl_logistics})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -411,13 +499,23 @@ public class OrderDetailActivity extends BaseActivity {
                     Intent intent = new Intent(this, OrderPayActivity.class);
                     intent.putExtra("order_id", orderDetailModel.getData().getOrder().getOrder_id() + "");
                     intent.putExtra("order_no", orderDetailModel.getData().getOrder().getOrder_no() + "");
-                    intent.putExtra("order_money", orderDetailModel.getData().getOrder().getOrder_price());
+                    intent.putExtra("order_money", orderDetailModel.getData().getOrder().getPay_price());
                     startActivity(intent);
                 }
                 break;
             case R.id.tv_cancel://删除订单
                 showOrderCancelDialog(orderDetailModel.getData().getOrder().getOrder_id() + "");
                 break;
+            case R.id.rl_logistics://删除订单
+                copyText(tvLogisticsCode.getText().toString());
+                break;
         }
     }
+
+    private void copyText(String text) {
+        ClipboardManager cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        cmb.setText(text);
+        ToastUtils.showToast("复制成功");
+    }
+
 }

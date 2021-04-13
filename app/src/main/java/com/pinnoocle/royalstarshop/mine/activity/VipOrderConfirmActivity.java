@@ -31,6 +31,7 @@ import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.event.ShopCartRefreshEvent;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
+import com.pinnoocle.royalstarshop.home.activity.VipGoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -121,7 +122,7 @@ public class VipOrderConfirmActivity extends BaseActivity {
             @Override
             public void onItemViewClick(View view, int position, SureOrderModel.DataBean.GoodsListBean o) {
                 if(view.getId()==R.id.rl_item) {
-                    Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                    Intent intent = new Intent(mContext, VipGoodsDetailActivity.class);
                     intent.putExtra("goods_id", o.getGoods_id() + "");
                     startActivity(intent);
                 }else if(view.getId()==R.id.iv_question){
@@ -238,7 +239,7 @@ public class VipOrderConfirmActivity extends BaseActivity {
                     EventBus.getDefault().post("order_refresh");
                     EventBus.getDefault().post("4");
                 }else {
-                    ToastUtils.showToast(statusModel.getMsg());
+                    ToastUtils.showToast(statusModel.getMsg().replace("\"", ""));
                 }
             }
         });

@@ -236,42 +236,51 @@ public class CommentModel {
             }
 
             public static class OrderGoodsBean {
+
                 /**
-                 * order_goods_id : 31622
-                 * goods_id : 12937
-                 * goods_name : 电视1
-                 * image_id : 26091
+                 * order_goods_id : 32005
+                 * goods_id : 12927
+                 * goods_name : 海尔（Haier）2匹/3匹自清洁变频空调柜机 家用冷暖立式空调 客厅圆柱立柜式空调 帝樽EDS系列 KFR-50LW/07EDS83/2匹
+                 * image_id : 26087
                  * deduct_stock_type : 10
                  * spec_type : 10
                  * spec_sku_id : 0
-                 * goods_sku_id : 39257
+                 * goods_sku_id : 39310
                  * goods_attr :
                  * goods_no :
-                 * goods_price : 123.00
-                 * line_price : 0.00
-                 * goods_weight : 123
+                 * goods_price : 100.00
+                 * line_price : 6299.00
+                 * goods_weight : 100
                  * is_user_grade : 0
                  * grade_ratio : 0
                  * grade_goods_price : 0.00
                  * grade_total_money : 0.00
                  * coupon_money : 0.00
-                 * points_money : 0.00
-                 * points_num : 0
+                 * points_money : 100.00
+                 * points_num : 100
                  * points_bonus : 0
                  * virtual_code_money : 0.00
                  * exchange_points_num : 0
                  * exchange_points_money : 0.00
                  * total_num : 1
-                 * total_price : 12.00
-                 * total_pay_price : 12.00
+                 * total_price : 100.00
+                 * total_pay_price : 0.00
                  * is_ind_dealer : 0
                  * dealer_money_type : 10
                  * first_money : 0.00
                  * second_money : 0.00
                  * third_money : 0.00
                  * is_comment : 1
-                 * order_id : 26343
-                 * user_id : 19533
+                 * order_id : 26762
+                 * user_id : 19578
+                 * freight : 30.00
+                 * total_freight : 30.00
+                 * is_vip_order : 0
+                 * freight_points_num : 30
+                 * freight_points_money : 30.00
+                 * freight_pay_price : 0.00
+                 * type : 1
+                 * image : {"file_id":26087,"storage":"local","group_id":0,"file_url":"","file_name":"20210304144650c92fa5848.jpg","file_size":202536,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"wxapp_id":10001,"create_time":"2021-03-04 14:46:50","file_path":"http://gsyp.vtui365.com/uploads/20210304144650c92fa5848.jpg"}
                  */
 
                 private int order_goods_id;
@@ -309,6 +318,14 @@ public class CommentModel {
                 private int is_comment;
                 private int order_id;
                 private int user_id;
+                private String freight;
+                private String total_freight;
+                private int is_vip_order;
+                private int freight_points_num;
+                private String freight_points_money;
+                private String freight_pay_price;
+                private int type;
+                private ImageBean image;
 
                 public int getOrder_goods_id() {
                     return order_goods_id;
@@ -588,6 +605,216 @@ public class CommentModel {
 
                 public void setUser_id(int user_id) {
                     this.user_id = user_id;
+                }
+
+                public String getFreight() {
+                    return freight;
+                }
+
+                public void setFreight(String freight) {
+                    this.freight = freight;
+                }
+
+                public String getTotal_freight() {
+                    return total_freight;
+                }
+
+                public void setTotal_freight(String total_freight) {
+                    this.total_freight = total_freight;
+                }
+
+                public int getIs_vip_order() {
+                    return is_vip_order;
+                }
+
+                public void setIs_vip_order(int is_vip_order) {
+                    this.is_vip_order = is_vip_order;
+                }
+
+                public int getFreight_points_num() {
+                    return freight_points_num;
+                }
+
+                public void setFreight_points_num(int freight_points_num) {
+                    this.freight_points_num = freight_points_num;
+                }
+
+                public String getFreight_points_money() {
+                    return freight_points_money;
+                }
+
+                public void setFreight_points_money(String freight_points_money) {
+                    this.freight_points_money = freight_points_money;
+                }
+
+                public String getFreight_pay_price() {
+                    return freight_pay_price;
+                }
+
+                public void setFreight_pay_price(String freight_pay_price) {
+                    this.freight_pay_price = freight_pay_price;
+                }
+
+                public int getType() {
+                    return type;
+                }
+
+                public void setType(int type) {
+                    this.type = type;
+                }
+
+                public ImageBean getImage() {
+                    return image;
+                }
+
+                public void setImage(ImageBean image) {
+                    this.image = image;
+                }
+
+                public static class ImageBean {
+                    /**
+                     * file_id : 26087
+                     * storage : local
+                     * group_id : 0
+                     * file_url :
+                     * file_name : 20210304144650c92fa5848.jpg
+                     * file_size : 202536
+                     * file_type : image
+                     * extension : jpg
+                     * is_user : 0
+                     * is_recycle : 0
+                     * is_delete : 0
+                     * wxapp_id : 10001
+                     * create_time : 2021-03-04 14:46:50
+                     * file_path : http://gsyp.vtui365.com/uploads/20210304144650c92fa5848.jpg
+                     */
+
+                    private int file_id;
+                    private String storage;
+                    private int group_id;
+                    private String file_url;
+                    private String file_name;
+                    private int file_size;
+                    private String file_type;
+                    private String extension;
+                    private int is_user;
+                    private int is_recycle;
+                    private int is_delete;
+                    private int wxapp_id;
+                    private String create_time;
+                    private String file_path;
+
+                    public int getFile_id() {
+                        return file_id;
+                    }
+
+                    public void setFile_id(int file_id) {
+                        this.file_id = file_id;
+                    }
+
+                    public String getStorage() {
+                        return storage;
+                    }
+
+                    public void setStorage(String storage) {
+                        this.storage = storage;
+                    }
+
+                    public int getGroup_id() {
+                        return group_id;
+                    }
+
+                    public void setGroup_id(int group_id) {
+                        this.group_id = group_id;
+                    }
+
+                    public String getFile_url() {
+                        return file_url;
+                    }
+
+                    public void setFile_url(String file_url) {
+                        this.file_url = file_url;
+                    }
+
+                    public String getFile_name() {
+                        return file_name;
+                    }
+
+                    public void setFile_name(String file_name) {
+                        this.file_name = file_name;
+                    }
+
+                    public int getFile_size() {
+                        return file_size;
+                    }
+
+                    public void setFile_size(int file_size) {
+                        this.file_size = file_size;
+                    }
+
+                    public String getFile_type() {
+                        return file_type;
+                    }
+
+                    public void setFile_type(String file_type) {
+                        this.file_type = file_type;
+                    }
+
+                    public String getExtension() {
+                        return extension;
+                    }
+
+                    public void setExtension(String extension) {
+                        this.extension = extension;
+                    }
+
+                    public int getIs_user() {
+                        return is_user;
+                    }
+
+                    public void setIs_user(int is_user) {
+                        this.is_user = is_user;
+                    }
+
+                    public int getIs_recycle() {
+                        return is_recycle;
+                    }
+
+                    public void setIs_recycle(int is_recycle) {
+                        this.is_recycle = is_recycle;
+                    }
+
+                    public int getIs_delete() {
+                        return is_delete;
+                    }
+
+                    public void setIs_delete(int is_delete) {
+                        this.is_delete = is_delete;
+                    }
+
+                    public int getWxapp_id() {
+                        return wxapp_id;
+                    }
+
+                    public void setWxapp_id(int wxapp_id) {
+                        this.wxapp_id = wxapp_id;
+                    }
+
+                    public String getCreate_time() {
+                        return create_time;
+                    }
+
+                    public void setCreate_time(String create_time) {
+                        this.create_time = create_time;
+                    }
+
+                    public String getFile_path() {
+                        return file_path;
+                    }
+
+                    public void setFile_path(String file_path) {
+                        this.file_path = file_path;
+                    }
                 }
             }
 

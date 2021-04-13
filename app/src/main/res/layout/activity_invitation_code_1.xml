@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_invitation_code">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_invitation_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="250dp"
+        android:drawableStart="@mipmap/invitation_code"
+        android:drawablePadding="4dp"
+        android:text="邀请码"
+        android:textColor="@color/black_3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:id="@+id/ed_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="请输入您的邀请码"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="#CCCCCC"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_invitation_code"
+         />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/ed_code"
+        android:background="#EEEEEE"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_code" />
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ed_code"
+        android:layout_centerHorizontal="true"
+        android:background="@mipmap/bg_commit"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rl_title"
+        app:layout_constraintVertical_bias="0.55" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_submit"
+        android:layout_marginStart="40dp"
+        android:text="温馨提示"
+        android:textColor="@color/black_3"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_tip_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_title"
+        app:layout_constraintVertical_bias="0.96" />
+
+    <TextView
+        android:id="@+id/tv_tip_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tip"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:text="输入好友给你的邀请码，完成账号注册信息。"
+        android:textColor="@color/black_3"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_submit"
+        app:layout_constraintVertical_bias="0.371" />
+
+    <TextView
+        android:id="@+id/tv_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/bg_juice_22"
+        android:paddingStart="25dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="6dp"
+        android:text="跳过"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:padding="10dp"
+        android:text="邀请码"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -136,9 +136,9 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
     @BindView(R.id.rl_recommend)
     RelativeLayout rlRecommend;
 
-    private int[] icon = {R.mipmap.order, R.mipmap.to_be_paid, R.mipmap.to_be_delivered, R.mipmap.to_be_evaluated, R.mipmap.after_sells
+    private int[] icon = { R.mipmap.to_be_paid, R.mipmap.to_be_delivered, R.mipmap.to_be_evaluated,R.mipmap.order, R.mipmap.after_sells
     };
-    private String[] iconName = {"全部订单", "待付款", "待发货", "待评价", "退换/售后"};
+    private String[] iconName = { "待付款", "待发货", "待收货","待评价", "退换/售后"};
 
 
     private int[] serviceIcon = {R.mipmap.profit, R.mipmap.withdrawal, R.mipmap.jin_dou, R.mipmap.mark, R.mipmap.gps, R.mipmap.ic_kefu, R.mipmap.flower, R.mipmap.question
@@ -276,7 +276,11 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                         Glide.with(getActivity()).load(userDetailModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
                         Glide.with(getActivity()).load(userDetailModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater1);
                     }
-                    tvName.setText(userDetailModel.getData().getUserInfo().getNickName());
+                    if (!TextUtils.isEmpty(userDetailModel.getData().getUserInfo().getNickName())) {
+                        tvName.setText(userDetailModel.getData().getUserInfo().getNickName());
+                    } else {
+                        tvName.setText("用户" + userDetailModel.getData().getUserInfo().getPhone().substring(userDetailModel.getData().getUserInfo().getPhone().length()-4));
+                    }
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < userDetailModel.getData().getUserInfo().getPhone().length(); i++) {
                         char c = userDetailModel.getData().getUserInfo().getPhone().charAt(i);
@@ -287,30 +291,34 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
                         }
                     }
                     tvPhone.setText(sb.toString());
-                    tvBalance.setText(userDetailModel.getData().getUserInfo().getMoney());
+                    if(!TextUtils.isEmpty(userDetailModel.getData().getUserInfo().getMoney())) {
+                        tvBalance.setText(userDetailModel.getData().getUserInfo().getMoney());
+                    }else {
+                        tvBalance.setText("暂无");
+                    }
                     tvPoints.setText(userDetailModel.getData().getUserInfo().getPoints() + "");
                     tvFootprint.setText(userDetailModel.getData().getUserInfo().getSan_num());
                     if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
-                        rlAvatar.setVisibility(View.VISIBLE);
-                        ivAvater1.setVisibility(View.GONE);
-                        ivCrown.setVisibility(View.VISIBLE);
+                        Glide.with(getContext()).load(R.mipmap.crown).into(ivCrown);
+                        Glide.with(getContext()).load(R.mipmap.vip_1).into(ivVip);
                         tvVip3.setText("尊享会员");
                         tvVip4.setText("专属特权 超值返豆");
                         tvVip2.setText("立即续费");
                         ivVip.setVisibility(View.VISIBLE);
                     } else {
-                        ivVip.setVisibility(View.GONE);
-                        rlAvatar.setVisibility(View.GONE);
-                        ivAvater1.setVisibility(View.VISIBLE);
+                        Glide.with(getContext()).load(R.mipmap.crown_1).into(ivCrown);
+                        Glide.with(getContext()).load(R.mipmap.vip_no).into(ivVip);
+
                         tvVip3.setText("开通会员");
                         tvVip4.setText("超值权益 等你来享");
                         tvVip2.setText("立即开通");
                     }
                     UserDetailModel.DataBean.OrderCountBean orderCount = userDetailModel.getData().getOrderCount();
                     orderNums.clear();
-                    orderNums.add(0);
+
                     orderNums.add(orderCount.getPayment());
                     orderNums.add(orderCount.getDelivered());
+                    orderNums.add(orderCount.getReceived());
                     orderNums.add(orderCount.getComment());
 
 //                    orderStatusNums.add(saveUserShipBean.getData().getIsAfterSale()); //售后
@@ -336,18 +344,21 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0: //全部
-                        startActivity(new Intent(getContext(), OrderActivity.class));
-                        break;
-                    case 1: //待付款
+
+                    case 0: //待付款
                         Intent intent1 = new Intent(getContext(), OrderActivity.class);
                         intent1.putExtra("type", 1);
                         startActivity(intent1);
                         break;
-                    case 2: //待发货
+                    case 1: //待发货
                         Intent intent2 = new Intent(getContext(), OrderActivity.class);
                         intent2.putExtra("type", 2);
                         startActivity(intent2);
+                        break;
+                    case 2: //收货
+                        Intent intent4 = new Intent(getContext(), OrderActivity.class);
+                        intent4.putExtra("type", 3);
+                        startActivity(intent4);
                         break;
                     case 3: //待评价
                         Intent intent3 = new Intent(getContext(), OrderActivity.class);
@@ -502,7 +513,7 @@ public class MineFragment extends BaseFragment implements AdapterView.OnItemClic
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(String event) {
-        if (event.equals("4")) {
+        if (event.equals("4")||event.equals("pay_success")||event.equals("pay_cancel")||event.equals("order_refresh")) {
             userInfo();
         }
     }

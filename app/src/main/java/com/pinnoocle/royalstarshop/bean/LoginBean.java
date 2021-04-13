@@ -48,6 +48,7 @@ public class LoginBean {
     public String openid;
     public String data;
     public String id;
+    public String money;
 
 
     public static class FormData{

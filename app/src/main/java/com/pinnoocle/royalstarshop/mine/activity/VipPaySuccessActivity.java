@@ -2,6 +2,7 @@ package com.pinnoocle.royalstarshop.mine.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -64,6 +65,21 @@ public class VipPaySuccessActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                EventBus.getDefault().post("5");
+            }
+        }, 100);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
 }

@@ -1,10 +1,12 @@
 package com.pinnoocle.royalstarshop.nets;
 
+import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import rx.Observable;
 
 /**
  * Created by whs on 2017/6/7
@@ -119,26 +121,49 @@ public interface RemotDataSource {
     void vipIndex(LoginBean loginBean, getCallback callback);
 
     void getVipGoods(LoginBean loginBean, getCallback callback);
+
     void getAddressDefault(LoginBean loginBean, getCallback callback);
 
     void erCode(LoginBean loginBean, getCallback callback);
 
     void poster(LoginBean loginBean, getCallback callback);
+
     void orderPay(LoginBean loginBean, getCallback callback);
+
     void applyRefund(LoginBean loginBean, getCallback callback);
+
     void refundDetail(LoginBean loginBean, getCallback callback);
+
     void recommendSearch(LoginBean loginBean, getCallback callback);
+
     void buyVipGoods(LoginBean loginBean, getCallback callback);
+
     void withdraw(LoginBean loginBean, getCallback callback);
+
     void returnAddress(LoginBean loginBean, getCallback callback);
+
     void refundDelivery(LoginBean loginBean, getCallback callback);
+
     void isBind(LoginBean loginBean, getCallback callback);
+
     void bindWx(LoginBean loginBean, getCallback callback);
+
     void withdrawSetting(LoginBean loginBean, getCallback callback);
+
     void messageCount(LoginBean loginBean, getCallback callback);
+
     void messageList(LoginBean loginBean, getCallback callback);
+
     void messageDetail(LoginBean loginBean, getCallback callback);
 
+    void refundCancel(LoginBean loginBean, getCallback callback);
+
+    void exchangeVip(LoginBean loginBean, getCallback callback);
+
+    void withdrawLists(LoginBean loginBean, getCallback callback);
+
     void image(String wxappid, String token, MultipartBody.Part file, getCallback callback);
+
+    Observable<ImageModel> imageObservable(String wxappid, String token, MultipartBody.Part file);
 
 }

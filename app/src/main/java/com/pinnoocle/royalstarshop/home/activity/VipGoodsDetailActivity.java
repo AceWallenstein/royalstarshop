@@ -261,7 +261,8 @@ public class VipGoodsDetailActivity extends BaseActivity {
             public void onSuccess(Object data) {
                 VipGoodsModel vipGoodsModel = (VipGoodsModel) data;
                 if (vipGoodsModel.getCode() == 1) {
-                    tvVipPrice.setText(vipGoodsModel.getData().getVip_goods_point() + "金豆");
+                    tvPrice.setText("￥"+vipGoodsModel.getData().getVip_goods().getGoods_sku().getGoods_price());
+                    tvVipPrice.setText("会员仅需"+vipGoodsModel.getData().getVip_goods_point() + "金豆");
                     tvVipPrice1.setText(vipGoodsModel.getData().getVip_goods_point() + "金豆");
                     tvGoodsTitle.setText(vipGoodsModel.getData().getVip_goods().getGoods_name());
 
@@ -424,7 +425,12 @@ public class VipGoodsDetailActivity extends BaseActivity {
                 UserDetailModel userDetailModel = (UserDetailModel) data;
                 if (userDetailModel.getCode() == 1) {
                     if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
-                        showSelectDialog("vip");
+                        if (vip_order == 1) {
+                            ToastUtils.showToast("您已领取过权益商品");
+                        } else {
+                            Intent intent = new Intent(mContext, VipOrderConfirmActivity.class);
+                            startActivity(intent);
+                        }
                     } else {
                         startActivity(new Intent(mContext, VipActivity.class));
 
@@ -544,21 +550,11 @@ public class VipGoodsDetailActivity extends BaseActivity {
                 goodsCollect();
                 break;
             case R.id.ll_vip_buy:
-                if (vip_order == 1) {
-                    ToastUtils.showToast("您已领取过权益商品");
-                } else {
-                    Intent intent = new Intent(mContext, VipOrderConfirmActivity.class);
-                    startActivity(intent);
-                }
+               userInfo();
 
                 break;
             case R.id.ll_normal_buy:
-                if (vip_order == 1) {
-                    ToastUtils.showToast("您已领取过权益商品");
-                } else {
-                    Intent intent = new Intent(mContext, VipOrderConfirmActivity.class);
-                    startActivity(intent);
-                }
+                userInfo();
                 break;
             case R.id.tv_more:
                 Intent intent = new Intent(this, GoodsCommentActivity.class);

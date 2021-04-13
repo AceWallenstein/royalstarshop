@@ -33,6 +33,7 @@ import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.vip.InvitationCodeActivity;
 import com.pinnoocle.royalstarshop.widget.GlideCircleTransform;
 import com.pinnoocle.royalstarshop.widget.GlideEngine;
 import com.pinnoocle.royalstarshop.widget.RoundImageView;
@@ -122,7 +123,12 @@ public class PersonalActivity extends BaseActivity {
                     } else {
                         Glide.with(PersonalActivity.this).load(userDetailModel.getData().getUserInfo().getAvatarUrl()).into(ivAvatar);
                     }
-                    tvNickname.setText(userDetailModel.getData().getUserInfo().getNickName());
+                    if (!TextUtils.isEmpty(userDetailModel.getData().getUserInfo().getNickName())) {
+                        tvNickname.setText(userDetailModel.getData().getUserInfo().getNickName());
+                    } else {
+                        tvNickname.setText("用户" + userDetailModel.getData().getUserInfo().getUser_id());
+                    }
+
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < userDetailModel.getData().getUserInfo().getPhone().length(); i++) {
                         char c = userDetailModel.getData().getUserInfo().getPhone().charAt(i);
@@ -138,7 +144,7 @@ public class PersonalActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.iv_back, R.id.rl_birth, R.id.rl_head, R.id.rl_nickname})
+    @OnClick({R.id.iv_back, R.id.rl_birth, R.id.rl_head, R.id.rl_nickname,R.id.tv_phone})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -183,6 +189,10 @@ public class PersonalActivity extends BaseActivity {
                         })
                         .create()
                         .show();
+                break;
+            case R.id.tv_phone:
+//                startActivity(new Intent(mContext, InvitationCodeActivity.class));
+                EventBus.getDefault().post("9");
                 break;
         }
     }

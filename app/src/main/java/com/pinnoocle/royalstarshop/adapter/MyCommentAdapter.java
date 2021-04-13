@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,7 +19,9 @@ import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.CommentModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.TaskBigImgActivity;
+import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
+
 public class MyCommentAdapter extends BaseAdapter<CommentModel.DataBeanX.DataBean, MyCommentAdapter.VH> {
+
 
 
     public MyCommentAdapter(Context mContext) {
@@ -66,24 +72,32 @@ public class MyCommentAdapter extends BaseAdapter<CommentModel.DataBeanX.DataBea
         for (int i = 0; i < image.size(); i++) {
             paths.add(image.get(i).getFile_path());
         }
+        InnerImageAdapter adapter = new InnerImageAdapter(mContext);
+        holder.recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
+        holder.recyclerView.setAdapter(adapter);
 
-        holder.nineGridImageView.setAdapter(new NineGridImageViewAdapter<String>() {
+        adapter.setData(paths);
+        adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            protected void onDisplayImage(Context context, ImageView imageView, String o) {
-                Glide.with(context)
-                        .load(o)
-                        .dontAnimate()
-                        .into(imageView);
-            }
-
-            @Override
-            protected void onItemImageClick(Context context, ImageView imageView, int index, List list) {
-                viewPluImg((ArrayList<String>) list, index);
+            public void onItemViewClick(View view, int position) {
+                viewPluImg((ArrayList<String>) paths, position);
             }
         });
-        holder.nineGridImageView.setImagesData(paths);
+
+        Glide.with(mContext).load(mDatas.get(position).getOrder_goods().getImage().getFile_path()).apply(bitmapTransform(new GlideRoundTransform(mContext))).into(holder.ivShop);
+        holder.tvTitle.setText(mDatas.get(position).getOrder_goods().getGoods_name());
+        holder.tvGoodsPattern.setText(mDatas.get(position).getOrder_goods().getGoods_attr());
+        holder.tvPrice.setText("￥" + mDatas.get(position).getOrder_goods().getGoods_price());
+
+        holder.rlGoods.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+            intent.putExtra("goods_id", mDatas.get(position).getOrder_goods().getGoods_id() + "");
+            mContext.startActivity(intent);
+        });
+
 
     }
+
     private void viewPluImg(ArrayList<String> list, int index) {
         Intent imgIntent = new Intent(mContext, TaskBigImgActivity.class);
         imgIntent.putStringArrayListExtra("paths", list);
@@ -93,6 +107,7 @@ public class MyCommentAdapter extends BaseAdapter<CommentModel.DataBeanX.DataBea
 
 
     static class VH extends RecyclerView.ViewHolder {
+
         @BindView(R.id.iv_rating)
         ImageView ivRating;
         @BindView(R.id.tv_rating)
@@ -103,8 +118,20 @@ public class MyCommentAdapter extends BaseAdapter<CommentModel.DataBeanX.DataBea
         RelativeLayout rlOne;
         @BindView(R.id.tv_content)
         TextView tvContent;
-        @BindView(R.id.nineGridImageView)
-        NineGridImageView nineGridImageView;
+        @BindView(R.id.recyclerView)
+        RecyclerView recyclerView;
+        @BindView(R.id.iv_shop)
+        ImageView ivShop;
+        @BindView(R.id.tv_title)
+        TextView tvTitle;
+        @BindView(R.id.tv_goods_pattern)
+        TextView tvGoodsPattern;
+        @BindView(R.id.tv_price)
+        TextView tvPrice;
+        @BindView(R.id.tv_num)
+        TextView tvNum;
+        @BindView(R.id.rl_goods)
+        RelativeLayout rlGoods;
 
         public VH(@NonNull View itemView) {
             super(itemView);

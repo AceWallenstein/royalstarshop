@@ -437,7 +437,18 @@ public class RefundListsModel {
                      * is_delete : 0
                      * create_time : 2021-03-16 10:16:26
                      * state_text : 待发货
+                     * is_vip_order
                      */
+
+                    private int is_vip_order;
+
+                    public int getIs_vip_order() {
+                        return is_vip_order;
+                    }
+
+                    public void setIs_vip_order(int is_vip_order) {
+                        this.is_vip_order = is_vip_order;
+                    }
 
                     private int order_id;
                     private String order_no;

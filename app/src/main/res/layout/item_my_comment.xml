@@ -53,17 +53,81 @@
         tools:text="超级好用，会员购买超级划算的，喜欢的集美入！超级好用，会员购买超级划算的，喜欢的集美入！超级好用，会员购买超级划算的，喜欢的集美入！超级好用，会员购买超级划算的，喜欢的集美入！"
         android:textColor="@color/black_3" />
 
-    <com.jaeger.ninegridimageview.NineGridImageView
-        android:id="@+id/nineGridImageView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_content"
         android:layout_margin="16dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        app:imgGap="4dp"
-        app:showStyle="fill"
-        app:singleImgSize="120dp" />
+       />
+    <RelativeLayout
+        android:background="@color/white1"
+        android:id="@+id/rl_goods"
+        android:layout_below="@id/recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/iv_shop"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/tv_num"
+            android:layout_toRightOf="@id/iv_shop"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/light_black"
+            android:textSize="12sp"
+            tools:text="轻熟风垂感先手首要系带翻领双排扣过膝风衣外套女" />
+
+        <TextView
+            android:id="@+id/tv_goods_pattern"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/tv_num"
+            android:layout_toRightOf="@id/iv_shop"
+            android:textColor="#B0B0B0"
+            android:textSize="12sp"
+            tools:text="杏色；xs" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_goods_pattern"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/iv_shop"
+            android:textColor="#FF303F"
+            android:textSize="14sp"
+            tools:text="￥188.32" />
+
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_price"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/light_black"
+            android:textSize="15sp"
+            tools:text="X1件" />
+    </RelativeLayout>
+
 
 
 </RelativeLayout>

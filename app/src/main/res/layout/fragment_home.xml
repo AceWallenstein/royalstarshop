@@ -230,6 +230,37 @@
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@mipmap/bg_title">
+
+                        <TextView
+                            android:id="@+id/tv_title_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="会员专区"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/black_1"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_more_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:padding="10dp"
+                            android:text="查看更多 >"
+                            android:textColor="@color/grey_1"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
+
 
 
                     <androidx.recyclerview.widget.RecyclerView

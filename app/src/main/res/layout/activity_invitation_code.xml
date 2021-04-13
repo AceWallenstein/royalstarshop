@@ -14,11 +14,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="邀请码"
             android:padding="10dp"
+            android:text="邀请码"
             android:textColor="@color/black"
             android:textSize="18sp" />
     </RelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_invitation_code"
@@ -50,9 +51,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_below="@id/ed_code"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:layout_below="@id/ed_code"
         android:background="#EEEEEE" />
 
     <TextView
@@ -61,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ed_code"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:background="@mipmap/bg_commit"
         android:gravity="center"
         android:text="提交"
@@ -85,8 +86,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_tip"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
         android:text="输入好友给你的邀请码，完成账号注册信息。"
         android:textColor="@color/black_3"
         android:textSize="15sp" />
@@ -95,14 +96,16 @@
         android:id="@+id/tv_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/bg_juice_22"
-        android:paddingStart="60dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="60dp"
-        android:paddingBottom="10dp"
+        android:paddingStart="30dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="30dp"
+        android:paddingBottom="8dp"
         android:text="跳过"
         android:textColor="@color/white"
         android:textSize="16sp" />

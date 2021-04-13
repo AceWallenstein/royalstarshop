@@ -249,30 +249,72 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:textSize="15sp">
-
                     <TextView
+                        android:paddingTop="6dp"
+                        tools:text="1212"
                         android:id="@+id/tv_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:textColor="@color/light_red"
                         android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/tv_vip_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="5dp"
+
+                    <LinearLayout
                         android:layout_toEndOf="@id/tv_price"
-                        android:background="@mipmap/bg_vip_price"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="11sp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:id="@+id/ll_two">
+
+
+
+                        <TextView
+                            android:id="@+id/tv_vip_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:background="@mipmap/bg_vip_price"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="11sp" />
+                        <LinearLayout
+                            android:layout_marginStart="5dp"
+                            android:layout_gravity="center_vertical"
+                            android:id="@+id/rl_one"
+                            android:gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <TextView
+                                android:gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="返"
+                                android:background="@drawable/bg_red_stroke_oval"
+                                android:textColor="@color/red"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_marginStart="2dp"
+                                android:id="@+id/tv_points"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="60金豆"
+                                android:textColor="#FF2A28"
+                                android:textSize="13sp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:id="@+id/ll_add_shop_cart"
@@ -340,37 +382,12 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
-                <LinearLayout
-                    android:id="@+id/rl_one"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/rl_goods_title"
-                    android:layout_marginTop="4dp"
-                    android:padding="10dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="返豆"
-                        android:textColor="@color/black_1"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:layout_marginStart="6dp"
-                        android:id="@+id/tv_points"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        tools:text="60金豆"
-                        android:textColor="#FF2A28"
-                        android:textSize="13sp" />
-                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_pledge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/rl_one"
+                    android:layout_below="@id/rl_goods_title"
                     android:layout_marginTop="4dp"
                     android:padding="10dp">
 

@@ -2,9 +2,11 @@ package com.pinnoocle.royalstarshop.vip;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,6 +25,7 @@ import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.HotGoodsAdapter;
 import com.pinnoocle.royalstarshop.adapter.VipGoodsListAdapter;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
+import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
@@ -33,7 +36,6 @@ import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.VipGoodsDetailActivity;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanDetailActivity;
-import com.pinnoocle.royalstarshop.mine.activity.VipOrderConfirmActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -53,25 +55,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.net.ssl.SSLEngineResult;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class VipActivity extends BaseActivity {
+
     @BindView(R.id.tv_vip_title)
     TextView tvVipTitle;
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
+    @BindView(R.id.rl_title)
+    RelativeLayout rlTitle;
     @BindView(R.id.iv_avater)
     RoundImageView ivAvater;
     @BindView(R.id.tv_nickname_1)
     TextView tvNickname1;
+    @BindView(R.id.tv_renew)
+    TextView tvRenew;
     @BindView(R.id.tv_golden_bean)
     TextView tvGoldenBean;
     @BindView(R.id.tv_time)
     TextView tvTime;
-    @BindView(R.id.tv_renew)
-    TextView tvRenew;
-    @BindView(R.id.iv_right)
-    ImageView ivRight;
     @BindView(R.id.tv_money_one)
     TextView tvMoneyOne;
     @BindView(R.id.tv_gold_detail)
@@ -84,6 +91,8 @@ public class VipActivity extends BaseActivity {
     TextView tvVipText;
     @BindView(R.id.tv_vip_get_goods)
     TextView tvVipGetGoods;
+    @BindView(R.id.rl_vip_goods)
+    RelativeLayout rlVipGoods;
     @BindView(R.id.rv_1)
     RecyclerView rv1;
     @BindView(R.id.recycleView)
@@ -110,6 +119,8 @@ public class VipActivity extends BaseActivity {
     LinearLayout llHint;
     @BindView(R.id.iv_photo)
     ImageView ivPhoto;
+    @BindView(R.id.rl_vip_goods_1)
+    RelativeLayout rlVipGoods1;
     @BindView(R.id.iv_goods_photo)
     ImageView ivGoodsPhoto;
     @BindView(R.id.tv_title)
@@ -120,10 +131,6 @@ public class VipActivity extends BaseActivity {
     TextView tvDrawLine;
     @BindView(R.id.nestedScrollView2)
     NestedScrollView nestedScrollView2;
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
-    @BindView(R.id.rl_title)
-    RelativeLayout rlTitle;
     private DataRepository dataRepository;
     private boolean isSelect = true;
     private ImageView iv_ali_mark;
@@ -132,6 +139,7 @@ public class VipActivity extends BaseActivity {
     private HotGoodsAdapter hotGoodsAdapter;
     private VipGoodsListAdapter vipGoodsListAdapter;
     private int vip_order;
+    private EditText edCode;
 
     protected void onCreate(Bundle savedInstanceState) {
         initTransparent();
@@ -221,6 +229,11 @@ public class VipActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 VipInfoModel vipInfoModel = (VipInfoModel) data;
                 if (vipInfoModel.getCode() == 1) {
+                    if (!TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getNickName())) {
+                        tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                    } else {
+                        tvNickname1.setText("用户" + vipInfoModel.getData().getUserInfo().getPhone().substring(vipInfoModel.getData().getUserInfo().getPhone().length() - 4));
+                    }
                     if (vipInfoModel.getData().getUserInfo().getIsVip() == 0) {
                         nestedScrollView2.setVisibility(View.VISIBLE);
                         nestedScrollView1.setVisibility(View.GONE);
@@ -233,13 +246,13 @@ public class VipActivity extends BaseActivity {
                         if (!TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getNickName())) {
                             tvNickname.setText(vipInfoModel.getData().getUserInfo().getNickName());
                         } else {
-                            tvNickname.setText("用户" + vipInfoModel.getData().getUserInfo().getUser_id());
+                            tvNickname.setText("用户" + vipInfoModel.getData().getUserInfo().getPhone().substring(vipInfoModel.getData().getUserInfo().getPhone().length() - 4));
                         }
                         Glide.with(mContext).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivPhoto);
                         Glide.with(mContext).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPhoto);
                         tvTitle.setText(vipInfoModel.getData().getVip_goods().getGoods_name());
                         tvGold.setText(vipInfoModel.getData().getVip_goods_point() + " 金豆");
-                        tvDrawLine.setText("¥" + vipInfoModel.getData().getVip_goods_money());
+                        tvDrawLine.setText("¥" + vipInfoModel.getData().getVip_goods().getGoods_sku().getGoods_price());
                         tvVipText.setText(vipInfoModel.getData().getVip_goods_text());
 
 
@@ -259,16 +272,15 @@ public class VipActivity extends BaseActivity {
                         } else {
                             tvVipGetGoods.setText("立即领取");
                         }
-                        tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
                         tvGoldenBean.setText(vipInfoModel.getData().getUserInfo().getPoints() + "");
                         tvMoneyOne.setText(vipInfoModel.getData().getUserInfo().getPoints() + "元");
                         if (vipInfoModel.getData().getUserInfo().getIs_expire() == 0) {
                             tvTime.setText(vipInfoModel.getData().getUserInfo().getVip_expire() + "金豆到期");
-                            ivRight.setVisibility(View.GONE);
+
                         } else {
                             tvTime.setText("金豆已到期  ");
                             tvRenew.setVisibility(View.VISIBLE);
-                            ivRight.setVisibility(View.VISIBLE);
+
                         }
                         Glide.with(mContext).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPic);
                     }
@@ -317,7 +329,8 @@ public class VipActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail, R.id.tv_vip_get_goods, R.id.iv_back})
+    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail, R.id.tv_vip_get_goods, R.id.tv_renew, R.id.iv_back, R.id.rl_vip_goods, R.id.iv_photo, R.id.rl_vip_good, R.id.rl_vip_goods_1, R.id.ll_user
+            , R.id.rl_vip_get_tvgoods})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_gold_detail:
@@ -337,20 +350,45 @@ public class VipActivity extends BaseActivity {
 //                Intent intent = new Intent(mContext, VipRenewActivity.class);
 //                startActivity(intent);
                 break;
+            case R.id.rl_vip_goods:
             case R.id.tv_vip_get_goods:
+            case R.id.iv_photo:
+            case R.id.rl_vip_good:
+            case R.id.rl_vip_goods_1:
 //                if (vip_order == 1) {
 //                    ToastUtils.showToast("您已领取过权益商品");
 //                } else {
 //                    Intent intent = new Intent(getContext(), VipOrderConfirmActivity.class);
 //                    startActivity(intent);
 //                }
-                    getVipGoods();
+                getVipGoods();
                 break;
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.tv_renew:
+                startActivity(new Intent(mContext, VipRenewActivity.class));
+                break;
+
+//                Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+//                intent.putExtra("goods_id", o.getGoods_id() + "");
+//                startActivity(intent);
+            case R.id.ll_user:
+                new Handler().postDelayed(() -> {
+
+                    EventBus.getDefault().post("8");
+
+                }, 200);
+                finish();
+                break;
+
+            case R.id.rl_vip_get_tvgoods:
+                showVipExchangeDialog();
+                break;
+
         }
     }
+
     private void getVipGoods() {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
@@ -366,12 +404,85 @@ public class VipActivity extends BaseActivity {
                 if (vipGoodsModel.getCode() == 1) {
 
                     Intent intent = new Intent(mContext, VipGoodsDetailActivity.class);
-                    intent.putExtra("goods_id",vipGoodsModel.getData().getVip_goods().getGoods_id()+"");
+                    intent.putExtra("goods_id", vipGoodsModel.getData().getVip_goods().getGoods_id() + "");
                     startActivity(intent);
 
                 }
             }
         });
+    }
+
+    private void exchangeVip() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.code = edCode.getText().toString();
+
+        ViewLoading.show(mContext);
+        dataRepository.exchangeVip(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                StatusModel statusModel = (StatusModel) data;
+                if (statusModel.getCode() == 1) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            EventBus.getDefault().post("8");
+                            EventBus.getDefault().post("9");
+                        }
+                    },100);
+
+                    ToastUtils.showToast("兑换成功");
+                    finish();
+                } else {
+                    ToastUtils.showToast(statusModel.getMsg());
+                }
+            }
+        });
+    }
+
+
+    private void showVipExchangeDialog() {
+        new TDialog.Builder(getSupportFragmentManager())
+                .setLayoutRes(R.layout.vip_exchange_dialog)
+                .setScreenWidthAspect(mContext, 0.7f)
+                .setGravity(Gravity.CENTER)
+                .setCancelableOutside(true)
+                .addOnClickListener(R.id.tv_cancel, R.id.tv_sure)
+                .setOnBindViewListener(new OnBindViewListener() {
+                    @Override
+                    public void bindView(BindViewHolder viewHolder) {
+                        edCode = viewHolder.itemView.findViewById(R.id.ed_code);
+
+                    }
+                })
+                .setOnViewClickListener(new OnViewClickListener() {
+                    @Override
+                    public void onViewClick(BindViewHolder viewHolder, View view, TDialog tDialog) {
+                        switch (view.getId()) {
+                            case R.id.tv_cancel:
+                                tDialog.dismiss();
+                                break;
+                            case R.id.tv_sure:
+                                if (TextUtils.isEmpty(edCode.getText().toString())) {
+                                    ToastUtils.showToast("请输入会员兑换码");
+                                    return;
+                                }
+                                exchangeVip();
+                                tDialog.dismiss();
+                                break;
+                        }
+                    }
+                })
+                .create()
+                .show();
     }
 
 

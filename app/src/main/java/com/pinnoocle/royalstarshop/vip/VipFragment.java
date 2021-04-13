@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
-import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.MyApp;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.HotGoodsAdapter;
@@ -35,7 +34,6 @@ import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.VipGoodsDetailActivity;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.mine.activity.GoldenBeanDetailActivity;
-import com.pinnoocle.royalstarshop.mine.activity.VipOrderConfirmActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -62,36 +60,61 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class VipFragment extends BaseFragment implements OnRefreshListener {
+
+    @BindView(R.id.tv_vip_title)
+    TextView tvVipTitle;
     @BindView(R.id.iv_avater)
     RoundImageView ivAvater;
-    @BindView(R.id.tv_golden_bean)
-    TextView tvGoldenBean;
+    @BindView(R.id.tv_nickname_1)
+    TextView tvNickname1;
     @BindView(R.id.tv_renew)
     TextView tvRenew;
-    @BindView(R.id.iv_right)
-    ImageView ivRight;
+    @BindView(R.id.tv_golden_bean)
+    TextView tvGoldenBean;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
+    @BindView(R.id.tv_money_one)
+    TextView tvMoneyOne;
+    @BindView(R.id.tv_gold_detail)
+    TextView tvGoldDetail;
+    @BindView(R.id.iv_unclaimed)
+    ImageView ivUnclaimed;
     @BindView(R.id.iv_goods_pic)
     ImageView ivGoodsPic;
     @BindView(R.id.tv_name)
     TextView tvName;
+    @BindView(R.id.tv_vip_text)
+    TextView tvVipText;
+    @BindView(R.id.tv_vip_get_goods)
+    TextView tvVipGetGoods;
+    @BindView(R.id.rl_vip_goods)
+    RelativeLayout rlVipGoods;
+    @BindView(R.id.rv_1)
+    RecyclerView rv1;
+    @BindView(R.id.recycleView)
+    RecyclerView recycleView;
+    @BindView(R.id.nestedScrollView1)
+    NestedScrollView nestedScrollView1;
     @BindView(R.id.iv_avatar_one)
     RoundImageView ivAvatarOne;
+    @BindView(R.id.tv_nickname)
+    TextView tvNickname;
     @BindView(R.id.rl_recommendation)
     RelativeLayout rlRecommendation;
+    @BindView(R.id.tv_money)
+    TextView tvMoney;
     @BindView(R.id.ll_comers)
     LinearLayout llComers;
+    @BindView(R.id.iv_grey_circle)
+    ImageView ivGreyCircle;
     @BindView(R.id.ll_select)
     LinearLayout llSelect;
     @BindView(R.id.open_vip)
     TextView openVip;
-    @BindView(R.id.tv_money)
-    TextView tvMoney;
     @BindView(R.id.ll_hint)
     LinearLayout llHint;
     @BindView(R.id.iv_photo)
     ImageView ivPhoto;
-    @BindView(R.id.tv_nickname)
-    TextView tvNickname;
     @BindView(R.id.iv_goods_photo)
     ImageView ivGoodsPhoto;
     @BindView(R.id.tv_title)
@@ -100,32 +123,22 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
     TextView tvGold;
     @BindView(R.id.tv_drawLine)
     TextView tvDrawLine;
-    @BindView(R.id.iv_grey_circle)
-    ImageView ivGreyCircle;
-    @BindView(R.id.nestedScrollView1)
-    NestedScrollView nestedScrollView1;
     @BindView(R.id.nestedScrollView2)
     NestedScrollView nestedScrollView2;
-    @BindView(R.id.tv_nickname_1)
-    TextView tvNickname1;
-    @BindView(R.id.tv_time)
-    TextView tvTime;
-    @BindView(R.id.tv_money_one)
-    TextView tvMoneyOne;
-    @BindView(R.id.rv_1)
-    RecyclerView rv1;
-    @BindView(R.id.recycleView)
-    RecyclerView recycleView;
-    @BindView(R.id.tv_gold_detail)
-    TextView tvGoldDetail;
-    @BindView(R.id.tv_vip_title)
-    TextView tvVipTitle;
-    @BindView(R.id.tv_vip_text)
-    TextView tvVipText;
-    @BindView(R.id.tv_vip_get_goods)
-    TextView tvVipGetGoods;
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
+    @BindView(R.id.tv_golden_bean_1)
+    TextView tvGoldenBean1;
+    @BindView(R.id.rl_avater)
+    RelativeLayout rlAvater;
+    @BindView(R.id.iv_vip_1)
+    ImageView ivVip1;
+    @BindView(R.id.tv_phone)
+    TextView tvPhone;
+    @BindView(R.id.ll_user)
+    RelativeLayout llUser;
+    @BindView(R.id.iv_crown)
+    ImageView ivCrown;
     private DataRepository dataRepository;
     private boolean isSelect = true;
     private ImageView iv_ali_mark;
@@ -224,16 +237,33 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
             @Override
             public void onFailure(String info) {
                 ViewLoading.dismiss(getContext());
-                refresh.finishRefresh();
+                if (refresh != null) {
+                    refresh.finishRefresh();
+                }
             }
 
             @Override
             public void onSuccess(Object data) {
-                refresh.finishRefresh();
+                if (refresh != null) {
+                    refresh.finishRefresh();
+                }
                 ViewLoading.dismiss(getContext());
                 VipInfoModel vipInfoModel = (VipInfoModel) data;
                 if (vipInfoModel.getCode() == 1) {
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < vipInfoModel.getData().getUserInfo().getPhone().length(); i++) {
+                        char c = vipInfoModel.getData().getUserInfo().getPhone().charAt(i);
+                        if (i >= 3 && i <= 6) {
+                            sb.append('*');
+                        } else {
+                            sb.append(c);
+                        }
+                    }
+                    tvPhone.setText(sb.toString());
                     if (vipInfoModel.getData().getUserInfo().getIsVip() == 0) {
+                        Glide.with(getContext()).load(R.mipmap.crown_1).into(ivCrown);
+                        Glide.with(getContext()).load(R.mipmap.vip_no).into(ivVip1);
                         nestedScrollView2.setVisibility(View.VISIBLE);
                         nestedScrollView1.setVisibility(View.GONE);
                         if (TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getAvatarUrl())) {
@@ -243,10 +273,11 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
                         }
                         tvMoney.setText(vipInfoModel.getData().getMoney() + "");
                         if (!TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getNickName())) {
-                            tvNickname.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                            tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
                         } else {
-                            tvNickname.setText("用户" + vipInfoModel.getData().getUserInfo().getUser_id());
-                        }                        Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivPhoto);
+                            tvNickname1.setText("用户" + vipInfoModel.getData().getUserInfo().getPhone().substring(vipInfoModel.getData().getUserInfo().getPhone().length() - 4));
+                        }
+                        Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivPhoto);
                         Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPhoto);
                         tvTitle.setText(vipInfoModel.getData().getVip_goods().getGoods_name());
                         tvGold.setText(vipInfoModel.getData().getVip_goods_point() + " 金豆");
@@ -256,6 +287,8 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
 
                         tvVipTitle.setText("开通会员");
                     } else {
+                        Glide.with(getContext()).load(R.mipmap.crown).into(ivCrown);
+                        Glide.with(getContext()).load(R.mipmap.vip_1).into(ivVip1);
                         tvVipTitle.setText("会员中心");
                         nestedScrollView1.setVisibility(View.VISIBLE);
                         nestedScrollView2.setVisibility(View.GONE);
@@ -265,23 +298,33 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
                             Glide.with(getActivity()).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
                         }
                         vip_order = vipInfoModel.getData().getUserInfo().getVip_order();
-//                        if (vipInfoModel.getData().getUserInfo().getVip_order() == 1) {
-//                            tvVipGetGoods.setText("已领取");
-//                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_black_14);
-//                        } else {
-//                            tvVipGetGoods.setText("立即领取");
-//                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_red_14);
-//                        }
-                        tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                        if (vipInfoModel.getData().getUserInfo().getVip_order() == 1) {
+                            tvVipGetGoods.setText("已领取");
+                            tvVipGetGoods.setTextColor(0xffffffff);
+
+                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_grey1_14);
+                            ivUnclaimed.setVisibility(View.GONE);
+                        } else {
+                            tvVipGetGoods.setTextColor(0xffEDCCAD);
+                            ivUnclaimed.setVisibility(View.VISIBLE);
+                            tvVipGetGoods.setText("立即领取");
+                            tvVipGetGoods.setBackgroundResource(R.drawable.bg_red_14);
+                        }
+                        if (!TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getNickName())) {
+                            tvNickname1.setText(vipInfoModel.getData().getUserInfo().getNickName());
+                        } else {
+                            tvNickname1.setText("用户" + vipInfoModel.getData().getUserInfo().getPhone().substring(vipInfoModel.getData().getUserInfo().getPhone().length() - 4));
+                        }
+                        tvGoldenBean1.setText("还剩");
                         tvGoldenBean.setText(vipInfoModel.getData().getUserInfo().getPoints() + "");
                         tvMoneyOne.setText(vipInfoModel.getData().getUserInfo().getPoints() + "元");
                         if (vipInfoModel.getData().getUserInfo().getIs_expire() == 0) {
                             tvTime.setText(vipInfoModel.getData().getUserInfo().getVip_expire() + "金豆到期");
-                            ivRight.setVisibility(View.GONE);
+
                         } else {
                             tvTime.setText("金豆已到期  ");
                             tvRenew.setVisibility(View.VISIBLE);
-                            ivRight.setVisibility(View.VISIBLE);
+
                         }
                         Glide.with(getActivity()).load(vipInfoModel.getData().getVip_goods().getGoods_image()).into(ivGoodsPic);
                     }
@@ -330,7 +373,7 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
     }
 
 
-    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail, R.id.tv_vip_get_goods,R.id.tv_renew})
+    @OnClick({R.id.iv_grey_circle, R.id.open_vip, R.id.tv_gold_detail, R.id.tv_vip_get_goods, R.id.tv_renew, R.id.rl_vip_goods, R.id.ll_user})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_gold_detail:
@@ -351,17 +394,16 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
 //                startActivity(intent);
                 break;
             case R.id.tv_vip_get_goods:
-//                if (vip_order == 1) {
-//                    ToastUtils.showToast("您已领取过权益商品");
-//                } else {
-//                    Intent intent = new Intent(getContext(), VipOrderConfirmActivity.class);
-//                    startActivity(intent);
-//                }
+            case R.id.rl_vip_goods:
+
                 getVipGoods();
 
                 break;
             case R.id.tv_renew:
                 startActivity(new Intent(getContext(), VipRenewActivity.class));
+                break;
+            case R.id.ll_user:
+//                EventBus.getDefault().post("8");
                 break;
         }
     }
@@ -381,7 +423,7 @@ public class VipFragment extends BaseFragment implements OnRefreshListener {
                 if (vipGoodsModel.getCode() == 1) {
 
                     Intent intent = new Intent(mContext, VipGoodsDetailActivity.class);
-                    intent.putExtra("goods_id",vipGoodsModel.getData().getVip_goods().getGoods_id()+"");
+                    intent.putExtra("goods_id", vipGoodsModel.getData().getVip_goods().getGoods_id() + "");
                     startActivity(intent);
 
                 }

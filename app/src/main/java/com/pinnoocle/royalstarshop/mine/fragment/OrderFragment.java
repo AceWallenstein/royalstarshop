@@ -116,7 +116,7 @@ public class OrderFragment extends BaseFragment implements OnRefreshLoadMoreList
                             Intent intent = new Intent(getContext(), OrderPayActivity.class);
                             intent.putExtra("order_id",o.getOrder_id()+"");
                             intent.putExtra("order_no",o.getOrder_no()+"");
-                            intent.putExtra("order_money",o.getOrder_price());
+                            intent.putExtra("order_money",o.getPay_price());
                             startActivity(intent);
                         } else if (o.getState_text().equals("待收货")) {//确认收货
                             showOrderConfirmDialog(o.getOrder_id() + "",o.getOrder_no());

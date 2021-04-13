@@ -2,11 +2,13 @@ package com.pinnoocle.royalstarshop.nets;
 
 import android.content.Context;
 
+import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import rx.Observable;
 
 /**
  * Created by whs on 2017/5/18
@@ -374,8 +376,28 @@ public class DataRepository implements RemotDataSource {
     }
 
     @Override
+    public void refundCancel(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.refundCancel(loginBean, callback);
+    }
+
+    @Override
+    public void exchangeVip(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.exchangeVip(loginBean, callback);
+    }
+
+    @Override
+    public void withdrawLists(LoginBean loginBean, getCallback callback) {
+        mRemoteDataSource.withdrawLists(loginBean, callback);
+    }
+
+    @Override
     public void image(String wxappid, String token, MultipartBody.Part file, getCallback callback) {
         mRemoteDataSource.image(wxappid, token, file, callback);
+    }
+
+    @Override
+    public Observable<ImageModel> imageObservable(String wxappid, String token, MultipartBody.Part file) {
+        return mRemoteDataSource.imageObservable(wxappid, token, file);
     }
 
 }

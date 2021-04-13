@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 
 /**
@@ -100,6 +101,7 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         }
     }
 
+
     public int getNumber() {
         try {
             return Integer.parseInt(mCount.getText().toString());
@@ -117,12 +119,20 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
             if (count > 1) {
                 //正常减
                 mCount.setText("" + (count - 1));
+                if (onNumberButtonListener != null) {
+                    onNumberButtonListener.onNumberButtonListener(v);
+                }
+            }else {
+                ToastUtils.showToast("最少购买一件商品哦！");
             }
 
         } else if (id == R.id.button_add) {
             if (count < Math.min(mBuyMax, mInventory)) {
                 //正常添加
                 mCount.setText("" + (count + 1));
+                if (onNumberButtonListener != null) {
+                    onNumberButtonListener.onNumberButtonListener(v);
+                }
             } else if (mInventory < mBuyMax) {
                 //库存不足
                 warningForInventory();
@@ -134,9 +144,7 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         } else if (id == R.id.text_count) {
             mCount.setSelection(mCount.getText().toString().length());
         }
-        if (onNumberButtonListener != null) {
-            onNumberButtonListener.onNumberButtonListener(v);
-        }
+
 
     }
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="佣金收入"
+        android:textColor="#111111"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="10dp"
+        tools:text="2020/12/24 12:00"
+        android:textColor="#333333"
+        android:textSize="11sp" />
+
+    <TextView
+        tools:text="210元"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/tv_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black_1"
+        android:textSize="15sp" />
+</RelativeLayout>

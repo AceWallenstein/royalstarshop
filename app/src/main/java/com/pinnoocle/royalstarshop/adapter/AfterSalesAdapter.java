@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.utils.NumberUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +36,14 @@ public class AfterSalesAdapter extends BaseAdapter<RefundListsModel.DataBeanX.Li
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
+        if (mDatas.get(position).getOrder_master()!= null) {
         holder.tvOrderCode.setText(mDatas.get(position).getOrder_master().getOrder_no());
+        if (mDatas.get(position).getOrder_master().getIs_vip_order()==1) {
+            holder.tvPrice.setText(NumberUtil.String2Int(mDatas.get(position).getOrder_goods().getGoods_price()) + "金豆");
+        } else {
+            holder.tvPrice.setText("￥" + mDatas.get(position).getOrder_goods().getGoods_price());
+        }
+        }
         holder.tvStatus.setText(mDatas.get(position).getState_text());
         Glide.with(mContext).load(mDatas.get(position).getOrder_goods().getImage().getFile_path()).fitCenter().into(holder.ivShop);
         holder.tvTitle.setText(mDatas.get(position).getOrder_goods().getGoods_name());
@@ -44,7 +52,7 @@ public class AfterSalesAdapter extends BaseAdapter<RefundListsModel.DataBeanX.Li
 
         holder.itemView.setOnClickListener(v -> {
             if (mOnItemDataClickListener != null) {
-                mOnItemDataClickListener.onItemViewClick(v,position,mDatas.get(position));
+                mOnItemDataClickListener.onItemViewClick(v, position, mDatas.get(position));
             }
         });
 
@@ -59,6 +67,7 @@ public class AfterSalesAdapter extends BaseAdapter<RefundListsModel.DataBeanX.Li
 
     public static class VH extends RecyclerView.ViewHolder {
 
+
         @BindView(R.id.tv_status)
         TextView tvStatus;
         @BindView(R.id.tv_order_code_1)
@@ -71,6 +80,8 @@ public class AfterSalesAdapter extends BaseAdapter<RefundListsModel.DataBeanX.Li
         TextView tvTitle;
         @BindView(R.id.tv_goods_pattern)
         TextView tvGoodsPattern;
+        @BindView(R.id.tv_price)
+        TextView tvPrice;
         @BindView(R.id.tv_num)
         TextView tvNum;
         @BindView(R.id.ll_order)

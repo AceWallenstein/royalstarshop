@@ -220,6 +220,10 @@ public class GoodsDetailActivity extends BaseActivity {
         goodsDetail();
         addGoodsLog();
         commentList();
+        llNormalBuy.setVisibility(View.VISIBLE);
+        if(!TextUtils.isEmpty(FastData.getToken())){
+            isVip();
+        }
     }
 
     private void addGoodsLog() {
@@ -267,10 +271,13 @@ public class GoodsDetailActivity extends BaseActivity {
                         llNormalBuy.setVisibility(View.GONE);
                         rlOne.setVisibility(View.VISIBLE);
                         tvPoints.setText(goodsDetailModel.getData().getDetail().getPoints()+"金豆");
+                        tvPrice.setVisibility(View.GONE);
                     } else {
+                        tvPrice.setVisibility(View.VISIBLE);
                         rlOne.setVisibility(View.GONE);
                         llVipBuy.setVisibility(View.VISIBLE);
                     }
+
                     tvPrice.setText("￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_price());
                     tvVipPrice.setText("会员价￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getBalance_price());
                     tvNormalPrice.setText("￥" + goodsDetailModel.getData().getDetail().getGoods_sku().getGoods_price());
@@ -372,6 +379,37 @@ public class GoodsDetailActivity extends BaseActivity {
             }
         });
     }
+
+    private void isVip() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        dataRepository.userDetail(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+
+                UserDetailModel userDetailModel = (UserDetailModel) data;
+                if (userDetailModel.getCode() == 1) {
+                    if (userDetailModel.getData().getUserInfo().getIsVip() == 1) {
+                        if(userDetailModel.getData().getUserInfo().getIs_exprire()==1){
+
+                        }else {
+                            llNormalBuy.setVisibility(View.GONE);
+                        }
+                    } else {
+
+
+                    }
+                }
+            }
+        });
+    }
+
 
     private void userInfo() {
         if (TextUtils.isEmpty(FastData.getToken())) {

@@ -37,12 +37,14 @@ import com.pinnoocle.royalstarshop.bean.UserDetailModel;
 import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.common.BaseFragment;
+import com.pinnoocle.royalstarshop.event.UpdateTotalPriceEvent;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsListActivity;
 import com.pinnoocle.royalstarshop.home.activity.GoodsVideoDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.MessageActivity;
 import com.pinnoocle.royalstarshop.home.activity.MessageNewActivity;
 import com.pinnoocle.royalstarshop.home.activity.SearchActivity;
+import com.pinnoocle.royalstarshop.home.activity.VipListActivity;
 import com.pinnoocle.royalstarshop.login.LoginActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
@@ -126,7 +128,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     NestedScrollView scrollView;
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
-    private List<String> bannerList = new ArrayList<>();
+    private List<BannerModel.DataBean> bannerList = new ArrayList<>();
     private GoodsMenusAdapter goodsMenusAdapter;
     private DataRepository dataRepository;
     private GoodsOneAdapter oneAdapter;
@@ -138,6 +140,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     private boolean moveRight;
     private boolean loaded = false;
     private ChatView fab;
+    private TDialog tDialog;
+    private boolean isVip;
 
     @Override
     protected int LayoutId() {
@@ -149,6 +153,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
+
+
 
 
     @Override
@@ -224,9 +230,10 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
             public void onSuccess(Object data) {
                 BannerModel bannerModel = (BannerModel) data;
                 if (bannerModel.getCode() == 1) {
-                    for (int i = 0; i < bannerModel.getData().size(); i++) {
-                        bannerList.add(bannerModel.getData().get(i).getImage().getFile_path());
-                    }
+//                    for (int i = 0; i < bannerModel.getData().size(); i++) {
+//                        bannerList.add(bannerModel.getData().get(i).getImage().getFile_path());
+//                    }
+                    bannerList = bannerModel.getData();
                     initBanner();
                 }
             }
@@ -287,10 +294,16 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     @Override
     public void onResume() {
         super.onResume();
+        if(isVip){
+            if(fab.isShown()){
+                fab.hide();
+            }
+        }
     }
 
     private void showDialog() {
-        TDialog tDialog = new TDialog.Builder(getFragmentManager())
+        //展示
+        tDialog = new TDialog.Builder(getFragmentManager())
                 .setLayoutRes(R.layout.dialog_rob_members)    //设置弹窗展示的xml布局
 //                .setDialogView(view)  //设置弹窗布局,直接传入View
                 .setGravity(Gravity.CENTER)     //设置弹窗展示位置
@@ -310,6 +323,12 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                             case R.id.go_vip:
 //                                EventBus.getDefault().post("5");
 //                                EventBus.getDefault().post("4");
+                                if (TextUtils.isEmpty(FastData.getToken())) {
+                                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                    startActivity(intent);
+                                    return;
+                                }
                                 startActivity(new Intent(mContext, VipActivity.class));
                                 tDialog.dismiss();
                                 fab.setVisibility(View.VISIBLE);
@@ -319,21 +338,36 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                     }
                 })
                 .create()   //创建TDialog
-                .show();//展示
+                .show();
         loaded = true;
 
     }
 
     private void initBanner() {
 
-        banner.setAdapter(new BannerImageAdapter<String>(bannerList) {
+        banner.setAdapter(new BannerImageAdapter<BannerModel.DataBean>(bannerList) {
             @Override
-            public void onBindView(BannerImageHolder holder, String data, int position, int size) {
+            public void onBindView(BannerImageHolder holder, BannerModel.DataBean data, int position, int size) {
                 //图片加载自己实现
                 holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 Glide.with(holder.itemView)
-                        .load(data)
+                        .load(data.getImage().getFile_path())
                         .into(holder.imageView);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(data.getGoods_id()!=0){
+                            Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                            intent.putExtra("goods_id", data.getGoods_id() + "");
+                            startActivity(intent);
+                        }else if(data.getCategory_id()!=0){
+                            Intent intent = new Intent(getContext(), GoodsListActivity.class);
+                            intent.putExtra("category_id", data.getCategory_id() + "");
+                            intent.putExtra("title", data.getCategory().getName() + "");
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
         })
                 .setBannerRound(20)
@@ -490,7 +524,12 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
                             showDialog();
                         }
                     } else {
-                        fab.setVisibility(View.GONE);
+                        isVip = true;
+                        fab.hide();
+                        if(tDialog!=null&&!tDialog.isHidden())
+                        {
+                            tDialog.dismiss();
+                        }
                     }
                 }
             }
@@ -499,7 +538,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN, priority = 100, sticky = false) //在ui线程执行，优先级为100
     public void onEvent(String event) {
-        if (event.equals("4")) {
+        if (event.equals("9")) {
             vipInfo();
 
         }
@@ -543,6 +582,45 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
             }
         });
     }
+
+    private void isVipMore() {
+        if (TextUtils.isEmpty(FastData.getToken())) {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return;
+        }
+        LoginBean loginBean = new LoginBean();
+        loginBean.token = FastData.getToken();
+        loginBean.wxapp_id = "10001";
+        dataRepository.userDetail(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                refresh.finishRefresh();
+                UserDetailModel userDetailModel = (UserDetailModel) data;
+                if (userDetailModel.getCode() == 1) {
+
+                    if (userDetailModel.getData().getUserInfo().getIsVip() == 0) {
+                        startActivity(new Intent(mContext, VipActivity.class));
+                    } else {
+                        if (userDetailModel.getData().getUserInfo().getIs_exprire() == 0) {
+                            Intent intent = new Intent(getContext(), VipListActivity.class);
+                            startActivity(intent);
+                        } else {
+                            startActivity(new Intent(mContext, VipActivity.class));
+
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
 
     private void userInfo() {
@@ -589,7 +667,7 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
         imageView.setLayoutParams(params);
     }
 
-    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more, R.id.iv_go, R.id.iv_banner})
+    @OnClick({R.id.iv_comment, R.id.tv_search, R.id.tv_more, R.id.iv_go, R.id.iv_banner,R.id.tv_more_1})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_comment:
@@ -607,6 +685,10 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
             case R.id.iv_banner:
                 userInfo();
                 break;
+            case R.id.tv_more_1:
+                isVipMore();
+//                startActivity(new Intent(mContext, VipListActivity.class));
+                break;
         }
     }
 
@@ -615,6 +697,8 @@ public class HomeFragment extends BaseFragment implements OnRefreshListener {
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         initData();
     }
+
+
 }
 
 

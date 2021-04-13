@@ -236,7 +236,7 @@ public class ShoppingCartFragment extends BaseFragment implements OnRefreshListe
                 totalPrice += listBean.getTotal_num() * Double.parseDouble(listBean.getGoods_price());
                 tvTotalPrice.setText("￥" + totalPrice);
                 totalFreight += listBean.getTotal_num() * Double.parseDouble(listBean.getFreight());
-                tvFreight.setText("运费：￥" + totalFreight);
+                tvFreight.setText("运费：￥" + doubleToString(totalFreight));
 
             }
         }
@@ -246,6 +246,16 @@ public class ShoppingCartFragment extends BaseFragment implements OnRefreshListe
     public static String doubleToString(double num) {
         //使用0.00不足位补0，#.##仅保留有效位
         return new DecimalFormat("0.00").format(num);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        tvEdit.setText("编辑");
+        tvTotal.setVisibility(View.VISIBLE);
+        tvTotalPrice.setVisibility(View.VISIBLE);
+        tvFreight.setVisibility(View.VISIBLE);
+        tvSettlement.setText("去结算");
     }
 
     private void refreshEditStatus() {

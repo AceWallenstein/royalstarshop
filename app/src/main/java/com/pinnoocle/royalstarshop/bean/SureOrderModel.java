@@ -105,13 +105,13 @@ public class SureOrderModel {
             this.points_num = points_num;
         }
 
-        private double user_points;
+        private int user_points;
 
-        public double getUser_points() {
+        public int getUser_points() {
             return user_points;
         }
 
-        public void setUser_points(double user_points) {
+        public void setUser_points(int user_points) {
             this.user_points = user_points;
         }
 
@@ -129,6 +129,16 @@ public class SureOrderModel {
         private String virtual_code;
         private int virtual_code_money;
         private String freight_price;
+        private double freight_points_money;
+
+        public double getFreight_points_money() {
+            return freight_points_money;
+        }
+
+        public void setFreight_points_money(double freight_points_money) {
+            this.freight_points_money = freight_points_money;
+        }
+
         private String order_price;
         private String order_pay_price;
         private List<GoodsListBean> goods_list;

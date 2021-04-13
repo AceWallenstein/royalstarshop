@@ -131,15 +131,15 @@ public class VipRenewActivity extends BaseActivity {
                     if (!TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getNickName())) {
                         tvName.setText(vipInfoModel.getData().getUserInfo().getNickName());
                     } else {
-                        tvName.setText("用户" + vipInfoModel.getData().getUserInfo().getUser_id());
+                        tvName.setText("用户" +  vipInfoModel.getData().getUserInfo().getPhone().substring(vipInfoModel.getData().getUserInfo().getPhone().length() - 4));
                     }
                     if (TextUtils.isEmpty(vipInfoModel.getData().getUserInfo().getAvatarUrl())) {
                         ivAvater.setImageResource(R.drawable.default_avatar);
                     } else {
                         Glide.with(mContext).load(vipInfoModel.getData().getUserInfo().getAvatarUrl()).into(ivAvater);
                     }
-                    tvTime.setText("还有" + vipInfoModel.getData().getTime() + "天到期");
-                    tvRenewTime.setText(vipInfoModel.getData().getUserInfo().getNext_time());
+                    tvTime.setText("还有" + vipInfoModel.getData().getUser_time() + "天到期");
+                    tvRenewTime.setText(vipInfoModel.getData().getUserInfo().getVip_expire());
                     tvProduct.setText(vipInfoModel.getData().getTitle());
                     if (vipInfoModel.getData().getDiscount_money().equals("0")) {
                         tvRight.setText(vipInfoModel.getData().getMoney() + "元");
@@ -150,13 +150,11 @@ public class VipRenewActivity extends BaseActivity {
                         tvPriceDrawLine.setText("原价" + vipInfoModel.getData().getMoney() + "元");
                     }
                     if (vipInfoModel.getData().getUserInfo().getIsVip() == 0) {
-                        ivCrown.setVisibility(View.GONE);
-                        ivVip.setVisibility(View.GONE);
+                        Glide.with(mContext).load(R.mipmap.crown_1).into(ivCrown);
+                        Glide.with(mContext).load(R.mipmap.vip_no).into(ivVip);
                     } else {
-                        ivCrown.setVisibility(View.VISIBLE);
-                        ivVip.setVisibility(View.VISIBLE);
-
-
+                        Glide.with(mContext).load(R.mipmap.crown).into(ivCrown);
+                        Glide.with(mContext).load(R.mipmap.vip_1).into(ivVip);
                     }
                 }
             }

@@ -88,7 +88,18 @@ public class RefundDetailModel {
              * express : null
              * address : null
              * state_text : 等待审核中
+             * total_freight
              */
+
+            private String total_freight;
+
+            public String getTotal_freight() {
+                return total_freight;
+            }
+
+            public void setTotal_freight(String total_freight) {
+                this.total_freight = total_freight;
+            }
 
             private int order_refund_id;
             private int order_id;
@@ -422,6 +433,15 @@ public class RefundDetailModel {
                  * create_time : 2021-03-16 10:16:26
                  * state_text : 待发货
                  */
+                private int is_vip_order;
+
+                public int getIs_vip_order() {
+                    return is_vip_order;
+                }
+
+                public void setIs_vip_order(int is_vip_order) {
+                    this.is_vip_order = is_vip_order;
+                }
 
                 private int order_id;
                 private String order_no;
@@ -995,6 +1015,14 @@ public class RefundDetailModel {
             }
 
             public static class OrderGoodsBean {
+                public String getTotal_freight() {
+                    return total_freight;
+                }
+
+                public void setTotal_freight(String total_freight) {
+                    this.total_freight = total_freight;
+                }
+
                 /**
                  * order_goods_id : 31673
                  * goods_id : 12927
@@ -1034,6 +1062,8 @@ public class RefundDetailModel {
                  * image : {"file_id":26087,"storage":"local","group_id":0,"file_url":"","file_name":"20210304144650c92fa5848.jpg","file_size":202536,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"wxapp_id":10001,"create_time":"2021-03-04 14:46:50","file_path":"http://gsyp.vtui365.com/uploads/20210304144650c92fa5848.jpg"}
                  */
 
+
+                private String total_freight;
                 private int order_goods_id;
                 private int goods_id;
                 private String goods_name;

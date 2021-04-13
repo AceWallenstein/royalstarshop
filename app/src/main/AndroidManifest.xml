@@ -57,11 +57,17 @@
         <activity android:name=".home.activity.GoodsDetailActivity" />
         <activity android:name=".home.activity.GoodsCommentActivity" />
         <activity android:name=".mine.activity.AddressActivity" />
-        <activity android:name=".mine.activity.AddAddressActivity" />
-        <activity android:name=".mine.activity.EditAddressActivity" />
+        <activity android:name=".mine.activity.AddAddressActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
+        <activity android:name=".mine.activity.EditAddressActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
         <activity android:name=".home.activity.GoodsListActivity" />
         <activity android:name=".home.activity.TaskBigImgActivity" />
-        <activity android:name=".mine.activity.OrderConfirmActivity" />
+        <activity android:name=".mine.activity.OrderConfirmActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
         <activity android:name=".home.activity.GoodsVideoDetailActivity" />
         <activity android:name=".mine.activity.OrderActivity" />
         <activity android:name=".mine.activity.OrderDetailActivity" />
@@ -83,7 +89,9 @@
         <activity android:name=".mine.activity.MyCommentsActivity" />
         <activity android:name=".mine.activity.ApplyForAfterSalesActivity" android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".mine.activity.AfterSalesDetailActivity" />
-        <activity android:name=".mine.activity.VipOrderConfirmActivity" />
+        <activity android:name=".mine.activity.VipOrderConfirmActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
         <activity android:name=".mine.activity.VipPaySuccessActivity" />
         <activity android:name=".vip.VipActivity" />
         <activity
@@ -96,6 +104,8 @@
         <activity android:name=".home.activity.MessageDetailActivity" />
         <activity android:name=".home.activity.VipGoodsDetailActivity" />
         <activity android:name=".mine.activity.VipOrderDetailActivity" />
+        <activity android:name=".home.activity.VipListActivity" />
+        <activity android:name=".login.DisclaimerActivity" />
 
 
     </application>

@@ -52,11 +52,12 @@ public class ShoppingCartAdapter extends BaseAdapter<CartListsModel.DataBean.Goo
         holder.mGoodsPriceTv.setText(mDatas.get(position).getGoods_price());
         if(mDatas.get(position).getType().getValue()==3)//会员商品
         {
-            holder.tvVipDesc.setVisibility(View.VISIBLE);
+
+            holder.tvVipDesc.setText("此商品为会员商品  购买即返");
             holder.tvVipDescValue.setVisibility(View.VISIBLE);
             holder.tvVipDescValue.setText(mDatas.get(position).getPoints()+"豆");
         }else {
-            holder.tvVipDesc.setVisibility(View.GONE);
+            holder.tvVipDesc.setText("此商品为普通商品");
             holder.tvVipDescValue.setVisibility(View.GONE);
 
         }

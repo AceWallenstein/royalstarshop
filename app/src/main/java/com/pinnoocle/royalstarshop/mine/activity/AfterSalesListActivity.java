@@ -97,13 +97,11 @@ public class AfterSalesListActivity extends BaseActivity implements OnRefreshLoa
             @Override
             public void onFailure(String info) {
                 refresh.finishRefresh();
-                refresh.finishLoadMore();
                 ViewLoading.dismiss(AfterSalesListActivity.this);
             }
 
             @Override
             public void onSuccess(Object data) {
-                refresh.finishRefresh();
                 ViewLoading.dismiss(AfterSalesListActivity.this);
                 RefundListsModel refundListsModel = (RefundListsModel) data;
                 tvEmpty.setVisibility(View.VISIBLE);
@@ -122,6 +120,7 @@ public class AfterSalesListActivity extends BaseActivity implements OnRefreshLoa
                         tvEmpty.setVisibility(View.GONE);
                         recycleView.setVisibility(View.VISIBLE);
                         dataBeanList.addAll(refundListsModel.getData().getList().getData());
+
                         adapter.setData(dataBeanList);
                     }
                 }

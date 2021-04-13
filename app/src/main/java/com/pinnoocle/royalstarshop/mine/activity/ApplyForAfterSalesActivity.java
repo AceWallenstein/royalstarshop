@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -23,13 +24,11 @@ import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.adapter.GridViewAdapter;
-import com.pinnoocle.royalstarshop.adapter.OrderDetailAdapter;
+import com.pinnoocle.royalstarshop.adapter.OrderAfterSalesAdapter;
 import com.pinnoocle.royalstarshop.bean.ImageModel;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
 import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
-import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
-import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.home.activity.TaskBigImgActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
@@ -40,9 +39,12 @@ import com.pinnoocle.royalstarshop.widget.GlideEngine;
 import com.pinnoocle.royalstarshop.widget.GridViewInScrollView;
 import com.tbruyelle.rxpermissions3.RxPermissions;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +52,12 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.FuncN;
+import rx.schedulers.Schedulers;
 
 public class ApplyForAfterSalesActivity extends BaseActivity {
     @BindView(R.id.iv_bg)
@@ -97,11 +105,15 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
     @BindView(R.id.rl_1)
     RelativeLayout rl1;
     private DataRepository dataRepository;
-    private OrderDetailAdapter adapter;
+    private OrderAfterSalesAdapter adapter;
     private String type = "20";
     private List<String> images = new ArrayList<>();
     private ArrayList<String> mList = new ArrayList<>();
     private List<LocalMedia> selectList = new ArrayList<>();
+    private AtomicInteger carSize = new AtomicInteger();
+    StringBuilder sb = new StringBuilder();
+
+    List<String> imagePath = new ArrayList<>();
 
 
     @Override
@@ -117,7 +129,7 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
     private void initView() {
         selectType(tvExchangeGoods);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new OrderDetailAdapter(this);
+        adapter = new OrderAfterSalesAdapter(this);
         recyclerView.setAdapter(adapter);
         grid(mList);
     }
@@ -148,15 +160,26 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
                 if (orderDetailModel.getCode() == 1) {
                     tvOrderCode.setText(orderDetailModel.getData().getOrder().getOrder_no());
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
-                    List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
-                    List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> select = new ArrayList<>();
+                    List<OrderDetailModel.DataBean.OrderBean.GoodsBeanX> goods = orderDetailModel.getData().getOrder().getGoods();
+                    List<OrderDetailModel.DataBean.OrderBean.GoodsBeanX> select = new ArrayList<>();
                     for (int i = 0; i < goods.size(); i++) {
-                        if(goods.get(i).getOrder_goods_id()==getIntent().getIntExtra("order_goods_id",0)){
+                        if (goods.get(i).getOrder_goods_id() == getIntent().getIntExtra("order_goods_id", 0)) {
                             select.add(goods.get(i));
                         }
 
                     }
+                    if (orderDetailModel.getData().getOrder().getIs_vip_order() == 1) {
+                        adapter.setIsVipGoods(true);
+                    } else {
+                        adapter.setIsVipGoods(false);
+                    }
                     adapter.setData(select);
+                    if (orderDetailModel.getData().getOrder().getState_text().equals("待发货")) {
+                        tvExchangeGoods.setVisibility(View.GONE);
+                        selectType(tvReturnGoods);
+                    } else {
+                        tvExchangeGoods.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -166,7 +189,7 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
-        loginBean.order_goods_id = getIntent().getIntExtra("order_goods_id",0)+"";
+        loginBean.order_goods_id = getIntent().getIntExtra("order_goods_id", 0) + "";
         loginBean.type = type;
         loginBean.content = content;
         loginBean.images = images;
@@ -183,12 +206,62 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 ResultModel resultModel = (ResultModel) data;
                 if (resultModel.getCode() == 1) {
+                    EventBus.getDefault().post("1001");
                     finish();
                 }
                 ToastUtils.showToast(resultModel.getMsg());
             }
         });
     }
+
+    private void images(List<String> paths) {
+        List<Observable<ImageModel>> requests = new ArrayList<>();
+        for (int i = 0; i < paths.size(); i++) {
+            String path = paths.get(i);
+            File file = new File(path);
+            RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("iFile", file.getName(), fileBody);
+            requests.add(dataRepository.imageObservable("10001", FastData.getToken(), body));
+        }
+        Observable.zip(
+                requests, new FuncN<List<String>>() {
+                    @Override
+                    public List<String> call(Object... args) {
+                        for (int i = 0; i < args.length; i++) {
+                            images.add(((ImageModel) args[i]).getData().getFile_path());
+                        }
+                        return images;
+                    }
+                }
+        ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())// After all requests had been performed the next observer will receive the Object, returned from Function
+                .subscribe(new Subscriber<List<String>>() {
+                               @Override
+                               public void onCompleted() {
+
+                               }
+
+                               @Override
+                               public void onError(Throwable e) {
+
+                               }
+
+                               @Override
+                               public void onNext(List<String> images) {
+                                   StringBuilder sb = new StringBuilder();
+                                   for (int i = 0; i < images.size(); i++) {
+                                       if (i == images.size() - 1) {
+                                           sb.append(images.get(i));
+                                       } else {
+                                           sb.append(images.get(i) + ",");
+                                       }
+                                   }
+                                   applyRefund(edAdvise.getText().toString(), sb.toString());
+                               }
+                           }
+                );
+    }
+
 
     private void image(String path) {
         File file = new File(path);
@@ -198,17 +271,18 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
         dataRepository.image("10001", FastData.getToken(), body, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
-
+                carSize.getAndIncrement();
             }
 
             @Override
             public void onSuccess(Object data) {
+                carSize.getAndIncrement();
                 ImageModel imageModel = (ImageModel) data;
                 if (imageModel.getCode() == 1) {
                     String imgPath = imageModel.getData().getFile_path();
                     images.add(imgPath);
 
-                    StringBuilder sb = new StringBuilder();
+
                     for (int i = 0; i < images.size(); i++) {
                         if (i == images.size() - 1) {
                             sb.append(images.get(i));
@@ -216,7 +290,9 @@ public class ApplyForAfterSalesActivity extends BaseActivity {
                             sb.append(images.get(i) + ",");
                         }
                     }
-                    applyRefund(edAdvise.getText().toString(), sb.toString());
+                    if (carSize.get() >= selectList.size()){
+                        applyRefund(edAdvise.getText().toString(), sb.toString());
+                    }
 
                 } else {
                     ToastUtils.showToast(imageModel.getMsg());

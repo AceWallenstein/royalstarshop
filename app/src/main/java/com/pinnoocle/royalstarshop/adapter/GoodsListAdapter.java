@@ -20,6 +20,8 @@ import butterknife.ButterKnife;
 
 public class GoodsListAdapter extends BaseAdapter<HomeModel.DataBean.TagGoodsBean.ListBean, GoodsListAdapter.VH> {
 
+
+
     public GoodsListAdapter(Context mContext) {
         super(mContext);
     }
@@ -32,11 +34,16 @@ public class GoodsListAdapter extends BaseAdapter<HomeModel.DataBean.TagGoodsBea
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
+        if (mDatas.get(position).getType().getValue() == 3) {
+            holder.tvVip.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvVip.setVisibility(View.GONE);
+        }
         Glide.with(mContext).load(mDatas.get(position).getGoods_image()).centerCrop().into(holder.ivGoodsPic);
         holder.tvGoodsTitle.setText(mDatas.get(position).getGoods_name());
         holder.tvDesc.setText(mDatas.get(position).getSelling_point());
-        holder.tvPrice.setText("￥"+mDatas.get(position).getGoods_sku().getGoods_price());
-        holder.tvVipPrice.setText("会员￥"+mDatas.get(position).getGoods_sku().getBalance_price());
+        holder.tvPrice.setText("￥" + mDatas.get(position).getGoods_sku().getGoods_price());
+        holder.tvVipPrice.setText("会员￥" + mDatas.get(position).getGoods_sku().getBalance_price());
 
         holder.itemView.setOnClickListener(v ->
         {
@@ -66,14 +73,16 @@ public class GoodsListAdapter extends BaseAdapter<HomeModel.DataBean.TagGoodsBea
 
         @BindView(R.id.iv_goods_pic)
         ImageView ivGoodsPic;
+        @BindView(R.id.tv_vip)
+        TextView tvVip;
         @BindView(R.id.tv_goods_title)
         TextView tvGoodsTitle;
         @BindView(R.id.tv_desc)
         TextView tvDesc;
-        @BindView(R.id.tv_price)
-        TextView tvPrice;
         @BindView(R.id.tv_vip_price)
         TextView tvVipPrice;
+        @BindView(R.id.tv_price)
+        TextView tvPrice;
         @BindView(R.id.iv_shop_car)
         ImageView ivShopCar;
 

@@ -23,6 +23,7 @@ import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
+import com.pinnoocle.royalstarshop.home.activity.VipGoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -118,7 +119,7 @@ public class VipOrderDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_detail);
+        setContentView(R.layout.activity_vip_order_detail);
         ButterKnife.bind(this);
         initView();
         initData();
@@ -169,9 +170,10 @@ public class VipOrderDetailActivity extends BaseActivity {
                     tvPayMoney.setText("￥" + orderDetailModel.getData().getOrder().getPay_price());
                     tvOrderCode.setText(orderDetailModel.getData().getOrder().getOrder_no());
                     tvOrderTime.setText(orderDetailModel.getData().getOrder().getCreate_time());
-                    List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
+                    List<OrderDetailModel.DataBean.OrderBean.GoodsBeanX> goods = orderDetailModel.getData().getOrder().getGoods();
                     adapter.setType(orderDetailModel.getData().getOrder().getState_text());
                     adapter.setData(goods);
+
                     rl1.setVisibility(View.GONE);
                     llAfterSales.setVisibility(View.GONE);
 
@@ -198,9 +200,9 @@ public class VipOrderDetailActivity extends BaseActivity {
                             break;
 
                     }
-                    adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean>() {
+                    adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderDetailModel.DataBean.OrderBean.GoodsBeanX>() {
                         @Override
-                        public void onItemViewClick(View view, int position, OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean o) {
+                        public void onItemViewClick(View view, int position, OrderDetailModel.DataBean.OrderBean.GoodsBeanX o) {
                             if (view.getId() == R.id.tv_after_sale) {
                                 Intent intent = new Intent(VipOrderDetailActivity.this, ApplyForAfterSalesActivity.class);
                                 intent.putExtra("order_id", getIntent().getIntExtra("order_id", 0) + "");
@@ -208,7 +210,7 @@ public class VipOrderDetailActivity extends BaseActivity {
 
                                 startActivity(intent);
                             }else if(view.getId()==R.id.rl_goods){
-                                Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                                Intent intent = new Intent(mContext, VipGoodsDetailActivity.class);
                                 intent.putExtra("goods_id",o.getGoods_id()+"");
                                 startActivity(intent);
                             }else if(view.getId()==R.id.iv_question){

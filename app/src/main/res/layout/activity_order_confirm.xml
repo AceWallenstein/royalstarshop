@@ -110,20 +110,21 @@
                 android:background="@drawable/bg_white_8"
                 android:overScrollMode="never"
                 android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:paddingTop="10dp"
+                android:paddingEnd="10dp"
 
 
                 />
+
             <LinearLayout
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/bg_white_8_1"
-                android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -132,12 +133,12 @@
                     android:textColor="@color/black_1" />
 
                 <EditText
-                    android:gravity="end|center_vertical"
-                    android:background="@color/white"
-                    android:layout_marginStart="5dp"
                     android:id="@+id/ed_remark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/white"
+                    android:gravity="end|center_vertical"
                     android:hint="和商家协商一致后留言"
                     android:maxLines="1"
                     android:textColor="@color/black"
@@ -152,67 +153,66 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/bg_white_8">
+
                 <RelativeLayout
-                    android:padding="10dp"
                     android:id="@+id/rl_total_money"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
 
                     <TextView
-                        android:text="商品金额"
-                        android:textColor="@color/black_1"
                         android:id="@+id/tv_total_money_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                         />
+                        android:text="商品金额"
+                        android:textColor="@color/black_1" />
 
                     <TextView
-                        android:layout_alignParentEnd="true"
                         android:id="@+id/tv_total_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        tools:text="11元"
                         android:textColor="@color/light_red"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        tools:text="11元" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:layout_below="@id/rl_total_money"
-                    android:padding="10dp"
                     android:id="@+id/rl_total_freight"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_total_money"
+                    android:padding="10dp">
 
                     <TextView
-                        android:text="总运费"
-                        android:textColor="@color/black_1"
                         android:id="@+id/tv_total_freight_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        />
+                        android:text="总运费"
+                        android:textColor="@color/black_1" />
 
                     <TextView
-                        android:layout_alignParentEnd="true"
                         android:id="@+id/tv_total_freight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        tools:text="11元"
                         android:textColor="@color/grey_3"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        tools:text="11元" />
 
                 </RelativeLayout>
 
 
                 <RelativeLayout
-                    android:layout_below="@id/rl_total_freight"
                     android:id="@+id/rl_money"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    >
+                    android:layout_below="@id/rl_total_freight">
 
                     <ImageView
                         android:id="@+id/iv_money"
@@ -232,14 +232,15 @@
                         android:textColor="#111111"
                         android:textSize="13sp"
                         tools:text="剩余金豆(122)个" />
+
                     <TextView
-                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#111111"
-                        android:textSize="13sp"
+                        android:layout_centerVertical="true"
                         android:layout_toStartOf="@id/iv_use_points"
-                        android:text="抵扣"/>
+                        android:text="抵扣"
+                        android:textColor="#111111"
+                        android:textSize="13sp" />
 
 
                     <ImageView
@@ -251,67 +252,65 @@
                         android:padding="15dp"
                         android:src="@mipmap/grey_circle" />
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:layout_below="@id/rl_money"
-                    android:padding="10dp"
                     android:id="@+id/rl_total_discount"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_money"
+                    android:padding="10dp">
 
                     <TextView
-                        android:text="总抵扣"
-                        android:textColor="@color/black_1"
                         android:id="@+id/tv_total_discount_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        />
+                        android:text="总抵扣"
+                        android:textColor="@color/black_1" />
 
                     <TextView
-                        android:layout_alignParentEnd="true"
                         android:id="@+id/tv_total_discount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        tools:text="11元"
                         android:textColor="@color/light_red"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        tools:text="11.00元" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:layout_below="@id/rl_total_discount"
-                    android:padding="10dp"
                     android:id="@+id/rl_total_settlement"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_total_discount"
+                    android:padding="10dp">
 
                     <TextView
-                        android:text="合计："
-                        android:layout_marginEnd="5dp"
-                        android:layout_toStartOf="@id/tv_total_settlement"
-                        android:textColor="@color/black_1"
                         android:id="@+id/tv_total_settlement_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        />
+                        android:layout_marginEnd="5dp"
+                        android:layout_toStartOf="@id/tv_total_settlement"
+                        android:text="合计："
+                        android:textColor="@color/black_1" />
 
                     <TextView
-                        android:layout_alignParentEnd="true"
                         android:id="@+id/tv_total_settlement"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        tools:text="11元"
                         android:textColor="@color/light_red"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        tools:text="11元" />
 
                 </RelativeLayout>
 
 
-
             </RelativeLayout>
-
 
 
             <LinearLayout
@@ -413,36 +412,46 @@
         android:gravity="center_vertical"
         android:padding="5dp">
 
-        <TextView
-            android:id="@+id/tv_total"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="合计："
-            android:textColor="@color/black_1"
-            android:textSize="12sp" />
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_total_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_toEndOf="@id/tv_total"
-            android:text="￥0.00"
-            android:textColor="@color/light_red"
-            android:textSize="12sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_discount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_total_price"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:textColor="@color/grey_3"
-            android:textSize="12sp"
-            tools:text="抵扣平台货币58元" />
+                <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="合计："
+                    android:textColor="@color/black_1"
+                    android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/tv_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@id/tv_total"
+                    android:text="￥0.00"
+                    android:textColor="@color/light_red"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:textColor="@color/grey_3"
+                android:textSize="12sp"
+                tools:text="抵扣平台货币58元" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_settlement"

@@ -32,7 +32,7 @@ public class VipGoodsListAdapter extends BaseAdapter<VipIndexModel.DataBean.Good
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).centerCrop().into(holder.ivGoodsPic);
+        Glide.with(mContext).load(mDatas.get(position).getGoods_image()).into(holder.ivGoodsPic);
         holder.tvGoodsTitle.setText(mDatas.get(position).getGoods_name());
         holder.tvPoints.setText("返" + mDatas.get(position).getPoints() + "豆");
         holder.tvPrice.setText("￥" + mDatas.get(position).getGoods_sku().getGoods_price());

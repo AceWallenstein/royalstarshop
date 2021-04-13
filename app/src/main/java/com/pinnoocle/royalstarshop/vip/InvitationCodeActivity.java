@@ -47,7 +47,7 @@ public class InvitationCodeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTransparent();
-        setContentView(R.layout.activity_invitation_code);
+        setContentView(R.layout.activity_invitation_code_1);
         ButterKnife.bind(this);
         dataRepository = Injection.dataRepository(this);
 
@@ -88,7 +88,7 @@ public class InvitationCodeActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_skip:
-                startActivity(new Intent(InvitationCodeActivity.this, VipActivity.class));
+                startActivity(new Intent(InvitationCodeActivity.this, MainActivity.class));
                 finish();
                 break;
         }

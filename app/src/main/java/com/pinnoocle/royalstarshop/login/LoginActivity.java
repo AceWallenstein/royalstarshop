@@ -86,7 +86,9 @@ public class LoginActivity extends BaseActivity {
         spannableStringBuilder.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                ToastUtils.showToast("暂无用户协议");
+
+//                ToastUtils.showToast("暂无用户协议");
+                startActivity(new Intent(mContext,DisclaimerActivity.class));
             }
 
             @Override

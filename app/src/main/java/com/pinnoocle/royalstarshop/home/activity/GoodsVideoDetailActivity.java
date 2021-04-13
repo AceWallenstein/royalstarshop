@@ -266,10 +266,11 @@ public class GoodsVideoDetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.iv_close, R.id.iv_start, R.id.iv_volume, R.id.ll_buy})
+    @OnClick({R.id.iv_close, R.id.iv_start, R.id.iv_volume, R.id.ll_buy, R.id.rl_goods_detail})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_buy:
+            case R.id.rl_goods_detail:
                 Intent intent = new Intent(this, GoodsDetailActivity.class);
                 intent.putExtra("goods_id", dataBeanList.getGoods_id() + "");
                 startActivity(intent);

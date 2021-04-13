@@ -52,6 +52,15 @@ public class VipInfoModel {
          * vip_goods_text : 荣事达纯铁锅仅需9金豆
          * userInfo : {"user_id":19533,"nickName":"厉害了","avatarUrl":"http://gsyp.vtui365.com/uploads/20210319141411b7abf7346.jpeg","gender":"未知","address_id":13991,"balance":"0.00","points":602,"pay_money":"12.00","expend_money":"0.00","phone":"15212790160","lasttime":null,"address":[{"address_id":13990,"name":"ttttt","phone":"13612121369","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"ttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}},{"address_id":13991,"name":"ABC","phone":"13332153636","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"tttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}}],"username":null,"invite_code":"2RdqGW","isVip":1,"vip_time":1615532201,"vip_expire":"2022-03-12","parent_id":19529,"service_id":0,"birth":null,"ercode":"/tmp/qrcode/qrcode_19533.png","poster":"/tmp/poster/poster_19533.png","login_num":13,"vip_order":0,"is_expire":0,"next_time":"2023-03-12","address_default":{"address_id":13991,"name":"ABC","phone":"13332153636","province_id":1,"city_id":2,"region_id":3,"district":"","detail":"tttt","longitude":"","latitude":"","user_id":19533,"region":{"province":"北京市","city":"北京市","region":"东城区"}},"grade":null}
          */
+        private String  user_time;
+
+        public String getUser_time() {
+            return user_time;
+        }
+
+        public void setUser_time(String user_time) {
+            this.user_time = user_time;
+        }
 
         private String time;
         private String point;

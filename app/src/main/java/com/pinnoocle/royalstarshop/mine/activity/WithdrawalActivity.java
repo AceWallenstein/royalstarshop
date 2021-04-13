@@ -137,11 +137,11 @@ public class WithdrawalActivity extends BaseActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            if(!TextUtils.isEmpty(s)){
+            if (!TextUtils.isEmpty(s)) {
                 DecimalFormat df = new DecimalFormat("#####0.00");
-                double s1 = Double.parseDouble(s.toString()) * rate/100;
+                double s1 = Double.parseDouble(s.toString()) * rate / 100;
                 tvServiceCharge.setText(df.format(s1) + "元");
-            }else {
+            } else {
                 tvServiceCharge.setText("0.00元");
             }
         }
@@ -172,9 +172,7 @@ public class WithdrawalActivity extends BaseActivity {
                 if (statusModel.getCode() == 1) {
                     IsBindModel.DataBean dataBean = new Gson().fromJson(statusModel.getData(), IsBindModel.DataBean.class);
                     if (dataBean.getCode() == 1) {
-                        DataBean dataBean1 = new DataBean(10, edMoney.getText().toString());
-                        String toJson = new Gson().toJson(dataBean1);
-                        withdraw(toJson);
+                        withdraw();
                     } else {
                         weChatAuth();
                     }
@@ -184,12 +182,13 @@ public class WithdrawalActivity extends BaseActivity {
         });
     }
 
-    private void withdraw(String data) {
+    private void withdraw() {
         ViewLoading.show(mContext);
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
-        loginBean.data = data;
+        loginBean.pay_type = "10";
+        loginBean.money = edMoney.getText().toString();
         dataRepository.withdraw(loginBean, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
@@ -202,8 +201,9 @@ public class WithdrawalActivity extends BaseActivity {
                 StatusModel statusModel = (StatusModel) data;
                 if (statusModel.getCode() == 1) {
                     EventBus.getDefault().post("4");
+                    withdrawSetting();
                 }
-                    ToastUtils.showToast(statusModel.getMsg());
+                ToastUtils.showToast(statusModel.getMsg());
 
             }
         });
@@ -229,7 +229,7 @@ public class WithdrawalActivity extends BaseActivity {
                     String money = withdrawSettingModel.getData().getMoney();
                     rate = withdrawSettingModel.getData().getRate();
                     tvWithdrawalMoney.setText("￥" + money);
-                    edMoney.setHint("最低"+min+"元起提");
+                    edMoney.setHint("最低" + min + "元起提");
 
                 }
 
@@ -264,12 +264,12 @@ public class WithdrawalActivity extends BaseActivity {
                     ToastUtils.showToast("请输入提现金额");
                     return;
                 }
-                if (Double.parseDouble(edMoney.getText().toString())<min) {
-                    ToastUtils.showToast("最小提现金额为"+min+"元");
+                if (Double.parseDouble(edMoney.getText().toString()) < min) {
+                    ToastUtils.showToast("最小提现金额为" + min + "元");
                     return;
                 }
-                if (Double.parseDouble(edMoney.getText().toString())>max) {
-                    ToastUtils.showToast("超过最大金额"+max+"元");
+                if (Double.parseDouble(edMoney.getText().toString()) > max) {
+                    ToastUtils.showToast("超过最大金额" + max + "元");
                     return;
                 }
                 isBind();

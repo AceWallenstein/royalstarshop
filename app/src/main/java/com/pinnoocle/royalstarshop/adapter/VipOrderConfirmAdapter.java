@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.SureOrderModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.utils.NumberUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,11 +37,12 @@ public class VipOrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Glide.with(mContext).load(mDatas.get(position).getGoods_image()).fitCenter().into(holder.ivGoodsPic);
         holder.tvGoodsTitle.setText(mDatas.get(position).getGoods_name());
-        holder.tvPrice.setText(mDatas.get(position).getGoods_price() + "金豆");
+        holder.tvPrice.setText(NumberUtil.String2Int(mDatas.get(position).getGoods_price()) + "金豆");
         holder.tvSpec.setText(mDatas.get(position).getGoods_sku().getGoods_attr());
         holder.tvNums.setText("x" + mDatas.get(position).getTotal_num());
         holder.tvPoints.setText(mDatas.get(position).getPoints_bonus() + "金豆");
-        holder.tvFreight.setText(mDatas.get(position).getTotal_freight()+ "金豆");
+        int freight = NumberUtil.String2Int(mDatas.get(position).getTotal_freight());
+        holder.tvFreight.setText(freight+ "金豆");
 //        holder.tvRemarks.setText(mDatas.get(position).get);
         if (mDatas.get(position).getType().getValue() == 3) {
             holder.returnGoldBean.setVisibility(View.VISIBLE);
@@ -61,6 +63,7 @@ public class VipOrderConfirmAdapter extends BaseAdapter<SureOrderModel.DataBean.
         });
 
     }
+
 
     @Override
     public int getItemCount() {

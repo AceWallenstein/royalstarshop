@@ -1,5 +1,6 @@
 package com.pinnoocle.royalstarshop.mine.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,15 +17,16 @@ import com.pedaily.yc.ycdialoglib.dialog.loading.ViewLoading;
 import com.pedaily.yc.ycdialoglib.toast.ToastUtils;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.LoginBean;
-import com.pinnoocle.royalstarshop.bean.RefundDeliveryModel;
 import com.pinnoocle.royalstarshop.bean.RefundDetailModel;
 import com.pinnoocle.royalstarshop.bean.ReturnAddressModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
 import com.pinnoocle.royalstarshop.utils.FastData;
+import com.pinnoocle.royalstarshop.utils.NumberUtil;
 import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
 import org.angmarch.views.NiceSpinner;
@@ -108,10 +110,18 @@ public class AfterSalesDetailActivity extends BaseActivity {
     NestedScrollView scrollView;
     @BindView(R.id.ed_express_code)
     EditText edExpressCode;
+    @BindView(R.id.rl_goods)
+    RelativeLayout rlGoods;
+    @BindView(R.id.tv_cancel)
+    TextView tvCancel;
+    @BindView(R.id.rl_panel)
+    RelativeLayout rlPanel;
+    @BindView(R.id.tv_price)
+    TextView tvPrice;
     private DataRepository dataRepository;
 
     private RefundDetailModel refundDetailModel;
-    private List<ReturnAddressModel.DataBean.ListBean> expressList;
+    private List<RefundDetailModel.DataBean.ExpressListBean> expressList;
 
 
     @Override
@@ -135,7 +145,7 @@ public class AfterSalesDetailActivity extends BaseActivity {
     private void initData() {
         dataRepository = Injection.dataRepository(this);
         refundDetail();
-        returnAddress();
+
     }
 
 
@@ -158,14 +168,24 @@ public class AfterSalesDetailActivity extends BaseActivity {
                 refundDetailModel = (RefundDetailModel) data;
                 if (refundDetailModel.getCode() == 1) {
                     tvStatus.setText(refundDetailModel.getData().getDetail().getState_text());
-//                    if (refundDetailModel.getData().getDetail().getAddress() != null) {
-//                        tvName.setText(refundDetailModel.getData().getDetail().getAddress().getName());
-//                        tvPhone.setText(refundDetailModel.getData().getDetail().getAddress().getPhone());
-//                        tvAddress.setText(refundDetailModel.getData().getDetail().getAddress().getRegion().toString() + refundDetailModel.getData().getDetail().getAddress().getDetail());
+                    if (refundDetailModel.getData().getDetail().getAddress() != null) {
+                        tvName.setText(refundDetailModel.getData().getDetail().getAddress().getName());
+                        tvPhone.setText(refundDetailModel.getData().getDetail().getAddress().getPhone());
+                        tvAddress.setText(refundDetailModel.getData().getDetail().getAddress().getRegion().toString() + refundDetailModel.getData().getDetail().getAddress().getDetail());
+                    }
+
+//                    if (TextUtils.isEmpty(refundDetailModel.getData().getDetail().getTotal_freight()) || refundDetailModel.getData().getDetail().getTotal_freight().equals("0")) {
+//                        tvGoodsFreight.setText("包邮");
+//                    } else {
 //                    }
-                    tvGoodsMoney.setText("￥" + refundDetailModel.getData().getDetail().getOrder_goods().getTotal_price());
-//                    tvGoodsFreight.setText("￥"+refundDetailModel.getData().getDetail().get());
-                    tvPayMoney.setText("￥" + refundDetailModel.getData().getDetail().getRefund_money());
+                   expressList = refundDetailModel.getData().getExpressList();
+                    List<String> details = new ArrayList<>();
+                    for (int i = 0; i < AfterSalesDetailActivity.this.expressList.size(); i++) {
+                        details.add(AfterSalesDetailActivity.this.expressList.get(i).getExpress_name());
+                    }
+                    List<String> dataset = new LinkedList<>(details);
+                    niceSpinner.attachDataSource(dataset);
+
                     tvGoodsPoints.setText(refundDetailModel.getData().getDetail().getOrder_goods().getPoints_bonus() + "金豆");
                     tvOrderCode.setText(refundDetailModel.getData().getDetail().getOrder_master().getOrder_no());
                     tvOrderTime.setText(refundDetailModel.getData().getDetail().getOrder_master().getCreate_time());
@@ -177,14 +197,37 @@ public class AfterSalesDetailActivity extends BaseActivity {
                     tvGoodsPattern.setText(order_goods.getGoods_attr());
                     tvNum.setText("x" + order_goods.getTotal_num());
 
+                    if (refundDetailModel.getData().getDetail().getOrder_master().getIs_vip_order() == 1) {
+                        tvGoodsMoney.setText(NumberUtil.String2Int(refundDetailModel.getData().getDetail().getOrder_goods().getTotal_price())+"金豆");
+                        tvGoodsFreight.setText(NumberUtil.String2Int(refundDetailModel.getData().getDetail().getOrder_goods().getTotal_freight())+"金豆");
+                        tvPayMoney.setText(refundDetailModel.getData().getDetail().getOrder_master().getPoints_num()+"金豆");
+                        tvPrice.setText(NumberUtil.String2Int(refundDetailModel.getData().getDetail().getOrder_goods().getGoods_price()) + "金豆");
+
+                    } else {
+                        tvPrice.setText("￥" + refundDetailModel.getData().getDetail().getOrder_goods().getGoods_price());
+                        tvGoodsMoney.setText("￥" + refundDetailModel.getData().getDetail().getOrder_goods().getTotal_price());
+                        tvGoodsFreight.setText("￥" + refundDetailModel.getData().getDetail().getOrder_goods().getTotal_freight());
+                        tvPayMoney.setText("￥" + refundDetailModel.getData().getDetail().getRefund_money());
+                    }
+
                     if (refundDetailModel.getData().getDetail().getState_text().equals("等待审核中")) {
                         llAfterSales.setVisibility(View.GONE);
                         rlBeans.setVisibility(View.GONE);
                     }
 
+                    if (refundDetailModel.getData().getDetail().getIs_agree().getValue() == 0) {
 
+                        rlPanel.setVisibility(View.VISIBLE);
+                    } else {
+
+                        rlPanel.setVisibility(View.GONE);
+                    }
                     switch (refundDetailModel.getData().getDetail().getState_text()) {
                         case "等待审核中":     //进行中
+                            llAfterSales.setVisibility(View.GONE);
+                            rlBeans.setVisibility(View.GONE);
+
+                            break;
                         case "已发货，待平台确认":
                             llAfterSales.setVisibility(View.GONE);
                             rlBeans.setVisibility(View.GONE);
@@ -198,39 +241,13 @@ public class AfterSalesDetailActivity extends BaseActivity {
         });
     }
 
-    private void returnAddress() {
-        LoginBean loginBean = new LoginBean();
-        loginBean.wxapp_id = "10001";
-        loginBean.token = FastData.getToken();
-
-        dataRepository.returnAddress(loginBean, new RemotDataSource.getCallback() {
-            @Override
-            public void onFailure(String info) {
-            }
-
-            @Override
-            public void onSuccess(Object data) {
-                ReturnAddressModel returnAddressModel = (ReturnAddressModel) data;
-                if (returnAddressModel.getCode() == 1) {
-                    expressList = returnAddressModel.getData().getList();
-                    List<String> details = new ArrayList<>();
-                    for (int i = 0; i < expressList.size(); i++) {
-                        details.add(expressList.get(i).getDetail());
-                    }
-                    List<String> dataset = new LinkedList<>(details);
-                    niceSpinner.attachDataSource(dataset);
-                }
-
-            }
-        });
-    }
 
     private void refundDelivery() {
         LoginBean loginBean = new LoginBean();
         loginBean.wxapp_id = "10001";
         loginBean.token = FastData.getToken();
         loginBean.order_refund_id = refundDetailModel.getData().getDetail().getOrder_refund_id() + "";
-        loginBean.express_id = expressList.get(niceSpinner.getSelectedIndex()).getAddress_id() + "";
+        loginBean.express_id = expressList.get(niceSpinner.getSelectedIndex()).getExpress_id() + "";
         ;
         loginBean.express_no = edExpressCode.getText().toString();
         ;
@@ -256,8 +273,37 @@ public class AfterSalesDetailActivity extends BaseActivity {
         });
     }
 
+    private void refundCancel() {
+        LoginBean loginBean = new LoginBean();
+        loginBean.wxapp_id = "10001";
+        loginBean.token = FastData.getToken();
+        loginBean.order_refund_id = refundDetailModel.getData().getDetail().getOrder_refund_id() + "";
+        ViewLoading.show(mContext);
 
-    @OnClick({R.id.iv_back, R.id.tv_sure})
+        dataRepository.refundCancel(loginBean, new RemotDataSource.getCallback() {
+            @Override
+            public void onFailure(String info) {
+                ViewLoading.dismiss(mContext);
+            }
+
+            @Override
+            public void onSuccess(Object data) {
+                ViewLoading.dismiss(mContext);
+                StatusModel statusModel = (StatusModel) data;
+                if (statusModel.getCode() == 1) {
+                    finish();
+                    EventBus.getDefault().post("6");
+                    ToastUtils.showToast("取消成功");
+                } else {
+                    ToastUtils.showToast(statusModel.getMsg());
+                }
+
+            }
+        });
+    }
+
+
+    @OnClick({R.id.iv_back, R.id.tv_sure, R.id.rl_goods, R.id.tv_cancel})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -270,6 +316,14 @@ public class AfterSalesDetailActivity extends BaseActivity {
                 }
                 refundDelivery();
 
+                break;
+            case R.id.rl_goods:
+                Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                intent.putExtra("goods_id", refundDetailModel.getData().getDetail().getOrder_goods().getGoods_id() + "");
+                mContext.startActivity(intent);
+                break;
+            case R.id.tv_cancel:
+                refundCancel();
                 break;
 
         }

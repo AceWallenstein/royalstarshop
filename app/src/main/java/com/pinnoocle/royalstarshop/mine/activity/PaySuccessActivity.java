@@ -2,6 +2,7 @@ package com.pinnoocle.royalstarshop.mine.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -53,7 +54,6 @@ public class PaySuccessActivity extends BaseActivity {
             case R.id.tv_go_home:
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                EventBus.getDefault().post("1");
                 startActivity(intent);
                 finish();
                 break;
@@ -67,4 +67,18 @@ public class PaySuccessActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+        EventBus.getDefault().post("8");
+            }
+        },100);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
 }

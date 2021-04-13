@@ -105,6 +105,7 @@ public class MainActivity extends BaseActivity {
         fragments.add(new MineFragment());
         tabAdapter = new FragmentTabAdapter(this, fragments, R.id.fl_layout);
         initListener();
+
     }
 
     @OnClick({R.id.ll_tab_home, R.id.ll_tab_video, R.id.ll_tab_vip, R.id.ll_tab_shop_car, R.id.ll_tab_mine})
@@ -179,7 +180,7 @@ public class MainActivity extends BaseActivity {
                         if (userDetailModel.getData().getUserInfo().getIs_exprire() == 0) {
                             EventBus.getDefault().post("5");
                         } else {
-                            startActivity(new Intent(mContext, VipRenewActivity.class));
+//                            startActivity(new Intent(mContext, VipRenewActivity.class));
 
                         }
                     }

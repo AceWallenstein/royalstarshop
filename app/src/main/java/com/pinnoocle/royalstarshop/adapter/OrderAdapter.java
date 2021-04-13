@@ -2,6 +2,7 @@ package com.pinnoocle.royalstarshop.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
 import com.pinnoocle.royalstarshop.mine.activity.OrderDetailActivity;
+import com.pinnoocle.royalstarshop.utils.NumberUtil;
 
 import java.util.List;
 
@@ -40,19 +42,41 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
     public void onBindViewHolder(@NonNull VH holder, int position) {
         holder.tvOrderCode.setText("订单号：" + mDatas.get(position).getOrder_no());
         holder.tvStatus.setText(mDatas.get(position).getState_text());
-        holder.tvTotalNums.setText("共" + mDatas.get(position).getGoods().size() + "件商品，实付款");
-//        if(mDatas.get(position).getIs_vip_order()==1){
-//            holder.tvPrice.setText( mDatas.get(position).getPay_price()+"金豆");
-//        }else {
+        if (mDatas.get(position).getIs_vip_order() == 1) {
+            holder.tvTotalNums.setText("合计");
+            holder.tvPrice.setText(NumberUtil.String2Int(mDatas.get(position).getPoints_money()) + "金豆");
+        } else {
+            holder.tvTotalNums.setText("共" + mDatas.get(position).getGoods().size() + "件商品，实付款");
             holder.tvPrice.setText("￥" + mDatas.get(position).getPay_price());
-//        }
+        }
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = mDatas.get(position).getGoods();
         InnerOrderAdapter adapter = new InnerOrderAdapter(mContext);
+        if (mDatas.get(position).getIs_vip_order() == 1) {
+            adapter.setType(1);
+        } else {
+            adapter.setType(0);
+        }
         adapter.setData(goods);
         holder.recyclerView.setAdapter(adapter);
         holder.tvCancel.setVisibility(View.VISIBLE);
         ;
+        if (!TextUtils.isEmpty(mDatas.get(position).getExpress_company()
+        )) {
+            holder.rlExpress.setVisibility(View.VISIBLE);
+            holder.tvExpressCode.setText(mDatas.get(position).getExpress_company());
+        } else {
+            holder.rlExpress.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(mDatas.get(position).getExpress_no()
+        )) {
+            holder.rlLogistics.setVisibility(View.VISIBLE);
+            holder.tvLogisticsCode.setText(mDatas.get(position).getExpress_no());
+        } else {
+            holder.rlLogistics.setVisibility(View.GONE);
+
+        }
+
         switch (mDatas.get(position).getState_text()) {
             case "待付款":
                 holder.rl_panel.setVisibility(View.VISIBLE);
@@ -76,7 +100,7 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
                     holder.tvStatus.setTextColor(0xff666666);
                     holder.tvCancel.setVisibility(View.GONE);
                     holder.tvPay.setText("去评价");
-                }else {
+                } else {
                     holder.rl_panel.setVisibility(View.GONE);
                     holder.tvStatus.setTextColor(0xff666666);
                 }
@@ -122,6 +146,7 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
 
 
     public static class VH extends RecyclerView.ViewHolder {
+
         @BindView(R.id.tv_status)
         TextView tvStatus;
         @BindView(R.id.tv_order_code)
@@ -132,14 +157,26 @@ public class OrderAdapter extends BaseAdapter<OrderListModel.DataBeanX.ListBean.
         TextView tvTotalNums;
         @BindView(R.id.tv_price)
         TextView tvPrice;
+        @BindView(R.id.tv_logistics_code)
+        TextView tvLogisticsCode;
+        @BindView(R.id.tv_logistics)
+        TextView tvLogistics;
+        @BindView(R.id.rl_logistics)
+        RelativeLayout rlLogistics;
+        @BindView(R.id.tv_express_code)
+        TextView tvExpressCode;
+        @BindView(R.id.tv_express)
+        TextView tvExpress;
+        @BindView(R.id.rl_express)
+        RelativeLayout rlExpress;
         @BindView(R.id.tv_cancel)
         TextView tvCancel;
         @BindView(R.id.tv_pay)
         TextView tvPay;
-        @BindView(R.id.ll_order)
-        LinearLayout llOrder;
         @BindView(R.id.rl_panel)
         RelativeLayout rl_panel;
+        @BindView(R.id.ll_order)
+        LinearLayout llOrder;
 
 
         public VH(@NonNull View itemView) {

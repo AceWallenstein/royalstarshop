@@ -18,6 +18,15 @@
             android:scaleType="fitXY" />
 
         <TextView
+            android:visibility="gone"
+            android:textSize="10sp"
+            android:padding="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="首充权益"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_red_5"/>
+        <TextView
             android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
             android:textColor="@color/black_1"
@@ -60,9 +69,8 @@
             tools:text="x2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_goods_title"
+            android:layout_alignBottom="@id/tv_price"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
             android:textColor="@color/grey_3"
             android:textSize="15sp" />
     </RelativeLayout>
@@ -83,6 +91,7 @@
             android:textColor="@color/grey_3"
             android:textSize="13sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,6 +127,7 @@
             android:text="返豆"
             android:textColor="@color/black_1"
             android:textSize="13sp" />
+
         <ImageView
             android:id="@+id/iv_question"
             android:layout_centerVertical="true"
@@ -125,7 +135,7 @@
             android:layout_marginStart="5dp"
             android:src="@mipmap/question"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
 
         <TextView
@@ -137,8 +147,6 @@
             android:textColor="#FF2A28"
             android:textSize="13sp" />
     </RelativeLayout>
-
-
 
 
 </LinearLayout>

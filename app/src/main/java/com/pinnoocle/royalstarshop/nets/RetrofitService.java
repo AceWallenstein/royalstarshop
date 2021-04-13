@@ -33,6 +33,7 @@ import com.pinnoocle.royalstarshop.bean.PointsModel;
 import com.pinnoocle.royalstarshop.bean.PosterModel;
 import com.pinnoocle.royalstarshop.bean.QuestionModel;
 import com.pinnoocle.royalstarshop.bean.RecommendSearchModel;
+import com.pinnoocle.royalstarshop.bean.RefundCancelModel;
 import com.pinnoocle.royalstarshop.bean.RefundDetailModel;
 import com.pinnoocle.royalstarshop.bean.RefundListsModel;
 import com.pinnoocle.royalstarshop.bean.ResultModel;
@@ -46,6 +47,7 @@ import com.pinnoocle.royalstarshop.bean.VipGoodsModel;
 import com.pinnoocle.royalstarshop.bean.VipIndexModel;
 import com.pinnoocle.royalstarshop.bean.VipInfoModel;
 import com.pinnoocle.royalstarshop.bean.VipOpenModel;
+import com.pinnoocle.royalstarshop.bean.WithdrawListsModel;
 import com.pinnoocle.royalstarshop.bean.WithdrawSettingModel;
 import com.pinnoocle.royalstarshop.bean.WxPayResultModel;
 
@@ -203,6 +205,7 @@ public interface RetrofitService {
     //取消订单
     @POST("api/user.order/receipt")
     Observable<StatusModel> orderReceipt(@Body LoginBean loginBean);
+
     //售后单列表
     @POST("api/user.refund/lists")
     Observable<RefundListsModel> refundLists(@Body LoginBean loginBean);
@@ -218,6 +221,7 @@ public interface RetrofitService {
     //常见问题
     @POST("api/index/question")
     Observable<QuestionModel> question(@Body LoginBean loginBean);
+
     //反馈类型
     @POST("api/index/backType")
     Observable<BackTypeModel> backType(@Body LoginBean loginBean);
@@ -225,6 +229,7 @@ public interface RetrofitService {
     //添加反馈
     @POST("api/user.feedback/feedback")
     Observable<StatusModel> feedback(@Body LoginBean loginBean);
+
     //反馈列表
     @POST("api/user.feedback/lists")
     Observable<FeedbackListModel> feedbackList(@Body LoginBean loginBean);
@@ -256,6 +261,7 @@ public interface RetrofitService {
     //用户金豆明细
     @POST("api/user.index/userPointsLog")
     Observable<PointsModel> userPointsLog(@Body LoginBean loginBean);
+
     //我的评价记录
     @POST("api/user.index/comment")
     Observable<CommentModel> myComments(@Body LoginBean loginBean);
@@ -284,48 +290,74 @@ public interface RetrofitService {
     //订单支付
     @POST("api/user.order/pay")
     Observable<OrderPayModel> orderPay(@Body LoginBean loginBean);
+
     //申请售后
     @POST("api/user.refund/apply")
     Observable<ResultModel> applyRefund(@Body LoginBean loginBean);
+
     //售后详情
     @POST("api/user.refund/detail")
     Observable<RefundDetailModel> refundDetail(@Body LoginBean loginBean);
+
     //推荐搜索
     @POST("api/index/recommendSearch")
     Observable<RecommendSearchModel> recommendSearch(@Body LoginBean loginBean);
+
     //获取会员权益商品
     @GET("api/order/vipGoods")
     Observable<SureOrderModel> vipGoods(@QueryMap Map<String, String> queryMap);
+
     //购买会员权益商品
     @POST("api/order/vipGoods")
     Observable<PayStatusModel> buyVipGoods(@Body LoginBean loginBean);
+
     //提现申请
     @POST("api/user.dealer.withdraw/submit")
     Observable<StatusModel> withdraw(@Body LoginBean loginBean);
+
     //退货收货地址
     @POST("api/return_address/lists")
     Observable<ReturnAddressModel> returnAddress(@Body LoginBean loginBean);
+
     //用户发货
     @POST("api/user.refund/delivery")
     Observable<StatusModel> refundDelivery(@Body LoginBean loginBean);
+
     //是否绑定
     @POST("api/user/isBind")
     Observable<StatusModel> isBind(@Body LoginBean loginBean);
+
     //绑定微信
     @POST("api/user/bindWx")
     Observable<StatusModel> bindWx(@Body LoginBean loginBean);
+
     //提现规则
     @POST("api/withdraw/setting")
     Observable<WithdrawSettingModel> withdrawSetting(@Body LoginBean loginBean);
+
     //消息统计
     @POST("api/message/count")
     Observable<MessageCountModel> messageCount(@Body LoginBean loginBean);
+
     //消息列表
     @POST("api/message/lists")
     Observable<MessageListModel> messageList(@Body LoginBean loginBean);
+
     //消息详情
     @POST("api/message/detail")
     Observable<MessageDetailModel> messageDetail(@Body LoginBean loginBean);
+
+    //取消申请售后
+    @POST("api/user.refund/cancel")
+    Observable<StatusModel> refundCancel(@Body LoginBean loginBean);
+
+    //会员兑换
+    @POST("api/user/exchangeVip")
+    Observable<StatusModel> exchangeVip(@Body LoginBean loginBean);
+
+    //提现明细
+    @POST("api/user.dealer.withdraw/lists")
+    Observable<WithdrawListsModel> withdrawLists(@Body LoginBean loginBean);
 
 
 

@@ -192,7 +192,6 @@ public class EditAddressActivity extends BaseActivity {
             @Override
             public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
                 edArea.setText(province.getName() + " " + city.getName() + " " + district.getName());
-                address_id = district.getId();
                 provinceName = province.getName();
                 cityName = city.getName();
                 districtName = district.getName();

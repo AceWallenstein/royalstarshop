@@ -1,6 +1,7 @@
 package com.pinnoocle.royalstarshop.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.pinnoocle.royalstarshop.R;
 import com.pinnoocle.royalstarshop.bean.CollectListModel;
 import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.widget.GlideRoundTransform;
 
 import butterknife.BindView;
@@ -44,6 +46,12 @@ public class CollectionAdapter extends BaseAdapter<CollectListModel.DataBeanX.Li
         holder.tvName.setText(mDatas.get(position).getGoods().getGoods_name());
         holder.tvSpec.setText(mDatas.get(position).getGoods().getGoods_sku().getGoods_attr());
         holder.tvMoney.setText("￥" + mDatas.get(position).getGoods().getGoods_sku().getGoods_price());
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+            intent.putExtra("goods_id", mDatas.get(position).getGoods_id() + "");
+            mContext.startActivity(intent);
+        });
     }
 
     static class VH extends RecyclerView.ViewHolder {

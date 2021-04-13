@@ -52,7 +52,20 @@ public class BannerModel {
          * image : {"file_id":26082,"storage":"local","group_id":0,"file_url":"","file_name":"20210225222922115662859.jpg","file_size":1470,"file_type":"image","extension":"jpg","is_user":0,"is_recycle":0,"is_delete":0,"wxapp_id":10001,"create_time":"2021-02-25 22:29:22","file_path":"http://www.rongshida.com/uploads/20210225222922115662859.jpg"}
          */
 
+        /**
+         * "category":{"category_id":10583,"name":"厨卫馆","parent_id":0,"image_id":26091,"sort":100,"wxapp_id":10001,"create_time":"2021-03-03 15:16:18","update_time":"2021-03-05 11:04:07"}
+         */
+        private Category category;
         private int banner_id;
+
+        public Category getCategory() {
+            return category;
+        }
+
+        public void setCategory(Category category) {
+            this.category = category;
+        }
+
         private String title;
         private int image_id;
         private String url;
@@ -62,6 +75,93 @@ public class BannerModel {
         private int goods_id;
         private String create_time;
         private ImageBean image;
+
+        public class Category{
+
+            /**
+             * category_id : 10583
+             * name : 厨卫馆
+             * parent_id : 0
+             * image_id : 26091
+             * sort : 100
+             * wxapp_id : 10001
+             * create_time : 2021-03-03 15:16:18
+             * update_time : 2021-03-05 11:04:07
+             */
+
+            private int category_id;
+            private String name;
+            private int parent_id;
+            private int image_id;
+            private int sort;
+            private int wxapp_id;
+            private String create_time;
+            private String update_time;
+
+            public int getCategory_id() {
+                return category_id;
+            }
+
+            public void setCategory_id(int category_id) {
+                this.category_id = category_id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getParent_id() {
+                return parent_id;
+            }
+
+            public void setParent_id(int parent_id) {
+                this.parent_id = parent_id;
+            }
+
+            public int getImage_id() {
+                return image_id;
+            }
+
+            public void setImage_id(int image_id) {
+                this.image_id = image_id;
+            }
+
+            public int getSort() {
+                return sort;
+            }
+
+            public void setSort(int sort) {
+                this.sort = sort;
+            }
+
+            public int getWxapp_id() {
+                return wxapp_id;
+            }
+
+            public void setWxapp_id(int wxapp_id) {
+                this.wxapp_id = wxapp_id;
+            }
+
+            public String getCreate_time() {
+                return create_time;
+            }
+
+            public void setCreate_time(String create_time) {
+                this.create_time = create_time;
+            }
+
+            public String getUpdate_time() {
+                return update_time;
+            }
+
+            public void setUpdate_time(String update_time) {
+                this.update_time = update_time;
+            }
+        }
 
         public int getBanner_id() {
             return banner_id;

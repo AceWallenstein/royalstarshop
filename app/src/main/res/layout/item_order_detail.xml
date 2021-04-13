@@ -3,15 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="15dp">
+
     <RelativeLayout
         android:id="@+id/rl_goods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/iv_shop"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_is_vip_goods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_red_5"
+            android:padding="2dp"
+            android:text="首充权益"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -42,6 +55,19 @@
             tools:text="杏色；xs" />
 
         <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_goods_pattern"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/iv_shop"
+            android:textColor="#FF303F"
+            android:textSize="14sp"
+            tools:text="￥188.32" />
+
+
+        <TextView
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,12 +78,12 @@
 
 
         <TextView
-            android:layout_below="@id/tv_title"
-            android:layout_marginTop="10dp"
             android:id="@+id/tv_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_price"
             android:layout_alignParentEnd="true"
+
             android:textColor="@color/light_black"
             android:textSize="15sp"
             tools:text="X1件" />
@@ -68,9 +94,9 @@
     <RelativeLayout
 
         android:id="@+id/rl_jin_dou"
-        android:layout_below="@id/rl_freight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/rl_freight"
         android:layout_marginTop="10dp">
 
         <TextView
@@ -80,14 +106,15 @@
             android:text="返豆"
             android:textColor="@color/black_1"
             android:textSize="13sp" />
+
         <ImageView
             android:id="@+id/iv_question"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/tv_points_1"
-            android:layout_marginStart="5dp"
-            android:src="@mipmap/question"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/tv_points_1"
+            android:src="@mipmap/question" />
 
         <TextView
             android:id="@+id/tv_points"
@@ -100,9 +127,9 @@
 
     <RelativeLayout
         android:id="@+id/rl_freight"
-        android:layout_below="@id/rl_goods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/rl_goods"
         android:layout_marginTop="10dp">
 
         <TextView
@@ -124,12 +151,28 @@
 
     <RelativeLayout
         android:id="@+id/rl_after_sale"
-        android:layout_below="@id/rl_jin_dou"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/rl_jin_dou"
         android:layout_marginTop="10dp">
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_after_sale_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="售后中..."
+            android:textColor="@color/light_red"
+            android:textSize="11sp" />
+
 
         <TextView
+
             android:id="@+id/tv_after_sale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

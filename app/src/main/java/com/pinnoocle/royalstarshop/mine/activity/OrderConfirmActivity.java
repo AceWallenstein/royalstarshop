@@ -184,17 +184,19 @@ public class OrderConfirmActivity extends BaseActivity {
             if(sureOrderData.getOrder_can_discount_money()<=0){
                 rlMoney.setVisibility(View.GONE);
                 rlTotalDiscount.setVisibility(View.GONE);
+                tvDiscount.setVisibility(View.GONE);
             }else {
                 rlMoney.setVisibility(View.VISIBLE);
                 rlTotalDiscount.setVisibility(View.VISIBLE);
+                tvDiscount.setVisibility(View.VISIBLE);
             }
             tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
-            tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_num() + "元");
+            tvDiscount.setText("金豆抵扣" + String.format("%.2f",sureOrderData.getPoints_money()) + "元");
             tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
-            tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
+            tvTotalMoney.setText("￥" + sureOrderData.getOrder_total_price());
             tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
             tvTotalFreight.setText("￥" + sureOrderData.getFreight_price());
-            tvTotalDiscount.setText("￥" + sureOrderData.getPoints_money());
+            tvTotalDiscount.setText("-￥" + String.format("%.2f",sureOrderData.getPoints_money()));
             adapter.setData(sureOrderData.getGoods_list());
 
         }
@@ -257,11 +259,11 @@ public class OrderConfirmActivity extends BaseActivity {
                 sureOrderData = sureOrderModel.getData();
                 if (sureOrderModel.getCode() == 1) {
                     tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
-                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_money() + "元");
+                    tvDiscount.setText("金豆抵扣" + String.format("%.2f",sureOrderData.getPoints_money()) + "元");
                     tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
-                    tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
+                    tvTotalMoney.setText("￥" + sureOrderData.getOrder_total_price());
                     tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
-                    tvTotalDiscount.setText("￥" + sureOrderData.getPoints_money());
+                    tvTotalDiscount.setText("-￥" + String.format("%.2f",sureOrderData.getPoints_money()));
                     if (adapter == null) {
                         adapter = new OrderConfirmAdapter(mContext);
                     }
@@ -293,11 +295,11 @@ public class OrderConfirmActivity extends BaseActivity {
                 sureOrderData = orderCartModel.getData();
                 if (orderCartModel.getCode() == 1) {
                     tvTotalSettlement.setText("￥"+sureOrderData.getOrder_pay_price());
-                    tvDiscount.setText("金豆抵扣" + sureOrderData.getPoints_money() + "元");
+                    tvDiscount.setText("金豆抵扣" + String.format("%.2f",sureOrderData.getPoints_money()) + "元");
                     tvTotalPrice.setText("￥" + sureOrderData.getOrder_pay_price());
-                    tvTotalMoney.setText("￥" + sureOrderData.getOrder_price());
+                    tvTotalMoney.setText("￥" + sureOrderData.getOrder_total_price());
                     tvPointsMoney.setText("剩余金豆(" + sureOrderData.getUser_points() + ")个");
-                    tvTotalDiscount.setText("￥" + sureOrderData.getPoints_money());
+                    tvTotalDiscount.setText("-￥" + String.format("%.2f",sureOrderData.getPoints_money()));
                     adapter.setData(sureOrderData.getGoods_list());
                     EventBus.getDefault().post(new ShopCartRefreshEvent());
                 }
@@ -501,9 +503,10 @@ public class OrderConfirmActivity extends BaseActivity {
             finish();
         }
         if (event.equals("pay_cancel")) {
-//            Intent intent = new Intent(mContext, OrderDetailActivity.class);
-//            intent.putExtra("order_id",sureOrderData.get.getOrder_id());
-//            startActivity(intent);
+            Intent intent = new Intent(mContext, OrderActivity.class);
+            intent.putExtra("type", 1);
+            startActivity(intent);
+            finish();
         }
     }
 }

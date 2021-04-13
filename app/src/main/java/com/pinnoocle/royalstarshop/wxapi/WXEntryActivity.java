@@ -50,7 +50,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     }
 
     private void initData() {
-        dataRepository = Injection.dataRepository(this);
+
     }
 
     private void bindWx(String openid) {
@@ -71,7 +71,8 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
 
                 StatusModel statusModel = (StatusModel) data;
                 if (statusModel.getCode() == 1) {
-
+                    ToastUtils.showToast("绑定微信成功");
+                    finish();
                 }
 
             }
@@ -97,6 +98,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         String result = "";
         switch (baseResp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
+                dataRepository = Injection.dataRepository(this);
                 String code = ((SendAuth.Resp) baseResp).code;
                 bindWx(code);
                 break;

@@ -91,6 +91,7 @@
                             </RelativeLayout>
 
                             <com.pinnoocle.royalstarshop.widget.RoundImageView
+                                android:visibility="gone"
                                 android:id="@+id/iv_avater1"
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"

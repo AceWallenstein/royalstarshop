@@ -31,7 +31,10 @@ import com.pinnoocle.royalstarshop.bean.OrderDetailModel;
 import com.pinnoocle.royalstarshop.bean.OrderListModel;
 import com.pinnoocle.royalstarshop.bean.StatusModel;
 import com.pinnoocle.royalstarshop.common.BaseActivity;
+import com.pinnoocle.royalstarshop.common.BaseAdapter;
+import com.pinnoocle.royalstarshop.home.activity.GoodsDetailActivity;
 import com.pinnoocle.royalstarshop.home.activity.TaskBigImgActivity;
+import com.pinnoocle.royalstarshop.home.activity.VipGoodsDetailActivity;
 import com.pinnoocle.royalstarshop.nets.DataRepository;
 import com.pinnoocle.royalstarshop.nets.Injection;
 import com.pinnoocle.royalstarshop.nets.RemotDataSource;
@@ -45,6 +48,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +56,11 @@ import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.FuncN;
+import rx.schedulers.Schedulers;
 
 public class OrderCommentActivity extends BaseActivity {
 
@@ -101,6 +110,9 @@ public class OrderCommentActivity extends BaseActivity {
     private OrderDetailModel orderDetailModel;
     private String score = "10";
     private String content;
+    private int is_vip_order;
+    List<String> imagePath = new ArrayList<>();
+    private AtomicInteger carSize;
 
     protected void onCreate(Bundle savedInstanceState) {
         initWhite();
@@ -114,7 +126,26 @@ public class OrderCommentActivity extends BaseActivity {
     private void initView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new OrderDetailAdapter(this);
+        adapter.setHiden(true);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemDataClickListener(new BaseAdapter.OnItemDataClickListener<OrderDetailModel.DataBean.OrderBean.GoodsBeanX>() {
+            @Override
+            public void onItemViewClick(View view, int position, OrderDetailModel.DataBean.OrderBean.GoodsBeanX o) {
+
+                if (view.getId() == R.id.rl_goods) {
+                    if (is_vip_order == 0) {
+                        Intent intent = new Intent(mContext, GoodsDetailActivity.class);
+                        intent.putExtra("goods_id", o.getGoods_id() + "");
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mContext, VipGoodsDetailActivity.class);
+                        intent.putExtra("goods_id", o.getGoods_id() + "");
+                        startActivity(intent);
+                    }
+
+                }
+            }
+        });
         grid(mList);
     }
 
@@ -143,8 +174,15 @@ public class OrderCommentActivity extends BaseActivity {
                 ViewLoading.dismiss(mContext);
                 orderDetailModel = (OrderDetailModel) data;
                 if (orderDetailModel.getCode() == 1) {
-                    List<OrderListModel.DataBeanX.ListBean.DataBean.GoodsBean> goods = orderDetailModel.getData().getOrder().getGoods();
+                    is_vip_order = orderDetailModel.getData().getOrder().getIs_vip_order();
+                    List<OrderDetailModel.DataBean.OrderBean.GoodsBeanX> goods = orderDetailModel.getData().getOrder().getGoods();
+                    if (orderDetailModel.getData().getOrder().getIs_vip_order() == 1) {
+                        adapter.setIsVipGoods(true);
+                    } else {
+                        adapter.setIsVipGoods(false);
+                    }
                     adapter.setData(goods);
+
                 }
             }
         });
@@ -162,7 +200,7 @@ public class OrderCommentActivity extends BaseActivity {
 //            formDatas.add(formData);
 //        }
         LoginBean.FormData formData = new LoginBean.FormData(score, content, orderDetailModel.getData().getOrder().getGoods().get(0).getOrder_goods_id() + "", orderDetailModel.getData().getOrder().getGoods().get(0).getGoods_id() + "");
-        if (uploaded!=null&&uploaded.size()>0)
+        if (uploaded != null && uploaded.size() > 0)
             formData.uploaded = uploaded;
         formDatas.add(formData);
         String s = new Gson().toJson(formDatas);
@@ -188,6 +226,54 @@ public class OrderCommentActivity extends BaseActivity {
             }
         });
     }
+    private void images(List<String> paths) {
+        List<Observable<ImageModel>> requests = new ArrayList<>();
+        for (int i = 0; i < paths.size(); i++) {
+            String path = paths.get(i);
+            File file = new File(path);
+            RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), file);
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("iFile", file.getName(), fileBody);
+            requests.add(dataRepository.imageObservable("10001", FastData.getToken(), body));
+        }
+        Observable.zip(
+                requests, new FuncN<List<String>>() {
+                    @Override
+                    public List<String> call(Object... args) {
+                        for (int i = 0; i < args.length; i++) {
+                            images.add(((ImageModel) args[i]).getData().getFile_path());
+                        }
+                        return images;
+                    }
+                }
+        ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())// After all requests had been performed the next observer will receive the Object, returned from Function
+                .subscribe(new Subscriber<List<String>>() {
+                               @Override
+                               public void onCompleted() {
+
+                               }
+
+                               @Override
+                               public void onError(Throwable e) {
+
+                               }
+
+                               @Override
+                               public void onNext(List<String> images) {
+                                   StringBuilder sb = new StringBuilder();
+                                   for (int i = 0; i < images.size(); i++) {
+                                       if (i == images.size() - 1) {
+                                           sb.append(images.get(i));
+                                       } else {
+                                           sb.append(images.get(i) + ",");
+                                       }
+                                   }
+                                   comment(edAdvise.getText().toString(), images);
+                               }
+                           }
+                );
+    }
+
 
     private void image(String path) {
         File file = new File(path);
@@ -197,11 +283,12 @@ public class OrderCommentActivity extends BaseActivity {
         dataRepository.image("10001", FastData.getToken(), body, new RemotDataSource.getCallback() {
             @Override
             public void onFailure(String info) {
-
+                carSize.getAndIncrement();
             }
 
             @Override
             public void onSuccess(Object data) {
+                carSize.getAndIncrement();
                 ImageModel imageModel = (ImageModel) data;
                 if (imageModel.getCode() == 1) {
                     String imgPath = imageModel.getData().getFile_path();
@@ -214,7 +301,9 @@ public class OrderCommentActivity extends BaseActivity {
                             sb.append(images.get(i) + ",");
                         }
                     }
-                    comment(content, images);
+                    if (carSize.get() >= selectList.size()){
+                        comment(content, images);
+                    }
                 } else {
                     ToastUtils.showToast(imageModel.getMsg());
                 }
@@ -325,6 +414,7 @@ public class OrderCommentActivity extends BaseActivity {
     }
 
 
+
     @OnClick({R.id.iv_back, R.id.tv_sure, R.id.ll_comment_good, R.id.ll_comment_m, R.id.ll_comment_bad})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -335,6 +425,7 @@ public class OrderCommentActivity extends BaseActivity {
                 content = edAdvise.getText().toString();
 
                 if (selectList != null && selectList.size() > 0) {
+                    carSize = new AtomicInteger();
                     for (int i = 0; i < selectList.size(); i++) {
                         image(selectList.get(i).getCompressPath());
                     }
